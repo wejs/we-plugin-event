@@ -1,0 +1,5 @@
+node_modules
+coverage
+config
+files/wejsdoc
+*.log

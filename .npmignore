@@ -1,0 +1,8 @@
+test
+.jscsrc
+.jshintignore
+.jshintrc
+.travis.yml
+.gitignore
+*.log
+files/wejsdoc

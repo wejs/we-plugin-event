@@ -1,0 +1,36 @@
+{
+  "name": "we-plugin-conference",
+  "description": "We.js plugin with conference features",
+  "version": "0.3.1",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/jshint .",
+    "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
+    "prepublish": "npm prune"
+  },
+  "dependencies": {
+    "async": "^1.0.0",
+    "lodash": "^3.0.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^0.18.2",
+    "istanbul": "^0.3.14",
+    "jscs": "^1.4.5",
+    "jshint": "^2.5.0",
+    "mocha": "^2.2.5",
+    "rimraf": "^2.3.3",
+    "sinon": "^1.14.1",
+    "supertest": "^1.0.1",
+    "we-core": "^0.3.22",
+    "we-test-tools": "^0.3.1"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "author": "Alberto Souza <alberto.souza.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wejs/we-plugin-conference"
+  }
+}
