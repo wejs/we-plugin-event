@@ -28,6 +28,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
   // ser plugin routes
   plugin.setRoutes({
+
+    // conference CRUD
     'get /conference/:id([0-9]+)': {
       controller    : 'conference',
       action        : 'findOne',
@@ -58,7 +60,50 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'destroy',
       model         : 'conference',
       permission    : 'delete_conference'
+    },
+    // CONFERENCE ROOM ROUTES
+    'get /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+      controller    : 'cfroom',
+      action        : 'findOne',
+      model         : 'cfroom',
+      permission    : 'find_cfroom'
+    },
+    'get /conference/:conferenceId([0-9]+)/room': {
+      controller    : 'cfroom',
+      action        : 'find',
+      model         : 'cfroom',
+      permission    : 'find_cfroom'
+    },
+    'post /conference/:conferenceId([0-9]+)/room': {
+      controller    : 'cfroom',
+      action        : 'create',
+      model         : 'cfroom',
+      permission    : 'create_cfroom'
+    },
+    'put /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+      controller    : 'cfroom',
+      action        : 'update',
+      model         : 'cfroom',
+      permission    : 'update_cfroom'
+    },
+    'delete /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+      controller    : 'cfroom',
+      action        : 'destroy',
+      model         : 'cfroom',
+      permission    : 'delete_cfroom'
     }
+  });
+
+  plugin.events.on('we:express:set:params', function(data) {
+    // user pre-loader
+    data.express.param('conferenceId', function (req, res, next, id) {
+      if (!/^\d+$/.exec(id)) return res.notFound();
+      data.we.db.models.conference.findById(id).then(function (cf) {
+        if (!cf) return res.notFound();
+        res.locals.conference = cf;
+        next();
+      });
+    });
   });
 
   return plugin;

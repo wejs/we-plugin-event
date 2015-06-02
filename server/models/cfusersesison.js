@@ -7,17 +7,11 @@
  */
 module.exports = function Model(we) {
   var model = {
-    definition: {},
-    associations: {
-      session: {
-        type: 'belongsTo',
-        model : 'cfsession'
-      },
-      user: {
-        type: 'belongsTo',
-        model : 'user'
-      },
+    definition: {
+      sessionId: { type: we.db.Sequelize.BIGINT, allowNull: false },
+      userId: { type: we.db.Sequelize.BIGINT, allowNull: false }
     },
+    associations: {},
     options: {
       classMethods: {},
       instanceMethods: {},
