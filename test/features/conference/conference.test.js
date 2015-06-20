@@ -37,6 +37,21 @@ describe('conferenceFeature', function() {
   });
 
   describe('conferenceCRUD', function() {
+    it ('post /conference/create should return 400 with invalid data', function (done) {
+      var cf = stubs.conferenceStub();
+      cf.email = null;
+      authenticatedRequest.post('/conference/create')
+      .send({})
+      .expect(400)
+      .end(function (err, res) {
+        if (err) throw err;
+        // todo , do more tests
+        done();
+      });
+    });
+  });
+
+  describe('conferenceCRUD', function() {
     it ('post /conference should create one conference with unpublished status', function (done) {
       var cf = stubs.conferenceStub();
       authenticatedRequest.post('/conference')

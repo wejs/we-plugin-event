@@ -29,6 +29,18 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // ser plugin routes
   plugin.setRoutes({
 
+    'get /conference/create': {
+      controller    : 'conference',
+      action        : 'createPage',
+      model         : 'conference',
+      permission    : 'create_conference'
+    },
+    'post /conference/create': {
+      controller    : 'conference',
+      action        : 'createPage',
+      model         : 'conference',
+      permission    : 'create_conference'
+    },
     // conference CRUD
     'get /conference/:id([0-9]+)': {
       controller    : 'conference',
