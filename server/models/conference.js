@@ -5,6 +5,7 @@
  * @description :: System conference model
  *
  */
+var async = require('async');
 
 module.exports = function Model(we) {
   var model = {
@@ -146,14 +147,46 @@ module.exports = function Model(we) {
 
           we.db.models.cfmenu.bulkCreate(menus).then(function() {
             cb(null);
-          }).catch(function(err) {
+          }).catch(function (err) {
             cb(err);
           })
+        },
+
+        generateDefaultWidgets: function generateDefaultWidgets(cb) {
+          var widgets = [{
+            title: 'Menu',
+            menu: 'admin',
+            type: 'we-cf-menu',
+            layout: 'conferenceAdmin',
+            theme: 'we-theme-conference',
+            context: 'conference-' + this.id,
+            regionName: 'sidebar',
+            creatorId: this.creatorId
+          }, {
+            title: 'Menu',
+            menu: 'main',
+            type: 'we-cf-menu',
+            layout: 'default',
+            theme: 'we-theme-conference',
+            context: 'conference-' + this.id,
+            regionName: 'sidebar',
+            creatorId: this.creatorId
+          }];
+
+          we.db.models.widget.bulkCreate(widgets).then(function() {
+            cb(null);
+          }).catch(function (err) {
+            cb(err);
+          });
         }
       },
       hooks: {
-        beforeCreate: function beforeCreate(record, options, cb) {
-          record.generateDefaultMenus(function (err) {
+        afterCreate: function afterCreate (record, options, cb) {
+          async.parallel([
+            record.generateDefaultMenus.bind(record),
+            record.generateDefaultWidgets.bind(record)
+          ], function (err) {
+            console.log('>>',err)
             cb(err, record);
           });
         }

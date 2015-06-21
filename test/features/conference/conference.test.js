@@ -52,9 +52,24 @@ describe('conferenceFeature', function() {
   });
 
   describe('conferenceCRUD', function() {
-    it ('post /conference should create one conference with unpublished status', function (done) {
+    // it ('post /conference should create one conference with unpublished status and generate default conference structure', function (done) {
+    //   var cf = stubs.conferenceStub();
+    //   authenticatedRequest.post('/conference')
+    //   .send(cf)
+    //   .set('Accept', 'application/json')
+    //   .expect(201)
+    //   .end(function (err, res) {
+    //     if (err) throw err;
+    //     assert(res.body.conference);
+    //     assert(res.body.conference[0]);
+    //     assert(res.body.conference[0].id);
+    //     assert.equal(res.body.conference[0].title, cf.title);
+    //     done();
+    //   });
+    // });
+    it ('post /conference/create should create one conference with unpublished status and generate default conference structure', function (done) {
       var cf = stubs.conferenceStub();
-      authenticatedRequest.post('/conference')
+      authenticatedRequest.post('/conference/create')
       .send(cf)
       .set('Accept', 'application/json')
       .expect(201)
@@ -64,7 +79,14 @@ describe('conferenceFeature', function() {
         assert(res.body.conference[0]);
         assert(res.body.conference[0].id);
         assert.equal(res.body.conference[0].title, cf.title);
-        done();
+
+        we.db.models.cfmenu.findAll({
+          where: { conferenceId: res.body.conference[0].id }
+        }).then(function (m) {
+          // should create more than one menu
+          assert(m.length > 0);
+          done();
+        });
       });
     });
     it ('get /conference/:id should get one conference', function (done) {
@@ -145,112 +167,112 @@ describe('conferenceFeature', function() {
     it ('delete /conference/:id should delete one conference and delete related models');
   });
 
-  describe('roomCRUD', function() {
-    var SC;
-    before(function (done) {
-      var cf = stubs.conferenceStub();
-      we.db.models.conference.create(cf).then(function (scf) {
-        SC = scf;
-        done();
-      });
-    });
+  // describe('roomCRUD', function() {
+  //   var SC;
+  //   before(function (done) {
+  //     var cf = stubs.conferenceStub();
+  //     we.db.models.conference.create(cf).then(function (scf) {
+  //       SC = scf;
+  //       done();
+  //     });
+  //   });
 
-    it ('post /conference/:conferenceId/room should create one room inside the conference', function (done) {
-      var cfroomStub = stubs.cfroomStub();
-      authenticatedRequest.post('/conference/'+SC.id+'/room')
-      .send(cfroomStub)
-      .set('Accept', 'application/json')
-      .expect(201)
-      .end(function (err, res) {
-        if (err) throw err;
-        assert(res.body.cfroom);
-        assert(res.body.cfroom[0]);
-        assert(res.body.cfroom[0].id);
-        assert.equal(res.body.cfroom[0].name, cfroomStub.name);
-        done();
-      });
-    });
-    it ('get /conference/:conferenceId/room/:id should get one conference room', function (done) {
-      var cfroom = stubs.cfroomStub();
-      cfroom.conferenceId = SC.id;
-      we.db.models.cfroom.create(cfroom).then(function (r) {
-        authenticatedRequest.get('/conference/'+SC.id+'/room/'+r.id)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(res.body.cfroom);
-          assert(res.body.cfroom[0]);
-          assert.equal(res.body.cfroom[0].id, r.id);
-          assert.equal(res.body.cfroom[0].name, r.name);
-          done();
-        });
-      });
-    });
-    it ('get /conference/:conferenceId/room should get conference room list', function (done) {
-      var cfs = [
-        stubs.cfroomStub(), stubs.cfroomStub(), stubs.cfroomStub()
-      ];
+  //   it ('post /conference/:conferenceId/room should create one room inside the conference', function (done) {
+  //     var cfroomStub = stubs.cfroomStub();
+  //     authenticatedRequest.post('/conference/'+SC.id+'/room')
+  //     .send(cfroomStub)
+  //     .set('Accept', 'application/json')
+  //     .expect(201)
+  //     .end(function (err, res) {
+  //       if (err) throw err;
+  //       assert(res.body.cfroom);
+  //       assert(res.body.cfroom[0]);
+  //       assert(res.body.cfroom[0].id);
+  //       assert.equal(res.body.cfroom[0].name, cfroomStub.name);
+  //       done();
+  //     });
+  //   });
+  //   it ('get /conference/:conferenceId/room/:id should get one conference room', function (done) {
+  //     var cfroom = stubs.cfroomStub();
+  //     cfroom.conferenceId = SC.id;
+  //     we.db.models.cfroom.create(cfroom).then(function (r) {
+  //       authenticatedRequest.get('/conference/'+SC.id+'/room/'+r.id)
+  //       .set('Accept', 'application/json')
+  //       .expect(200)
+  //       .end(function (err, res) {
+  //         if (err) throw err;
+  //         assert(res.body.cfroom);
+  //         assert(res.body.cfroom[0]);
+  //         assert.equal(res.body.cfroom[0].id, r.id);
+  //         assert.equal(res.body.cfroom[0].name, r.name);
+  //         done();
+  //       });
+  //     });
+  //   });
+  //   it ('get /conference/:conferenceId/room should get conference room list', function (done) {
+  //     var cfs = [
+  //       stubs.cfroomStub(), stubs.cfroomStub(), stubs.cfroomStub()
+  //     ];
 
-      for (var i = cfs.length - 1; i >= 0; i--) {
-        cfs[i].conferenceId = SC.id;
-      }
+  //     for (var i = cfs.length - 1; i >= 0; i--) {
+  //       cfs[i].conferenceId = SC.id;
+  //     }
 
-      we.db.models.cfroom.bulkCreate(cfs).then(function () {
-        request(http)
-        .get('/conference/'+SC.id+'/room')
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(res.body.cfroom);
-          assert(res.body.cfroom.length >= 3);
-          done();
-        });
-      });
-    });
-    it ('put /conference/:conferenceId/room/:id should update one conference', function (done) {
-      var cf = stubs.cfroomStub();
-      cf.conferenceId = SC.id;
-      we.db.models.cfroom.create(cf).then(function (r) {
-        var newCfData = {
-          name: 'updated title :)',
-          about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
-        };
-        authenticatedRequest.put('/conference/'+SC.id+'/room/'+r.id)
-        .send(newCfData)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(res.body.cfroom);
-          assert(res.body.cfroom[0]);
-          assert.equal(res.body.cfroom[0].id, r.id);
-          assert.equal(res.body.cfroom[0].name, newCfData.name);
-          assert.equal(res.body.cfroom[0].about, newCfData.about);
-          assert(res.body.cfroom[0].name || r.name);
-          assert(res.body.cfroom[0].about || r.about);
-          done();
-        });
-      });
-    });
-    it ('delete /conference/:conferenceId/room/:id should delete one conference', function (done) {
-      var cf = stubs.conferenceStub();
-      cf.conferenceId = SC.id;
-      we.db.models.cfroom.create(cf).then(function (r) {
-        authenticatedRequest.delete('/conference/'+SC.id+'/room/'+r.id)
-        .set('Accept', 'application/json')
-        .expect(204)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(!res.body.cfroom);
-          we.db.models.cfroom.findById(r.id).then(function (r) {
-            assert( _.isEmpty(r) );
-            done();
-          });
-        });
-      });
-    });
-    it ('delete /conference/:conferenceId/room/:id should delete one room and remove sessions from this room');
-  });
+  //     we.db.models.cfroom.bulkCreate(cfs).then(function () {
+  //       request(http)
+  //       .get('/conference/'+SC.id+'/room')
+  //       .set('Accept', 'application/json')
+  //       .expect(200)
+  //       .end(function (err, res) {
+  //         if (err) throw err;
+  //         assert(res.body.cfroom);
+  //         assert(res.body.cfroom.length >= 3);
+  //         done();
+  //       });
+  //     });
+  //   });
+  //   it ('put /conference/:conferenceId/room/:id should update one conference', function (done) {
+  //     var cf = stubs.cfroomStub();
+  //     cf.conferenceId = SC.id;
+  //     we.db.models.cfroom.create(cf).then(function (r) {
+  //       var newCfData = {
+  //         name: 'updated title :)',
+  //         about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
+  //       };
+  //       authenticatedRequest.put('/conference/'+SC.id+'/room/'+r.id)
+  //       .send(newCfData)
+  //       .set('Accept', 'application/json')
+  //       .expect(200)
+  //       .end(function (err, res) {
+  //         if (err) throw err;
+  //         assert(res.body.cfroom);
+  //         assert(res.body.cfroom[0]);
+  //         assert.equal(res.body.cfroom[0].id, r.id);
+  //         assert.equal(res.body.cfroom[0].name, newCfData.name);
+  //         assert.equal(res.body.cfroom[0].about, newCfData.about);
+  //         assert(res.body.cfroom[0].name || r.name);
+  //         assert(res.body.cfroom[0].about || r.about);
+  //         done();
+  //       });
+  //     });
+  //   });
+  //   it ('delete /conference/:conferenceId/room/:id should delete one conference', function (done) {
+  //     var cf = stubs.conferenceStub();
+  //     cf.conferenceId = SC.id;
+  //     we.db.models.cfroom.create(cf).then(function (r) {
+  //       authenticatedRequest.delete('/conference/'+SC.id+'/room/'+r.id)
+  //       .set('Accept', 'application/json')
+  //       .expect(204)
+  //       .end(function (err, res) {
+  //         if (err) throw err;
+  //         assert(!res.body.cfroom);
+  //         we.db.models.cfroom.findById(r.id).then(function (r) {
+  //           assert( _.isEmpty(r) );
+  //           done();
+  //         });
+  //       });
+  //     });
+  //   });
+  //   it ('delete /conference/:conferenceId/room/:id should delete one room and remove sessions from this room');
+  // });
 });
