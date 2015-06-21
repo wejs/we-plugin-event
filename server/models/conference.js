@@ -8,8 +8,8 @@
 var _ = require('lodash');
 
 module.exports = function Model(we) {
-	var keys = _.keys(we.view.themes);
-	var themeFormFieldOptions = _.zipObject(keys, keys);
+  var keys = _.keys(we.view.themes);
+  var themeFormFieldOptions = _.zipObject(keys, keys);
 
   var model = {
     definition: {
