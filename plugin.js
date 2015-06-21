@@ -7,6 +7,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   // set plugin configs
   plugin.setConfigs({
+    conference: {
+      defaultTheme: 'we-theme-conference'
+    },
     permissions: {
       'find_conference': {
         'title': 'Find conferences',
@@ -42,7 +45,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'create_conference'
     },
     // conference CRUD
-    'get /conference/:id([0-9]+)': {
+    'get /conference/:conferenceId([0-9]+)': {
+      name          : 'conference_findOne',
       controller    : 'conference',
       action        : 'findOne',
       model         : 'conference',
@@ -103,17 +107,70 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'destroy',
       model         : 'cfroom',
       permission    : 'delete_cfroom'
+    },
+
+    // -- conference admin
+    'get /conference/:conferenceId([0-9]+)/admin': {
+      name          : 'conference_admin',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'adminIndex',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      template      : 'conference/admin/index',
+      responseType  : 'html'
+    },
+
+    'get /conference/:conferenceId([0-9]+)/admin/edit': {
+      name          : 'conference_admin_edit',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'editPage',
+      model         : 'conference',
+      permission    : 'update_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/edit': {
+      name          : 'conference_admin_edit',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'createPage',
+      model         : 'editPage',
+      permission    : 'update_conference'
+    },
+
+    'get /conference/:conferenceId([0-9]+)/admin/menu': {
+      name          : 'conference_admin_menu',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'adminMenu',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      template      : 'conference/admin/menu',
+      responseType  : 'html'
     }
   });
 
   plugin.events.on('we:express:set:params', function(data) {
+    var we = data.we;
     // user pre-loader
     data.express.param('conferenceId', function (req, res, next, id) {
-      if (!/^\d+$/.exec(id)) return res.notFound();
       data.we.db.models.conference.findById(id).then(function (cf) {
         if (!cf) return res.notFound();
+        res.locals.title = cf.title;
         res.locals.conference = cf;
-        next();
+        if (cf.theme) {
+          res.locals.theme = cf.theme;
+        } else {
+          res.locals.theme = we.config.conference.defaultTheme;
+        }
+        // chage html to conference html
+        res.locals.htmlTemplate = 'conference/html';
+        // preload all conference menu
+        we.db.models.cfmenu.findAll()
+        .then(function (cfmenus) {
+          res.locals.cfmenu = cfmenus;
+          next();
+        })
       });
     });
   });
