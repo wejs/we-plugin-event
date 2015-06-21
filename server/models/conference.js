@@ -5,8 +5,12 @@
  * @description :: System conference model
  *
  */
+var _ = require('lodash');
 
 module.exports = function Model(we) {
+	var keys = _.keys(we.view.themes);
+	var themeFormFieldOptions = _.zipObject(keys, keys);
+
   var model = {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
@@ -36,6 +40,8 @@ module.exports = function Model(we) {
       },
 
       location: { type: we.db.Sequelize.TEXT },
+
+      theme: { type:  we.db.Sequelize.STRING, formFieldType: 'select', formFieldOptions: themeFormFieldOptions },
 
       status: {
         type: we.db.Sequelize.STRING,
