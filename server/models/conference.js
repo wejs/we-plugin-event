@@ -101,7 +101,7 @@ module.exports = function Model(we) {
                 path: '/conference/' + this.id + '/register'
               },
               {
-                beforeText: '<i class="fa fa-location-arrow"></i>',
+                beforeText: '<i class="fa fa-sign-in"></i>',
                 text: 'conference_admin',
                 afterText: '',
                 type: 'path',
@@ -155,7 +155,9 @@ module.exports = function Model(we) {
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
           var widgets = [{
             title: 'Menu',
-            menu: 'admin',
+            configuration :{
+              menu: 'admin',
+            },
             type: 'we-cf-menu',
             layout: 'conferenceAdmin',
             theme: 'we-theme-conference',
@@ -164,7 +166,9 @@ module.exports = function Model(we) {
             creatorId: this.creatorId
           }, {
             title: 'Menu',
-            menu: 'main',
+            configuration :{
+              menu: 'side',
+            },
             type: 'we-cf-menu',
             layout: 'default',
             theme: 'we-theme-conference',
@@ -186,7 +190,6 @@ module.exports = function Model(we) {
             record.generateDefaultMenus.bind(record),
             record.generateDefaultWidgets.bind(record)
           ], function (err) {
-            console.log('>>',err)
             cb(err, record);
           });
         }
