@@ -147,6 +147,42 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'conference/admin/menu',
       responseType  : 'html'
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/layout': {
+      name          : 'conference_admin_layouts',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'adminLayouts',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      template      : 'conference/admin/layouts',
+      responseType  : 'html'
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/layout/:name': {
+      name          : 'conference_admin_layout',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'adminLayout',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      template      : 'conference/admin/layout',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/widget/create': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'saveWidget',
+      model         : 'widget',
+      permission    : 'manage_conference',
+      responseType  : 'json'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/widget/sortWidgets': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'sortWidgets',
+      model         : 'widget',
+      permission    : 'manage_conference',
+      responseType  : 'json'
     }
   });
 
@@ -158,6 +194,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         if (!cf) return res.notFound();
         res.locals.title = cf.title;
         res.locals.conference = cf;
+        res.locals.widgetContext = 'conference-' + res.locals.conference.id;
+
         if (cf.theme) {
           res.locals.theme = cf.theme;
         } else {
