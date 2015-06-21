@@ -15,9 +15,8 @@ module.exports = function Model(we) {
         type:  we.db.Sequelize.BIGINT
       },
 
-      name: {
-        type:  we.db.Sequelize.STRING,
-      },
+      name: { type:  we.db.Sequelize.STRING },
+      class: { type:  we.db.Sequelize.STRING },
 
       links: {
         type:  we.db.Sequelize.TEXT,

@@ -77,37 +77,38 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'conference',
       permission    : 'delete_conference'
     },
+
     // CONFERENCE ROOM ROUTES
-    'get /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-      controller    : 'cfroom',
-      action        : 'findOne',
-      model         : 'cfroom',
-      permission    : 'find_cfroom'
-    },
-    'get /conference/:conferenceId([0-9]+)/room': {
-      controller    : 'cfroom',
-      action        : 'find',
-      model         : 'cfroom',
-      permission    : 'find_cfroom'
-    },
-    'post /conference/:conferenceId([0-9]+)/room': {
-      controller    : 'cfroom',
-      action        : 'create',
-      model         : 'cfroom',
-      permission    : 'create_cfroom'
-    },
-    'put /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-      controller    : 'cfroom',
-      action        : 'update',
-      model         : 'cfroom',
-      permission    : 'update_cfroom'
-    },
-    'delete /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-      controller    : 'cfroom',
-      action        : 'destroy',
-      model         : 'cfroom',
-      permission    : 'delete_cfroom'
-    },
+    // 'get /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+    //   controller    : 'cfroom',
+    //   action        : 'findOne',
+    //   model         : 'cfroom',
+    //   permission    : 'find_cfroom'
+    // },
+    // 'get /conference/:conferenceId([0-9]+)/room': {
+    //   controller    : 'cfroom',
+    //   action        : 'find',
+    //   model         : 'cfroom',
+    //   permission    : 'find_cfroom'
+    // },
+    // 'post /conference/:conferenceId([0-9]+)/room': {
+    //   controller    : 'cfroom',
+    //   action        : 'create',
+    //   model         : 'cfroom',
+    //   permission    : 'create_cfroom'
+    // },
+    // 'put /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+    //   controller    : 'cfroom',
+    //   action        : 'update',
+    //   model         : 'cfroom',
+    //   permission    : 'update_cfroom'
+    // },
+    // 'delete /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
+    //   controller    : 'cfroom',
+    //   action        : 'destroy',
+    //   model         : 'cfroom',
+    //   permission    : 'delete_cfroom'
+    // },
 
     // -- conference admin
     'get /conference/:conferenceId([0-9]+)/admin': {
@@ -148,6 +149,15 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/menu',
       responseType  : 'html'
     },
+    'get /conference/:conferenceId([0-9]+)/admin/menu/resetAll': {
+      name          : 'conference_admin_reset',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'resetConferenceMenu',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      responseType  : 'json'
+    },
     'get /conference/:conferenceId([0-9]+)/admin/layout': {
       name          : 'conference_admin_layouts',
       layoutName    : 'conferenceAdmin',
@@ -186,6 +196,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
+  plugin.setHelpers({
+    'we-cf-menu': __dirname + '/server/helpers/we-cf-menu.js'
+  });
+  plugin.setWidgets({
+    'we-cf-menu': __dirname + '/server/widgets/we-cf-menu'
+  });
+
   plugin.events.on('we:express:set:params', function(data) {
     var we = data.we;
     // user pre-loader
@@ -204,7 +221,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         // chage html to conference html
         res.locals.htmlTemplate = 'conference/html';
         // preload all conference menu
-        we.db.models.cfmenu.findAll()
+        we.db.models.cfmenu.findAll({ where: { conferenceId: id }})
         .then(function (cfmenus) {
           res.locals.cfmenu = cfmenus;
           next();

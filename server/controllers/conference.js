@@ -8,7 +8,24 @@ module.exports = {
   },
 
   adminMenu: function adminMenu(req, res) {
+    res.locals.title = req.__('Menus');
+
     res.ok();
+  },
+
+  resetConferenceMenu: function resetConferenceMenu(req, res) {
+    var we = req.getWe();
+
+    we.db.models.cfmenu.destroy({
+      where: { conferenceId: res.locals.conference.id }
+    }).then(function (result) {
+      we.log.info('conference resetConferenceMenu result: ', result);
+      res.locals.conference.generateDefaultMenus(function(err) {
+        if (err) return res.serverError(err);
+
+        res.redirect('/conference/' + res.locals.conference.id + '/admin/menu');
+      });
+    }).catch(res.serverError);
   },
 
   adminLayouts: function adminLayouts(req, res) {

@@ -51,8 +51,113 @@ module.exports = function Model(we) {
     },
     options: {
       classMethods: {},
-      instanceMethods: {},
-      hooks: {}
+      instanceMethods: {
+        generateDefaultMenus: function generateDefaultMenus(cb) {
+          var menus = [{
+            conferenceId: this.id,
+            name:  'main',
+            class: 'nav navbar-nav navbar-right',
+            links: [{
+                beforeText: '<i class="fa fa-home"></i>',
+                text: 'home',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id
+              },
+              {
+                beforeText: '',
+                text: 'conference.register',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/register',
+                conferenceRoles: ['unRegistered']
+              },
+              {
+                beforeText: '',
+                text: 'conference_admin',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin',
+                conferenceRoles: ['manager']
+              }
+            ]
+          },{
+            conferenceId: this.id,
+            name: 'side',
+            class: 'nav nav-pills sidebar-menu nav-stacked',
+            links: [{
+                beforeText: '<i class="fa fa-home"></i>',
+                text: 'home',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id
+              },
+              {
+                beforeText: '<i class="fa fa-location-arrow"></i>',
+                text: 'conference.register',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/register'
+              },
+              {
+                beforeText: '<i class="fa fa-location-arrow"></i>',
+                text: 'conference_admin',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin',
+                conferenceRoles: ['manager']
+              }
+            ]
+          },{
+            conferenceId: this.id,
+            name: 'admin',
+            class: 'nav nav-pills sidebar-menu nav-stacked',
+            links: [
+              {
+                text: 'conference_admin',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin',
+                conferenceRoles: ['manager']
+              },
+              {
+                text: 'conference_admin_edit',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin/edit',
+                conferenceRoles: ['manager']
+              },
+              {
+                text: 'conference_admin_menu',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin/menu',
+                conferenceRoles: ['manager']
+              },
+              {
+                text: 'conference_admin_layouts',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin/layout',
+                conferenceRoles: ['manager']
+              }
+            ]
+          }];
+
+          we.db.models.cfmenu.bulkCreate(menus).then(function() {
+            cb(null);
+          }).catch(function(err) {
+            cb(err);
+          })
+        }
+      },
+      hooks: {
+        beforeCreate: function beforeCreate(record, options, cb) {
+          record.generateDefaultMenus(function (err) {
+            cb(err, record);
+          });
+        }
+      }
     }
   }
 
