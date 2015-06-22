@@ -31,7 +31,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
   // ser plugin routes
   plugin.setRoutes({
-
     'get /conference/create': {
       controller    : 'conference',
       action        : 'createPage',
@@ -52,7 +51,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'conference',
       permission    : 'find_conference'
     },
-
     'get /conference': {
       controller    : 'conference',
       action        : 'find',
@@ -188,6 +186,51 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'widget',
       permission    : 'manage_conference',
       responseType  : 'json'
+    },
+
+    // -- Pages
+    'get /conference/:conferenceId([0-9]+)/admin/page': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.page_manage',
+      fieldTitle    : 'title',
+      controller    : 'cfpage',
+      action        : 'managePage',
+      model         : 'cfpage',
+      permission    : 'find_conference',
+      template      : 'conference/admin/cfpage',
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/page/create': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.page_createPage',
+      controller    : 'cfpage',
+      action        : 'createPage',
+      model         : 'cfpage'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/page/create': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfpage',
+      action        : 'createPage',
+      model         : 'cfpage',
+      permission    : 'create_conference_page'
+    },
+
+    // user page routes
+    // user page routes
+    'get /conference/:conferenceId([0-9]+)/page': {
+      name          : 'conference_findOne.page_find',
+      fieldTitle    : 'title',
+      controller    : 'cfpage',
+      action        : 'find',
+      model         : 'cfpage',
+      permission    : 'find_conference'
+    },
+    'get /conference/:conferenceId([0-9]+)/page/:cfpageId([0-9]+)': {
+      name          : 'conference_findOne.page_findOne',
+      fieldTitle    : 'title',
+      controller    : 'cfpage',
+      action        : 'findOne',
+      model         : 'cfpage',
+      permission    : 'find_conference'
     }
   });
 

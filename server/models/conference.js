@@ -43,13 +43,6 @@ module.exports = function Model(we) {
         defaultValue: 'salved'
       },
     },
-    associations: {
-      creator: {
-        type: 'belongsTo',
-        model : 'user',
-        constraints: false
-      }
-    },
     options: {
       classMethods: {},
       instanceMethods: {

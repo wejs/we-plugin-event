@@ -167,6 +167,49 @@ describe('conferenceFeature', function() {
     it ('delete /conference/:id should delete one conference and delete related models');
   });
 
+  describe('conferencePageCRUD', function() {
+    var SC;
+    before(function (done) {
+      var cf = stubs.conferenceStub();
+      we.db.models.conference.create(cf).then(function (scf) {
+        SC = scf;
+        done();
+      });
+    });
+
+    it ('post /conference/:conferenceId/page/create should create one page inside the conference and return JSON', function (done) {
+      var pageStub = stubs.pageStub();
+      authenticatedRequest.post('/conference/'+SC.id+'/admin/page/create')
+      .send(pageStub)
+      .set('Accept', 'application/json')
+      .expect(201)
+      .end(function (err, res) {
+        if (err) throw err;
+        assert(res.body.cfpage);
+        assert(res.body.cfpage[0]);
+        assert(res.body.cfpage[0].id);
+        assert.equal(res.body.cfpage[0].title, pageStub.title);
+        done();
+      });
+    });
+
+    it ('post /conference/:conferenceId/page/create should create one page inside the conference and redirect', function (done) {
+      var pageStub = stubs.pageStub();
+      authenticatedRequest.post('/conference/'+SC.id+'/admin/page/create')
+      .send(pageStub)
+      .expect(302)
+      .end(function (err, res) {
+        console.log(res.text)
+        if (err) throw err;
+
+        assert(res.text.indexOf(
+          'Moved Temporarily. Redirecting to /conference/'+SC.id+'/page/') >-1
+        );
+        done();
+      });
+    });
+  });
+
   // describe('roomCRUD', function() {
   //   var SC;
   //   before(function (done) {
