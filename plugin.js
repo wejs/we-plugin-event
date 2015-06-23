@@ -237,7 +237,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
 
     // user page routes
-    // user page routes
     'get /conference/:conferenceId([0-9]+)/page': {
       name          : 'conference_findOne.page_find',
       fieldTitle    : 'title',

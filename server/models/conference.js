@@ -134,6 +134,13 @@ module.exports = function Model(we) {
                 type: 'path',
                 path: '/conference/' + this.id + '/admin/layout',
                 conferenceRoles: ['manager']
+              },
+              {
+                text: 'conference_findOne.page_manage',
+                afterText: '',
+                type: 'path',
+                path: '/conference/' + this.id + '/admin/page',
+                conferenceRoles: ['manager']
               }
             ]
           }];

@@ -17,7 +17,7 @@ module.exports = function Model(we) {
       about: { type: we.db.Sequelize.TEXT },
       body: {
         type: we.db.Sequelize.TEXT,
-        formFieldType: 'html',
+        formFieldType: 'event-html',
         formFieldHeight: 300
       },
 
@@ -31,13 +31,6 @@ module.exports = function Model(we) {
       featuredImageId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
       conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
-    },
-    associations: {
-      creator: {
-        type: 'belongsTo',
-        model : 'user',
-        constraints: false
-      }
     },
     options: {
       termFields: {
