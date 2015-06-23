@@ -15,7 +15,11 @@ module.exports = function Model(we) {
       title: { type: we.db.Sequelize.TEXT },
 
       about: { type: we.db.Sequelize.TEXT },
-      body: { type: we.db.Sequelize.TEXT, formFieldType: 'html' },
+      body: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 300
+      },
 
       active: { type: we.db.Sequelize.BOOLEAN, defaultValue: true, formFieldType: null },
       published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' },

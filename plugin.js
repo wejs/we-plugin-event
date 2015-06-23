@@ -197,21 +197,43 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'managePage',
       model         : 'cfpage',
       permission    : 'find_conference',
-      template      : 'conference/admin/cfpage',
+      template      : 'conference/admin/cfpages',
     },
+    // - create
     'get /conference/:conferenceId([0-9]+)/admin/page/create': {
       layoutName    : 'conferenceAdmin',
       name          : 'conference_findOne.page_createPage',
       controller    : 'cfpage',
       action        : 'createPage',
-      model         : 'cfpage'
+      model         : 'cfpage',
+      permission    : 'manage_conference'
     },
     'post /conference/:conferenceId([0-9]+)/admin/page/create': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfpage',
       action        : 'createPage',
       model         : 'cfpage',
-      permission    : 'create_conference_page'
+      permission    : 'manage_conference'
+    },
+    // - edit
+    'get /conference/:conferenceId([0-9]+)/admin/page/:cfpageId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.page_editPage',
+      fieldTitle    : 'title',
+      controller    : 'cfpage',
+      action        : 'editPage',
+      model         : 'cfpage',
+      permission    : 'manage_conference',
+      template      : 'cfpage/editPage'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/page/:cfpageId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      fieldTitle    : 'title',
+      controller    : 'cfpage',
+      action        : 'editPage',
+      model         : 'cfpage',
+      permission    : 'manage_conference',
+      template      : 'cfpage/editPage'
     },
 
     // user page routes
