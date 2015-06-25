@@ -14,6 +14,7 @@ before(function(callback) {
     testTools.init({}, we);
 
     we.bootstrap({
+      port: 9800,
       i18n: {
         directory: path.join(__dirname, 'locales'),
         updateFiles: true
