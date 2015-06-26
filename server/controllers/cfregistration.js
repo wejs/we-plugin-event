@@ -56,8 +56,8 @@ module.exports = {
         // send the form
         if (!req.body) req.body = {};
 
-        if (!req.body.creatificationName)
-          res.locals.record.creatificationName = (req.user.fullName || req.user.displayName);
+        if (!req.body.certificationName)
+          res.locals.record.certificationName = (req.user.fullName || req.user.displayName);
         if (!req.body.userEmail)
           res.locals.record.userEmail = req.user.email;
 

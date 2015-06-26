@@ -24,7 +24,7 @@ module.exports = function Model(we) {
         formFieldType: 'cf-type-selector'
       },
 
-      creatificationName: {
+      certificationName: {
         type: we.db.Sequelize.STRING,
         allowNull: false,
         validation: {

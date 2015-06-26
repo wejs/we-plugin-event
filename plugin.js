@@ -27,6 +27,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'delete_conference': {
         'title': 'Delete one conference',
         'description': ''
+      },
+      'manage_conference': {
+        'title': 'Permission to manage one conference',
+        'description': ''
       }
     }
   });
@@ -58,12 +62,12 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'conference',
       permission    : 'find_conference'
     },
-    'put /conference/:id([0-9]+)': {
-      controller    : 'conference',
-      action        : 'update',
-      model         : 'conference',
-      permission    : 'update_conference'
-    },
+    // 'put /conference/:id([0-9]+)': {
+    //   controller    : 'conference',
+    //   action        : 'update',
+    //   model         : 'conference',
+    //   permission    : 'update_conference'
+    // },
     'delete /conference/:id([0-9]+)': {
       controller    : 'conference',
       action        : 'destroy',
@@ -86,8 +90,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       titleI18n: 'conference.register',
       controller    : 'cfregistration',
       action        : 'register',
-      model         : 'cfregistration',
-      permission    : 'register_conference'
+      model         : 'cfregistration'
     },
 
     // 'delete /conference/:conferenceId([0-9]+)/leave': {
@@ -148,7 +151,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       controller    : 'conference',
       action        : 'editPage',
       model         : 'conference',
-      permission    : 'update_conference'
+      permission    : 'manage_conference'
     },
     'post /conference/:conferenceId([0-9]+)/admin/edit': {
       name          : 'conference_admin_edit',
@@ -156,7 +159,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       controller    : 'conference',
       action        : 'createPage',
       model         : 'editPage',
-      permission    : 'update_conference'
+      permission    : 'manage_conference'
     },
 
     'get /conference/:conferenceId([0-9]+)/admin/menu': {
@@ -222,7 +225,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       controller    : 'cfpage',
       action        : 'managePage',
       model         : 'cfpage',
-      permission    : 'find_conference',
+      permission    : 'manage_conference',
       template      : 'conference/admin/cfpages',
     },
     // - create
@@ -350,8 +353,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'cfregistrationtype/form'
     },
-
-    // user page routes
+    // public page routes
     'get /conference/:conferenceId([0-9]+)/page': {
       name          : 'conference_findOne.page_find',
       fieldTitle    : 'title',

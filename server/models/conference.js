@@ -36,12 +36,11 @@ module.exports = function Model(we) {
         validate: { isEmail: true }
       },
 
+      vacancies: { type: we.db.Sequelize.INTEGER },
+
       location: { type: we.db.Sequelize.TEXT },
 
-      status: {
-        type: we.db.Sequelize.STRING,
-        defaultValue: 'salved'
-      },
+      status: { type: we.db.Sequelize.STRING, defaultValue: 'salved' },
     },
     options: {
       classMethods: {},
