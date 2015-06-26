@@ -90,7 +90,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       titleI18n: 'conference.register',
       controller    : 'cfregistration',
       action        : 'register',
-      model         : 'cfregistration'
+      model         : 'cfregistration',
+      permission    : 'find_conference'
     },
 
     // 'delete /conference/:conferenceId([0-9]+)/leave': {
