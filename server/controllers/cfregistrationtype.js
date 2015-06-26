@@ -49,5 +49,5 @@ module.exports = {
     } else {
       res.ok();
     }
-  },
+  }
 }

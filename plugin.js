@@ -260,7 +260,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'cfpage/editPage'
     },
 
-    //
+    // -- registratios list
     'get /conference/:conferenceId([0-9]+)/admin/registration': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistration',
@@ -285,6 +285,28 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'manage_conference',
       template      : 'cfregistration/admin-register-user'
+    },
+    // edit user conference registration
+    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'editPage',
+      model         : 'cfregistration',
+      permission    : 'manage_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'editPage',
+      model         : 'cfregistration',
+      permission    : 'manage_conference'
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/accept': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'accept',
+      model         : 'cfregistration',
+      permission    : 'manage_conference'
     },
     // registration type
     //
