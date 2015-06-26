@@ -370,7 +370,93 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'findOne',
       model         : 'cfpage',
       permission    : 'find_conference'
-    }
+    },
+
+
+  // -- News
+  'get /conference/:conferenceId([0-9]+)/admin/news': {
+    layoutName    : 'conferenceAdmin',
+    name          : 'conference_findOne.news_manage',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'managePage',
+    model         : 'cfnews',
+    permission    : 'find_conference',
+    template      : 'conference/admin/cfnews',
+  },
+  // - create
+  'get /conference/:conferenceId([0-9]+)/admin/news/create': {
+    layoutName    : 'conferenceAdmin',
+    name          : 'conference_findOne.news_createNews',
+    controller    : 'cfnews',
+    action        : 'createPage',
+    model         : 'cfnews',
+    permission    : 'manage_conference'    
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/news/create': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfnews',
+    action        : 'createPage',
+    model         : 'cfnews',
+    permission    : 'manage_conference'
+  },
+  // - edit
+  'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    name          : 'conference_findOne.news_editNews',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'editPage',
+    model         : 'cfnews',
+    permission    : 'manage_conference',
+    template      : 'cfnews/editPage'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'editPage',
+    model         : 'cfnews',
+    permission    : 'manage_conference',
+    template      : 'cfnews/editPage'
+  },
+
+  'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
+    name          : 'conference_findOne.news_destroy',
+    layoutName    : 'conferenceAdmin',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'destroy',
+    model         : 'cfnews',
+    permission    : 'manage_conference'
+  },
+
+  'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'destroy',
+    model         : 'cfnews',
+    permission    : 'manage_conference'
+  },
+
+  // user news routes
+  'get /conference/:conferenceId([0-9]+)/news': {
+    name          : 'conference_findOne.news_find',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'find',
+    model         : 'cfnews',
+    permission    : 'find_conference'
+  },
+  'get /conference/:conferenceId([0-9]+)/news/:cfnewsId([0-9]+)': {
+    name          : 'conference_findOne.news_findOne',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'findOne',
+    model         : 'cfnews',
+    permission    : 'find_conference'
+  }
   });
 
   plugin.setHelpers({
