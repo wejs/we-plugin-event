@@ -18,7 +18,7 @@ module.exports = function Model(we) {
         formFieldType: null
       },
 
-      conferenceTypeId: {
+      cfregistrationtypeId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: 'cf-type-selector'

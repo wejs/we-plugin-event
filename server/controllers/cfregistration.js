@@ -40,8 +40,27 @@ module.exports = {
       if (req.method === 'POST') {
         req.body.userId = req.user.id;
         req.body.conferenceId = res.locals.conference.id;
+
+        var choiseRegistrationType;
+        for (var j = 0; j < r.length; j++) {
+        console.log('>>', r[j].id, req.body.cfregistrationtypeId)
+          if (r[j].id == req.body.cfregistrationtypeId) {
+            choiseRegistrationType = r[j];
+            break;
+          }
+        }
+
+
+
+
         // merge req.body with locals record to handle validation errors
         _.merge(res.locals.record, req.body);
+
+        if (choiseRegistrationType.requireValidation) {
+          req.body.status = 'requested';
+        } else {
+          req.body.status = 'registered';
+        }
 
         return we.db.models.cfregistration.create(req.body)
         .then(function (record) {
@@ -50,6 +69,7 @@ module.exports = {
           res.locals.template =
             'cfregistration/' + res.locals.userCfregistration.status;
           res.created();
+          // TODO send confirm registration email
         }).catch(res.queryError);
 
       } else {

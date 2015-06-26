@@ -22,6 +22,10 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null
+      },
+      requireValidation: {
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false
       }
     },
     associations: {},
