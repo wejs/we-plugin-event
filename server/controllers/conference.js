@@ -9,7 +9,6 @@ module.exports = {
 
   adminMenu: function adminMenu(req, res) {
     res.locals.title = req.__('Menus');
-
     res.ok();
   },
 

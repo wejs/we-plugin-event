@@ -36,13 +36,30 @@ module.exports = function Model(we) {
         validate: { isEmail: true }
       },
 
-      vacancies: { type: we.db.Sequelize.INTEGER },
+      vacancies: {
+        type: we.db.Sequelize.INTEGER,
+        formFieldType: 'number'
+      },
 
       location: { type: we.db.Sequelize.TEXT },
 
       status: { type: we.db.Sequelize.STRING, defaultValue: 'salved' },
     },
     options: {
+     termFields: {
+        tags: {
+          vocabularyName: null,
+          canCreate: true,
+          formFieldMultiple: true,
+          onlyLowercase: true
+        },
+        categories: {
+          vocabularyName: 'Category',
+          canCreate: false,
+          formFieldMultiple: true
+        }
+      },
+
       classMethods: {},
       instanceMethods: {
         generateDefaultMenus: function generateDefaultMenus(cb) {

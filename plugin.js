@@ -391,7 +391,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     controller    : 'cfnews',
     action        : 'createPage',
     model         : 'cfnews',
-    permission    : 'manage_conference'    
+    permission    : 'manage_conference'
   },
   'post /conference/:conferenceId([0-9]+)/admin/news/create': {
     layoutName    : 'conferenceAdmin',
