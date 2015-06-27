@@ -158,8 +158,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       name          : 'conference_admin_edit',
       layoutName    : 'conferenceAdmin',
       controller    : 'conference',
-      action        : 'createPage',
-      model         : 'editPage',
+      action        : 'editPage',
+      model         : 'conference',
       permission    : 'manage_conference'
     },
 
