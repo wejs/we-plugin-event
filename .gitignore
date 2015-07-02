@@ -3,3 +3,5 @@ coverage
 config
 files/wejsdoc
 *.log
+# OS X
+.DS_Store
