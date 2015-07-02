@@ -313,7 +313,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference'
     },
     // registration type
-    //
     'get /conference/:conferenceId([0-9]+)/admin/registration/type': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
@@ -373,8 +372,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
 
 
-  // -- News
-  'get /conference/:conferenceId([0-9]+)/admin/news': {
+   // -- News
+    'get /conference/:conferenceId([0-9]+)/admin/news': {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_manage',
     fieldTitle    : 'title',
@@ -383,80 +382,126 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     model         : 'cfnews',
     permission    : 'find_conference',
     template      : 'conference/admin/cfnews',
-  },
-  // - create
-  'get /conference/:conferenceId([0-9]+)/admin/news/create': {
-    layoutName    : 'conferenceAdmin',
-    name          : 'conference_findOne.news_createNews',
-    controller    : 'cfnews',
-    action        : 'createPage',
-    model         : 'cfnews',
-    permission    : 'manage_conference'
-  },
-  'post /conference/:conferenceId([0-9]+)/admin/news/create': {
-    layoutName    : 'conferenceAdmin',
-    controller    : 'cfnews',
-    action        : 'createPage',
-    model         : 'cfnews',
-    permission    : 'manage_conference'
-  },
-  // - edit
-  'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
-    layoutName    : 'conferenceAdmin',
-    name          : 'conference_findOne.news_editNews',
-    fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'editPage',
-    model         : 'cfnews',
-    permission    : 'manage_conference',
-    template      : 'cfnews/editPage'
-  },
-  'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
-    layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'editPage',
-    model         : 'cfnews',
-    permission    : 'manage_conference',
-    template      : 'cfnews/editPage'
-  },
+    },
+    // - create
+    'get /conference/:conferenceId([0-9]+)/admin/news/create': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.news_createNews',
+      controller    : 'cfnews',
+      action        : 'createPage',
+      model         : 'cfnews',
+      permission    : 'manage_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/news/create': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfnews',
+      action        : 'createPage',
+      model         : 'cfnews',
+      permission    : 'manage_conference'
+    },
+    // - edit
+    'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.news_editNews',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'editPage',
+      model         : 'cfnews',
+      permission    : 'manage_conference',
+      template      : 'cfnews/editPage'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'editPage',
+      model         : 'cfnews',
+      permission    : 'manage_conference',
+      template      : 'cfnews/editPage'
+    },
 
-  'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
-    name          : 'conference_findOne.news_destroy',
-    layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'destroy',
-    model         : 'cfnews',
-    permission    : 'manage_conference'
-  },
+    'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
+      name          : 'conference_findOne.news_destroy',
+      layoutName    : 'conferenceAdmin',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'destroy',
+      model         : 'cfnews',
+      permission    : 'manage_conference'
+    },
 
-  'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
-    layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'destroy',
-    model         : 'cfnews',
-    permission    : 'manage_conference'
-  },
+    'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
+      layoutName    : 'conferenceAdmin',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'destroy',
+      model         : 'cfnews',
+      permission    : 'manage_conference'
+    },
 
-  // user news routes
-  'get /conference/:conferenceId([0-9]+)/news': {
-    name          : 'conference_findOne.news_find',
+    // user news routes
+    'get /conference/:conferenceId([0-9]+)/news': {
+      name          : 'conference_findOne.news_find',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'find',
+      model         : 'cfnews',
+      permission    : 'find_conference'
+    },
+    'get /conference/:conferenceId([0-9]+)/news/:cfnewsId([0-9]+)': {
+      name          : 'conference_findOne.news_findOne',
+      fieldTitle    : 'title',
+      controller    : 'cfnews',
+      action        : 'findOne',
+      model         : 'cfnews',
+      permission    : 'find_conference'
+    },
+
+   // -- Menu
+    'get /conference/:conferenceId([0-9]+)/admin/menu': {
+    layoutName    : 'conferenceAdmin',
+    name          : 'conference_findOne.menu_manage',
     fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'find',
-    model         : 'cfnews',
-    permission    : 'find_conference'
-  },
-  'get /conference/:conferenceId([0-9]+)/news/:cfnewsId([0-9]+)': {
-    name          : 'conference_findOne.news_findOne',
-    fieldTitle    : 'title',
-    controller    : 'cfnews',
-    action        : 'findOne',
-    model         : 'cfnews',
-    permission    : 'find_conference'
-  }
+    controller    : 'cfmenu',
+    action        : 'managePage',
+    model         : 'cfmenu',
+    permission    : 'find_conference',
+    template      : 'conference/admin/cfmenu',
+    },
+    // - create
+    'get /conference/:conferenceId([0-9]+)/admin/menu/create': {
+      layoutName    : 'conferenceAdmin',
+      name          : 'conference_findOne.menu_createNews',
+      controller    : 'cfmenu',
+      action        : 'createPage',
+      model         : 'cfmenu',
+      permission    : 'manage_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/create': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfmenu',
+      action        : 'createPage',
+      model         : 'cfmenu',
+      permission    : 'manage_conference'
+    },
+
+    // public menu routes
+    'get /conference/:conferenceId([0-9]+)/menu': {
+      name          : 'conference_findOne.menu_find',
+      fieldTitle    : 'title',
+      controller    : 'cfmenu',
+      action        : 'find',
+      model         : 'cfmenu',
+      permission    : 'find_conference'
+    },
+    'get /conference/:conferenceId([0-9]+)/menu/:cfmenuId([0-9]+)': {
+      name          : 'conference_findOne.menu_findOne',
+      fieldTitle    : 'title',
+      controller    : 'cfmenu',
+      action        : 'findOne',
+      model         : 'cfmenu',
+      permission    : 'find_conference'
+    }
   });
 
   plugin.setHelpers({
