@@ -8,17 +8,9 @@
 
 module.exports = function Model(we) {
 
-/*Título
-Texto
-Tags
-Imagem da chamada
-Arquivo
-Imagens (Galeria)
-*/
-
 	var model = {
 		definition: {
-			creatonId: {type: we.db.Sequelize.BIGINT, formFieldType: null},
+			creatorId: {type: we.db.Sequelize.BIGINT, formFieldType: null},
 
 			name: { type: we.db.Sequelize.TEXT },
 

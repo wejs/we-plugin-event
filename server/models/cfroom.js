@@ -8,13 +8,20 @@
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: { type: we.db.Sequelize.BIGINT, allowNull: false },
-      name: {
-        type:  we.db.Sequelize.STRING(1500)
+      creatorId: {type: we.db.Sequelize.BIGINT, formFieldType: null},
+
+      conferenceId: {
+        type: we.db.Sequelize.BIGINT,
+        allowNull: false,
+
+        formFieldType: null
       },
+
+      name: { type: we.db.Sequelize.TEXT },
+      
       about: { type: we.db.Sequelize.TEXT }
     },
-    associations: {},
+
     options: {
       classMethods: {
         /**
@@ -24,7 +31,7 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        /*contextLoader: function contextLoader(req, res, done) {
           if (!req.params.conferenceId) return done();
           req.body.conferenceId = req.params.conferenceId;
           if (!res.locals.id) return done();
@@ -33,12 +40,12 @@ module.exports = function Model(we) {
             res.locals.record = record;
             return done();
           });
-        },
+        },*/
       },
       instanceMethods: {},
       hooks: {}
     }
-  }
+  };
 
   return model;
 }

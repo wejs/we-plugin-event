@@ -440,7 +440,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     permission    : 'manage_conference'
   },
 
-  // user news routes
+   // user news routes
   'get /conference/:conferenceId([0-9]+)/news': {
     name          : 'conference_findOne.news_find',
     fieldTitle    : 'title',
@@ -456,7 +456,65 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     action        : 'findOne',
     model         : 'cfnews',
     permission    : 'find_conference'
+  },
+
+  // -- Rooms
+  'get /conference/:conferenceId([0-9]+)/admin/room': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'find',
+    model         : 'cfroom',
+    permission    : 'find_conference'
+  },
+  // - create
+  'get /conference/:conferenceId([0-9]+)/admin/room/create': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'createPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/room/create': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'createPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+  // - edit
+  'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'editPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference',
+    template      : 'cfroom/editPage'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'editPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference',
+    template      : 'cfroom/editPage'
+  },
+
+  'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'destroy',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+
+  'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'destroy',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
   }
+
   });
 
   plugin.setHelpers({
