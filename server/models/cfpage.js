@@ -13,8 +13,6 @@ module.exports = function Model(we) {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
       title: { type: we.db.Sequelize.TEXT },
-
-      about: { type: we.db.Sequelize.TEXT },
       body: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
@@ -24,30 +22,26 @@ module.exports = function Model(we) {
       active: { type: we.db.Sequelize.BOOLEAN, defaultValue: true, formFieldType: null },
       published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' },
 
-      // body without tags
-      bodyClean: { type: we.db.Sequelize.TEXT, formFieldType: null },
-      // body small body text version or description
-      bodyTeaser: { type: we.db.Sequelize.TEXT, formFieldType: null },
-      featuredImageId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
-
       conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
     },
-    associations: {
-      creator: {
-        type: 'belongsTo',
-        model : 'user',
-        constraints: false
-      }
-    },
+    associations: {},
     options: {
+      imageFields: {
+        featuredImage: { formFieldMultiple: false },
+        // todo add suport to multiple images
+        //galery: { formFieldMultiple: true }
+      },
       termFields: {
-        tags: {
-          vocabularyId: null,
-          canCreate: true
-        },
         categories: {
-          vocabularyId: 1,
-          canCreate: false
+          vocabularyName: 'Category',
+          canCreate: false,
+          formFieldMultiple: false
+        },
+        tags: {
+          vocabularyName: null,
+          canCreate: true,
+          formFieldMultiple: true,
+          onlyLowercase: true
         }
       },
 

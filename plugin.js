@@ -357,7 +357,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     // public page routes
     'get /conference/:conferenceId([0-9]+)/page': {
       name          : 'conference_findOne.page_find',
-      fieldTitle    : 'title',
+      titleHandler  : 'i18n',
+      titleI18n     : 'cfpage.find',
       controller    : 'cfpage',
       action        : 'find',
       model         : 'cfpage',
@@ -365,7 +366,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
     'get /conference/:conferenceId([0-9]+)/page/:cfpageId([0-9]+)': {
       name          : 'conference_findOne.page_findOne',
-      fieldTitle    : 'title',
+      titleField    : 'title',
       controller    : 'cfpage',
       action        : 'findOne',
       model         : 'cfpage',
@@ -377,7 +378,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   'get /conference/:conferenceId([0-9]+)/admin/news': {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_manage',
-    fieldTitle    : 'title',
+    titleHandler  : 'i18n',
+    titleI18n     : 'cfpage.managePage',
     controller    : 'cfnews',
     action        : 'managePage',
     model         : 'cfnews',
@@ -388,12 +390,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   'get /conference/:conferenceId([0-9]+)/admin/news/create': {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_createNews',
+    titleHandler  : 'i18n',
+    titleI18n     : 'cfpage.createPage',
     controller    : 'cfnews',
     action        : 'createPage',
     model         : 'cfnews',
     permission    : 'manage_conference'
   },
   'post /conference/:conferenceId([0-9]+)/admin/news/create': {
+    titleHandler  : 'i18n',
+    titleI18n     : 'cfpage.createPage',
     layoutName    : 'conferenceAdmin',
     controller    : 'cfnews',
     action        : 'createPage',
@@ -404,7 +410,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_editNews',
-    fieldTitle    : 'title',
+    titleHandler  : 'i18n',
+    titleI18n     : 'cfpage.editPage',
     controller    : 'cfnews',
     action        : 'editPage',
     model         : 'cfnews',
@@ -413,7 +420,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   },
   'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
     layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
+    titleHandler  : 'i18n',
+    titleI18n     : 'conference_findOne.news_editNews',
     controller    : 'cfnews',
     action        : 'editPage',
     model         : 'cfnews',
@@ -424,7 +432,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
     name          : 'conference_findOne.news_destroy',
     layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
+    titleField    : 'title',
     controller    : 'cfnews',
     action        : 'destroy',
     model         : 'cfnews',
@@ -433,7 +441,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
     layoutName    : 'conferenceAdmin',
-    fieldTitle    : 'title',
     controller    : 'cfnews',
     action        : 'destroy',
     model         : 'cfnews',
@@ -443,7 +450,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
    // user news routes
   'get /conference/:conferenceId([0-9]+)/news': {
     name          : 'conference_findOne.news_find',
-    fieldTitle    : 'title',
+    titleHandler  : 'i18n',
+    titleI18n     : 'cfnews.find',
     controller    : 'cfnews',
     action        : 'find',
     model         : 'cfnews',
@@ -451,7 +459,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   },
   'get /conference/:conferenceId([0-9]+)/news/:cfnewsId([0-9]+)': {
     name          : 'conference_findOne.news_findOne',
-    fieldTitle    : 'title',
+    skipLayoutTitle: true, // dont render layout title
+    titleHandler  : 'recordField',
+    titleField    : 'title',
     controller    : 'cfnews',
     action        : 'findOne',
     model         : 'cfnews',
