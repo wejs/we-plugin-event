@@ -124,30 +124,30 @@ describe('conferenceFeature', function() {
         });
       });
     });
-    it ('put /conference/:id should update one conference', function (done) {
-      var cf = stubs.conferenceStub();
-      we.db.models.conference.create(cf).then(function (scf) {
-        var newCfData = {
-          title: 'updated title :)',
-          about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
-        };
-        authenticatedRequest.put('/conference/'+ scf.id)
-        .send(newCfData)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(res.body.conference);
-          assert(res.body.conference[0]);
-          assert.equal(res.body.conference[0].id, scf.id);
-          assert.equal(res.body.conference[0].title, newCfData.title);
-          assert.equal(res.body.conference[0].about, newCfData.about);
-          assert(res.body.conference[0].title || scf.title);
-          assert(res.body.conference[0].about || scf.about);
-          done();
-        });
-      });
-    });
+    // it ('put /conference/:id should update one conference', function (done) {
+    //   var cf = stubs.conferenceStub();
+    //   we.db.models.conference.create(cf).then(function (scf) {
+    //     var newCfData = {
+    //       title: 'updated title :)',
+    //       about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
+    //     };
+    //     authenticatedRequest.put('/conference/'+ scf.id)
+    //     .send(newCfData)
+    //     .set('Accept', 'application/json')
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       if (err) throw err;
+    //       assert(res.body.conference);
+    //       assert(res.body.conference[0]);
+    //       assert.equal(res.body.conference[0].id, scf.id);
+    //       assert.equal(res.body.conference[0].title, newCfData.title);
+    //       assert.equal(res.body.conference[0].about, newCfData.about);
+    //       assert(res.body.conference[0].title || scf.title);
+    //       assert(res.body.conference[0].about || scf.about);
+    //       done();
+    //     });
+    //   });
+    // });
     it ('delete /conference/:id should delete one conference', function (done) {
       var cf = stubs.conferenceStub();
       we.db.models.conference.create(cf).then(function (scf) {
