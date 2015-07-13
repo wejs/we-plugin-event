@@ -460,18 +460,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
    // -- Menu
     'get /conference/:conferenceId([0-9]+)/admin/menu': {
     layoutName    : 'conferenceAdmin',
-    name          : 'conference_findOne.menu_manage',
-    fieldTitle    : 'title',
     controller    : 'cfmenu',
-    action        : 'managePage',
+    action        : 'find',
     model         : 'cfmenu',
-    permission    : 'find_conference',
-    template      : 'conference/admin/cfmenu',
+    permission    : 'find_conference'
     },
     // - create
     'get /conference/:conferenceId([0-9]+)/admin/menu/create': {
       layoutName    : 'conferenceAdmin',
-      name          : 'conference_findOne.menu_createNews',
       controller    : 'cfmenu',
       action        : 'createPage',
       model         : 'cfmenu',
@@ -485,23 +481,81 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference'
     },
 
-    // public menu routes
-    'get /conference/:conferenceId([0-9]+)/menu': {
-      name          : 'conference_findOne.menu_find',
-      fieldTitle    : 'title',
-      controller    : 'cfmenu',
-      action        : 'find',
-      model         : 'cfmenu',
-      permission    : 'find_conference'
-    },
-    'get /conference/:conferenceId([0-9]+)/menu/:cfmenuId([0-9]+)': {
-      name          : 'conference_findOne.menu_findOne',
-      fieldTitle    : 'title',
-      controller    : 'cfmenu',
-      action        : 'findOne',
-      model         : 'cfmenu',
-      permission    : 'find_conference'
-    }
+   // user news routes
+  'get /conference/:conferenceId([0-9]+)/news': {
+    name          : 'conference_findOne.news_find',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'find',
+    model         : 'cfnews',
+    permission    : 'find_conference'
+  },
+  'get /conference/:conferenceId([0-9]+)/news/:cfnewsId([0-9]+)': {
+    name          : 'conference_findOne.news_findOne',
+    fieldTitle    : 'title',
+    controller    : 'cfnews',
+    action        : 'findOne',
+    model         : 'cfnews',
+    permission    : 'find_conference'
+  },
+
+  // -- Rooms
+  'get /conference/:conferenceId([0-9]+)/admin/room': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'find',
+    model         : 'cfroom',
+    permission    : 'find_conference'
+  },
+  // - create
+  'get /conference/:conferenceId([0-9]+)/admin/room/create': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'createPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/room/create': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'createPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+  // - edit
+  'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'editPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference',
+    template      : 'cfroom/editPage'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'editPage',
+    model         : 'cfroom',
+    permission    : 'manage_conference',
+    template      : 'cfroom/editPage'
+  },
+
+  'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'destroy',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  },
+
+  'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cfroom',
+    action        : 'destroy',
+    model         : 'cfroom',
+    permission    : 'manage_conference'
+  }
+
   });
 
   plugin.setHelpers({

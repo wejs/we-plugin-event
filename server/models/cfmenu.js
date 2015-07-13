@@ -25,16 +25,16 @@ module.exports = function Model(we) {
             return JSON.parse( this.getDataValue('links') );
           return {};
         },
-        set: function(object) {
-          if (typeof object == 'object') {
-            this.setDataValue('links', JSON.stringify(object));
+        set: function(string) {
+          if (typeof string === 'string') {
+            this.setDataValue('links', JSON.stringify(string));
           } else {
-            throw new Error('invalid error in conference menu links value: ', object);
+            console.log(string);
+            throw new Error('invalid error in conference menu links value: ', string);
           }
         }
       }
     }
   }
-
   return model;
 };
