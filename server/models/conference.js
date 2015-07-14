@@ -14,7 +14,11 @@ module.exports = function Model(we) {
       title: { type: we.db.Sequelize.STRING(1500), allowNull: false },
       // unique name used in url
       abbreviation: { type:  we.db.Sequelize.STRING, unique: true },
-      about: { type: we.db.Sequelize.TEXT },
+      about: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 300
+      },
       email: {
         type: we.db.Sequelize.STRING(1500),
         validate: { isEmail: true }
@@ -26,9 +30,6 @@ module.exports = function Model(we) {
       registrationEndDate: { type: we.db.Sequelize.DATE },
       eventStartDate: { type: we.db.Sequelize.DATE },
       eventEndDate: { type: we.db.Sequelize.DATE },
-
-      logo: { type: we.db.Sequelize.BIGINT, formFieldType: null },
-      banner: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
       registrationManagerName: { type: we.db.Sequelize.TEXT },
       registrationManagerEmail: {
@@ -43,7 +44,10 @@ module.exports = function Model(we) {
 
       location: { type: we.db.Sequelize.TEXT },
 
-      status: { type: we.db.Sequelize.STRING, defaultValue: 'salved' },
+      published: {
+        type: we.db.Sequelize.BOOLEAN, defaultValue: true ,
+        formFieldType: 'boolean'
+      },
     },
     options: {
      termFields: {
@@ -56,8 +60,13 @@ module.exports = function Model(we) {
         categories: {
           vocabularyName: 'Category',
           canCreate: false,
-          formFieldMultiple: true
+          formFieldMultiple: false
         }
+      },
+
+      imageFields: {
+        logo: { formFieldMultiple: false },
+        banner: { formFieldMultiple: false }
       },
 
       classMethods: {},

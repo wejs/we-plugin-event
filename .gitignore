@@ -2,6 +2,7 @@ node_modules
 coverage
 config
 files/wejsdoc
+files/uploads
 *.log
 # OS X
 .DS_Store
