@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-12 actions">
+    <a class="btn btn-default" href="/conference/{{conference.id}}/admin/topic/create">{{t 'Create'}}</a>
+  </div>
+</div>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <th>id</th>
+    <th>{{t 'title'}}</th>
+    <th>{{t 'actions'}}</th>
+  </thead>
+  <tbody>
+    {{#each record}}
+      <tr>
+        <td>{{id}}</td>
+        <td>{{title}}</td>
+        <td>
+          <a href="/conference/{{conferenceId}}/admin/topic/{{id}}" class="btn btn-primary btn-sm">{{t 'Edit'}}</a>
+          <a href="/conference/{{conferenceId}}/admin/topic/{{id}}/delete" class="btn btn-default btn-sm">{{t 'Delete'}}</a>
+        </td>
+      </tr>
+    {{else}}
+      <tr><td colspan="3" class="text-center">{{t 'conference.topic.empty'}}</td></tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<div class="row">
+
+</div>

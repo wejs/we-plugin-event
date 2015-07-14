@@ -10,7 +10,6 @@ module.exports = {
 
       res.locals.metadata.count = record.count;
       res.locals.record = record.rows;
-
       return res.ok();
     });
   },
@@ -35,7 +34,7 @@ module.exports = {
         res.locals.record = record;
         if (res.locals.responseType == 'html') {
           return res.redirect(we.router.urlTo(
-            'conference_findOne.page_findOne',
+            'cftopic.managePage',
             [record.conferenceId, record.id],
             we
           ));
@@ -53,14 +52,13 @@ module.exports = {
     if (!res.locals.record) return res.notFound();
 
     if (req.method == 'POST' || req.method == 'PUT') {
-
       req.body.conferenceId = req.params.conferenceId;
 
       res.locals.record.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html') {
           return res.redirect(we.router.urlTo(
-            'conference_findOne.page_findOne',
+            'cftopic.managePage',
             [res.locals.record.conferenceId, res.locals.record.id],
             we
           ));

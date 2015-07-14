@@ -379,11 +379,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_manage',
     titleHandler  : 'i18n',
-    titleI18n     : 'cfpage.managePage',
+    titleI18n     : 'cfnews.managePage',
     controller    : 'cfnews',
     action        : 'managePage',
     model         : 'cfnews',
-    permission    : 'find_conference',
+    permission    : 'manage_conference',
     template      : 'conference/admin/cfnews',
   },
   // - create
@@ -391,7 +391,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_createNews',
     titleHandler  : 'i18n',
-    titleI18n     : 'cfpage.createPage',
+    titleI18n     : 'cfnews.createPage',
     controller    : 'cfnews',
     action        : 'createPage',
     model         : 'cfnews',
@@ -399,7 +399,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   },
   'post /conference/:conferenceId([0-9]+)/admin/news/create': {
     titleHandler  : 'i18n',
-    titleI18n     : 'cfpage.createPage',
+    titleI18n     : 'cfnews.createPage',
     layoutName    : 'conferenceAdmin',
     controller    : 'cfnews',
     action        : 'createPage',
@@ -411,7 +411,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     layoutName    : 'conferenceAdmin',
     name          : 'conference_findOne.news_editNews',
     titleHandler  : 'i18n',
-    titleI18n     : 'cfpage.editPage',
+    titleI18n     : 'cfnews.editPage',
     controller    : 'cfnews',
     action        : 'editPage',
     model         : 'cfnews',
@@ -508,7 +508,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     permission    : 'manage_conference',
     template      : 'cfroom/editPage'
   },
-
+  // - delete
   'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
     layoutName    : 'conferenceAdmin',
     controller    : 'cfroom',
@@ -516,15 +516,74 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     model         : 'cfroom',
     permission    : 'manage_conference'
   },
-
   'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
     layoutName    : 'conferenceAdmin',
     controller    : 'cfroom',
     action        : 'destroy',
     model         : 'cfroom',
     permission    : 'manage_conference'
-  }
+  },
 
+  // - cftopics
+  'get /conference/:conferenceId([0-9]+)/admin/topic': {
+    layoutName    : 'conferenceAdmin',
+    titleHandler  : 'i18n',
+    titleI18n     : 'cftopic.managePage',
+    controller    : 'cftopic',
+    action        : 'managePage',
+    model         : 'cftopic',
+    permission    : 'manage_conference',
+    template      : 'conference/admin/cftopics',
+  },
+  // - create
+  'get /conference/:conferenceId([0-9]+)/admin/topic/create': {
+    titleHandler  : 'i18n',
+    titleI18n     : 'cftopic.createPage',
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'createPage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/topic/create': {
+    titleHandler  : 'i18n',
+    titleI18n     : 'cftopic.createPage',
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'createPage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  },
+  // - edit
+  'get /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'editPage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'editPage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  },
+  // - delete
+  'get /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'deletePage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  },
+  'post /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)/delete': {
+    layoutName    : 'conferenceAdmin',
+    controller    : 'cftopic',
+    action        : 'deletePage',
+    model         : 'cftopic',
+    permission    : 'manage_conference'
+  }
   });
 
   plugin.setHelpers({
@@ -532,10 +591,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
   plugin.setWidgets({
     'we-cf-menu': __dirname + '/server/widgets/we-cf-menu'
-  });
-
-  plugin.setTemplates({
-    'forms/cf-type-selector': __dirname + '/server/templates/forms/cf-type-selector.hbs'
   });
 
   plugin.events.on('we:express:set:params', function(data) {
@@ -547,6 +602,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         res.locals.title = cf.title;
         res.locals.conference = cf;
         res.locals.widgetContext = 'conference-' + res.locals.conference.id;
+
+        req.body.conferenceId = cf.id;
 
         res.locals.conferenceService = ( we.config.conference.service || 'conference' );
 
