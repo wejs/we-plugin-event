@@ -8,6 +8,9 @@
 module.exports = function(we) {
   function renderLinks(links) {
     var html = '';
+
+    if (!links) return html;
+
     for (var i = 0; i < links.length; i++) {
       html += renderLink(links[i]);
 
