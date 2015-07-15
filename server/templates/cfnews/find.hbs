@@ -1,0 +1,23 @@
+{{#each record}}
+<article class="teaser">
+  <div class="article-meta">
+    {{t 'Updated at'}} <time datetime="{{createdAt}}"><strong>{{we-date updatedAt}}</strong></time> -
+    {{#each categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+  </div>
+
+  {{#each featuredImage}}{{{we-image this 'thumbnail' class="article-featured-image thumbnail"}}}{{/each}}
+
+  <h2 class="teaser-title">{{#link-to 'conference_findOne.news_findOne' conferenceId id}}{{title}}{{/link-to}}</h2>
+
+  {{{teaser}}}
+
+  <div class="clearfix"></div>
+  <footer class="article-actions">
+    {{#link-to 'conference_findOne.news_findOne' conferenceId id class="btn btn-primary"}}
+     <i class="glyphicon glyphicon-link"></i> {{t 'read.more'}}
+    {{/link-to}}
+  </footer>
+</article>
+{{else}}
+  <p> {{t 'conference.cfnews.empty'}}</p>
+{{/each}}

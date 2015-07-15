@@ -1,0 +1,19 @@
+<article>
+  <header>
+    <h1 class="page-header">{{record.title}}</h1>
+
+    <div class="article-meta">
+      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time> -
+      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+    </div>
+
+  </header>
+
+  {{#each record.featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
+  {{{record.text}}}
+
+  <footer>
+    {{{we-terms record.tags}}}
+  </footer>
+
+</article>
