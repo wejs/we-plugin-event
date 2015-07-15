@@ -87,109 +87,33 @@ module.exports = function Model(we) {
       classMethods: {},
       instanceMethods: {
         generateDefaultMenus: function generateDefaultMenus(cb) {
-          var menus = [{
-            conferenceId: this.id,
-            name:  'main',
-            class: 'nav navbar-nav navbar-right',
-            links: [{
-                beforeText: '<i class="fa fa-home"></i>',
-                text: 'home',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id
-              },
-              {
-                beforeText: '',
-                text: 'conference.register',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/register',
-                conferenceRoles: ['unRegistered']
-              },
-              {
-                beforeText: '',
-                text: 'conference_admin',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin',
-                conferenceRoles: ['manager']
-              }
-            ]
-          },{
-            conferenceId: this.id,
-            name: 'side',
-            class: 'nav nav-pills sidebar-menu nav-stacked',
-            links: [{
-                beforeText: '<i class="fa fa-home"></i>',
-                text: 'home',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id
-              },
-              {
-                beforeText: '<i class="fa fa-location-arrow"></i>',
-                text: 'conference.register',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/register'
-              },
-              {
-                beforeText: '<i class="fa fa-sign-in"></i>',
-                text: 'conference_admin',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin',
-                conferenceRoles: ['manager']
-              }
-            ]
-          },{
-            conferenceId: this.id,
-            name: 'admin',
-            class: 'nav nav-pills sidebar-menu nav-stacked',
-            links: [
-              {
-                text: 'conference_admin',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin',
-                conferenceRoles: ['manager']
-              },
-              {
-                text: 'conference_admin_edit',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin/edit',
-                conferenceRoles: ['manager']
-              },
-              {
-                text: 'conference_admin_menu',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin/menu',
-                conferenceRoles: ['manager']
-              },
-              {
-                text: 'conference_admin_layouts',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin/layout',
-                conferenceRoles: ['manager']
-              },
-              {
-                text: 'conference_findOne.page_manage',
-                afterText: '',
-                type: 'path',
-                path: '/conference/' + this.id + '/admin/page',
-                conferenceRoles: ['manager']
-              }
-            ]
-          }];
+          var self = this;
 
-          we.db.models.cfmenu.bulkCreate(menus).then(function() {
-            cb(null);
-          }).catch(function (err) {
-            cb(err);
-          })
+          async.series([
+            function (done) {
+              we.db.models.cfmenu.create({
+                conferenceId: self.id,
+                name:  'main',
+                class: 'nav navbar-nav navbar-right'
+              }).then(function (m) {
+                self.setMainMenu(m);
+
+                done();
+              }).catch(done)
+            },
+            function (done) {
+              we.db.models.cfmenu.create({
+                conferenceId: self.id,
+                name: 'secondary',
+                class: 'nav nav-pills sidebar-menu nav-stacked'
+              }).then(function (m) {
+                self.setSecondaryMenu(m);
+
+                done();
+              }).catch(done)
+            }
+
+          ], cb);
         },
 
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
