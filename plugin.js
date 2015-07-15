@@ -62,12 +62,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'conference',
       permission    : 'find_conference'
     },
-    // 'put /conference/:id([0-9]+)': {
-    //   controller    : 'conference',
-    //   action        : 'update',
-    //   model         : 'conference',
-    //   permission    : 'update_conference'
-    // },
     'delete /conference/:id([0-9]+)': {
       controller    : 'conference',
       action        : 'destroy',

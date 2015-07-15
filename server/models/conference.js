@@ -49,6 +49,16 @@ module.exports = function Model(we) {
         formFieldType: 'boolean'
       },
     },
+    associations: {
+      mainMenu: {
+        type: 'belongsTo',
+        model: 'cfmenu'
+      },
+      secundaryMenu: {
+        type: 'belongsTo',
+        model: 'cfmenu'
+      }
+    },
     options: {
      termFields: {
         tags: {
