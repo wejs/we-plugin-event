@@ -24,7 +24,6 @@ module.exports = function Model(we) {
 
       conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
     },
-    associations: {},
     options: {
       imageFields: {
         featuredImage: { formFieldMultiple: false },

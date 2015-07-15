@@ -46,25 +46,25 @@ module.exports = {
   },
 
   editPage: function editPage(req, res) {
-      if (!res.locals.record) return res.notFound();
+    if (!res.locals.record) return res.notFound();
 
-      if (req.method === 'POST') {
-        // dont change conference id for registration type
-        req.body.conferenceId = res.locals.conference.id;
+    if (req.method === 'POST') {
+      // dont change conference id for registration type
+      req.body.conferenceId = res.locals.conference.id;
 
-        res.locals.record.updateAttributes(req.body)
-        .then(function() {
-          if (res.locals.responseType == 'html')
-            return res.redirect(
-              '/conference/' + res.locals.conference.id + '/admin/menu'
-            );
-          res.created();
-        }).catch(res.queryError);
+      res.locals.record.updateAttributes(req.body)
+      .then(function() {
+        if (res.locals.responseType == 'html')
+          return res.redirect(
+            '/conference/' + res.locals.conference.id + '/admin/menu/'+ res.locals.record.id
+          );
+        res.created();
+      }).catch(res.queryError);
 
-      } else {
-        res.ok();
-      }
-    },
+    } else {
+      res.ok();
+    }
+  },
   managePage: function managePage(req, res) {
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -76,5 +76,4 @@ module.exports = {
       return res.ok();
     });
   }
-
 };

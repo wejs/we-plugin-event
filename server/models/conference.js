@@ -66,7 +66,8 @@ module.exports = function Model(we) {
 
       imageFields: {
         logo: { formFieldMultiple: false },
-        banner: { formFieldMultiple: false }
+        banner: { formFieldMultiple: false },
+        favicon: { formFieldMultiple: false }
       },
 
       classMethods: {},

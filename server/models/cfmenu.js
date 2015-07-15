@@ -11,30 +11,16 @@ module.exports = function Model(we) {
       /**
        * conference Id
        */
-      conferenceId: {
-        type:  we.db.Sequelize.BIGINT
-      },
-
+      conferenceId: { type:  we.db.Sequelize.BIGINT, formFieldType: null },
       name: { type:  we.db.Sequelize.STRING },
-      class: { type:  we.db.Sequelize.STRING },
-
+      class: { type:  we.db.Sequelize.STRING }
+    },
+    associations: {
       links: {
-        type:  we.db.Sequelize.TEXT,
-        get: function()  {
-          if (this.getDataValue('links'))
-            return JSON.parse( this.getDataValue('links') );
-          return {};
-        },
-        set: function(string) {
-          if (typeof string === 'string') {
-            this.setDataValue('links', JSON.stringify(string));
-          } else {
-            console.log(string);
-            throw new Error('invalid error in conference menu links value: ', string);
-          }
-        }
+        type: 'hasMany',
+        model: 'cflink'
       }
-    }
+    },
   }
   return model;
 };

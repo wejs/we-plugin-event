@@ -162,26 +162,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'conference',
       permission    : 'manage_conference'
     },
-
-    'get /conference/:conferenceId([0-9]+)/admin/menu': {
-      name          : 'conference_admin_menu',
-      layoutName    : 'conferenceAdmin',
-      controller    : 'conference',
-      action        : 'adminMenu',
-      model         : 'conference',
-      permission    : 'manage_conference',
-      template      : 'conference/admin/menu',
-      responseType  : 'html'
-    },
-    'get /conference/:conferenceId([0-9]+)/admin/menu/resetAll': {
-      name          : 'conference_admin_reset',
-      layoutName    : 'conferenceAdmin',
-      controller    : 'conference',
-      action        : 'resetConferenceMenu',
-      model         : 'conference',
-      permission    : 'manage_conference',
-      responseType  : 'json'
-    },
     'get /conference/:conferenceId([0-9]+)/admin/layout': {
       name          : 'conference_admin_layouts',
       layoutName    : 'conferenceAdmin',
@@ -438,6 +418,104 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
 
     // -- Menu
+
+    'get /conference/:conferenceId([0-9]+)/admin/menu': {
+      name          : 'conference_admin_menu',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfmenu',
+      action        : 'managePage',
+      model         : 'cfmenu',
+      permission    : 'manage_conference',
+      template      : 'conference/admin/cfmenus',
+      responseType  : 'html'
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)': {
+      name          : 'conference_admin_menu',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfmenu',
+      action        : 'editPage',
+      model         : 'cfmenu',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)': {
+      name          : 'conference_admin_menu',
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfmenu',
+      action        : 'editPage',
+      model         : 'cfmenu',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    // add link
+    'get /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/add-link': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'createPage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/add-link': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'createPage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/sort-links': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'sortLinks',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'json'
+    },
+
+
+    'get /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/link/:cflinkId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'editPage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/link/:cflinkId([0-9]+)': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'editPage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'get /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/link/:cflinkId([0-9]+)/delete': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'deletePage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/link/:cflinkId([0-9]+)/delete': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cflink',
+      action        : 'deletePage',
+      model         : 'cflink',
+      permission    : 'manage_conference',
+      responseType  : 'html'
+    },
+
+    // 'get /conference/:conferenceId([0-9]+)/admin/menu/resetAll': {
+    //   name          : 'conference_admin_reset',
+    //   layoutName    : 'conferenceAdmin',
+    //   controller    : 'conference',
+    //   action        : 'resetConferenceMenu',
+    //   model         : 'conference',
+    //   permission    : 'manage_conference',
+    //   responseType  : 'json'
+    // },
     // - create
     'get /conference/:conferenceId([0-9]+)/admin/menu/create': {
       layoutName    : 'conferenceAdmin',
@@ -452,7 +530,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'createPage',
       model         : 'cfmenu',
       permission    : 'manage_conference'
-      },
+    },
 
      // user news routes
     'get /conference/:conferenceId([0-9]+)/news': {
