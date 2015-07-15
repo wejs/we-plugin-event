@@ -21,6 +21,45 @@ module.exports = function Model(we) {
         model: 'cflink'
       }
     },
+    options: {
+      classMethods: {
+        /**
+         * Context loader, preload current request record and related data
+         *
+         * @param  {Object}   req  express.js request
+         * @param  {Object}   res  express.js response
+         * @param  {Function} done callback
+         */
+        contextLoader: function contextLoader(req, res, done) {
+          if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
+
+          return this.find({
+            where: { id: res.locals.id }
+          }).then(function (record) {
+            res.locals.record = record;
+            if (record) {
+              if( record.dataValues.creatorId && req.isAuthenticated()) {
+                // ser role owner
+                if (req.user.id == record.dataValues.creatorId)
+                  if(req.userRoleNames.indexOf('owner') == -1 ) req.userRoleNames.push('owner');
+              }
+
+              record.getLinks({
+                order: [
+                  ['weight','ASC'],
+                  ['createdAt','ASC']
+                ]
+              }).then(function(links) {
+                record.links = links ;
+                done();
+              }).catch(res.queryError);
+            } else {
+              return done();
+            }
+          }).catch(res.queryError);
+        }
+      }
+    }
   }
   return model;
 };

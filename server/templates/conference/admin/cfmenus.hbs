@@ -4,8 +4,12 @@
     <label for="conferenceMainMenu" class="col-sm-2 control-label">{{t 'menu.main'}}:</label>
     <div class="col-sm-10">
       <select id="conferenceMainMenu" name="mainMenuId" class="form-control">
-        {{#each cfmenu}}
-          <option value="{{id}}">{{name}}</option>
+        {{#each record}}
+          {{#ifCond id ../conference.mainMenu.id}}
+            <option selected value="{{id}}">{{name}}</option>
+          {{else}}
+            <option value="{{id}}">{{name}}</option>
+          {{/ifCond}}
         {{/each}}
       </select>
     </div>
@@ -17,8 +21,12 @@
     <label for="conferenceSecondaryMenu" class="col-sm-2 control-label">{{t 'menu.secondary'}}:</label>
     <div class="col-sm-10">
       <select id="conferenceSecondaryMenu" name="secondaryMenuId" class="form-control">
-        {{#each cfmenu}}
-          <option value="{{id}}">{{name}}</option>
+        {{#each record}}
+          {{#ifCond id ../conference.secondaryMenu.id}}
+            <option selected value="{{id}}">{{name}}</option>
+          {{else}}
+            <option value="{{id}}">{{name}}</option>
+          {{/ifCond}}
         {{/each}}
       </select>
     </div>
@@ -53,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-          {{#each cfmenu}}
+          {{#each record}}
             <tr>
               <td>{{id}}</td>
               <td>{{name}}</td>

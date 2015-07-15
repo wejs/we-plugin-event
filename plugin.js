@@ -669,14 +669,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     'we-cf-menu': __dirname + '/server/helpers/we-cf-menu.js'
   });
   plugin.setWidgets({
-    'we-cf-menu': __dirname + '/server/widgets/we-cf-menu'
+    // 'we-cf-menu': __dirname + '/server/widgets/we-cf-menu'
   });
 
   plugin.events.on('we:express:set:params', function(data) {
     var we = data.we;
     // user pre-loader
     data.express.param('conferenceId', function (req, res, next, id) {
-      data.we.db.models.conference.findById(id).then(function (cf) {
+      data.we.db.models.conference.findOne({
+        where: {id : id}, include: { all: true }
+      }).then(function (cf) {
         if (!cf) return res.notFound();
         res.locals.title = cf.title;
         res.locals.conference = cf;
@@ -695,11 +697,27 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         res.locals.htmlTemplate = 'conference/html';
 
         async.parallel([
-          function loadMenu(cb){
-            // preload all conference menu
-            we.db.models.cfmenu.findAll({ where: { conferenceId: id }})
-            .then(function (cfmenus) {
-              res.locals.cfmenu = cfmenus;
+          function loadMainMenu(cb){
+            if (!cf.mainMenu) return cb();
+            cf.mainMenu.getLinks({
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
+            }).then(function(links){
+              cf.mainMenu.links = links;
+              cb();
+            }).catch(cb);
+          },
+          function loadSecondaryMenu(cb) {
+            if (!cf.secondaryMenu) return cb();
+            cf.secondaryMenu.getLinks({
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
+            }).then(function(links){
+              cf.secondaryMenu.links = links;
               cb();
             }).catch(cb);
           },
