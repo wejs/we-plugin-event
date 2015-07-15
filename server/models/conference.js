@@ -57,6 +57,10 @@ module.exports = function Model(we) {
       secondaryMenu: {
         type: 'belongsTo',
         model: 'cfmenu'
+      },
+      topics: {
+        type: 'hasMany',
+        model: 'cftopic'
       }
     },
     options: {

@@ -721,6 +721,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               cb();
             }).catch(cb);
           },
+          function loadTopics(cb) {
+            if (!cf.topics) return cb();
+            we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
+          },
           function loadUserRoles(cb) {
             if (!req.isAuthenticated()) return cb();
             // load current user registration register
