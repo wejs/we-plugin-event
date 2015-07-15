@@ -117,35 +117,36 @@ module.exports = function Model(we) {
         },
 
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
-          var widgets = [{
-            title: 'Menu',
-            configuration :{
-              menu: 'admin',
-            },
-            type: 'we-cf-menu',
-            layout: 'conferenceAdmin',
-            theme: 'we-theme-conference',
-            context: 'conference-' + this.id,
-            regionName: 'sidebar',
-            creatorId: this.creatorId
-          }, {
-            title: 'Menu',
-            configuration :{
-              menu: 'side',
-            },
-            type: 'we-cf-menu',
-            layout: 'default',
-            theme: 'we-theme-conference',
-            context: 'conference-' + this.id,
-            regionName: 'sidebar',
-            creatorId: this.creatorId
-          }];
+          return cb();
+          // var widgets = [{
+          //   title: 'Menu',
+          //   configuration :{
+          //     menu: 'admin',
+          //   },
+          //   type: 'we-cf-menu',
+          //   layout: 'conferenceAdmin',
+          //   theme: 'we-theme-conference',
+          //   context: 'conference-' + this.id,
+          //   regionName: 'sidebar',
+          //   creatorId: this.creatorId
+          // }, {
+          //   title: 'Menu',
+          //   configuration :{
+          //     menu: 'side',
+          //   },
+          //   type: 'we-cf-menu',
+          //   layout: 'default',
+          //   theme: 'we-theme-conference',
+          //   context: 'conference-' + this.id,
+          //   regionName: 'sidebar',
+          //   creatorId: this.creatorId
+          // }];
 
-          we.db.models.widget.bulkCreate(widgets).then(function() {
-            cb(null);
-          }).catch(function (err) {
-            cb(err);
-          });
+          // we.db.models.widget.bulkCreate(widgets).then(function() {
+          //   cb(null);
+          // }).catch(function (err) {
+          //   cb(err);
+          // });
         }
       },
       hooks: {
