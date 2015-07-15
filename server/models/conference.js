@@ -54,7 +54,7 @@ module.exports = function Model(we) {
         type: 'belongsTo',
         model: 'cfmenu'
       },
-      secundaryMenu: {
+      secondaryMenu: {
         type: 'belongsTo',
         model: 'cfmenu'
       }
