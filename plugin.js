@@ -669,6 +669,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     'we-cf-menu': __dirname + '/server/helpers/we-cf-menu.js'
   });
   plugin.setWidgets({
+    'we-cf-location-map': __dirname + '/server/widgets/we-cf-location-map',
     // 'we-cf-menu': __dirname + '/server/widgets/we-cf-menu'
   });
 
