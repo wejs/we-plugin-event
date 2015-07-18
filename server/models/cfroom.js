@@ -18,11 +18,12 @@ module.exports = function Model(we) {
       },
 
       name: { type: we.db.Sequelize.TEXT },
-      
+
       about: { type: we.db.Sequelize.TEXT }
     },
 
     options: {
+      titleField: 'name',
       classMethods: {
         /**
          * Context loader, preload current request record and related data

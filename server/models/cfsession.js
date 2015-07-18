@@ -27,6 +27,7 @@ module.exports = function Model(we) {
     },
     associations: {},
     options: {
+      titleField: 'title',
       classMethods: {},
       instanceMethods: {},
       hooks: {}

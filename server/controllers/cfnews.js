@@ -14,7 +14,7 @@ module.exports = {
       return res.ok();
     });
   },
-  createPage: function createPage(req, res) {
+  create: function create(req, res) {
     var we = req.getWe();
     if (!res.locals.record) res.locals.record = {};
     // set temp record for use in validation errors
@@ -24,21 +24,20 @@ module.exports = {
 
     if (req.method === 'POST') {
 
-      req.body.creatorId = req.user.id;
+      if(req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.conferenceId = req.params.conferenceId;
 
       _.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
         if (res.locals.responseType == 'html') {
-          return res.redirect(we.router.urlTo(
-            'conference_findOne.news_manage',
-            [record.conferenceId, record.id],
-            we
-          ));
+          // push id to paramsArray for use in urlTo
+          req.paramsArray.push(record.id);
+          // redirect to content after create
+          return res.redirect(we.router.urlTo(res.locals.model + '.findOne', req.paramsArray));
         }
+        res.locals.record = record;
         res.created();
       }).catch(res.queryError);
     } else {
@@ -46,36 +45,30 @@ module.exports = {
       res.ok();
     }
   },
-  editPage: function editPage(req, res) {
+  edit: function edit(req, res) {
     var we = req.getWe();
-    console.warn(req.params);
+    var record = res.locals.record;
+    if (!record) return res.notFound();
 
-    we.db.models.cfnews.findOne({where: {
-        id: req.params.cfnewsId
-      }}).then(function (record) {
-      if (!record) return res.notFound();
+    res.locals.record = record;
 
-      res.locals.record = record;
+    if (req.method == 'POST' || req.method == 'PUT') {
 
-      if (req.method == 'POST' || req.method == 'PUT') {
+      req.body.conferenceId = req.params.conferenceId;
 
-        req.body.conferenceId = req.params.conferenceId;
-
-        record.updateAttributes(req.body)
-        .then(function() {
-          if (res.locals.responseType == 'html') {
-            return res.redirect(we.router.urlTo(
-              'conference_findOne.news_manage',
-              [req.params.conferenceId, record.id],
-              we
-            ));
-          }
-          res.ok();
-        }).catch(res.queryError);
-      } else {
+      record.updateAttributes(req.body)
+      .then(function() {
+        if (res.locals.responseType == 'html') {
+          // push id to paramsArray for use in urlTo
+          req.paramsArray.push(record.id);
+          // redirect to content after create
+          return res.redirect(we.router.urlTo(res.locals.model + '.findOne', req.paramsArray));
+        }
         res.ok();
-      }
-    }).catch(res.queryError);
+      }).catch(res.queryError);
+    } else {
+      res.ok();
+    }
   },
   managePage: function managePage(req, res) {
     return res.locals.Model.findAndCountAll(res.locals.query)

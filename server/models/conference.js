@@ -64,7 +64,8 @@ module.exports = function Model(we) {
       }
     },
     options: {
-     termFields: {
+      titleField: 'title',
+      termFields: {
         tags: {
           vocabularyName: null,
           canCreate: true,

@@ -44,6 +44,8 @@ module.exports = function Model(we) {
         }
       },
 
+      titleField: 'title',
+
       classMethods: {},
       instanceMethods: {},
       hooks: {}

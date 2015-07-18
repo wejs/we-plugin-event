@@ -85,7 +85,7 @@ module.exports = {
     var we = req.getWe();
 
     res.locals.layout = false;
-    req.body.creatorId = req.user.id;
+    if (req.isAuthenticated()) req.body.creatorId = req.user.id;
 
     var type = req.body.type;
     we.view.widgets[type].afterSave(req, res, function() {

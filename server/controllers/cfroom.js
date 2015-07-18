@@ -14,7 +14,7 @@ module.exports = {
       return res.ok();
     });
   },
-  createPage: function createPage(req, res) {
+  create: function create(req, res) {
     if (!res.locals.record) res.locals.record = {};
     // set temp record for use in validation errors
     _.merge(res.locals.record, req.query);
@@ -23,15 +23,15 @@ module.exports = {
 
     if (req.method === 'POST') {
 
-      req.body.creatorId = req.user.id;
+      if(req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.conferenceId = req.params.conferenceId;
-      
+
       res.locals.record = req.query;
       _.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        if (res.locals.responseType == 'html') 
+        if (res.locals.responseType == 'html')
           return res.redirect(
             '/conference/' + res.locals.conference.id + '/admin/room'
           );
@@ -43,7 +43,7 @@ module.exports = {
       res.ok();
     }
   },
-  editPage: function editPage(req, res) {
+  edit: function edit(req, res) {
     var we = req.getWe();
 
     we.db.models.cfroom.findOne({where: {

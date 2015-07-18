@@ -34,9 +34,9 @@
     we.components.dataTable('#cfpagetable', {
       where: { conferenceId: {{conference.id}} },
       actionRender: function actionRender(table, data, d,record) {
-        var  tags = '<a href="/conference/{{conference.id}}/news/'+record.id+'" text="{{t "View"}}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-eye-open"></i></a>';
+        var  tags = '<a href="/conference/{{conference.id}}/cfnews/'+record.id+'" text="{{t "View"}}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-eye-open"></i></a>';
 
-        tags += '<a href="/conference/{{conference.id}}/admin/news/'+record.id+'" text="{{t "Edit"}}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i></a>';
+        tags += '<a href="/conference/{{conference.id}}/cfnews/'+record.id+'/edit" text="{{t "Edit"}}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i></a>';
         return tags;
       }
     });

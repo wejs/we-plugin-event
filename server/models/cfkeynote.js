@@ -10,7 +10,6 @@ module.exports = function Model(we) {
       conferenceId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
-
         formFieldType: null
       },
 
@@ -23,12 +22,11 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.TEXT
       }
     },
-    associations: {},
     options: {
-      classMethods: {},
-      instanceMethods: {},
-      // TODO check if user is already registered in conference
-      hooks: {}
+      imageFields: {
+        picture: { formFieldMultiple: false }
+      },
+      titleField: 'name'
     }
   }
 

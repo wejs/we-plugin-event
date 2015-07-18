@@ -7,13 +7,13 @@
 
   {{#each featuredImage}}{{{we-image this 'thumbnail' class="article-featured-image thumbnail"}}}{{/each}}
 
-  <h2 class="teaser-title">{{#link-to 'conference_findOne.news_findOne' conferenceId id}}{{title}}{{/link-to}}</h2>
+  <h2 class="teaser-title">{{#link-to 'cfnews.findOne' conferenceId id}}{{title}}{{/link-to}}</h2>
 
   {{{teaser}}}
 
   <div class="clearfix"></div>
   <footer class="article-actions">
-    {{#link-to 'conference_findOne.news_findOne' conferenceId id class="btn btn-primary"}}
+    {{#link-to 'cfnews.findOne' conferenceId id class="btn btn-primary"}}
      <i class="glyphicon glyphicon-link"></i> {{t 'read.more'}}
     {{/link-to}}
   </footer>
