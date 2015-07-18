@@ -17,10 +17,8 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         allowNull: false
       },
-
-      about: {
-        type: we.db.Sequelize.TEXT
-      }
+      about: { type: we.db.Sequelize.TEXT },
+      weight: { type: we.db.Sequelize.INTEGER }
     },
     options: {
       imageFields: {

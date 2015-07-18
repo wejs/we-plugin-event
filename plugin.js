@@ -564,17 +564,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference'
     },
 
-     // user news routes
-    'get /conference/:conferenceId([0-9]+)/news': {
-      name          : 'conference_findOne.news_find',
-      titleHandler  : 'i18n',
-      titleI18n     : 'cfnews.find',
-      controller    : 'cfnews',
-      action        : 'find',
-      model         : 'cfnews',
-      permission    : 'find_conference'
-    },
-
     // -- Rooms
     'get /conference/:conferenceId([0-9]+)/admin/room': {
       layoutName    : 'conferenceAdmin',
@@ -641,56 +630,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cftopic',
       permission    : 'manage_conference',
       template      : 'conference/admin/cftopics',
-    },
-    // - create
-    // 'get /conference/:conferenceId([0-9]+)/admin/topic/create': {
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cftopic.create',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'create',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/topic/create': {
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cftopic.create',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'create',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // },
-    // - edit
-    // 'get /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'edit',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'edit',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // },
-    // - delete
-    // 'get /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)/delete': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'delete',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/topic/:cftopicId([0-9]+)/delete': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cftopic',
-    //   action        : 'delete',
-    //   model         : 'cftopic',
-    //   permission    : 'manage_conference'
-    // }
+    }
   });
 
   plugin.setHelpers({
