@@ -1,33 +1,76 @@
 <div>
   <h3>{{t 'conference.menu.admin'}}</h3>
-  <ul class="nav nav-pills sidebar-menu nav-stacked">
-    <li class=""><a href="/conference/{{conference.id}}/admin"> {{t 'conference_admin'}} </a>
-    </li>
-    <li class=""><a href="/conference/{{conference.id}}/admin/edit"> {{t 'conference_admin_edit'}} </a>
-    </li>
+  <ul class="metismenu nav nav-pills sidebar-menu nav-stacked" id="admin-menu"> 
+    <li class="active">
+        <a href="#">Admin</a>
+        <ul>
+            <li class=""><a href="/conference/{{conference.id}}/admin"> <i class="fa fa-tachometer"></i> {{t 'conference_admin'}} </a>
+            </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/edit"> <i class="fa fa-pencil-square-o"></i> {{t 'conference_admin_edit'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/topic"> {{t 'cftopic.managePage'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/topic"> <i class="fa fa-tags"></i> {{t 'cftopic.managePage'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/registration"> {{t 'conference_admin_registration'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/registration"> <i class="fa fa-user-plus"></i> {{t 'conference_admin_registration'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/news"> {{t 'conference_findOne.news_manage'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/news"> <i class="fa fa-life-ring"></i> {{t 'conference_findOne.news_manage'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/menu"> {{t 'conference_admin_menu'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/menu"> <i class="fa fa-sitemap"></i> {{t 'conference_admin_menu'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/layout"> {{t 'conference_admin_layouts'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/layout"> <i class="fa fa-newspaper-o"></i> {{t 'conference_admin_layouts'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/page"> {{t 'conference_findOne.page_manage'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/page"> <i class="fa fa-files-o"></i> {{t 'conference_findOne.page_manage'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/room"> {{t 'conference_findOne.room_manage'}} </a>
-    </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/room"> <i class="fa fa-tasks"></i> {{t 'conference_findOne.room_manage'}} </a>
+            </li>
 
-    <li class=""><a href="/conference/{{conference.id}}/admin/session"> {{t 'conference_findOne.session_manage'}} </a>
+            <li class=""><a href="/conference/{{conference.id}}/admin/session"> <i class="fa fa-sort-amount-desc"></i> {{t 'conference_findOne.session_manage'}} </a>
+            </li>
+        </ul>
     </li>
   </ul>
 </div>
+
+<!--
+    WITHOUT METIS MENU
+    <li class=""><a href="/conference/{{conference.id}}/admin"> {{t 'conference_admin'}} </a>
+            </li>
+            <li class=""><a href="/conference/{{conference.id}}/admin/edit"> <i class="fa fa-pencil-square-o"></i> {{t 'conference_admin_edit'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/topic"> {{t 'cftopic.managePage'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/registration"> {{t 'conference_admin_registration'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/news"> {{t 'conference_findOne.news_manage'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/menu"> {{t 'conference_admin_menu'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/layout"> {{t 'conference_admin_layouts'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/page"> {{t 'conference_findOne.page_manage'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/room"> {{t 'conference_findOne.room_manage'}} </a>
+            </li>
+
+            <li class=""><a href="/conference/{{conference.id}}/admin/session"> {{t 'conference_findOne.session_manage'}} </a>
+            </li>
+-->
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    we.components.metisMenu('#admin-menu', {});
+  });
+</script>
