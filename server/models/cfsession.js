@@ -8,13 +8,14 @@
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: { type: we.db.Sequelize.BIGINT, allowNull: false },
-      roomId: { type: we.db.Sequelize.TEXT },
+      conferenceId: {
+        type: we.db.Sequelize.BIGINT, allowNull: false, formFieldType: null
+      },
 
-      logo: { type: we.db.Sequelize.BIGINT },
+      roomId: { type: we.db.Sequelize.BIGINT, formFieldType: 'cfroom' },
 
       title: { type:  we.db.Sequelize.STRING(1200) },
-      about: { type: we.db.Sequelize.TEXT },
+      about: { type: we.db.Sequelize.TEXT, formFieldType: 'html' },
 
       startDate: { type: we.db.Sequelize.DATE },
       endDate: { type: we.db.Sequelize.DATE },
@@ -25,7 +26,9 @@ module.exports = function Model(we) {
         defaultValue: 'confirmed'
       }
     },
-    associations: {},
+    associations: {
+      user: { type: 'belongsTo', model: 'user' }
+    },
     options: {
       titleField: 'title',
       classMethods: {},

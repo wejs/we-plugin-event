@@ -8,9 +8,11 @@
 
   <div class="clearfix"></div>
   <footer class="article-actions">
-    {{#link-to 'cfkeynote.edit' conferenceId id class="btn btn-default"}}
+    {{we-action-edit-btn 'cfkeynote' this ../req conferenceId id }}
+
+{{!--     {{#link-to 'cfkeynote.edit' conferenceId id class="btn btn-default"}}
      <i class="glyphicon glyphicon-edit"></i> {{t 'Edit'}}
-    {{/link-to}}
+    {{/link-to}} --}}
   </footer>
 </article>
 {{else}}

@@ -8,43 +8,33 @@
 module.exports = function Model(we) {
   var model = {
     definition: {
-      creatorId: {type: we.db.Sequelize.BIGINT, formFieldType: null},
-
       conferenceId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
-
         formFieldType: null
       },
-
-      name: { type: we.db.Sequelize.TEXT },
-
+      name: { type: we.db.Sequelize.STRING },
       about: { type: we.db.Sequelize.TEXT }
     },
 
     options: {
       titleField: 'name',
-      classMethods: {
-        /**
-         * Context loader, preload current request record and related data
-         *
-         * @param  {Object}   req  express.js request
-         * @param  {Object}   res  express.js response
-         * @param  {Function} done callback
-         */
-        /*contextLoader: function contextLoader(req, res, done) {
-          if (!req.params.conferenceId) return done();
-          req.body.conferenceId = req.params.conferenceId;
-          if (!res.locals.id) return done();
-          return this.findById(res.locals.id)
-          .then(function (record) {
-            res.locals.record = record;
-            return done();
-          });
-        },*/
+      termFields: {
+        tags: {
+          vocabularyName: null,
+          canCreate: true,
+          formFieldMultiple: true,
+          onlyLowercase: true
+        },
+        categories: {
+          vocabularyName: 'Category',
+          canCreate: false,
+          formFieldMultiple: false
+        }
       },
-      instanceMethods: {},
-      hooks: {}
+      imageFields: {
+        picture: { formFieldMultiple: false }
+      }
     }
   };
 

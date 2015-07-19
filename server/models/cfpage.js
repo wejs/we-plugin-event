@@ -12,14 +12,13 @@ module.exports = function Model(we) {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
-      title: { type: we.db.Sequelize.TEXT },
+      title: { type: we.db.Sequelize.STRING(1500) },
       body: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 300
       },
 
-      active: { type: we.db.Sequelize.BOOLEAN, defaultValue: true, formFieldType: null },
       published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' },
 
       conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
