@@ -21,7 +21,8 @@ module.exports = function Model(we) {
       roomIdSelector: { type: we.db.Sequelize.VIRTUAL, formFieldType: 'cfroom-selector' },
 
       requireRegistration: {
-        type: we.db.Sequelize.BOOLEAN, defaultValue: false
+        type: we.db.Sequelize.BOOLEAN, defaultValue: false,
+        formFieldType: 'boolean'
       }
     },
     associations: {
