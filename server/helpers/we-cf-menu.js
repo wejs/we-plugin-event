@@ -1,9 +1,9 @@
 /**
  * We.js conference menu helper
  *
- * render one conference menu from res.locals.cfmenus
+ * render one conference menu
  *
- * usage:  {{#we-cf-menu 'menuName'}} {{/we-cf-menu}}
+ * usage:  {{we-cf-menu 'menu}}
  */
 module.exports = function(we) {
   function renderLinks(links) {
@@ -21,7 +21,7 @@ module.exports = function(we) {
     return html;
   }
   function renderLink(link) {
-    return '<li class="'+(link.class || '')+'"><a href="'+link.href+'">'+link.text + '</a></li>';
+    return '<li><a class="'+(link.class || '')+'" href="'+link.href+'">'+link.text + '</a></li>';
   }
 
   return function renderWidget(menu) {

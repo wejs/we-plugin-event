@@ -1,8 +1,8 @@
 /**
- * Conference keynotes
+ * Conference speakers
  *
  * @module      :: Model
- * @description :: System conference keynote model
+ * @description :: System conference speakers model
  */
 module.exports = function Model(we) {
   var model = {
@@ -10,7 +10,6 @@ module.exports = function Model(we) {
       conferenceId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
-
         formFieldType: null
       },
 
@@ -18,17 +17,15 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         allowNull: false
       },
-
-      about: {
-        type: we.db.Sequelize.TEXT
-      }
+      about: { type: we.db.Sequelize.TEXT },
+      weight: { type: we.db.Sequelize.INTEGER },
+      highlighted: { type: we.db.Sequelize.BOOLEAN, defaultsTo: false }
     },
-    associations: {},
     options: {
-      classMethods: {},
-      instanceMethods: {},
-      // TODO check if user is already registered in conference
-      hooks: {}
+      imageFields: {
+        picture: { formFieldMultiple: false }
+      },
+      titleField: 'name'
     }
   }
 

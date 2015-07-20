@@ -14,7 +14,7 @@ module.exports = {
       return res.ok();
     });
   },
-  createPage: function createPage(req, res) {
+  create: function create(req, res) {
     var we = req.getWe();
 
     if (!res.locals.record) res.locals.record = {};
@@ -23,13 +23,11 @@ module.exports = {
 
     res.locals.record.conferenceId = req.params.conferenceId;
 
+    if(req.isAuthenticated()) req.body.creatorId = req.user.id;
+    req.body.conferenceId = req.params.conferenceId;
+
     if (req.method === 'POST') {
-
-      req.body.creatorId = req.user.id;
-      req.body.conferenceId = req.params.conferenceId;
-
       _.merge(res.locals.record, req.body);
-
       return res.locals.Model.create(req.body)
       .then(function (record) {
         res.locals.record = record;
@@ -47,15 +45,14 @@ module.exports = {
       res.ok();
     }
   },
-  editPage: function editPage(req, res) {
+  edit: function edit(req, res) {
     var we = req.getWe();
 
     if (!res.locals.record) return res.notFound();
 
+    req.body.conferenceId = req.params.conferenceId;
+
     if (req.method == 'POST' || req.method == 'PUT') {
-
-      req.body.conferenceId = req.params.conferenceId;
-
       res.locals.record.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html') {

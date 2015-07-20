@@ -50,9 +50,6 @@ module.exports = {
           }
         }
 
-
-
-
         // merge req.body with locals record to handle validation errors
         _.merge(res.locals.record, req.body);
 
@@ -86,9 +83,35 @@ module.exports = {
     }).catch(res.queryError);
   },
 
-  adminRegisterUser: function (req, res) {
+  unRegister: function unRegister(req, res) {
+    if (!req.isAuthenticated()) return res.forbidden();
     var we = req.getWe();
 
+    res.locals.deleteMsg = req.__('cfregistration.unRegister.confirm.msg');
+
+    res.locals.deleteRedirectUrl = we.router.urlTo(
+      'conference.findOne', [res.locals.conference.id], we
+    );
+
+    if (req.method === 'POST') {
+      if (res.locals.userCfregistration) {
+        res.locals.userCfregistration.destroy().then(function(){
+          res.redirect(we.router.urlTo(
+            'conference.findOne', [res.locals.conference], we
+          ));
+        }).catch(res.queryError);
+      } else {
+        res.redirect(we.router.urlTo(
+          'conference.findOne', [res.locals.conference.id], we
+        ));
+      }
+    } else {
+      res.ok();
+    }
+  },
+
+  adminRegisterUser: function adminRegisterUser(req, res) {
+    var we = req.getWe();
 
     res.ok();
   },

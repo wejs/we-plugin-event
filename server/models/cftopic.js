@@ -13,10 +13,12 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 300
-      }
+      },
+      weight: { type:  we.db.Sequelize.INTEGER }
     },
     options: {
-     termFields: {
+      titleField: 'title',
+      termFields: {
         tags: {
           vocabularyName: null,
           canCreate: true,

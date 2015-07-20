@@ -48,6 +48,22 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.BOOLEAN, defaultValue: true ,
         formFieldType: 'boolean'
       },
+
+      registrationEmail: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 300
+      },
+      registrationWaitingAccept: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 300
+      },
+      registeredText: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 300
+      }
     },
     associations: {
       mainMenu: {
@@ -58,13 +74,18 @@ module.exports = function Model(we) {
         type: 'belongsTo',
         model: 'cfmenu'
       },
+      socialMenu: {
+        type: 'belongsTo',
+        model: 'cfmenu'
+      },
       topics: {
         type: 'hasMany',
         model: 'cftopic'
       }
     },
     options: {
-     termFields: {
+      titleField: 'title',
+      termFields: {
         tags: {
           vocabularyName: null,
           canCreate: true,
@@ -111,8 +132,17 @@ module.exports = function Model(we) {
 
                 done();
               }).catch(done)
+            },
+            function (done) {
+              we.db.models.cfmenu.create({
+                conferenceId: self.id,
+                name: 'social',
+                class: 'list-inline join-us'
+              }).then(function (m) {
+                self.setSocialMenu(m);
+                done();
+              }).catch(done)
             }
-
           ], cb);
         },
 

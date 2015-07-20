@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-lg-12">
+    {{we-action-create-btn model req conference.id}}
+  </div>
+</div>
+
+{{#each record}}
+<article class="teaser">
+  {{#each logo}}{{{we-image this 'thumbnail' class="article-featured-image thumbnail"}}}{{/each}}
+
+  <h3 class="teaser-title">{{#link-to 'cfpartner.findOne' conferenceId id}}{{name}}{{/link-to}}</h3>
+
+  {{{about}}}
+
+  <div class="clearfix"></div>
+  <footer class="article-actions">
+    {{we-action-edit-btn ../model this ../req conferenceId id }}
+    {{we-action-delete-btn ../model this ../req conferenceId id }}
+  </footer>
+</article>
+{{else}}
+  <p> {{t 'conference.cfpartner.empty'}}</p>
+{{/each}}

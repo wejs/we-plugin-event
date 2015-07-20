@@ -13,7 +13,7 @@ module.exports = {
       return res.ok();
     });
   },
-  createPage: function createPage(req, res) {
+  create: function create(req, res) {
     var we = req.getWe();
 
     if (!res.locals.record) res.locals.record = {};
@@ -24,7 +24,8 @@ module.exports = {
 
     if (req.method === 'POST') {
 
-      req.body.creatorId = req.user.id;
+      if(req.isAuthenticated()) req.body.creatorId = req.user.id;
+
       req.body.conferenceId = req.params.conferenceId;
 
       _.merge(res.locals.record, req.body);
@@ -46,9 +47,8 @@ module.exports = {
       res.ok();
     }
   },
-  editPage: function editPage(req, res) {
+  edit: function edit(req, res) {
     var we = req.getWe();
-
     if (!res.locals.record) return res.notFound();
 
     if (req.method == 'POST' || req.method == 'PUT') {
@@ -67,6 +67,33 @@ module.exports = {
       }).catch(res.queryError);
     } else {
       res.ok();
+    }
+  },
+  delete: function deletePage(req, res) {
+    var we = req.getWe();
+
+    if (!res.locals.template)
+      res.locals.template = res.local.model + '/' + 'delete';
+
+    var record = res.locals.record;
+    if (!record) return res.notFound();
+
+    res.locals.deleteMsg = res.locals.model+'.delete.confirm.msg';
+
+    res.locals.deleteRedirectUrl = we.router.urlTo(
+      'cftopic.managePage', [res.locals.record.conferenceId, res.locals.record.id],
+      we
+    );
+
+    if (req.method === 'POST') {
+
+      record.destroy()
+      .then(function() {
+        res.locals.deleted = true;
+        return res.deleted();
+      }).catch(res.queryError);
+    } else {
+      return res.ok();
     }
   },
   managePage: function managePage(req, res) {

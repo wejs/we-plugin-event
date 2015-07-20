@@ -21,7 +21,7 @@ module.exports = {
 
     if (req.method === 'POST') {
 
-      req.body.creatorId = req.user.id;
+      if(req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.conferenceId = res.locals.conference.id;
       // set temp record for use in validation errors
 

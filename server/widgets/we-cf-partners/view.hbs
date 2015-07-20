@@ -1,0 +1,17 @@
+{{#widget-wrapper widget}}
+<div class="row">
+  <div class="col-lg-12">
+    <ul class="list-inline">
+      {{#each widget.partners}}
+        <li>
+        {{#if link}}
+          <a target="_blank" href="{{link}}">{{#each logo}}{{we-image this 'original'}}{{/each}}</a>
+        {{else}}
+          {{#each logo}}{{we-image this 'original'}}{{/each}}
+        {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+{{/widget-wrapper}}

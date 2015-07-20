@@ -4,19 +4,6 @@
     <input name="title" value="{{title}}" type="text" class="form-control" id="widget-form-{{type}}-title" placeholder="{{t 'widget.title'}}">
   </div>
 
-  <div class="form-group">
-    <label for="widget-form-{{type}}-menu">{{t 'menus'}}</label>
-    <select name="menu" id="widget-form-{{type}}-menu" class="form-control">
-      {{#each menu}}
-        {{#ifCond ../configuration.menu @key}}
-          <option value="{{@key}}" selected="selected">{{@key}}</option>
-        {{else}}
-          <option value="{{@key}}">{{@key}}</option>
-        {{/ifCond}}
-      {{/each}}
-    </select>
-  </div>
-
   {{{controllFields}}}
 
   {{#if id}}

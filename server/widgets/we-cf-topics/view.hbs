@@ -1,0 +1,16 @@
+{{#widget-wrapper widget}}
+<div class="row text-center">
+  {{#each conference.topics}}
+    <div class="col-md-4 wow bounceIn" data-wow-delay=".4s">
+      <div class="icon-wrap">
+        {{#each image}}
+          <img src="{{urls.original}}">
+        {{/each}}
+      </div>
+      <h3>{{title}}</h3>
+      <hr>
+      <p>{{{about}}}</p>
+    </div>
+  {{/each}}
+</div>
+{{/widget-wrapper}}

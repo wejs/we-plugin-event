@@ -8,28 +8,36 @@
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: { type: we.db.Sequelize.BIGINT, allowNull: false },
-      roomId: { type: we.db.Sequelize.TEXT },
-
-      logo: { type: we.db.Sequelize.BIGINT },
+      conferenceId: {
+        type: we.db.Sequelize.BIGINT, allowNull: false, formFieldType: null
+      },
 
       title: { type:  we.db.Sequelize.STRING(1200) },
-      about: { type: we.db.Sequelize.TEXT },
+      about: { type: we.db.Sequelize.TEXT, formFieldType: 'html', formFieldHeight: 200 },
 
       startDate: { type: we.db.Sequelize.DATE },
       endDate: { type: we.db.Sequelize.DATE },
 
-      // confirmed || canceled
-      status: {
-        type: we.db.Sequelize.STRING,
-        defaultValue: 'confirmed'
+      roomIdSelector: { type: we.db.Sequelize.VIRTUAL, formFieldType: 'cfroom-selector' },
+
+      requireRegistration: {
+        type: we.db.Sequelize.BOOLEAN, defaultValue: false,
+        formFieldType: 'boolean'
       }
     },
-    associations: {},
+    associations: {
+      room: { type: 'belongsTo', model: 'cfroom' },
+      user: { type: 'belongsTo', model: 'user' }
+    },
     options: {
+      titleField: 'title',
       classMethods: {},
       instanceMethods: {},
-      hooks: {}
+      hooks: {},
+      imageFields: {
+        picture: { formFieldMultiple: false }
+      },
+
     }
   }
 

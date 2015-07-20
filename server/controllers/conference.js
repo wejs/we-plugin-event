@@ -2,7 +2,6 @@ var _ = require('lodash');
 var async = require('async');
 
 module.exports = {
-
   adminIndex: function adminIndex(req, res) {
     res.ok();
   },
@@ -85,7 +84,7 @@ module.exports = {
     var we = req.getWe();
 
     res.locals.layout = false;
-    req.body.creatorId = req.user.id;
+    if (req.isAuthenticated()) req.body.creatorId = req.user.id;
 
     var type = req.body.type;
     we.view.widgets[type].afterSave(req, res, function() {

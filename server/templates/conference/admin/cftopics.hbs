@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 actions">
-    <a class="btn btn-default" href="/conference/{{conference.id}}/admin/topic/create">{{t 'Create'}}</a>
+    {{#link-to 'cftopic.create' conference.id class="btn btn-default" }}{{t 'Create'}}{{/link-to}}
   </div>
 </div>
 
@@ -16,8 +16,8 @@
         <td>{{id}}</td>
         <td>{{title}}</td>
         <td>
-          <a href="/conference/{{conferenceId}}/admin/topic/{{id}}" class="btn btn-primary btn-sm">{{t 'Edit'}}</a>
-          <a href="/conference/{{conferenceId}}/admin/topic/{{id}}/delete" class="btn btn-default btn-sm">{{t 'Delete'}}</a>
+          {{#link-to 'cftopic.edit' conferenceId id class="btn btn-primary btn-sm"}}{{t 'Edit'}}{{/link-to}}
+          {{#link-to 'cftopic.delete' conferenceId id class="btn btn-default btn-sm"}}{{t 'Delete'}}{{/link-to}}
         </td>
       </tr>
     {{else}}

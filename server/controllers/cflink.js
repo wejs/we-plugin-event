@@ -5,13 +5,13 @@ var linkSortAttrs = ['weight', 'id', 'depth', 'parent'];
 
 module.exports = {
 
-  createPage: function createPage(req, res) {
+  create: function create(req, res) {
     if (!res.locals.record) res.locals.record = {};
 
      _.merge(res.locals.record, req.query);
 
     if (req.method === 'POST') {
-      req.body.creatorId = req.user.id;
+      if(req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.conferenceId = res.locals.conference.id;
       req.body.cfmenuId = req.params.cfmenuId;
       // set temp record for use in validation errors
@@ -32,12 +32,12 @@ module.exports = {
       res.ok();
     }
   },
-  editPage: function editPage(req, res) {
+  edit: function edit(req, res) {
     if (!res.locals.record) return res.notFound();
 
     if (req.method === 'POST') {
       // dont change conference id for registration type
-      req.body.creatorId = req.user.id;
+      if (req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.conferenceId = res.locals.conference.id;
       req.body.cfmenuId = req.params.cfmenuId;
 

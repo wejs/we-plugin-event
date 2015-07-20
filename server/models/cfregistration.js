@@ -24,23 +24,6 @@ module.exports = function Model(we) {
         formFieldType: 'cf-type-selector'
       },
 
-      certificationName: {
-        type: we.db.Sequelize.STRING,
-        allowNull: false,
-        validation: {
-          isNull: false
-        }
-      },
-
-      userEmail: {
-        type: we.db.Sequelize.STRING,
-        formFieldType: 'email',
-        allowNull: false,
-        validation: {
-          isEmail: true
-        }
-      },
-
       specialRequirements: {
         type: we.db.Sequelize.TEXT,
         allowNull: true
