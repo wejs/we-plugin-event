@@ -1,9 +1,9 @@
 module.exports = function(projectPath, Widget) {
-  var widget = new Widget('we-cf-location-map', __dirname);
+  var widget = new Widget('we-cf-topics', __dirname);
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
-    var we = req.getWe();
-    widget.API_KEY = we.config.apiKeys.googleMaps;
+    if (!res.locals.conference) return next();
+    widget.topics = res.locals.conference.topics;
     next();
   }
 
