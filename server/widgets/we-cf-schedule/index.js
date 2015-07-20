@@ -36,7 +36,7 @@ module.exports = function(projectPath, Widget) {
           };
 
           if (!activeSet && day != nodayString) {
-            res.locals.days[day].active = true;
+            widget.days[day].active = true;
             activeSet = true;
           }
         }

@@ -97,6 +97,24 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'find_conference'
     },
+
+    'get /conference/:conferenceId([0-9]+)/un-register': {
+      titleHandler  : 'i18n',
+      titleI18n: 'cfregistration.unRegister',
+      controller    : 'cfregistration',
+      action        : 'unRegister',
+      model         : 'cfregistration',
+      permission    : 'find_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/un-register': {
+      titleHandler  : 'i18n',
+      titleI18n: 'conference.register',
+      controller    : 'cfregistration',
+      action        : 'unRegister',
+      model         : 'cfregistration',
+      permission    : 'find_conference'
+    },
+
     // -- conference admin
     'get /conference/:conferenceId([0-9]+)/admin': {
       name          : 'conference_admin',
