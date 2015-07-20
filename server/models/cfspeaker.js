@@ -1,8 +1,8 @@
 /**
- * Conference keynotes
+ * Conference speakers
  *
  * @module      :: Model
- * @description :: System conference keynote model
+ * @description :: System conference speakers model
  */
 module.exports = function Model(we) {
   var model = {
@@ -18,7 +18,8 @@ module.exports = function Model(we) {
         allowNull: false
       },
       about: { type: we.db.Sequelize.TEXT },
-      weight: { type: we.db.Sequelize.INTEGER }
+      weight: { type: we.db.Sequelize.INTEGER },
+      highlighted: { type: we.db.Sequelize.BOOLEAN, defaultsTo: false }
     },
     options: {
       imageFields: {

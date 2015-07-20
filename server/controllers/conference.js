@@ -2,33 +2,6 @@ var _ = require('lodash');
 var async = require('async');
 
 module.exports = {
-  findOne: function findOne(req, res, next) {
-    var we = req.getWe();
-
-    if (!res.locals.record) return next();
-
-    async.parallel([
-      function (done) {
-        we.db.models.cfkeynote.findAll({
-          where: { conferenceId: res.locals.record.id },
-          order: [ ['weight','ASC'], ['createdAt','ASC'] ]
-        }).then(function(cfkeynotes) {
-          res.locals.cfkeynotes = cfkeynotes;
-          done();
-        }).catch(done);
-      }
-    ], function(err) {
-      if (err) return res.serverError(err);
-
-      we.hooks.trigger('we:after:send:ok:response', {
-        res: res, req: req
-      }, function (err) {
-        if (err) return res.serverError(err);
-        return res.ok();
-      });
-    })
-  },
-
   adminIndex: function adminIndex(req, res) {
     res.ok();
   },

@@ -13,6 +13,4 @@ module.exports = {
       return res.ok();
     });
   }
-
-
 };

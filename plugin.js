@@ -37,10 +37,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   plugin.setResource({
     name: 'conference',
+    findOneLayout: 'conferenceHome',
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfkeynote',
+  plugin.setResource({ parent: 'conference', name: 'cfspeaker',
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
   });
@@ -72,42 +73,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
   });
+  plugin.setResource({ parent: 'conference', name: 'cfpartner',
+    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  });
 
   // ser plugin routes
   plugin.setRoutes({
-    // 'get /conference/create': {
-    //   controller    : 'conference',
-    //   action        : 'create',
-    //   model         : 'conference',
-    //   permission    : 'create_conference'
-    // },
-    // 'post /conference/create': {
-    //   controller    : 'conference',
-    //   action        : 'create',
-    //   model         : 'conference',
-    //   permission    : 'create_conference'
-    // },
-    // // conference CRUD
-    // 'get /conference/:conferenceId([0-9]+)': {
-    //   name          : 'conference_findOne',
-    //   controller    : 'conference',
-    //   action        : 'findOne',
-    //   model         : 'conference',
-    //   permission    : 'find_conference'
-    // },
-    // 'get /conference': {
-    //   controller    : 'conference',
-    //   action        : 'find',
-    //   model         : 'conference',
-    //   permission    : 'find_conference'
-    // },
-    // 'delete /conference/:id([0-9]+)': {
-    //   controller    : 'conference',
-    //   action        : 'destroy',
-    //   model         : 'conference',
-    //   permission    : 'delete_conference'
-    // },
-
     'get /conference/:conferenceId([0-9]+)/register': {
       name          : 'conference_register',
       titleHandler  : 'i18n',
@@ -117,7 +89,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'find_conference'
     },
-
     'post /conference/:conferenceId([0-9]+)/register': {
       titleHandler  : 'i18n',
       titleI18n: 'conference.register',
@@ -126,47 +97,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'find_conference'
     },
-
-    // 'delete /conference/:conferenceId([0-9]+)/leave': {
-    //   controller    : 'conference',
-    //   action        : 'leave',
-    //   model         : 'conference',
-    //   permission    : 'register_conference'
-    // },
-
-
-    // CONFERENCE ROOM ROUTES
-    // 'get /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-    //   controller    : 'cfroom',
-    //   action        : 'findOne',
-    //   model         : 'cfroom',
-    //   permission    : 'find_cfroom'
-    // },
-    // 'get /conference/:conferenceId([0-9]+)/room': {
-    //   controller    : 'cfroom',
-    //   action        : 'find',
-    //   model         : 'cfroom',
-    //   permission    : 'find_cfroom'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/room': {
-    //   controller    : 'cfroom',
-    //   action        : 'create',
-    //   model         : 'cfroom',
-    //   permission    : 'create_cfroom'
-    // },
-    // 'put /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-    //   controller    : 'cfroom',
-    //   action        : 'update',
-    //   model         : 'cfroom',
-    //   permission    : 'update_cfroom'
-    // },
-    // 'delete /conference/:conferenceId([0-9]+)/room/:id([0-9]+)': {
-    //   controller    : 'cfroom',
-    //   action        : 'destroy',
-    //   model         : 'cfroom',
-    //   permission    : 'delete_cfroom'
-    // },
-
     // -- conference admin
     'get /conference/:conferenceId([0-9]+)/admin': {
       name          : 'conference_admin',
@@ -178,23 +108,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/index',
       responseType  : 'html'
     },
-
-    // 'get /conference/:conferenceId([0-9]+)/admin/edit': {
-    //   name          : 'conference_admin_edit',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'conference',
-    //   action        : 'edit',
-    //   model         : 'conference',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/edit': {
-    //   name          : 'conference_admin_edit',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'conference',
-    //   action        : 'edit',
-    //   model         : 'conference',
-    //   permission    : 'manage_conference'
-    // },
     'get /conference/:conferenceId([0-9]+)/admin/layout': {
       name          : 'conference_admin_layouts',
       layoutName    : 'conferenceAdmin',
@@ -231,7 +144,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       responseType  : 'json'
     },
-
     // -- Pages
     'get /conference/:conferenceId([0-9]+)/admin/page': {
       layoutName    : 'conferenceAdmin',
@@ -242,41 +154,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'conference/admin/cfpages',
     },
-    // - create
-    // 'get /conference/:conferenceId([0-9]+)/admin/page/create': {
-    //   layoutName    : 'conferenceAdmin',
-    //   name          : 'conference_findOne.page_create',
-    //   controller    : 'cfpage',
-    //   action        : 'create',
-    //   model         : 'cfpage',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/page/create': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cfpage',
-    //   action        : 'create',
-    //   model         : 'cfpage',
-    //   permission    : 'manage_conference'
-    // },
-    // - edit
-    // 'get /conference/:conferenceId([0-9]+)/admin/page/:cfpageId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   name          : 'conference_findOne.page_edit',
-    //   controller    : 'cfpage',
-    //   action        : 'edit',
-    //   model         : 'cfpage',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfpage/edit'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/page/:cfpageId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cfpage',
-    //   action        : 'edit',
-    //   model         : 'cfpage',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfpage/edit'
-    // },
-
     // -- registratios list
     'get /conference/:conferenceId([0-9]+)/admin/registration': {
       layoutName    : 'conferenceAdmin',
@@ -285,24 +162,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'manage_conference',
     },
-
-    // - register user in admin
-    // 'get /conference/:conferenceId([0-9]+)/admin/registration/create': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cfregistration',
-    //   action        : 'adminRegisterUser',
-    //   model         : 'cfregistration',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfregistration/admin-register-user'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/registration/create': {
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cfregistration',
-    //   action        : 'adminRegisterUser',
-    //   model         : 'cfregistration',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfregistration/admin-register-user'
-    // },
     // edit user conference registration
     'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
       layoutName    : 'conferenceAdmin',
@@ -366,25 +225,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'cfregistrationtype/form'
     },
-    // public page routes
-    // 'get /conference/:conferenceId([0-9]+)/page': {
-    //   name          : 'conference_findOne.page_find',
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cfpage.find',
-    //   controller    : 'cfpage',
-    //   action        : 'find',
-    //   model         : 'cfpage',
-    //   permission    : 'find_conference'
-    // },
-    // 'get /conference/:conferenceId([0-9]+)/page/:cfpageId([0-9]+)': {
-    //   name          : 'conference_findOne.page_findOne',
-    //   titleField    : 'title',
-    //   controller    : 'cfpage',
-    //   action        : 'findOne',
-    //   model         : 'cfpage',
-    //   permission    : 'find_conference'
-    // },
-
    // -- News
     'get /conference/:conferenceId([0-9]+)/admin/news': {
       layoutName    : 'conferenceAdmin',
@@ -397,59 +237,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'conference/admin/cfnews',
     },
-    // - create
-    // 'get /conference/:conferenceId([0-9]+)/admin/news/create': {
-    //   layoutName    : 'conferenceAdmin',
-    //   name          : 'conference_findOne.news_createNews',
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cfnews.create',
-    //   controller    : 'cfnews',
-    //   action        : 'create',
-    //   model         : 'cfnews',
-    //   permission    : 'manage_conference'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/news/create': {
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cfnews.create',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'cfnews',
-    //   action        : 'create',
-    //   model         : 'cfnews',
-    //   permission    : 'manage_conference'
-    // },
-    // - edit
-    // 'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   name          : 'conference_findOne.news_editNews',
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'cfnews.edit',
-    //   controller    : 'cfnews',
-    //   action        : 'edit',
-    //   model         : 'cfnews',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfnews/edit'
-    // },
-    // 'post /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)': {
-    //   layoutName    : 'conferenceAdmin',
-    //   titleHandler  : 'i18n',
-    //   titleI18n     : 'conference_findOne.news_editNews',
-    //   controller    : 'cfnews',
-    //   action        : 'edit',
-    //   model         : 'cfnews',
-    //   permission    : 'manage_conference',
-    //   template      : 'cfnews/edit'
-    // },
-
-    // 'get /conference/:conferenceId([0-9]+)/admin/news/:cfnewsId([0-9]+)/delete': {
-    //   name          : 'conference_findOne.news_destroy',
-    //   layoutName    : 'conferenceAdmin',
-    //   titleField    : 'title',
-    //   controller    : 'cfnews',
-    //   action        : 'destroy',
-    //   model         : 'cfnews',
-    //   permission    : 'manage_conference'
-    // },
-
     // -- Menu
 
     'get /conference/:conferenceId([0-9]+)/admin/menu': {
@@ -538,16 +325,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       responseType  : 'html'
     },
-
-    // 'get /conference/:conferenceId([0-9]+)/admin/menu/resetAll': {
-    //   name          : 'conference_admin_reset',
-    //   layoutName    : 'conferenceAdmin',
-    //   controller    : 'conference',
-    //   action        : 'resetConferenceMenu',
-    //   model         : 'conference',
-    //   permission    : 'manage_conference',
-    //   responseType  : 'json'
-    // },
     // - create
     'get /conference/:conferenceId([0-9]+)/admin/menu/create': {
       layoutName    : 'conferenceAdmin',
@@ -572,54 +349,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfroom',
       permission    : 'find_conference'
     },
-    // - create
-    'get /conference/:conferenceId([0-9]+)/admin/room/create': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'create',
-      model         : 'cfroom',
-      permission    : 'manage_conference'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/room/create': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'create',
-      model         : 'cfroom',
-      permission    : 'manage_conference'
-    },
-    // - edit
-    'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'edit',
-      model         : 'cfroom',
-      permission    : 'manage_conference',
-      template      : 'cfroom/edit'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'edit',
-      model         : 'cfroom',
-      permission    : 'manage_conference',
-      template      : 'cfroom/edit'
-    },
-    // - delete
-    'get /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'destroy',
-      model         : 'cfroom',
-      permission    : 'manage_conference'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/room/:cfroomId([0-9]+)/delete': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfroom',
-      action        : 'destroy',
-      model         : 'cfroom',
-      permission    : 'manage_conference'
-    },
-
     // - cftopics
     'get /conference/:conferenceId([0-9]+)/admin/topic': {
       layoutName    : 'conferenceAdmin',
@@ -679,6 +408,18 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               ]
             }).then(function(links){
               cf.secondaryMenu.links = links;
+              cb();
+            }).catch(cb);
+          },
+          function loadSocialMenu(cb) {
+            if (!cf.socialMenu) return cb();
+            cf.socialMenu.getLinks({
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
+            }).then(function (links){
+              cf.socialMenu.links = links;
               cb();
             }).catch(cb);
           },

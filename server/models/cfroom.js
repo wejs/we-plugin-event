@@ -13,8 +13,9 @@ module.exports = function Model(we) {
         allowNull: false,
         formFieldType: null
       },
-      name: { type: we.db.Sequelize.STRING },
-      about: { type: we.db.Sequelize.TEXT }
+      name: { type: we.db.Sequelize.STRING,allowNull: false },
+      about: { type: we.db.Sequelize.TEXT },
+      vacancy: { type: we.db.Sequelize.INTEGER }
     },
 
     options: {

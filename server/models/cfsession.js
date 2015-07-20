@@ -12,28 +12,31 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.BIGINT, allowNull: false, formFieldType: null
       },
 
-      roomId: { type: we.db.Sequelize.BIGINT, formFieldType: 'cfroom' },
-
       title: { type:  we.db.Sequelize.STRING(1200) },
-      about: { type: we.db.Sequelize.TEXT, formFieldType: 'html' },
+      about: { type: we.db.Sequelize.TEXT, formFieldType: 'html', formFieldHeight: 200 },
 
       startDate: { type: we.db.Sequelize.DATE },
       endDate: { type: we.db.Sequelize.DATE },
 
-      // confirmed || canceled
-      status: {
-        type: we.db.Sequelize.STRING,
-        defaultValue: 'confirmed'
+      roomIdSelector: { type: we.db.Sequelize.VIRTUAL, formFieldType: 'cfroom-selector' },
+
+      requireRegistration: {
+        type: we.db.Sequelize.BOOLEAN, defaultValue: false
       }
     },
     associations: {
+      room: { type: 'belongsTo', model: 'cfroom' },
       user: { type: 'belongsTo', model: 'user' }
     },
     options: {
       titleField: 'title',
       classMethods: {},
       instanceMethods: {},
-      hooks: {}
+      hooks: {},
+      imageFields: {
+        picture: { formFieldMultiple: false }
+      },
+
     }
   }
 
