@@ -1,2 +1,17 @@
-<h4>{{{record.about}}}</h4>
-<p>{{{record.body}}}</p>
+<article class="full">
+  <header>
+    <div class="article-meta">
+      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time>
+      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+    </div>
+  </header>
+
+  <div class="article-content">{{{record.body}}}</div>
+
+  <footer>
+    <div class="actions">
+      {{we-action-edit-btn model record req record.conferenceId record.id }}
+      {{we-action-delete-btn model record req record.conferenceId record.id }}
+    </div>
+  </footer>
+</article>

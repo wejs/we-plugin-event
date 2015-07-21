@@ -61,14 +61,14 @@ describe('cfnewsFeature', function() {
   });
 
   describe('cfnewsCRUD', function() {
-    it ('post /conference/:conferenceId/admin/cfnews/create should create one cfnews', function (done) {
+    it ('post /conference/:conferenceId/cfnews/create should create one cfnews', function (done) {
       var cf = {
         title: 'one test title',
         text: 'one test text',
         featuredImage: [ 'null', salvedImage.id ]
       }
       authenticatedRequest
-      .post('/conference/'+salvedConference.id+'/admin/news/create')
+      .post('/conference/'+salvedConference.id+'/cfnews/create')
       .send(cf)
       .set('Accept', 'application/json')
       .expect(201)

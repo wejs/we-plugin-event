@@ -164,6 +164,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
     // -- Pages
     'get /conference/:conferenceId([0-9]+)/admin/page': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cfpage.managePage',
       layoutName    : 'conferenceAdmin',
       name          : 'conference_findOne.page_manage',
       controller    : 'cfpage',
@@ -287,6 +289,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
     // add link
     'get /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/add-link': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cflink.create',
       layoutName    : 'conferenceAdmin',
       controller    : 'cflink',
       action        : 'create',
@@ -295,6 +299,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       responseType  : 'html'
     },
     'post /conference/:conferenceId([0-9]+)/admin/menu/:cfmenuId([0-9]+)/add-link': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cflink.create',
       layoutName    : 'conferenceAdmin',
       controller    : 'cflink',
       action        : 'create',
@@ -345,6 +351,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
     // - create
     'get /conference/:conferenceId([0-9]+)/admin/menu/create': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cfmenu.create',
       layoutName    : 'conferenceAdmin',
       controller    : 'cfmenu',
       action        : 'create',
@@ -352,6 +360,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference'
     },
     'post /conference/:conferenceId([0-9]+)/admin/menu/create': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cfmenu.create',
       layoutName    : 'conferenceAdmin',
       controller    : 'cfmenu',
       action        : 'create',
@@ -361,6 +371,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
     // -- Rooms
     'get /conference/:conferenceId([0-9]+)/admin/room': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'cfroom.managePage',
       layoutName    : 'conferenceAdmin',
       controller    : 'cfroom',
       action        : 'find',

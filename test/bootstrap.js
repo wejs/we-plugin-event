@@ -18,12 +18,6 @@ before(function(callback) {
       i18n: {
         directory: path.join(__dirname, 'locales'),
         updateFiles: true
-      },
-      doc: {
-        projects: [{
-          name: 'we',
-          gitRemote: 'https://github.com/wejs/we.git'
-        }]
       }
     } , function(err, we) {
       if (err) throw err;
@@ -49,8 +43,7 @@ after(function (callback) {
     projectPath + '/files/public/admin.tpls.hbs.js',
     projectPath + '/files/public/project.css',
     projectPath + '/files/public/project.js',
-    projectPath + '/config/local.js',
-    // projectPath + '/files/wejsdoc'
+    projectPath + '/config/local.js'
   ];
 
   async.each(tempFolders, function(folder, next){

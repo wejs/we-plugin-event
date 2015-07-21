@@ -148,10 +148,11 @@ describe('conferenceFeature', function() {
     //     });
     //   });
     // });
-    it ('delete /conference/:id should delete one conference', function (done) {
+    it ('post /conference/:id/delete should delete one conference', function (done) {
       var cf = stubs.conferenceStub();
       we.db.models.conference.create(cf).then(function (scf) {
-        authenticatedRequest.delete('/conference/'+ scf.id)
+
+        authenticatedRequest.post('/conference/'+ scf.id+'/delete')
         .set('Accept', 'application/json')
         .expect(204)
         .end(function (err, res) {
@@ -177,9 +178,9 @@ describe('conferenceFeature', function() {
       });
     });
 
-    it ('post /conference/:conferenceId/page/create should create one page inside the conference and return JSON', function (done) {
+    it ('post /conference/:conferenceId/cfpage/create should create one page inside the conference and return JSON', function (done) {
       var pageStub = stubs.pageStub();
-      authenticatedRequest.post('/conference/'+SC.id+'/admin/page/create')
+      authenticatedRequest.post('/conference/'+SC.id+'/cfpage/create')
       .send(pageStub)
       .set('Accept', 'application/json')
       .expect(201)
@@ -189,22 +190,6 @@ describe('conferenceFeature', function() {
         assert(res.body.cfpage[0]);
         assert(res.body.cfpage[0].id);
         assert.equal(res.body.cfpage[0].title, pageStub.title);
-        done();
-      });
-    });
-
-    it ('post /conference/:conferenceId/page/create should create one page inside the conference and redirect', function (done) {
-      var pageStub = stubs.pageStub();
-      authenticatedRequest.post('/conference/'+SC.id+'/admin/page/create')
-      .send(pageStub)
-      .expect(302)
-      .end(function (err, res) {
-        console.log(res.text)
-        if (err) throw err;
-
-        assert(res.text.indexOf(
-          'Moved Temporarily. Redirecting to /conference/'+SC.id+'/page/') >-1
-        );
         done();
       });
     });

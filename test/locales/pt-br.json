@@ -57,5 +57,17 @@
 	"form-helper-conference-logo": "form-helper-conference-logo",
 	"form-helper-conference-banner": "form-helper-conference-banner",
 	"cfpage.createPage": "cfpage.createPage",
-	"ER_WRONG_VALUE_COUNT_ON_ROW: Column count doesn't match value count at row 1": "ER_WRONG_VALUE_COUNT_ON_ROW: Column count doesn't match value count at row 1"
+	"ER_WRONG_VALUE_COUNT_ON_ROW: Column count doesn't match value count at row 1": "ER_WRONG_VALUE_COUNT_ON_ROW: Column count doesn't match value count at row 1",
+	"cfpage.create": "cfpage.create",
+	"conference.create": "conference.create",
+	"form-conference-registrationEmail": "form-conference-registrationEmail",
+	"form-helper-conference-registrationEmail": "form-helper-conference-registrationEmail",
+	"form-conference-registrationWaitingAccept": "form-conference-registrationWaitingAccept",
+	"form-helper-conference-registrationWaitingAccept": "form-helper-conference-registrationWaitingAccept",
+	"form-conference-registeredText": "form-conference-registeredText",
+	"form-helper-conference-registeredText": "form-helper-conference-registeredText",
+	"form-conference-favicon": "form-conference-favicon",
+	"form-helper-conference-favicon": "form-helper-conference-favicon",
+	"conference.find": "conference.find",
+	"cfnews.create": "cfnews.create"
 }

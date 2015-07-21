@@ -1,7 +1,5 @@
 <div class="row">
-  <div class="col-lg-12 actions">
-  {{#link-to 'cfpage.create' conference.id class="btn btn-default"}}{{t 'Create'}}{{/link-to}}
-  </div>
+  <div class="col-lg-12 actions">{{we-action-create-btn model req conference.id}}</div>
   <div class="col-lg-12">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -25,8 +23,9 @@
               <td>{{we-date createdAt}}</td>
               <td>{{we-date updatedAt}}</td>
               <td>
-               {{#link-to 'cfpage.edit' conferenceId id class='btn btn-primary btn-sm'}}{{t 'Edit'}}{{/link-to}}
-                {{#link-to 'cfpage.delete' conferenceId id class='btn btn-default btn-sm'}}{{t 'Delete'}}{{/link-to}}
+                {{we-action-view-btn 'cfpage' this ../req conferenceId id }}
+                {{we-action-edit-btn 'cfpage' this ../req conferenceId id }}
+                {{we-action-delete-btn 'cfpage' this ../req conferenceId id }}
               </td>
             </tr>
           {{/each}}
