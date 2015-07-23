@@ -1,0 +1,25 @@
+<article class="full">
+  <header>
+    <div class="article-meta">
+      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time>
+      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+    </div>
+  </header>
+
+  <div class="full-video-area">
+    <iframe width="560" height="315" src="{{record.embedUrl}}" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <div class="article-content">{{{record.description}}}</div>
+
+  <footer>
+    <div class="row"><div class="col col-md-12">{{{we-terms record.tags}}}</div></div>
+
+    <div class="row actions">
+      <div class="col col-md-12">
+        {{we-action-edit-btn model record req record.conferenceId record.id }}
+        {{we-action-delete-btn model record req record.conferenceId record.id }}
+      </div>
+    </div>
+  </footer>
+</article>

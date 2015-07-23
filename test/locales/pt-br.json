@@ -69,5 +69,18 @@
 	"form-conference-favicon": "form-conference-favicon",
 	"form-helper-conference-favicon": "form-helper-conference-favicon",
 	"conference.find": "conference.find",
-	"cfnews.create": "cfnews.create"
+	"cfnews.create": "cfnews.create",
+	"cfvideo.create": "cfvideo.create",
+	"embedUrl cannot be null": "embedUrl cannot be null",
+	"form-cfvideo-title": "form-cfvideo-title",
+	"form-placeholder-cfvideo-title": "form-placeholder-cfvideo-title",
+	"form-helper-cfvideo-title": "form-helper-cfvideo-title",
+	"form-cfvideo-description": "form-cfvideo-description",
+	"form-helper-cfvideo-description": "form-helper-cfvideo-description",
+	"form-cfvideo-url": "form-cfvideo-url",
+	"form-placeholder-cfvideo-url": "form-placeholder-cfvideo-url",
+	"form-helper-cfvideo-url": "form-helper-cfvideo-url",
+	"form-cfvideo-embedUrl": "form-cfvideo-embedUrl",
+	"form-placeholder-cfvideo-embedUrl": "form-placeholder-cfvideo-embedUrl",
+	"form-helper-cfvideo-embedUrl": "form-helper-cfvideo-embedUrl"
 }
