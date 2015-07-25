@@ -30,9 +30,29 @@ module.exports = {
         res.locals.template = 'cfregistration/registration-unAuthenticated';
         return res.ok();
       } else if (res.locals.userCfregistration) {
+        res.locals.title = req.__('conference.registered');
+
         res.locals.template =
           'cfregistration/' + res.locals.userCfregistration.status;
-        return res.ok();
+        // get sessions to user subscribe
+        return we.db.models.cfsession.findAll({
+          where: {
+            conferenceId: res.locals.conference.id,
+            requireRegistration: 1
+          },
+          include: [
+            { model: we.db.models.cftopic, as: 'topic' },
+            { model: we.db.models.cfroom, as: 'room' },
+            { model: we.db.models.cfregistration, as: 'subscribers' }
+          ]
+        }).then(function (cfsessions) {
+          res.locals.sessionsToRegister = cfsessions;
+
+          res.locals.userCfregistration.getSessions().then(function(s){
+            res.locals.userCfregistration.sessions = s;
+            return res.ok();
+          });
+        });
       }
 
       if (r.length === 1) r[0].checked = true;
@@ -43,7 +63,6 @@ module.exports = {
 
         var choiseRegistrationType;
         for (var j = 0; j < r.length; j++) {
-        console.log('>>', r[j].id, req.body.cfregistrationtypeId)
           if (r[j].id == req.body.cfregistrationtypeId) {
             choiseRegistrationType = r[j];
             break;
@@ -65,6 +84,8 @@ module.exports = {
           res.locals.userCfregistration = record;
           res.locals.template =
             'cfregistration/' + res.locals.userCfregistration.status;
+          // redirect after register
+          res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
           res.created();
           // TODO send confirm registration email
         }).catch(res.queryError);
@@ -97,7 +118,7 @@ module.exports = {
       if (res.locals.userCfregistration) {
         res.locals.userCfregistration.destroy().then(function(){
           res.redirect(we.router.urlTo(
-            'conference.findOne', [res.locals.conference], we
+            'conference.findOne', [res.locals.conference.id], we
           ));
         }).catch(res.queryError);
       } else {

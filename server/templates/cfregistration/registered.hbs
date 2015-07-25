@@ -1,7 +1,84 @@
 <div class="row">
   <div class="col-md-12">
-    {{#link-to 'cfregistration.unRegister' conference.id class="btn btn-default text-danger"}}{{t 'cfregistration.un-register'}}{{/link-to}}
+    <div class="jumbotron">
+      <h2>Número de inscrição: <strong>{{userCfregistration.id}}</strong></h2>
+      <br>
+      <p>{{#link-to 'cfregistration.unRegister' conference.id class="btn btn-default btn-sm text-danger"}}
+        <i class="glyphicon glyphicon-remove-sign text-danger"></i> {{t 'cfregistration.un-register'}}
+      {{/link-to}}</p>
+    </div>
   </div>
 </div>
 
-{{{t 'conference.registration.registered'}}}
+<div class="registration-message">
+  {{{conference.registeredText}}}
+</div>
+<br>
+{{#if userCfregistration.sessions}}
+  {{#each userCfregistration.sessions}}
+    <form method="post" action="/conference/{{../conference.id}}/unsubscribe-from-session"><div class="panel panel-default">
+      <div class="panel-heading"><h4>Você está inscrito na atividade:</h4></div>
+      <div class="panel-body">
+
+        <div id="cfsession-{{id}}">
+          <h4>{{title}}</h4>
+          <div class="cfsession-about">
+            {{#each picture}}{{we-image this 'medium' class="thumbnail cfsession-picture"}}{{/each}}
+            {{{about}}}
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <p><strong>Início:</strong> {{we-date startDate}}</p>
+        <p><strong>Fim:</strong> {{we-date endDate}}</p>
+
+        <div class="form-controll actions">
+          <button class="btn btn-default" onclick="return confirm('{{t 'cfsession.removeRegistration.confirm'}}');"><i class="glyphicon glyphicon-minus text-danger"></i> Cancelar inscrição</button>
+        </div>
+        <input type="hidden" name="cfsessionId" value="{{id}}" />
+        <input type="hidden" name="redirectTo" value="{{../req.url}}"/>
+      </div>
+    </div></form>
+  {{/each}}
+{{else}}
+  {{#if sessionsToRegister}}
+  <form method="post" action="/conference/{{conference.id}}/subscribe-in-session"><div class="panel panel-default">
+    <div class="panel-heading"><h4>Deseja se inscrever em alguma atividade?</h4></div>
+    <div class="panel-body">
+      <div class="select-session">
+        <div class="form-controll">
+            <div class="radio">
+              <label>
+                <input type="radio" name="cfsessionId" value="" checked>
+                Nenhuma atividade selecionada
+              </label>
+            </div>
+           {{#each sessionsToRegister}}
+            {{#if haveVacancy}}
+              <div class="radio"><label>
+                <input type="radio" name="cfsessionId" value="{{id}}">
+                {{title}} - {{t 'cfroom.vacancy.avaible'}}: {{subscribers.length}} / {{room.vacancy}}
+              </label></div>
+            {{else}}
+              <div class="radio">
+                <label class="text-muted">
+                  <input type="radio" value="{{id}}" disabled >
+                  {{title}} - <span class="text-danger">{{t 'cfroom.vacancy.avaible'}}: {{subscribers.length}} / {{room.vacancy}}</span>
+                </label>
+              </div>
+            {{/if}}
+
+          {{/each}}
+        </div>
+
+        <div class="form-controll">
+          <button class="btn btn-default"><i class="glyphicon glyphicon-ok text-success"></i> {{t 'Save'}}</button>
+        </div>
+      </div>
+
+      <input type="hidden" name="redirectTo" value="{{req.url}}"/>
+    </div>
+  </div></form>
+  {{/if}}
+{{/if}}

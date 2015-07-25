@@ -133,5 +133,14 @@ module.exports = {
       if (err) return res.serverError(err);
       res.send();
     })
+  },
+
+
+  /**
+   * Authenticated user area inside the conference
+   */
+  my: function my(req, res) {
+    if (!req.isAuthenticated()) return res.forbidden();
+    res.ok();
   }
 };

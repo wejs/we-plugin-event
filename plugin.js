@@ -32,6 +32,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         'title': 'Permission to manage one conference',
         'description': ''
       }
+    },
+    forms: {
+      'user-cfsession': __dirname + '/server/forms/user-cfsession.json',
     }
   });
 
@@ -69,10 +72,29 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfsession',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+
+  // sessions resource routes
+  plugin.setResource({ parent: 'conference',
+    name: 'cfsession',
+    namespace: '/admin',
+    findLayout: 'conferenceAdmin',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
+  plugin.setResource({ parent: 'conference', name: 'cfsession',
+    namespace: '/user/:userId([0-9]+)',
+    namePrefix: 'user.',
+    templateFolderPrefix: 'conference/user/'
+    // findLayout: 'conferenceUserArea',
+    // editLayout: 'conferenceUserArea',
+    // createLayout: 'conferenceUserArea',
+    // deleteLayout: 'conferenceUserArea'
+  });
+
   plugin.setResource({ parent: 'conference', name: 'cfpartner',
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
@@ -393,6 +415,22 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cftopic',
       permission    : 'manage_conference',
       template      : 'conference/admin/cftopics',
+    },
+
+    'post /conference/:conferenceId([0-9]+)/subscribe-in-session': {
+      controller    : 'cfsession',
+      action        : 'addRegistration',
+      model         : 'cfsession',
+      permission    : 'find_conference',
+      responseType  : 'html'
+    },
+
+    'post /conference/:conferenceId([0-9]+)/unsubscribe-from-session': {
+      controller    : 'cfsession',
+      action        : 'removeRegistration',
+      model         : 'cfsession',
+      permission    : 'find_conference',
+      responseType  : 'html'
     }
   });
 
@@ -424,10 +462,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadMainMenu(cb){
             if (!cf.mainMenu) return cb();
             cf.mainMenu.getLinks({
-              order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
-              ]
+              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
             }).then(function(links){
               cf.mainMenu.links = links;
               cb();
@@ -436,10 +471,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadSecondaryMenu(cb) {
             if (!cf.secondaryMenu) return cb();
             cf.secondaryMenu.getLinks({
-              order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
-              ]
+              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
             }).then(function(links){
               cf.secondaryMenu.links = links;
               cb();
@@ -448,10 +480,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadSocialMenu(cb) {
             if (!cf.socialMenu) return cb();
             cf.socialMenu.getLinks({
-              order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
-              ]
+              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
             }).then(function (links){
               cf.socialMenu.links = links;
               cb();

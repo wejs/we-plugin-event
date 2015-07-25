@@ -1,6 +1,10 @@
 <div class="text-center">
   <p>{{{t deleteMsg}}}</p>
   <form method="post">
+    {{#link-to 'conference_register' conference.id class="btn btn-default"}}
+      {{t 'Return'}}
+    {{/link-to}}
+
     <button class="btn btn-danger">{{t 'cfregistration.unRegister'}}</button>
     <input name="redirectTo" type="hidden" value="{{deleteRedirectUrl}}">
   </form>

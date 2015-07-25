@@ -36,7 +36,13 @@ module.exports = function Model(we) {
         formFieldType: null
       }
     },
-    associations: {},
+    associations: {
+      sessions: {
+        type: 'belongsToMany',
+        through: 'cfsessionSubscriber',
+        model: 'cfsession'
+      }
+    },
     options: {
       classMethods: {},
       instanceMethods: {},
