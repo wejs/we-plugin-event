@@ -6,7 +6,12 @@
     </div>
   </header>
 
-  <div class="article-content">{{{record.body}}}</div>
+  <div class="article-content">
+    {{#each record.featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
+    {{{record.text}}}
+
+    {{{record.body}}}
+  </div>
 
   <footer>
     <div class="actions">

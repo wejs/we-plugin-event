@@ -101,40 +101,41 @@ module.exports = {
     // register in one session
     we.db.models.cfsession.findById(req.body.cfsessionId).then(function (session){
       if (!session) return res.notFound();
-        session.addSubscribers(res.locals.userCfregistration)
-        .then(function() {
 
-          var options = {
-            email: req.user.email,
-            subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
-            from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-          };
+      session.addSubscribers(res.locals.userCfregistration)
+      .then(function() {
 
-          user = req.user.toJSON();
+        var options = {
+          email: req.user.email,
+          subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
+          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+        };
 
-          var templateVariables = {
-            user: user,
-            conference: res.locals.conference,
-            cfsession: session,
-            site: {
-              name: we.config.appName,
-              url: we.config.hostname
-            }
-          };
+        user = req.user.toJSON();
 
-          we.email.sendEmail('CFSessionRegisterSuccess', options, templateVariables, function(err , emailResp){
-            if (err) {
-              we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
-              return res.serverError();
-            }
+        var templateVariables = {
+          user: user,
+          conference: res.locals.conference,
+          cfsession: session,
+          site: {
+            name: we.config.appName,
+            url: we.config.hostname
+          }
+        };
 
-            req.flash('messages',[{
-              status: 'success',
-              type: 'updated',
-              message: req.__('cfsession.addRegistration.success')
-            }]);
-            res.redirect((res.locals.redirectTo || '/'));
-          });
+        we.email.sendEmail('CFSessionRegisterSuccess', options, templateVariables, function(err , emailResp){
+          if (err) {
+            we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
+            return res.serverError();
+          }
+
+          req.flash('messages',[{
+            status: 'success',
+            type: 'updated',
+            message: req.__('cfsession.addRegistration.success')
+          }]);
+          res.redirect((res.locals.redirectTo || '/'));
+        });
       }).catch(req.queryError);
     }).catch(req.queryError);
   },
