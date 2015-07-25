@@ -80,16 +80,41 @@ module.exports = {
 
         return we.db.models.cfregistration.create(req.body)
         .then(function (record) {
-          res.locals.record = record;
-          res.locals.userCfregistration = record;
-          res.locals.template =
-            'cfregistration/' + res.locals.userCfregistration.status;
-          // redirect after register
-          res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
-          res.created();
-          // TODO send confirm registration email
-        }).catch(res.queryError);
 
+          var options = {
+            email: req.user.email,
+            subject: req.__('conference.registration.success.email') + ' - ' + res.locals.conference.abbreviation,
+            from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          };
+
+          user = req.user.toJSON();
+
+          var templateVariables = {
+            user: user,
+            conference: res.locals.conference,
+            cfregistration: record,
+            site: {
+              name: we.config.appName,
+              url: we.config.hostname
+            }
+          };
+
+          we.email.sendEmail('CFRegistrationSuccess', options, templateVariables, function(err , emailResp){
+            if (err) {
+              we.log.error('Error on send email CFRegistrationSuccess', err, emailResp);
+              return res.serverError();
+            }
+
+            res.locals.record = record;
+            res.locals.userCfregistration = record;
+            res.locals.template =
+              'cfregistration/' + res.locals.userCfregistration.status;
+            // redirect after register
+            res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
+            res.created();
+
+          });
+        }).catch(res.queryError);
       } else {
         // send the form
         if (!req.body) req.body = {};

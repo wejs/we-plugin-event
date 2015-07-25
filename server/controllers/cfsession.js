@@ -128,8 +128,6 @@ module.exports = {
               return res.serverError();
             }
 
-            we.log.info('AuthResetPasswordEmail: Email resp:', emailResp);
-
             req.flash('messages',[{
               status: 'success',
               type: 'updated',
