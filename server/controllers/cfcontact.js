@@ -38,13 +38,16 @@ module.exports = {
         we.email.sendEmail('ContactConfirmation', options, templateVariables, function (err) {
           if (err) {
             we.log.error('Action:ContactConfirmation sendEmail:', err);
-            return res.serverError();
           }
-
         });
 
-        res.status(200);
-        res.ok();
+        req.flash('messages',[{
+          status: 'success',
+          type: 'updated',
+          message: req.__('cfcontact.ContactConfirmation.success')
+        }]);
+
+        res.redirect((res.locals.redirectTo || '/'));
 
       }).catch(res.queryError);
     } else {
