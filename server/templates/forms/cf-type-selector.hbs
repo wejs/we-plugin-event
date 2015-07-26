@@ -1,3 +1,9 @@
+{{#ifCond locals.cfregistrationtypes.length 1}}
+  {{#each locals.cfregistrationtypes}}
+    <input type="hidden" name="{{../name}}" id="{{../fieldId}}" value="{{id}}">
+  {{/each}}
+{{else}}
+
 <div class="form-group {{#if error}}has-error has-feedback{{/if}}">
 
 <h4>{{t 'conference.registration.type.selector'}}</h4>
@@ -35,3 +41,7 @@
 {{{field-help-error error}}}
 </div>
 <br>
+
+{{/ifCond}}
+
+

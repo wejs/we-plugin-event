@@ -1,0 +1,15 @@
+{{#if userCfregistration}}
+  {{#ifCond userCfregistration.status 'requested'}}
+    <button class="btn btn-default btn-block btn-lg disabled" type="button">
+      <strong>{{t 'conference.btn.requested'}}</strong>
+    </button>
+  {{else}}
+    <a class="btn btn-default btn-block btn-lg" href="/conference/{{conference.id}}/register">
+      <strong>{{t 'conference.btn.registered'}}</strong>
+    </a>
+  {{/ifCond}}
+{{else}}
+  <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/conference/{{conference.id}}/register">
+    <strong>{{t 'conference.btn.register'}}</strong>
+  </a>
+{{/if}}

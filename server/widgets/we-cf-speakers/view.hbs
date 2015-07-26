@@ -1,11 +1,9 @@
-{{#widget-wrapper widget}}
-  {{#each widget.speakers}}
-    <div class="col-md-4 speaker">
-      <div class="speaker-img">{{#each picture}}{{{we-image this 'medium'}}}{{/each}}</div>
-      <div class="speaker-desc">
-        <p>{{name}}</p>
-        <span>{{about}}</span>
-      </div>
+{{#each widget.speakers}}
+  <div class="col-md-4 speaker">
+    <div class="speaker-img">{{#each picture}}{{{we-image this 'medium'}}}{{/each}}</div>
+    <div class="speaker-desc">
+      <p>{{name}}</p>
+      <span>{{about}}</span>
     </div>
-  {{/each}}
-{{/widget-wrapper}}
+  </div>
+{{/each}}
