@@ -85,6 +85,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     deletePermission: 'manage_conference',
     createPermisson: 'manage_conference'
   });
+
   plugin.setResource({ parent: 'conference', name: 'cfsession',
     namespace: '/user/:userId([0-9]+)',
     namePrefix: 'user.',
@@ -422,20 +423,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/cftopics',
     },
 
-    // - cfcontact
-    'get /conference/:conferenceId([0-9]+)/contact': {
-      name          : 'conference_contact',
-      titleHandler  : 'i18n',
-      titleI18n     : 'conference.contact',
-      controller    : 'cfcontact',
-      action        : 'create',
-      model         : 'cfcontact',
-      permission    : 'find_conference'
-    },
-
-    'post /conference/:conferenceId([0-9]+)/contact': {
-      titleHandler  : 'i18n',
-      titleI18n     : 'conference.contact',
+    // - cfsession
     'post /conference/:conferenceId([0-9]+)/subscribe-in-session': {
       controller    : 'cfsession',
       action        : 'addRegistration',
@@ -450,6 +438,22 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfsession',
       permission    : 'find_conference',
       responseType  : 'html'
+    },
+
+    // - cfcontact
+    'get /conference/:conferenceId([0-9]+)/contact': {
+      name          : 'conference_contact',
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.contact',
+      controller    : 'cfcontact',
+      action        : 'create',
+      model         : 'cfcontact',
+      permission    : 'find_conference'
+    },
+
+    'post /conference/:conferenceId([0-9]+)/contact': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.contact',
       controller    : 'cfcontact',
       action        : 'create',
       model         : 'cfcontact',
@@ -485,7 +489,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadMainMenu(cb){
             if (!cf.mainMenu) return cb();
             cf.mainMenu.getLinks({
-              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
               order: [
                 ['weight','ASC'],
                 ['createdAt','ASC']
