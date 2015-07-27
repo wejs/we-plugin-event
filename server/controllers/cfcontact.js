@@ -22,6 +22,7 @@ module.exports = {
         res.locals.record = record;
         res.locals.messageSend = true;
 
+        var we = req.getWe();
         var templateVariables = {
           user: record,
           site: {
@@ -29,26 +30,25 @@ module.exports = {
             url: we.config.hostname
           }
         };
-
         var options = {
-          subject: req.__('we.email.ContactConfirmation.subject', templateVariables),
-          email: user.email
+          email: record.email,
+          subject: req.__('cfcontact.email.subject', templateVariables),
+          from: res.locals.conference.title + ' <' + res.locals.conference.email  + '>'
         };
 
-        we.email.sendEmail('ContactConfirmation', options, templateVariables, function (err) {
+        we.email.sendEmail('CFContactSuccess', options, templateVariables, function (err) {
           if (err) {
-            we.log.error('Action:ContactConfirmation sendEmail:', err);
+            we.log.error('Action:CFContactSuccess sendEmail:', err);
           }
         });
 
         req.flash('messages',[{
           status: 'success',
           type: 'updated',
-          message: req.__('cfcontact.ContactConfirmation.success')
+          message: req.__('cfcontact.email.success')
         }]);
 
-        res.redirect((res.locals.redirectTo || '/'));
-
+        res.redirect('/');
       }).catch(res.queryError);
     } else {
       res.locals.record = req.query;
