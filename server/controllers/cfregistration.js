@@ -102,18 +102,16 @@ module.exports = {
           we.email.sendEmail('CFRegistrationSuccess', options, templateVariables, function(err , emailResp){
             if (err) {
               we.log.error('Error on send email CFRegistrationSuccess', err, emailResp);
-              return res.serverError();
             }
-
-            res.locals.record = record;
-            res.locals.userCfregistration = record;
-            res.locals.template =
-              'cfregistration/' + res.locals.userCfregistration.status;
-            // redirect after register
-            res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
-            res.created();
-
           });
+
+          res.locals.record = record;
+          res.locals.userCfregistration = record;
+          res.locals.template =
+            'cfregistration/' + res.locals.userCfregistration.status;
+          // redirect after register
+          res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
+          res.created();
         }).catch(res.queryError);
       } else {
         // send the form

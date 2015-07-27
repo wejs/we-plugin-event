@@ -111,7 +111,7 @@ module.exports = {
           from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
         };
 
-        user = req.user.toJSON();
+        var user = req.user.toJSON();
 
         var templateVariables = {
           user: user,
@@ -126,16 +126,15 @@ module.exports = {
         we.email.sendEmail('CFSessionRegisterSuccess', options, templateVariables, function(err , emailResp){
           if (err) {
             we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
-            return res.serverError();
           }
-
-          req.flash('messages',[{
-            status: 'success',
-            type: 'updated',
-            message: req.__('cfsession.addRegistration.success')
-          }]);
-          res.redirect((res.locals.redirectTo || '/'));
         });
+
+        req.flash('messages',[{
+          status: 'success',
+          type: 'updated',
+          message: req.__('cfsession.addRegistration.success')
+        }]);
+        res.redirect((res.locals.redirectTo || '/'));
       }).catch(req.queryError);
     }).catch(req.queryError);
   },
