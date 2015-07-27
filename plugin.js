@@ -85,6 +85,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     deletePermission: 'manage_conference',
     createPermisson: 'manage_conference'
   });
+
   plugin.setResource({ parent: 'conference', name: 'cfsession',
     namespace: '/user/:userId([0-9]+)',
     namePrefix: 'user.',
@@ -103,6 +104,23 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
     editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
   });
+
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfcontact',
+    namespace: '/admin',
+    findLayout: 'conferenceAdmin',
+    findOneLayout: 'conferenceAdmin',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+
+    findPermission: 'manage_conference',
+    findOnePermission: 'manage_conference',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference'
+  });
+
   // ser plugin routes
   plugin.setRoutes({
     'get /conference/:conferenceId([0-9]+)/register': {
@@ -404,6 +422,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfroom',
       permission    : 'find_conference'
     },
+
     // - cftopics
     'get /conference/:conferenceId([0-9]+)/admin/topic': {
       layoutName    : 'conferenceAdmin',
@@ -416,6 +435,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/cftopics',
     },
 
+    // - cfsession
     'post /conference/:conferenceId([0-9]+)/subscribe-in-session': {
       controller    : 'cfsession',
       action        : 'addRegistration',
@@ -430,6 +450,25 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfsession',
       permission    : 'find_conference',
       responseType  : 'html'
+    },
+
+    // - cfcontact
+    'get /conference/:conferenceId([0-9]+)/contact': {
+      name          : 'conference_contact',
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.contact',
+      controller    : 'cfcontact',
+      action        : 'create',
+      model         : 'cfcontact',
+      permission    : 'find_conference'
+    },
+    'post /conference/:conferenceId([0-9]+)/contact': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.contact',
+      controller    : 'cfcontact',
+      action        : 'create',
+      model         : 'cfcontact',
+      permission    : 'find_conference'
     }
   });
 
@@ -461,7 +500,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadMainMenu(cb){
             if (!cf.mainMenu) return cb();
             cf.mainMenu.getLinks({
-              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
             }).then(function(links){
               cf.mainMenu.links = links;
               cb();
@@ -470,7 +512,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadSecondaryMenu(cb) {
             if (!cf.secondaryMenu) return cb();
             cf.secondaryMenu.getLinks({
-              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
             }).then(function(links){
               cf.secondaryMenu.links = links;
               cb();
@@ -479,7 +524,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           function loadSocialMenu(cb) {
             if (!cf.socialMenu) return cb();
             cf.socialMenu.getLinks({
-              order: [ ['weight','ASC'], ['createdAt','ASC'] ]
+              order: [
+                ['weight','ASC'],
+                ['createdAt','ASC']
+              ]
             }).then(function (links){
               cf.socialMenu.links = links;
               cb();
