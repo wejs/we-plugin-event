@@ -10,9 +10,7 @@
             <tr>
               <th we-model-attr="id">id</th>
               <th we-model-attr="name">{{t 'cf.registration.name'}}</th>
-              <th we-model-attr="userId">userId</th>
-              <th we-model-attr="certificationName">{{t 'userName'}}</th>
-              <th we-model-attr="userEmail">{{t 'user.email'}}</th>
+              <th we-model-attr="requireValidation">{{t 'requireValidation'}}</th>
               <th we-model-attr="weModelActions">{{t 'actions'}}</th>
             </tr>
           </thead>
@@ -21,9 +19,7 @@
             <tr>
               <td>{{id}}</td>
               <td>{{name}}</td>
-              <td>{{userId}}</td>
-              <td>{{certificationName}}</td>
-              <td>{{userEmail}}</td>
+              <td>{{requireValidation}}</td>
               <td></td>
             </tr>
           {{/each}}

@@ -87,7 +87,7 @@ module.exports = {
             from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
           };
 
-          user = req.user.toJSON();
+          var user = req.user.toJSON();
 
           var templateVariables = {
             user: user,
@@ -157,8 +157,7 @@ module.exports = {
   },
 
   adminRegisterUser: function adminRegisterUser(req, res) {
-    var we = req.getWe();
-
+    console.log('TODO')
     res.ok();
   },
 

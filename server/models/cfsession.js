@@ -34,8 +34,8 @@ module.exports = function Model(we) {
         formFieldType: 'select' ,
         fieldOptions: {
           send: 'conference.cfsession.status.send',
-          in_review: 'conference.cfsession.status.in_review',
-          need_update: 'conference.cfsession.status.need_update',
+          'in_review': 'conference.cfsession.status.in_review',
+          'need_update': 'conference.cfsession.status.need_update',
           accepted: 'conference.cfsession.status.accepted',
           discarded: 'conference.cfsession.status.discarded'
         }

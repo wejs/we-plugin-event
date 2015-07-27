@@ -9,7 +9,13 @@
     </a>
   {{/ifCond}}
 {{else}}
-  <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/conference/{{conference.id}}/register">
-    <strong>{{t 'conference.btn.register'}}</strong>
-  </a>
+  {{#if req.user.id}}
+    <a class="btn btn-warning btn-block btn-lg" href="/conference/{{conference.id}}/register">
+      <strong>{{t 'conference.btn.register'}}</strong>
+    </a>
+  {{else}}
+    <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/conference/{{conference.id}}/register">
+      <strong>{{t 'conference.btn.register'}}</strong>
+    </a>
+  {{/if}}
 {{/if}}

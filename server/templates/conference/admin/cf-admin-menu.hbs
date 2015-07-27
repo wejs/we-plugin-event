@@ -52,41 +52,6 @@
       </ul>
     </li>
 </div>
-
-{{!--
-    WITHOUT METIS MENU
-    <li class=""><a href="/conference/{{conference.id}}/admin"> {{t 'conference_admin'}} </a>
-            </li>
-            <li class=""><a href="/conference/{{conference.id}}/admin/edit"> <i class="fa fa-pencil-square-o"></i> {{t 'conference_admin_edit'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/topic"> {{t 'cftopic.managePage'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/registration"> {{t 'conference_admin_registration'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/news"> {{t 'conference_findOne.news_manage'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/menu"> {{t 'conference_admin_menu'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/layout"> {{t 'conference_admin_layouts'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/page"> {{t 'conference_findOne.page_manage'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/room"> {{t 'conference_findOne.room_manage'}} </a>
-            </li>
-
-            <li class=""><a href="/conference/{{conference.id}}/admin/session"> {{t 'conference_findOne.session_manage'}} </a>
-            </li>
- --}}
-
-<script type="text/javascript">
-    $(document).ready(function() {
-    we.components.metisMenu('#admin-menu', {});
-  });
-</script>
+<script>$(document).ready(function() {
+  we.components.metisMenu('#admin-menu', {});
+});</script>
