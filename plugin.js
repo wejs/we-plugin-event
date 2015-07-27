@@ -420,7 +420,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       controller    : 'cfroom',
       action        : 'find',
       model         : 'cfroom',
-      permission    : 'find_conference'
+      permission    : 'manage_conference'
     },
 
     // - cftopics
