@@ -80,13 +80,6 @@ module.exports = {
 
         return we.db.models.cfregistration.create(req.body)
         .then(function (record) {
-
-          var options = {
-            email: req.user.email,
-            subject: req.__('conference.registration.success.email') + ' - ' + res.locals.conference.abbreviation,
-            from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-          };
-
           var user = req.user.toJSON();
 
           var templateVariables = {
@@ -99,7 +92,11 @@ module.exports = {
             }
           };
 
-          we.email.sendEmail('CFRegistrationSuccess', options, templateVariables, function(err , emailResp){
+          we.email.sendEmail('CFRegistrationSuccess', {
+            email: req.user.email,
+            subject: req.__('conference.registration.success.email') + ' - ' + res.locals.conference.abbreviation,
+            replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          }, templateVariables, function(err , emailResp){
             if (err) {
               we.log.error('Error on send email CFRegistrationSuccess', err, emailResp);
             }

@@ -34,7 +34,7 @@ module.exports = {
         we.email.sendEmail('CFContactSuccess', {
           email: record.email,
           subject: req.__('cfcontact.email.subject', templateVariables),
-          from: res.locals.conference.title + ' <' + res.locals.conference.email  + '>'
+          replyTo: res.locals.conference.title + ' <' + res.locals.conference.email  + '>'
         }, templateVariables, function (err) {
           if (err) {
             we.log.error('Action:CFContactSuccess sendEmail:', err);
@@ -43,7 +43,7 @@ module.exports = {
         we.email.sendEmail('CFContactNewMessage', {
           email: res.locals.conference.email,
           subject: req.__('cfcontact.new.email.subject', templateVariables),
-          from: record.name + ' <' + record.email  + '>'
+          replyTo: record.name + ' <' + record.email  + '>'
         }, templateVariables, function (err) {
           if (err) {
             we.log.error('Action:CFContactSuccess sendEmail:', err);

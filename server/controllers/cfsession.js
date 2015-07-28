@@ -104,13 +104,6 @@ module.exports = {
 
       session.addSubscribers(res.locals.userCfregistration)
       .then(function() {
-
-        var options = {
-          email: req.user.email,
-          subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
-          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-        };
-
         var user = req.user.toJSON();
 
         var templateVariables = {
@@ -123,7 +116,11 @@ module.exports = {
           }
         };
 
-        we.email.sendEmail('CFSessionRegisterSuccess', options, templateVariables, function(err , emailResp){
+        we.email.sendEmail('CFSessionRegisterSuccess', {
+          email: req.user.email,
+          subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
+          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+        }, templateVariables, function(err , emailResp){
           if (err) {
             we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
           }
