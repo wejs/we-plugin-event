@@ -81,6 +81,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     editLayout: 'conferenceAdmin',
     createLayout: 'conferenceAdmin',
     deleteLayout: 'conferenceAdmin',
+    findPermission: 'manage_conference',
+    findOnePermission: 'manage_conference',
     editPermission: 'manage_conference',
     deletePermission: 'manage_conference',
     createPermisson: 'manage_conference'
