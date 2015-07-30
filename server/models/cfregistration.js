@@ -12,6 +12,7 @@ module.exports = function Model(we) {
         allowNull: false,
         formFieldType: null
       },
+
       conferenceId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
@@ -34,9 +35,41 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         defaultValue: 'requested',
         formFieldType: null
+      },
+
+      displayName: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function get() {
+          var user = this.getDataValue('user');
+          if (!user) return null;
+          return user.getDataValue('displayName');
+        }
+      },
+      email: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function get() {
+          var user = this.getDataValue('user');
+          if (!user) return null;
+          return user.getDataValue('email');
+        }
+      },
+      cpf: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function get() {
+          var user = this.getDataValue('user');
+          if (!user) return null;
+          return user.getDataValue('cpf');
+        }
       }
     },
     associations: {
+      user: {
+        type: 'belongsTo',
+        model: 'user'
+      },
       sessions: {
         type: 'belongsToMany',
         through: 'cfsessionSubscriber',
@@ -45,7 +78,13 @@ module.exports = function Model(we) {
     },
     options: {
       classMethods: {},
-      instanceMethods: {},
+      instanceMethods: {
+        toJSON: function toJSON() {
+          var obj = this.get();
+          delete obj.deletedAt;
+          return obj;
+        }
+      },
       // TODO check if user is already registered in conference
       hooks: {}
     }

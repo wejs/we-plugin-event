@@ -227,15 +227,22 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'manage_conference',
     },
-    // edit user conference registration
     'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'findOne',
+      model         : 'cfregistration',
+      permission    : 'manage_conference'
+    },
+    // edit user conference registration
+    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/edit': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistration',
       action        : 'edit',
       model         : 'cfregistration',
       permission    : 'manage_conference'
     },
-    'post /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
+    'post /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/edit': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistration',
       action        : 'edit',

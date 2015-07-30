@@ -1,0 +1,17 @@
+{{#if record.specialRequirements}}
+  <p><strong>{{t 'form-cfregistration-specialRequirements'}}</strong></p>
+  <p>{{record.specialRequirements}}</p>
+{{/if}}
+
+{{#with record.user}}
+<div>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <tr><th>id</th><td>{{id}}</td></tr>
+      <tr><th>displayName</th><td>{{displayName}}</td></tr>
+      <tr><th>fullName</th><td>{{fullName}}</td></tr>
+      <tr><th>email</th><td>{{email}}</td></tr>
+    </tbody>
+  </table>
+</div>
+{{/with}}

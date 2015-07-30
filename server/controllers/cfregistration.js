@@ -155,8 +155,21 @@ module.exports = {
     console.log('TODO')
     res.ok();
   },
+  find: function findAll(req, res, next) {
+    var we = req.getWe();
 
-  editPage: function editPage(req, res) {
+    res.locals.query.include = [ { model: we.db.models.user, as: 'user' } ]
+
+    return res.locals.Model.findAndCountAll(res.locals.query)
+    .then(function (record) {
+      if (!record) return next();
+      res.locals.metadata.count = record.count;
+      res.locals.record = record.rows;
+
+      return res.ok();
+    });
+  },
+  edit: function editPage(req, res) {
     if (!res.locals.record) return res.notFound();
     var we = req.getWe();
 
