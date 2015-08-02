@@ -17,7 +17,10 @@
               <td>{{ id }}</td>
               <td>{{ name }}</td>
               <td>{{ we-date createdAt }}</td>
-              <td>{{ we-action-view-btn 'cfcontact' this ../req conferenceId id }}</td>
+              <td>
+                {{ we-action-view-btn 'cfcontact' this ../req conferenceId id }}
+                {{ we-action-delete-btn 'cfcontact' this ../req conferenceId id }}
+              </td>
             </tr>
           {{/each}}
           </tbody>
