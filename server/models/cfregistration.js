@@ -7,12 +7,6 @@
 module.exports = function Model(we) {
   var model = {
     definition: {
-      userId: {
-        type: we.db.Sequelize.BIGINT,
-        allowNull: false,
-        formFieldType: null
-      },
-
       conferenceId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
