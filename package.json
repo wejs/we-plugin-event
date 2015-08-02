@@ -4,7 +4,6 @@
   "version": "0.3.15",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/jshint .",
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
     "prepublish": "npm prune"
   },
@@ -15,15 +14,14 @@
   },
   "devDependencies": {
     "fs-extra": "^0.18.2",
-    "jshint": "^2.5.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "^0.3.29",
+    "we-core": "wejs/we-core",
     "we-plugin-file": "^0.3.4",
     "we-plugin-form": "^0.3.1",
-    "we-test-tools": "^0.3.4",
+    "we-test-tools": "wejs/we-test-tools",
     "we-theme-admin-default": "^0.3.1",
     "we-theme-site-wejs": "^0.3.11"
   },

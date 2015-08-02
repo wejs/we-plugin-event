@@ -82,5 +82,14 @@
 	"form-helper-cfvideo-url": "form-helper-cfvideo-url",
 	"form-cfvideo-embedUrl": "form-cfvideo-embedUrl",
 	"form-placeholder-cfvideo-embedUrl": "form-placeholder-cfvideo-embedUrl",
-	"form-helper-cfvideo-embedUrl": "form-helper-cfvideo-embedUrl"
+	"form-helper-cfvideo-embedUrl": "form-helper-cfvideo-embedUrl",
+	"form-cfpage-title": "form-cfpage-title",
+	"form-placeholder-cfpage-title": "form-placeholder-cfpage-title",
+	"form-helper-cfpage-title": "form-helper-cfpage-title",
+	"form-cfpage-body": "form-cfpage-body",
+	"form-helper-cfpage-body": "form-helper-cfpage-body",
+	"form-cfpage-published": "form-cfpage-published",
+	"form-cfpage-featuredImage": "form-cfpage-featuredImage",
+	"form-helper-cfpage-featuredImage": "form-helper-cfpage-featuredImage",
+	"widget.delete.confirm.msg": "widget.delete.confirm.msg"
 }

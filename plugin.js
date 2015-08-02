@@ -494,7 +494,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   plugin.events.on('we:express:set:params', function(data) {
     var we = data.we;
-    // user pre-loader
+    // conference loader
     data.express.param('conferenceId', function (req, res, next, id) {
       data.we.db.models.conference.findOne({
         where: { id: id }, include: { all: true }

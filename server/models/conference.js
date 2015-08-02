@@ -66,6 +66,11 @@ module.exports = function Model(we) {
       }
     },
     associations: {
+      managers: {
+        type: 'belongsToMany',
+        through: 'cfmanager',
+        model: 'user'
+      },
       mainMenu: {
         type: 'belongsTo',
         model: 'cfmenu'
@@ -183,7 +188,12 @@ module.exports = function Model(we) {
         afterCreate: function afterCreate (record, options, cb) {
           async.parallel([
             record.generateDefaultMenus.bind(record),
-            record.generateDefaultWidgets.bind(record)
+            record.generateDefaultWidgets.bind(record),
+            function addCreatorAsManager(done) {
+              record.addManager(record.creatorId).then(function(){
+                done();
+              }).catch(done);
+            }
           ], function (err) {
             cb(err, record);
           });
