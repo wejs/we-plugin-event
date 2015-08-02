@@ -521,8 +521,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             if (!cf.mainMenu) return cb();
             cf.mainMenu.getLinks({
               order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
+                ['weight','ASC'], ['createdAt','ASC']
               ]
             }).then(function(links){
               cf.mainMenu.links = links;
@@ -533,8 +532,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             if (!cf.secondaryMenu) return cb();
             cf.secondaryMenu.getLinks({
               order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
+                ['weight','ASC'], ['createdAt','ASC']
               ]
             }).then(function(links){
               cf.secondaryMenu.links = links;
@@ -545,15 +543,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             if (!cf.socialMenu) return cb();
             cf.socialMenu.getLinks({
               order: [
-                ['weight','ASC'],
-                ['createdAt','ASC']
+                ['weight','ASC'], ['createdAt','ASC']
               ]
             }).then(function (links){
               cf.socialMenu.links = links;
               cb();
             }).catch(cb);
           },
-          function loadTopics(cb) {
+          function loadTopicImages(cb) {
             if (!cf.topics) return cb();
             we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
           },

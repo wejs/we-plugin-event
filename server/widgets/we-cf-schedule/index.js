@@ -3,11 +3,18 @@ module.exports = function(projectPath, Widget) {
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
     var we = req.getWe();
-
-    if (!res.locals.conference) return next();
+    var cfId;
+    if (res.locals.conference) {
+      cfId = res.locals.conference.id;
+    } else {
+      var ctx = widget.dataValues.context.split('-');
+      if ( (ctx[0] == 'conference') && ctx[1] && Number(ctx[1]) )
+        cfId = ctx[1];
+    }
+    if (!cfId) return next();
 
     we.db.models.cfsession.findAndCountAll({
-      where: { conferenceId: res.locals.conference.id},
+      where: { conferenceId: cfId },
       order:[['startDate', 'ASC'], ['createdAt', 'ASC']]
     }).then(function (result) {
       var activeSet = false;
