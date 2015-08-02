@@ -138,6 +138,23 @@ module.exports = {
       }
     });
   },
+
+  deleteWidget: function deleteWidget(req, res, next) {
+    var we = req.getWe();
+
+    if (!res.locals.conference || !res.locals.widgetContext)
+      return res.forbidden();
+
+    we.db.models.widget.findById(res.locals.id)
+    .then(function(widget) {
+      if(!widget) return res.notFound();
+      if (widget.context !== res.locals.widgetContext) return res.forbidden();
+
+      res.locals.record = widget;
+
+      we.controllers.widget.destroy(req, res, next);
+    }).catch(res.queryError);
+  },
   /**
    * Update multiple conference widgets weight attribute
    */

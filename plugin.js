@@ -189,26 +189,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/index',
       responseType  : 'html'
     },
-    'get /conference/:conferenceId([0-9]+)/admin/layout': {
-      name          : 'conference_admin_layouts',
-      layoutName    : 'conferenceAdmin',
-      controller    : 'conference',
-      action        : 'adminLayouts',
-      model         : 'conference',
-      permission    : 'manage_conference',
-      template      : 'conference/admin/layouts',
-      responseType  : 'html'
-    },
-    'get /conference/:conferenceId([0-9]+)/admin/layout/:name': {
-      name          : 'conference_admin_layout',
-      layoutName    : 'conferenceAdmin',
-      controller    : 'conference',
-      action        : 'adminLayout',
-      model         : 'conference',
-      permission    : 'manage_conference',
-      template      : 'conference/admin/layout',
-      responseType  : 'html'
-    },
     'post /conference/:conferenceId([0-9]+)/admin/widget/create': {
       controller    : 'conference',
       action        : 'saveWidget',
@@ -219,6 +199,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     'post /conference/:conferenceId([0-9]+)/admin/widget/:widgetId([0-9]+)': {
       controller    : 'conference',
       action        : 'saveWidget',
+      model         : 'widget',
+      permission    : 'manage_conference',
+      responseType  : 'json'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/widget/:widgetId([0-9]+)/delete': {
+      controller    : 'conference',
+      action        : 'deleteWidget',
       model         : 'widget',
       permission    : 'manage_conference',
       responseType  : 'json'
@@ -593,7 +580,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
      opts.configs.structure.widgetCreateUrl = '/conference/'+cfID+'/admin/widget/create';
      opts.configs.structure.widgetUpdateUrl = '/conference/'+cfID+'/admin/widget/';
-     opts.configs.structure.widgetDeleteUrl = '/conference/'+cfID+'/admin/widget/sortWidgets';
+     opts.configs.structure.widgetDeleteUrl = '/conference/'+cfID+'/admin/widget/';
     }
   });
 
