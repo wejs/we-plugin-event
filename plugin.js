@@ -9,7 +9,25 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // set plugin configs
   plugin.setConfigs({
     conference: {
-      defaultTheme: 'we-theme-conference'
+      defaultTheme: 'we-theme-conference',
+      models: [
+        'conference',
+        'cfcertification',
+        'cfnews',
+        'cfregistrationtype',
+        'cfspeaker',
+        'cfcontact',
+        'cfpage',
+        'cfroom',
+        'cftopic',
+        'cflink',
+        'cfpartner',
+        'cfsession',
+        'cfvideo',
+        'cfmenu',
+        'cfregistration',
+        'cfsessionSubscriber'
+      ]
     },
     permissions: {
       'find_conference': {
@@ -192,7 +210,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       responseType  : 'html'
     },
     'post /conference/:conferenceId([0-9]+)/admin/widget/create': {
-      layoutName    : 'conferenceAdmin',
+      controller    : 'conference',
+      action        : 'saveWidget',
+      model         : 'widget',
+      permission    : 'manage_conference',
+      responseType  : 'json'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/widget/:widgetId([0-9]+)': {
       controller    : 'conference',
       action        : 'saveWidget',
       model         : 'widget',
@@ -486,7 +510,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     // user pre-loader
     data.express.param('conferenceId', function (req, res, next, id) {
       data.we.db.models.conference.findOne({
-        where: {id : id}, include: { all: true }
+        where: { id: id }, include: { all: true }
       }).then(function (cf) {
         if (!cf) return res.notFound();
         res.locals.title = cf.title;
@@ -559,6 +583,18 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         ], next);
       });
     });
+  });
+
+  plugin.events.on('we:config:getAppBootstrapConfig', function(opts) {
+    if (opts.context && opts.context.widgetContext && opts.context.conference) {
+     opts.configs.widgetContext = opts.context.widgetContext;
+
+     var cfID = opts.context.conference.id;
+
+     opts.configs.structure.widgetCreateUrl = '/conference/'+cfID+'/admin/widget/create';
+     opts.configs.structure.widgetUpdateUrl = '/conference/'+cfID+'/admin/widget/';
+     opts.configs.structure.widgetDeleteUrl = '/conference/'+cfID+'/admin/widget/sortWidgets';
+    }
   });
 
   return plugin;
