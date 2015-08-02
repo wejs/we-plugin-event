@@ -80,36 +80,64 @@ module.exports = {
     });
   },
 
-  saveWidget: function saveWidget(req, res) {
+  /**
+   * Create or update one conference widget
+   */
+  saveWidget: function saveWidget(req, res, next) {
     var we = req.getWe();
 
-    res.locals.layout = false;
-    if (req.isAuthenticated()) req.body.creatorId = req.user.id;
+    if (!res.locals.conference || !res.locals.widgetContext)
+      return res.forbidden();
 
-    var type = req.body.type;
-    we.view.widgets[type].afterSave(req, res, function() {
-      res.locals.Model.create(req.body)
-      .then(function (record) {
+    req.body.context = res.locals.widgetContext;
 
-        res.locals.template = record.type + '/wiew';
-        res.status(201);
+    we.utils.async.series([
+      function checkContextAndPermissions(done) {
+        // modelName is required
+        if (!req.body.modelName) {
+          req.body.modelId = null;
+          return done();
+        } else if (req.body.modelName) {
+          // not is a conference model
+          if (we.config.conference.models.indexOf(req.body.modelName) === -1)
+            return done('modelName not is a valid conference model');
+          if (req.body.modelName === 'conference') {
+            // current conference
+            req.body.modelId = res.locals.conference.id;
+            return done();
+          }
+          // session widget
+          if (!req.body.modelId) return done();
+          // model widget
+          // ćheck if this model exists
+          return we.db.models[req.body.modelName]
+          .findById(req.body.modelId).then(function (r) {
+            if (!r) {
+              req.body.modelId = null;
+              return done();
+            }
+            // only allow add widgets in models how are inside current conference
+            if (r.conferenceId != res.locals.conference.id) {
+              req.body.modelName = null;
+              req.body.modelId = null;
+            }
 
-        record.dataValues.html = we.view.widgets[record.type].render({
-          locals: res.locals,
-          widget: record
-        }, res.locals.theme);
-
-        if (res.locals.responseType == 'html') {
-          return res.send(record.dataValues.html);
-        } else {
-          res.locals.record = record;
-          return res.created();
+            done();
+          }).catch(done);
         }
 
-      });
+        done();
+      }
+    ], function (err) {
+      if (err) return res.serverError();
+
+      if (req.params.widgetId) {
+        we.controllers.widget.update(req, res, next);
+      } else {
+        we.controllers.widget.create(req, res, next);
+      }
     });
   },
-
   /**
    * Update multiple conference widgets weight attribute
    */
