@@ -59,40 +59,86 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setResource({
     name: 'conference',
     findOneLayout: 'conferenceHome',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    createPermisson: 'manage_conference',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfspeaker',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfspeaker',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cftopic',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cftopic',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfmenu',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfmenu',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfpage',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfpage',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfnews',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfnews',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfregistration',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfregistration',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfroom',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfroom',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-
   // sessions resource routes
-  plugin.setResource({ parent: 'conference',
+  plugin.setResource({
+    parent: 'conference',
     name: 'cfsession',
     namespace: '/admin',
     findLayout: 'conferenceAdmin',
@@ -105,26 +151,34 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     deletePermission: 'manage_conference',
     createPermisson: 'manage_conference'
   });
-
-  plugin.setResource({ parent: 'conference', name: 'cfsession',
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfsession',
     namespace: '/user/:userId([0-9]+)',
     namePrefix: 'user.',
     templateFolderPrefix: 'conference/user/'
-    // findLayout: 'conferenceUserArea',
-    // editLayout: 'conferenceUserArea',
-    // createLayout: 'conferenceUserArea',
-    // deleteLayout: 'conferenceUserArea'
   });
 
-  plugin.setResource({ parent: 'conference', name: 'cfpartner',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfpartner',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-  plugin.setResource({ parent: 'conference', name: 'cfvideo',
-    editLayout: 'conferenceAdmin', createLayout: 'conferenceAdmin', deleteLayout: 'conferenceAdmin',
-    editPermission: 'manage_conference', deletePermission: 'manage_conference', createPermisson: 'manage_conference'
+  plugin.setResource({
+    parent: 'conference',
+    name: 'cfvideo',
+    editLayout: 'conferenceAdmin',
+    createLayout: 'conferenceAdmin',
+    deleteLayout: 'conferenceAdmin',
+    editPermission: 'manage_conference',
+    deletePermission: 'manage_conference',
+    createPermisson: 'manage_conference'
   });
-
   plugin.setResource({
     parent: 'conference',
     name: 'cfcontact',
@@ -134,13 +188,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     editLayout: 'conferenceAdmin',
     createLayout: 'conferenceAdmin',
     deleteLayout: 'conferenceAdmin',
-
     findPermission: 'manage_conference',
     findOnePermission: 'manage_conference',
     editPermission: 'manage_conference',
     deletePermission: 'manage_conference'
   });
-
   // ser plugin routes
   plugin.setRoutes({
     'get /conference/:conferenceId([0-9]+)/register': {
@@ -489,7 +541,28 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'create',
       model         : 'cfcontact',
       permission    : 'find_conference'
-    }
+    },
+
+    'get /conference/:conferenceId([0-9]+)/admin/managers': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.setManagers',
+      controller    : 'conference',
+      action        : 'setManagers',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      layoutName    : 'conferenceAdmin',
+      template      : 'conference/admin/managers'
+    },
+    'post /conference/:conferenceId([0-9]+)/admin/managers': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.setManagers',
+      controller    : 'conference',
+      action        : 'setManagers',
+      model         : 'conference',
+      permission    : 'manage_conference',
+      layoutName    : 'conferenceAdmin',
+      template      : 'conference/admin/managers'
+    },
   });
 
   plugin.events.on('we:express:set:params', function(data) {
@@ -554,15 +627,28 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             if (!cf.topics) return cb();
             we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
           },
-          function loadUserRoles(cb) {
+          function isRegistered(cb) {
             if (!req.isAuthenticated()) return cb();
             // load current user registration register
             we.db.models.cfregistration.findOne({
               where: { conferenceId: id, userId: req.user.id }
             }).then(function (r) {
+              if (r) return cb();
               res.locals.userCfregistration = r;
+              req.userRoleNames.push('registeredInConference');
               cb();
             }).catch(cb);
+          },
+          function isManager(cb) {
+            if (!req.isAuthenticated()) return cb();
+            cf.isManager(req.user.id, function(err, isMNG){
+              if (err) return cb(err);
+              if (isMNG) {
+                res.locals.isConferenceManager = isMNG;
+                req.userRoleNames.push('conferenceManager');
+              }
+              cb();
+            });
           }
         ], next);
       });

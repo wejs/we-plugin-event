@@ -63,6 +63,17 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 300
+      },
+      managerIds: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function() {
+          var ms = this.getDataValue('managers');
+          if (!ms) return [];
+          return ms.map(function(m) {
+            return m.id;
+          });
+        }
       }
     },
     associations: {
@@ -112,6 +123,12 @@ module.exports = function Model(we) {
 
       classMethods: {},
       instanceMethods: {
+        isManager: function isManager(userId, cb) {
+          var ms = this.managerIds;
+          var isMNG = false;
+          if (ms.indexOf(userId) > -1) isMNG = true;
+          cb(null, isMNG);
+        },
         generateDefaultMenus: function generateDefaultMenus(cb) {
           var self = this;
 

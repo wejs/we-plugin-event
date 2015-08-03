@@ -1,0 +1,58 @@
+<form method="POST">
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <h4>{{t 'conference.admin.managers.add'}}</h4>
+    </div>
+    <div class="step-1-search">
+      <div class="form-group">
+        <label>{{t 'conference.admin.managers.searchById.label'}}:</label>
+        <input class="form-controll" name="idToAdd" type="text">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">{{t 'save'}}</button>
+      </div>
+    </div>
+
+    <div class="step-2-save">
+    {{!-- todo --}}
+    </div>
+  </div>
+</div>
+</form>
+
+<hr>
+
+<h4>{{t 'managers.salved'}}</h4>
+<table class="table table-sriped table-hover">
+<thead>
+    <tr>
+      <td>ID</td>
+      <td>{{t 'displayName'}}</td>
+      <td>{{t 'email'}}</td>
+      <td>{{t 'actions'}}</td>
+    </tr>
+</thead>
+<tbody>
+  {{#each conference.managers}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{displayName}}</td>
+      <td>{{email}}</td>
+      <td>
+        <form method="POST">
+          <input type="hidden" name="idToRemove" value="{{id}}">
+          <button class="btn btn-default">{{t 'remove'}}</button>
+        </form>
+      </td>
+    </tr>
+  {{else}}
+    {{t 'conference.admin.managers.empty'}}
+  {{/each}}
+</tbody>
+<tfoot>
+  <tr>
+    <td colspan="4"><button type="submit" class="btn btn-primary">{{t 'save'}}</button></td>
+  </tr>
+</tfoot>
+</table>

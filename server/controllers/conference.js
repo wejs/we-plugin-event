@@ -180,6 +180,70 @@ module.exports = {
     })
   },
 
+  setManagers: function setManagers(req, res, next) {
+    var we = req.getWe();
+
+    if (req.method == 'POST') {
+      if (req.body.idToAdd)
+        return we.controllers.conference.addManager(req, res, next);
+
+      if (req.body.idToRemove)
+        return we.controllers.conference.removerManager(req, res, next);
+
+      res.ok();
+    } else {
+      res.ok();
+    }
+  },
+
+  addManager: function addManager(req, res) {
+    var we = req.getWe();
+
+    if (!Number(req.body.idToAdd)) return res.badRequest();
+
+    we.db.models.user.findById(req.body.idToAdd)
+    .then(function (mu) {
+      if (!mu) {
+        res.addMessage('error', 'user.not.found');
+        return res.ok();
+      }
+      var conference = res.locals.conference;
+      conference.addManager(mu).then(function() {
+        // TODO addManager dont are updating conference.managers list then we need to get it
+        conference.getManagers().then(function(managers) {
+          res.locals.conference.managers = managers;
+          res.addMessage('success', 'conference.manager.add.success');
+          res.ok();
+        }).catch(res.queryError);
+      }).catch(res.queryError);
+    }).catch(res.queryError);
+  },
+
+  removerManager: function removerManager(req, res) {
+   var we = req.getWe();
+
+    if (!Number(req.body.idToRemove)) return res.badRequest();
+
+    we.db.models.user.findById(req.body.idToRemove)
+    .then(function (mu) {
+      if (!mu) {
+        res.addMessage('error', 'user.not.found');
+        return res.ok();
+      }
+
+      var conference = res.locals.conference;
+
+      conference.removeManager(mu).then(function() {
+        // TODO removeManager dont are updating conference.managers list then we need to get it
+        conference.getManagers().then(function(managers) {
+          res.locals.conference.managers = managers;
+
+          res.addMessage('success', 'conference.manager.remove.success');
+          res.ok();
+        }).catch(res.queryError);
+      }).catch(res.queryError);
+    }).catch(res.queryError);
+  },
 
   /**
    * Authenticated user area inside the conference
