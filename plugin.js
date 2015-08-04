@@ -651,7 +651,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             we.db.models.cfregistration.findOne({
               where: { conferenceId: id, userId: req.user.id }
             }).then(function (r) {
-              if (r) return cb();
+              if (!r) return cb();
               res.locals.userCfregistration = r;
               req.userRoleNames.push('registeredInConference');
               cb();
