@@ -241,6 +241,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'conference/admin/index',
       responseType  : 'html'
     },
+    // get edit widget
+    'get /conference/:conferenceId([0-9]+)/admin/widget/:id([0-9]+)/form': {
+      controller    : 'widget',
+      action        : 'getForm',
+      model         : 'widget',
+      permission    : 'manage_widget'
+    },
+
     'post /conference/:conferenceId([0-9]+)/admin/widget/create': {
       controller    : 'conference',
       action        : 'saveWidget',
@@ -262,14 +270,24 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       responseType  : 'json'
     },
-    'post /conference/:conferenceId([0-9]+)/admin/widget/sortWidgets': {
-      layoutName    : 'conferenceAdmin',
+
+    // sort widgets
+    'get /conference/:conferenceId([0-9]+)/admin/widget/sortWidgets/:theme/:layout/:regionName': {
       controller    : 'conference',
       action        : 'sortWidgets',
       model         : 'widget',
       permission    : 'manage_conference',
-      responseType  : 'json'
+      skipWidgets   : true
     },
+    'post /conference/:conferenceId([0-9]+)/admin/widget/sortWidgets/:theme/:layout/:regionName': {
+      controller    : 'conference',
+      action        : 'sortWidgets',
+      model         : 'widget',
+      permission    : 'manage_conference',
+      skipWidgets   : true
+    },
+
+
     // -- Pages
     'get /conference/:conferenceId([0-9]+)/admin/page': {
       titleHandler  : 'i18n',
@@ -664,6 +682,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
      opts.configs.structure.widgetCreateUrl = '/conference/'+cfID+'/admin/widget/create';
      opts.configs.structure.widgetUpdateUrl = '/conference/'+cfID+'/admin/widget/';
      opts.configs.structure.widgetDeleteUrl = '/conference/'+cfID+'/admin/widget/';
+     opts.configs.structure.widgetSortUrl = '/conference/'+cfID+'/admin/widget/sortWidgets/';
+     opts.configs.structure.widgetEditFormUrl = '/conference/'+cfID+'/admin/widget/';
     }
   });
 

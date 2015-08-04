@@ -156,28 +156,12 @@ module.exports = {
     }).catch(res.queryError);
   },
   /**
-   * Update multiple conference widgets weight attribute
+   * Sort multiple widgets
    */
-  sortWidgets: function sortWidgets(req, res) {
+  sortWidgets: function sortWidgets(req, res, next) {
     var we = req.getWe();
 
-    if (!req.body.widgets)
-      return res.badRequest('widgets body params is required');
-
-    async.each(req.body.widgets, function (w, next) {
-      // only update weight field
-      we.db.models.widget.update(w, {
-        where: {
-          id: w.id,
-          context: res.locals.widgetContext
-        }, fields: ['weight']})
-      .then(function () {
-        next();
-      }).catch(next);
-    }, function (err) {
-      if (err) return res.serverError(err);
-      res.send();
-    })
+    we.controllers.widget.sortWidgets(req, res, next);
   },
 
   setManagers: function setManagers(req, res, next) {
