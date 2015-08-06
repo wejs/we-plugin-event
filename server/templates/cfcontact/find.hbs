@@ -1,31 +1,34 @@
 <div class="row">
   <div class="col-lg-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>createdAt</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          {{#each record}}
-            <tr>
-              <td>{{ id }}</td>
-              <td>{{ name }}</td>
-              <td>{{ we-date createdAt }}</td>
-              <td>
-                {{ we-action-view-btn 'cfcontact' this ../req conferenceId id }}
-                {{ we-action-delete-btn 'cfcontact' this ../req conferenceId id }}
-              </td>
-            </tr>
-          {{/each}}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>createdAt</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each record}}
+        <tr>
+          <td>{{ id }}</td>
+          <td>{{ name }}</td>
+          <td>{{ we-date createdAt }}</td>
+          <td>
+            {{ we-action-view-btn 'cfcontact' this ../req conferenceId id }}
+            {{ we-action-delete-btn 'cfcontact' this ../req conferenceId id }}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">
+            {{paginate count=metadata.count limit=query.limit currentPage=query.page req=req}}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
