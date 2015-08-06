@@ -14,8 +14,7 @@ module.exports = function Model(we) {
       },
 
       userId: {
-        type: we.db.Sequelize.VIRTUAL,
-        allowNull: false,
+        type: we.db.Sequelize.INTEGER,
         validate: {
           isRegistered: function(uid, done) {
             var conferenceId = this.getDataValue('conferenceId');
