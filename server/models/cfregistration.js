@@ -13,6 +13,32 @@ module.exports = function Model(we) {
         formFieldType: null
       },
 
+      userId: {
+        type: we.db.Sequelize.VIRTUAL,
+        allowNull: false,
+        validate: {
+          isRegistered: function(uid, done) {
+            var conferenceId = this.getDataValue('conferenceId');
+            if (!conferenceId) return done();
+            if (!uid || !Number(uid) )
+              return done('user.not-found');
+
+            we.db.models.cfregistration.findOne({
+              where: {
+                conferenceId: conferenceId,
+                userId: uid
+              },
+              attributes: ['id']
+            }).then(function (count) {
+              if (count) {
+                return done('conference.cfregistration.already.registered');
+              }
+              done();
+            }).catch(done);
+          }
+        }
+      },
+
       cfregistrationtypeId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
@@ -29,34 +55,6 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         defaultValue: 'requested',
         formFieldType: null
-      },
-
-      displayName: {
-        type: we.db.Sequelize.VIRTUAL,
-        formFieldType: null,
-        get: function get() {
-          var user = this.getDataValue('user');
-          if (!user) return null;
-          return user.getDataValue('displayName');
-        }
-      },
-      email: {
-        type: we.db.Sequelize.VIRTUAL,
-        formFieldType: null,
-        get: function get() {
-          var user = this.getDataValue('user');
-          if (!user) return null;
-          return user.getDataValue('email');
-        }
-      },
-      cpf: {
-        type: we.db.Sequelize.VIRTUAL,
-        formFieldType: null,
-        get: function get() {
-          var user = this.getDataValue('user');
-          if (!user) return null;
-          return user.getDataValue('cpf');
-        }
       }
     },
     associations: {
@@ -78,9 +76,7 @@ module.exports = function Model(we) {
           delete obj.deletedAt;
           return obj;
         }
-      },
-      // TODO check if user is already registered in conference
-      hooks: {}
+      }
     }
   }
 
