@@ -20,9 +20,9 @@
       {{#each record}}
         <tr>
           <td>{{id}}</td>
-          <td>{{userId}}</td>
-          <td>{{displayName}}</td>
-          <td>{{email}}</td>
+          <td>{{user.id}}</td>
+          <td>{{user.displayName}}</td>
+          <td>{{user.email}}</td>
           <td>{{we-date updatedAt}}</td>
           <td>
             {{#ifCond status 'requested'}}
