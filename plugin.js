@@ -119,12 +119,17 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setResource({
     parent: 'conference',
     name: 'cfregistration',
+    namespace: '/admin',
+
+    findLayout: 'conferenceAdmin',
+    findOneLayout: 'conferenceAdmin',
     editLayout: 'conferenceAdmin',
     createLayout: 'conferenceAdmin',
     deleteLayout: 'conferenceAdmin',
+    createPermisson: 'manage_conference',
+    findPermisson: 'manage_conference',
     editPermission: 'manage_conference',
-    deletePermission: 'manage_conference',
-    createPermisson: 'manage_conference'
+    deletePermission: 'manage_conference'
   });
   plugin.setResource({
     parent: 'conference',
@@ -300,52 +305,31 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'conference/admin/cfpages',
     },
-    // -- registratios list
-    'get /conference/:conferenceId([0-9]+)/admin/registration': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistration',
-      action        : 'find',
-      model         : 'cfregistration',
-      permission    : 'manage_conference',
-    },
-    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistration',
-      action        : 'findOne',
-      model         : 'cfregistration',
-      permission    : 'manage_conference'
-    },
-    // edit user conference registration
-    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/edit': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistration',
-      action        : 'edit',
-      model         : 'cfregistration',
-      permission    : 'manage_conference'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/edit': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistration',
-      action        : 'edit',
-      model         : 'cfregistration',
-      permission    : 'manage_conference'
-    },
-    'get /conference/:conferenceId([0-9]+)/admin/registration/:cfregistrationId/accept': {
+    // registration
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/:cfregistrationId/accept': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistration',
       action        : 'accept',
       model         : 'cfregistration',
       permission    : 'manage_conference'
     },
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/export.csv': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'exportRegistration',
+      model         : 'cfregistration',
+      permission    : 'manage_conference',
+      responseType  : 'cvs'
+    },
     // registration type
-    'get /conference/:conferenceId([0-9]+)/admin/registration/type': {
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
       action        : 'find',
       model         : 'cfregistrationtype',
       permission    : 'manage_conference',
     },
-    'get /conference/:conferenceId([0-9]+)/admin/registration/type/create': {
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type/create': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
       action        : 'create',
@@ -353,7 +337,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'cfregistrationtype/form'
     },
-    'post /conference/:conferenceId([0-9]+)/admin/registration/type/create': {
+    'post /conference/:conferenceId([0-9]+)/admin/cfregistration/type/create': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
       action        : 'create',
@@ -362,7 +346,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'cfregistrationtype/form'
     },
     // edit registration type
-    'get /conference/:conferenceId([0-9]+)/admin/registration/type/:cfregistrationtypeId([0-9]+)': {
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type/:cfregistrationtypeId([0-9]+)': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
       action        : 'edit',
@@ -370,7 +354,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       template      : 'cfregistrationtype/form'
     },
-    'post /conference/:conferenceId([0-9]+)/admin/registration/type/:cfregistrationtypeId([0-9]+)': {
+    'post /conference/:conferenceId([0-9]+)/admin/cfregistration/type/:cfregistrationtypeId([0-9]+)': {
       layoutName    : 'conferenceAdmin',
       controller    : 'cfregistrationtype',
       action        : 'edit',
