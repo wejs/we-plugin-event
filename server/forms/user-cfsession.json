@@ -14,12 +14,6 @@
       "formFieldHeight": 300,
       "allowNull": false
     },
-    "about": {
-      "type": "html",
-      "defaultValue": "",
-      "formFieldHeight": 300,
-      "allowNull": false
-    },
     "topicIdSelector": {
       "type": "cftopic-selector",
       "allowNull": false
