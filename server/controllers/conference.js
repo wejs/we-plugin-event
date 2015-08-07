@@ -1,6 +1,3 @@
-var _ = require('lodash');
-var async = require('async');
-
 module.exports = {
   adminIndex: function adminIndex(req, res) {
     res.ok();
@@ -55,7 +52,7 @@ module.exports = {
       order: 'weight ASC'
     }).then(function (widgets) {
 
-      res.locals.data.regions = _.cloneDeep(layoutToUpdate.regions);
+      res.locals.data.regions = we.utils._.cloneDeep(layoutToUpdate.regions);
       res.locals.data.widgets = we.view.widgets;
 
       widgets.forEach(function (w) {

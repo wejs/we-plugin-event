@@ -42,6 +42,9 @@
       <tfoot>
         <tr>
           <td colspan="6">
+            <div class="paginate-sumary">
+              {{t 'paginate.sumary' recordsLength=record.length count=metadata.count}}
+            </div>
             {{paginate count=metadata.count limit=query.limit currentPage=query.page req=req}}
           </td>
         </tr>

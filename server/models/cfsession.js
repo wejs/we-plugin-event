@@ -26,7 +26,6 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.BOOLEAN, defaultValue: false,
         formFieldType: 'boolean'
       },
-
       // requested, registered
       status: {
         type: we.db.Sequelize.STRING,

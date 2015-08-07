@@ -251,7 +251,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       controller    : 'widget',
       action        : 'getForm',
       model         : 'widget',
-      permission    : 'manage_widget'
+      permission    : 'manage_widget',
+      skipWidgets   : true
     },
 
     'post /conference/:conferenceId([0-9]+)/admin/widget/create': {
@@ -282,14 +283,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'sortWidgets',
       model         : 'widget',
       permission    : 'manage_conference',
-      skipWidgets   : true
+      responseType  : 'modal'
     },
     'post /conference/:conferenceId([0-9]+)/admin/widget/sortWidgets/:theme/:layout/:regionName': {
       controller    : 'conference',
       action        : 'sortWidgets',
       model         : 'widget',
       permission    : 'manage_conference',
-      skipWidgets   : true
+      responseType  : 'modal'
     },
 
 
