@@ -1,0 +1,20 @@
+{{#with widget.record}}
+  <article class="teaser">
+    <div class="article-meta">
+      {{t 'Updated at'}} <time datetime="{{createdAt}}"><strong>{{we-date updatedAt}}</strong></time>  {{#each categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+    </div>
+
+    {{#each featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
+
+    <h2 class="teaser-title">{{#link-to 'cfnews.findOne' conferenceId id}}{{title}}{{/link-to}}</h2>
+
+    {{{teaser}}}
+
+    <div class="clearfix"></div>
+    <footer class="article-actions">
+      {{we-action-view-btn 'cfnews' this ../locals.req conferenceId id }}
+      {{we-action-edit-btn 'cfnews' this ../locals.req conferenceId id }}
+      {{we-action-delete-btn 'cfnews' this ../locals.req conferenceId id }}
+    </footer>
+  </article>
+{{/with}}
