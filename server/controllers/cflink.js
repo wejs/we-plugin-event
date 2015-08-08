@@ -1,6 +1,3 @@
-var _= require('lodash');
-var async = require('async');
-
 var linkSortAttrs = ['weight', 'id', 'depth', 'parent'];
 
 module.exports = {
@@ -8,7 +5,7 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.record) res.locals.record = {};
 
-     _.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.record, req.query);
 
     if (req.method === 'POST') {
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
@@ -16,7 +13,7 @@ module.exports = {
       req.body.cfmenuId = req.params.cfmenuId;
       // set temp record for use in validation errors
       res.locals.record = req.query;
-      _.merge(res.locals.record, req.body);
+      req.we.utils._.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
@@ -49,17 +46,20 @@ module.exports = {
           );
         res.created();
       }).catch(res.queryError);
-
     } else {
       res.ok();
     }
   },
   sortLinks: function sortLinks(req, res) {
-    var we = req.getWe();
+    var redirectTo = req.we.utils.getRedirectUrl(req, res);
+    if (redirectTo) res.locals.redirectTo = redirectTo;
 
-    if (!req.body) return res.send();
+    if (!req.body) {
+      if (redirectTo) return res.redirect(redirectTo);
+      return res.send();
+    }
 
-    we.db.models.cfmenu.findOne({
+    req.we.db.models.cfmenu.findOne({
       where: { id: req.params.cfmenuId}, include: { all: true }
     }).then(function (cfmenu) {
       if (!cfmenu) return res.notFound();
@@ -72,7 +72,7 @@ module.exports = {
 
         if (linkAttrs.length !== 3) continue;
         if (linkAttrs[0] !== res.locals.model) continue;
-        if (_.isNumber(linkAttrs[1])) continue;
+        if (req.we.utils._.isNumber(linkAttrs[1])) continue;
         if (linkSortAttrs.indexOf(linkAttrs[2]) === -1) continue;
 
         if (!itensToSave[linkAttrs[1]]) itensToSave[linkAttrs[1]] = {};
@@ -80,7 +80,7 @@ module.exports = {
         itensToSave[linkAttrs[1]][linkAttrs[2]] = req.body[item];
       }
 
-      async.each(cfmenu.links, function(link, next) {
+      req.we.utils.async.each(cfmenu.links, function(link, next) {
         if (!itensToSave[link.id]) return next();
 
         link.updateAttributes(itensToSave[link.id])
@@ -89,10 +89,9 @@ module.exports = {
         }).catch(next);
       }, function(err) {
         if (err) return res.serverError(err);
+        if (redirectTo) return res.redirect(redirectTo);
         res.send();
       });
-
     }).catch(res.queryError);
-
   }
 };

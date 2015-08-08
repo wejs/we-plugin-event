@@ -599,7 +599,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               order: [
                 ['weight','ASC'], ['createdAt','ASC']
               ]
-            }).then(function(links){
+            }).then(function (links){
               cf.mainMenu.links = links;
               cb();
             }).catch(cb);
@@ -610,7 +610,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               order: [
                 ['weight','ASC'], ['createdAt','ASC']
               ]
-            }).then(function(links){
+            }).then(function (links){
               cf.secondaryMenu.links = links;
               cb();
             }).catch(cb);
@@ -621,7 +621,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               order: [
                 ['weight','ASC'], ['createdAt','ASC']
               ]
-            }).then(function (links){
+            }).then(function (links) {
               cf.socialMenu.links = links;
               cb();
             }).catch(cb);
