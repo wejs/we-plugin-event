@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-user-plus fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{metadata.cfRegistrationCount}}</div>
+            <div>{{t 'conference_admin_registration'}}</div>
+          </div>
+        </div>
+      </div>
+      {{#link-to 'cfregistration.find' conference.id}}
+        <div class="panel-footer">
+          <span class="pull-left"><i class="glyphicon glyphicon-link"></i> {{t 'View.details'}}</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      {{/link-to}}
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-3">
+            <i class="fa fa-life-ring fa-5x"></i>
+          </div>
+          <div class="col-xs-9 text-right">
+            <div class="huge">{{metadata.cfcontactCount}}</div>
+            <div>{{t 'Messages'}}</div>
+          </div>
+        </div>
+      </div>
+      {{#link-to 'cfcontact.find' conference.id}}
+        <div class="panel-footer">
+          <span class="pull-left"> <i class="glyphicon glyphicon-link"></i> {{t 'View.details'}}</span>
+          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+          <div class="clearfix"></div>
+        </div>
+      {{/link-to}}
+      </a>
+    </div>
+  </div>
+{{#if sessionsToRegister}}
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa fa fa-users fa-fw"></i> {{t 'cfsession.with.requireRegistration'}}
+      </div>
+      <div class="panel-body">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>{{t 'title'}}</td>
+              <td>{{t 'cfroom.vacancy.avaible'}}</td>
+            </tr>
+          </thead>
+          <tbody>
+           {{#each sessionsToRegister}}
+            {{#if haveVacancy}}
+              <tr>
+                <td>{{id}}</td>
+                <td>{{title}}</td>
+                <td>
+                  {{subscribers.length}} / {{room.vacancy}}
+                </td>
+              </tr>
+            {{else}}
+              <tr>
+                <td>{{id}}</td>
+                <td>{{title}}</td>
+                <td>
+                  <span class="text-danger">{{subscribers.length}} / {{room.vacancy}}</span>
+                </td>
+              </tr>
+            {{/if}}
+
+          {{/each}}
+
+          </tbody>
+        </table>
+
+      </div>
+      <div class="panel-footer">
+        <tr>
+          <td colspan="3">
+            {{#link-to 'cfsession.find' conference.id}}
+              <i class="glyphicon glyphicon-link"></i>
+              {{t 'View.details'}}
+            {{/link-to}}
+          </td>
+        </tr>
+      </div>
+    </div>
+  </div>
+{{/if}}
+</div>

@@ -1,6 +1,27 @@
 module.exports = {
   adminIndex: function adminIndex(req, res) {
-    res.ok();
+    req.we.utils.async.parallel([
+      function (done) {
+        return req.we.db.models.cfsession.findAll({
+          where: {
+            conferenceId: res.locals.conference.id,
+            requireRegistration: 1
+          },
+          include: [
+            { model: req.we.db.models.cfroom, as: 'room' },
+            { model: req.we.db.models.cfregistration, as: 'subscribers' }
+          ]
+        }).then(function (cfsessions) {
+          res.locals.sessionsToRegister = cfsessions;
+
+          done();
+        }).catch(done)
+      }
+    ], function (err) {
+      if (err) return res.queryError(err);
+
+      res.ok();
+    });
   },
 
   adminMenu: function adminMenu(req, res) {

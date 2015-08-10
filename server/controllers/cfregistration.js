@@ -52,7 +52,7 @@ module.exports = {
             res.locals.userCfregistration.sessions = s;
             return res.ok();
           });
-        });
+        }).catch(res.queryError);
       }
 
       if (r.length === 1) r[0].checked = true;

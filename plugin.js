@@ -652,6 +652,21 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               }
               cb();
             });
+          },
+          function cfregistrationCount(cb) {
+            we.db.models.cfregistration.count({
+              where: { status: 'registered' }
+            }).then(function (count) {
+              res.locals.metadata.cfRegistrationCount = count;
+              cb();
+            }).catch(cb);
+          },
+          function cfcontactCount(cb) {
+            we.db.models.cfcontact.count()
+            .then(function (count) {
+              res.locals.metadata.cfcontactCount = count;
+              cb();
+            }).catch(cb);
           }
         ], next);
       });
