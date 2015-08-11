@@ -124,30 +124,10 @@ describe('conferenceFeature', function() {
         });
       });
     });
-    // it ('put /conference/:id should update one conference', function (done) {
-    //   var cf = stubs.conferenceStub();
-    //   we.db.models.conference.create(cf).then(function (scf) {
-    //     var newCfData = {
-    //       title: 'updated title :)',
-    //       about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
-    //     };
-    //     authenticatedRequest.put('/conference/'+ scf.id)
-    //     .send(newCfData)
-    //     .set('Accept', 'application/json')
-    //     .expect(200)
-    //     .end(function (err, res) {
-    //       if (err) throw err;
-    //       assert(res.body.conference);
-    //       assert(res.body.conference[0]);
-    //       assert.equal(res.body.conference[0].id, scf.id);
-    //       assert.equal(res.body.conference[0].title, newCfData.title);
-    //       assert.equal(res.body.conference[0].about, newCfData.about);
-    //       assert(res.body.conference[0].title || scf.title);
-    //       assert(res.body.conference[0].about || scf.about);
-    //       done();
-    //     });
-    //   });
-    // });
+
+    it ('get /conference/:id/edit should get conference edit form');
+    it ('post /conference/:id/edit should update one conference');
+
     it ('post /conference/:id/delete should delete one conference', function (done) {
       var cf = stubs.conferenceStub();
       we.db.models.conference.create(cf).then(function (scf) {
@@ -178,7 +158,8 @@ describe('conferenceFeature', function() {
       });
     });
 
-    it ('post /conference/:conferenceId/cfpage/create should create one page inside the conference and return JSON', function (done) {
+    it ('post /conference/:conferenceId/cfpage/create should create one page inside the conference and return JSON',
+    function (done) {
       var pageStub = stubs.pageStub();
       authenticatedRequest.post('/conference/'+SC.id+'/cfpage/create')
       .send(pageStub)
@@ -194,6 +175,9 @@ describe('conferenceFeature', function() {
       });
     });
   });
+
+  it ('post /conference/:conferenceId([0-9]+)/subscribe-in-session return a warning'+
+    ' and dont addSubscriber if session dont have vacancy');
 
   // describe('roomCRUD', function() {
   //   var SC;
@@ -301,6 +285,7 @@ describe('conferenceFeature', function() {
   //       });
   //     });
   //   });
-  //   it ('delete /conference/:conferenceId/room/:id should delete one room and remove sessions from this room');
+  //
   // });
+  it ('delete /conference/:conferenceId/room/:id should delete one room and remove sessions from this room');
 });

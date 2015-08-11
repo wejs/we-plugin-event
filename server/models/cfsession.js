@@ -40,10 +40,30 @@ module.exports = function Model(we) {
         }
       },
 
+      vacancy: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function() {
+          var room = this.getDataValue('room');
+          if (this.getDataValue('requireRegistration') && room) {
+            return room.vacancy;
+          }
+          return null;
+        }
+      },
+
+      /**
+       * variable to check if have vacancy in this session
+       * load cf session room and subscribers after use id
+       *
+       * @type {Object}
+       */
       haveVacancy: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
         get: function() {
+          if (!this.getDataValue('requireRegistration')) return true;
+
           var room = this.getDataValue('room');
           if (room) {
             var subscribers = this.getDataValue('subscribers');
@@ -66,7 +86,13 @@ module.exports = function Model(we) {
     options: {
       titleField: 'title',
       classMethods: {},
-      instanceMethods: {},
+      instanceMethods: {
+        getSubscriberCount: function getSubscriberCount() {
+          return we.db.models.cfsessionSubscriber.count({
+            where: { cfsessionId: this.id }
+          });
+        }
+      },
       hooks: {
         beforeCreate: function beforeCreate(record, options, next) {
           record.status = 'send';

@@ -86,6 +86,9 @@ module.exports = {
     }
   },
 
+  /**
+   * Route to current user register in conference
+   */
   addRegistration: function addRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!req.body.cfsessionId) {
@@ -93,16 +96,34 @@ module.exports = {
         status: 'warning',
         message: req.__('cfsession.registration.cfsessionIsRequired')
       }]);
-      return res.redirect((res.locals.redirectTo || '/'));
+      return res.goTo((res.locals.redirectTo || '/'));
+    }
+    // user not is registered in current conference
+    if (
+      !res.locals.userCfregistration ||
+      (res.locals.userCfregistration.status != 'registered')
+    ) {
+      res.addMessage('error', 'cfsession.addRegistration.user.not.in.conference');
+      return res.goTo((res.locals.redirectTo || '/'));
     }
 
     var we = req.getWe();
 
     // register in one session
-    we.db.models.cfsession.findById(req.body.cfsessionId)
-    .then(function (session) {
+    we.db.models.cfsession.findOne({
+      where: { id: req.body.cfsessionId },
+      include: [
+        { model: we.db.models.cfroom, as: 'room' },
+        { model: we.db.models.cfregistration, as: 'subscribers' }
+      ]
+    }).then(function (session) {
       if (!session) return res.notFound();
 
+      if (!session.haveVacancy) {
+        res.addMessage('warning', 'cfsession.not.haveVacancy');
+        return res.goTo((res.locals.redirectTo || '/'));
+      }
+      // add the subscriber
       session.addSubscribers(res.locals.userCfregistration)
       .then(function() {
         var user = req.user.toJSON();
@@ -116,23 +137,36 @@ module.exports = {
             url: we.config.hostname
           }
         };
-
-        we.email.sendEmail('CFSessionRegisterSuccess', {
-          email: req.user.email,
-          subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
-          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-        }, templateVariables, function(err , emailResp){
-          if (err) {
-            we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
+        // Node.js is do queries in async then to other check if have vacancy
+        session.getSubscriberCount().then(function (count) {
+          // if have more subscribers than vacancy, rollback
+          if (count > session.vacancy) {
+            return session.removeSubscribers(res.locals.userCfregistration)
+            .then(function(){
+              res.addMessage('warning', 'cfsession.not.haveVacancy');
+              return res.goTo((res.locals.redirectTo || '/'));
+            }).catch(res.queryError);
           }
-        });
 
-        req.flash('messages',[{
-          status: 'success',
-          type: 'updated',
-          message: req.__('cfsession.addRegistration.success')
-        }]);
-        res.redirect((res.locals.redirectTo || '/'));
+          // if success send the confirmation message
+          we.email.sendEmail('CFSessionRegisterSuccess', {
+            email: req.user.email,
+            subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
+            replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          }, templateVariables, function(err , emailResp){
+            if (err) {
+              we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
+            }
+          });
+
+          req.flash('messages',[{
+            status: 'success',
+            type: 'updated',
+            message: req.__('cfsession.addRegistration.success')
+          }]);
+          res.goTo((res.locals.redirectTo || '/'));
+        }).catch(req.queryError);
+
       }).catch(req.queryError);
     }).catch(req.queryError);
   },
@@ -144,7 +178,7 @@ module.exports = {
         status: 'warning',
         message: req.__('cfsession.registration.cfsessionIsRequired')
       }]);
-      return res.redirect((res.locals.redirectTo || '/'));
+      return res.goTo((res.locals.redirectTo || '/'));
     }
 
     var we = req.getWe();
@@ -162,7 +196,7 @@ module.exports = {
               message: req.__('cfsession.removeRegistration.success')
             }]);
 
-            res.redirect((res.locals.redirectTo || '/'));
+            res.goTo((res.locals.redirectTo || '/'));
         }).catch(req.queryError);
       }).catch(req.queryError);
     } else {
@@ -173,7 +207,7 @@ module.exports = {
           type: 'updated',
           message: req.__('cfsession.removeRegistration.success')
         }]);
-        res.redirect((res.locals.redirectTo || '/'));
+        res.goTo((res.locals.redirectTo || '/'));
 
       }).catch(req.queryError);
     }
