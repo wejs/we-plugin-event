@@ -9,6 +9,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // set plugin configs
   plugin.setConfigs({
     conference: {
+      // add a conference id for load in all conference portal as a single conference portal
+      singleConferenceId: false,
       defaultTheme: 'we-theme-conference',
       models: [
         'conference',
@@ -570,107 +572,18 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   plugin.events.on('we:express:set:params', function (data) {
     var we = data.we;
-    // conference loader
-    data.express.param('conferenceId', function (req, res, next, id) {
-      data.we.db.models.conference.findOne({
-        where: { id: id }, include: { all: true }
-      }).then(function (cf) {
-        if (!cf) return res.notFound();
-        res.locals.title = cf.title;
-        res.locals.conference = cf;
-        res.locals.widgetContext = 'conference-' + res.locals.conference.id;
 
-        req.body.conferenceId = cf.id;
-
-        res.locals.conferenceService = ( we.config.conference.service || 'conference' );
-
-        if (cf.theme) {
-          res.locals.theme = cf.theme;
-        } else {
-          res.locals.theme = we.config.conference.defaultTheme;
-        }
-        // chage html to conference html
-        res.locals.htmlTemplate = 'conference/html';
-
-        async.parallel([
-          function loadMainMenu(cb){
-            if (!cf.mainMenu) return cb();
-            cf.mainMenu.getLinks({
-              order: [
-                ['weight','ASC'], ['createdAt','ASC']
-              ]
-            }).then(function (links){
-              cf.mainMenu.links = links;
-              cb();
-            }).catch(cb);
-          },
-          function loadSecondaryMenu(cb) {
-            if (!cf.secondaryMenu) return cb();
-            cf.secondaryMenu.getLinks({
-              order: [
-                ['weight','ASC'], ['createdAt','ASC']
-              ]
-            }).then(function (links){
-              cf.secondaryMenu.links = links;
-              cb();
-            }).catch(cb);
-          },
-          function loadSocialMenu(cb) {
-            if (!cf.socialMenu) return cb();
-            cf.socialMenu.getLinks({
-              order: [
-                ['weight','ASC'], ['createdAt','ASC']
-              ]
-            }).then(function (links) {
-              cf.socialMenu.links = links;
-              cb();
-            }).catch(cb);
-          },
-          function loadTopicImages(cb) {
-            if (!cf.topics) return cb();
-            we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
-          },
-          function isRegistered(cb) {
-            if (!req.isAuthenticated()) return cb();
-            // load current user registration register
-            we.db.models.cfregistration.findOne({
-              where: { conferenceId: id, userId: req.user.id }
-            }).then(function (r) {
-              if (!r) return cb();
-              res.locals.userCfregistration = r;
-              req.userRoleNames.push('registeredInConference');
-              cb();
-            }).catch(cb);
-          },
-          function isManager(cb) {
-            if (!req.isAuthenticated()) return cb();
-            cf.isManager(req.user.id, function(err, isMNG){
-              if (err) return cb(err);
-              if (isMNG) {
-                res.locals.isConferenceManager = isMNG;
-                req.userRoleNames.push('conferenceManager');
-              }
-              cb();
-            });
-          },
-          function cfregistrationCount(cb) {
-            we.db.models.cfregistration.count({
-              where: { status: 'registered' }
-            }).then(function (count) {
-              res.locals.metadata.cfRegistrationCount = count;
-              cb();
-            }).catch(cb);
-          },
-          function cfcontactCount(cb) {
-            we.db.models.cfcontact.count()
-            .then(function (count) {
-              res.locals.metadata.cfcontactCount = count;
-              cb();
-            }).catch(cb);
-          }
-        ], next);
+    if (we.config.conference.singleConferenceId) {
+      data.express.all('/*', function (req, res, next) {
+        loadConferenceAndConferenceContext(
+          req, res, next,
+          we.config.conference.singleConferenceId
+        );
       });
-    });
+    } else {
+      data.express.param('conferenceId', loadConferenceAndConferenceContext);
+    }
+
   });
 
   plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
@@ -711,6 +624,108 @@ module.exports = function loadPlugin(projectPath, Plugin) {
      opts.configs.structure.widgetEditFormUrl = '/conference/'+cfID+'/admin/widget/';
     }
   });
+  // conference loader
+  function loadConferenceAndConferenceContext(req, res, next, id) {
+    var we = req.we;
+    we.db.models.conference.findOne({
+      where: { id: id }, include: { all: true }
+    }).then(function (cf) {
+      if (!cf) return res.notFound();
+      res.locals.title = cf.title;
+      res.locals.conference = cf;
+      res.locals.widgetContext = 'conference-' + res.locals.conference.id;
+
+      if (req.body) req.body.conferenceId = cf.id;
+
+      res.locals.conferenceService = ( we.config.conference.service || 'conference' );
+
+      if (cf.theme) {
+        res.locals.theme = cf.theme;
+      } else {
+        res.locals.theme = we.config.conference.defaultTheme;
+      }
+      // chage html to conference html
+      res.locals.htmlTemplate = 'conference/html';
+
+      async.parallel([
+        function loadMainMenu(cb){
+          if (!cf.mainMenu) return cb();
+          cf.mainMenu.getLinks({
+            order: [
+              ['weight','ASC'], ['createdAt','ASC']
+            ]
+          }).then(function (links){
+            cf.mainMenu.links = links;
+            cb();
+          }).catch(cb);
+        },
+        function loadSecondaryMenu(cb) {
+          if (!cf.secondaryMenu) return cb();
+          cf.secondaryMenu.getLinks({
+            order: [
+              ['weight','ASC'], ['createdAt','ASC']
+            ]
+          }).then(function (links){
+            cf.secondaryMenu.links = links;
+            cb();
+          }).catch(cb);
+        },
+        function loadSocialMenu(cb) {
+          if (!cf.socialMenu) return cb();
+          cf.socialMenu.getLinks({
+            order: [
+              ['weight','ASC'], ['createdAt','ASC']
+            ]
+          }).then(function (links) {
+            cf.socialMenu.links = links;
+            cb();
+          }).catch(cb);
+        },
+        function loadTopicImages(cb) {
+          if (!cf.topics) return cb();
+          we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
+        },
+        function isRegistered(cb) {
+          if (!req.isAuthenticated()) return cb();
+          // load current user registration register
+          we.db.models.cfregistration.findOne({
+            where: { conferenceId: id, userId: req.user.id }
+          }).then(function (r) {
+            if (!r) return cb();
+            res.locals.userCfregistration = r;
+            req.userRoleNames.push('registeredInConference');
+            cb();
+          }).catch(cb);
+        },
+        function isManager(cb) {
+          if (!req.isAuthenticated()) return cb();
+          cf.isManager(req.user.id, function(err, isMNG){
+            if (err) return cb(err);
+            if (isMNG) {
+              res.locals.isConferenceManager = isMNG;
+              req.userRoleNames.push('conferenceManager');
+            }
+            cb();
+          });
+        },
+        function cfregistrationCount(cb) {
+          we.db.models.cfregistration.count({
+            where: { status: 'registered' }
+          }).then(function (count) {
+            res.locals.metadata.cfRegistrationCount = count;
+            cb();
+          }).catch(cb);
+        },
+        function cfcontactCount(cb) {
+          we.db.models.cfcontact.count()
+          .then(function (count) {
+            res.locals.metadata.cfcontactCount = count;
+            cb();
+          }).catch(cb);
+        }
+      ], next);
+    });
+  }
 
   return plugin;
 };
