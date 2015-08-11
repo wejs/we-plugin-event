@@ -568,7 +568,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
   });
 
-  plugin.events.on('we:express:set:params', function(data) {
+  plugin.events.on('we:express:set:params', function (data) {
     var we = data.we;
     // conference loader
     data.express.param('conferenceId', function (req, res, next, id) {
@@ -671,6 +671,31 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         ], next);
       });
     });
+  });
+
+  plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
+    var we = data.req.we;
+
+    // set admin menu
+    if (
+      data.res.locals.conference &&
+      we.acl.canStatic('manage_conference', data.req.userRoleNames)
+    ){
+      data.res.locals.userMenu.addLink({
+        id: 'conference_admin',
+        dividerAfter: true,
+        text: '<i class="glyphicon glyphicon-cog"></i> '+
+          data.req.__('conference.menu.admin'),
+        href: we.router.urlTo(
+          'conference.findOne', [data.res.locals.conference.id], we
+        ),
+        parent: 'user',
+        class: null,
+        weight: 5
+      });
+    }
+
+    done();
   });
 
   plugin.events.on('we:config:getAppBootstrapConfig', function(opts) {
