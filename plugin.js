@@ -570,37 +570,31 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
   });
 
-  plugin.events.on('we:express:set:params', function (data) {
-    var we = data.we;
-
-    if (we.config.conference.singleConferenceId) {
-      data.express.all('/*', function (req, res, next) {
-        loadConferenceAndConferenceContext(
-          req, res, next,
-          we.config.conference.singleConferenceId
-        );
-      });
-    } else {
-      data.express.param('conferenceId', loadConferenceAndConferenceContext);
-    }
-
+  plugin.hooks.on('we:router:request:before:load:context', function (data, done) {
+    var we = data.req.we;
+    // set conference id in all requests if singleConferenceId is set
+    if (we.config.conference.singleConferenceId)
+      data.req.params.conferenceId =  we.config.conference.singleConferenceId;
+    // skip if not are inside one conference
+    if (!data.req.params.conferenceId) return done();
+    // load conference context
+    loadConferenceAndConferenceContext(data.req, data.res, done, data.req.params.conferenceId);
   });
 
   plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
     var we = data.req.we;
-
     // set admin menu
     if (
       data.res.locals.conference &&
       we.acl.canStatic('manage_conference', data.req.userRoleNames)
-    ){
+    ) {
       data.res.locals.userMenu.addLink({
         id: 'conference_admin',
         dividerAfter: true,
         text: '<i class="glyphicon glyphicon-cog"></i> '+
           data.req.__('conference.menu.admin'),
         href: we.router.urlTo(
-          'conference.findOne', [data.res.locals.conference.id], we
+          'conference_admin', [data.res.locals.conference.id], we
         ),
         parent: 'user',
         class: null,

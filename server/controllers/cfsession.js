@@ -86,7 +86,7 @@ module.exports = {
     }
   },
 
-  addRegistration: function (req, res) {
+  addRegistration: function addRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!req.body.cfsessionId) {
       req.flash('messages',[{
@@ -99,7 +99,8 @@ module.exports = {
     var we = req.getWe();
 
     // register in one session
-    we.db.models.cfsession.findById(req.body.cfsessionId).then(function (session){
+    we.db.models.cfsession.findById(req.body.cfsessionId)
+    .then(function (session) {
       if (!session) return res.notFound();
 
       session.addSubscribers(res.locals.userCfregistration)
@@ -136,7 +137,7 @@ module.exports = {
     }).catch(req.queryError);
   },
 
-  removeRegistration: function (req, res) {
+  removeRegistration: function removeRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!req.body.cfsessionId) {
       req.flash('messages',[{
