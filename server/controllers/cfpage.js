@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 module.exports = {
   find: function find(req, res, next) {
     res.locals.query.conferenceId = res.locals.conference.id;

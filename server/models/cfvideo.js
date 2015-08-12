@@ -32,8 +32,14 @@ module.exports = function Model(we) {
       // video thumbnails
       thumbnails: { type: we.db.Sequelize.TEXT, formFieldType: null,
        get: function()  {
-          if (this.getDataValue('thumbnails'))
-            return JSON.parse( this.getDataValue('thumbnails') );
+        var thumbs = this.getDataValue('thumbnails');
+          if (thumbs && (typeof thumbs == 'string')){
+            try {
+              return JSON.parse( thumbs );
+            } catch (e) {
+              console.error('Error on parse cfvideo.thumbnail:', e, thumbs);
+            }
+          }
           return {};
         },
         set: function(object) {
