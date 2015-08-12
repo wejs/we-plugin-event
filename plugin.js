@@ -620,6 +620,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
   // conference loader
   function loadConferenceAndConferenceContext(req, res, next, id) {
+    // skip in admin pages
+    if (res.locals.isAdmin) return next();
+
     var we = req.we;
     we.db.models.conference.findOne({
       where: { id: id }, include: { all: true }
