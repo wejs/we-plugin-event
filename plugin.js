@@ -149,6 +149,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     name: 'cfsession',
     namespace: '/admin',
     findLayout: 'conferenceAdmin',
+    findOneLayout: 'conferenceAdmin',
     editLayout: 'conferenceAdmin',
     createLayout: 'conferenceAdmin',
     deleteLayout: 'conferenceAdmin',
@@ -513,6 +514,21 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
 
     // - cfsession
+    'get /conference/:conferenceId([0-9]+)/admin/cfsession/:cfsessionId([0-9]+)/subscribers': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfsession',
+      action        : 'subscribers',
+      model         : 'cfsession',
+      permission    : 'manage_conference'
+    },
+   'get /conference/:conferenceId([0-9]+)/admin/cfsession/:cfsessionId([0-9]+)/subscribers.csv': {
+      controller    : 'cfsession',
+      action        : 'exportSubscribers',
+      model         : 'cfsession',
+      permission    : 'manage_conference',
+      responseType  : 'cvs'
+    },
+
     'post /conference/:conferenceId([0-9]+)/subscribe-in-session': {
       controller    : 'cfsession',
       action        : 'addRegistration',

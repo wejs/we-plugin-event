@@ -1,0 +1,43 @@
+<ul class="nav nav-tabs">
+  <li role="presentation">
+    {{#link-to 'cfsession.findOne' record.conferenceId record.id}}
+      {{t 'View'}}
+    {{/link-to}}
+  </li>
+  <li role="presentation" class="active">
+    {{#link-to 'cfsession.subscribers' record.conferenceId record.id}}
+      <i class="fa fa-user-plus"></i> {{t 'cfsession.subscribers'}}
+    {{/link-to}}
+  </li>
+  <li role="presentation">
+    {{#link-to 'cfsession.exportSubscribers' record.conferenceId record.id}}
+      <i class="glyphicon glyphicon-floppy-open"></i> {{t 'export'}}
+    {{/link-to}}
+  </li>
+</ul>
+<br>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>{{t 'userId'}}</th>
+      <th>{{t 'displayName'}}</th>
+      <th>{{t 'fullName'}}</th>
+      <th>{{t 'email'}}</th>
+      <th>{{t 'createdAt'}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each record.subscribers}}
+      <tr>
+        <td>{{id}}</td>
+        <td>{{user.id}}</td>
+        <td>{{user.displayName}}</td>
+        <td>{{user.fullName}}</td>
+        <td>{{user.email}}</td>
+        <td>{{we-date createdAt}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
