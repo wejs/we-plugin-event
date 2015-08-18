@@ -52,12 +52,12 @@
         <i class="fa fa fa fa-users fa-fw"></i> {{t 'cfsession.with.requireRegistration'}}
       </div>
       <div class="panel-body">
-
         <table class="table">
           <thead>
             <tr>
               <th>ID</th>
               <th>{{t 'title'}}</th>
+              <th>{{t 'subscriptions'}}</th>
               <th>{{t 'cfroom.vacancy.avaible'}}</th>
             </tr>
           </thead>
@@ -66,7 +66,18 @@
             {{#if haveVacancy}}
               <tr>
                 <td>{{id}}</td>
-                <td>{{title}}</td>
+                <td>
+                {{#link-to 'cfsession.findOne' conferenceId id}}
+                  {{title}}
+                {{/link-to}}
+                </td>
+                <td>
+                  {{#link-to 'cfsession.subscribers'  conferenceId id class="btn btn-default btn-sm"}}
+                    <i class="fa fa-users"></i>
+                  {{/link-to}} {{#link-to 'cfsession.exportSubscribers' conferenceId id class="btn btn-default btn-sm"}}
+                    <i class="glyphicon glyphicon-floppy-open"></i>
+                  {{/link-to}}
+                </td>
                 <td>
                   {{subscribers.length}} / {{room.vacancy}}
                 </td>
@@ -74,13 +85,23 @@
             {{else}}
               <tr>
                 <td>{{id}}</td>
-                <td>{{title}}</td>
+                <td>
+                  {{#link-to 'cfsession.findOne' conferenceId id}}
+                    {{title}}
+                  {{/link-to}}
+                </td>
+                <td>
+                  {{#link-to 'cfsession.subscribers' conferenceId id class="btn btn-default btn-sm"}}
+                    <i class="fa fa-users"></i>
+                  {{/link-to}} {{#link-to 'cfsession.exportSubscribers' conferenceId id class="btn btn-default btn-sm"}}
+                    <i class="glyphicon glyphicon-floppy-open"></i>
+                  {{/link-to}}
+                </td>
                 <td>
                   <span class="text-danger">{{subscribers.length}} / {{room.vacancy}}</span>
                 </td>
               </tr>
             {{/if}}
-
           {{/each}}
 
           </tbody>
