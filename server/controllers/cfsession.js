@@ -4,16 +4,21 @@ module.exports = {
   find: function findAll(req, res, next) {
     var we = req.getWe();
 
-    res.locals.query.order = [ ['startDate', 'ASC'], ['createdAt', 'ASC'] ];
+    if (res.locals.query.order == 'createdAt DESC') {
+      res.locals.query.order = [ ['startDate', 'ASC'], ['createdAt', 'ASC'] ];
+    }
 
-    res.locals.query.include = [{ all: true}];
+    res.locals.query.include = [
+      { model: we.db.models.cftopic, as: 'topic' },
+      { model: we.db.models.cfroom, as: 'room' },
+      { model: we.db.models.user, as: 'user' }
+    ];
 
-    // filter by creator if are have userId param
+    // filter by creator if have userId param
     if (req.params.userId)
       res.locals.query.where.userId = req.params.userId;
 
-    return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function (record) {
+    return res.locals.Model.findAndCountAll(res.locals.query).then(function (record) {
       if (!record) return next();
 
       var activeSet = false;
