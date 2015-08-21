@@ -112,6 +112,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     layoutName: 'conferenceAdmin',
     findAll: {
       search: {
+        id:  {
+          parser: 'equal',
+          target: {
+            type: 'field',
+            field: 'id'
+          }
+        },
         email:  {
           parser: 'equal',
           target: {
