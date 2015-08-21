@@ -577,7 +577,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     loadConferenceAndConferenceContext(data.req, data.res, done, data.req.params.conferenceId);
   });
 
-  plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
+  plugin.hooks.on('we-plugin-menu:after:set:core:menus', function (data, done) {
     var we = data.req.we;
     // set admin menu
     if (
