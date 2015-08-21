@@ -109,7 +109,27 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     parent: 'conference',
     name: 'cfregistration',
     namespace: '/admin',
-    layoutName: 'conferenceAdmin'
+    layoutName: 'conferenceAdmin',
+    findAll: {
+      search: {
+        email:  {
+          parser: 'equal',
+          target: {
+            type: 'association',
+            model: 'user',
+            field: 'email'
+          }
+        },
+        displayName:  {
+          parser: 'contains',
+          target: {
+            type: 'association',
+            model: 'user',
+            field: 'displayName'
+          }
+        }
+      }
+    }
   });
   plugin.setResource({
     parent: 'conference',
