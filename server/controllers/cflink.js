@@ -71,7 +71,7 @@ module.exports = {
         linkAttrs = item.split('-');
 
         if (linkAttrs.length !== 3) continue;
-        if (linkAttrs[0] !== res.locals.model) continue;
+        if (linkAttrs[0] !== 'link') continue;
         if (req.we.utils._.isNumber(linkAttrs[1])) continue;
         if (linkSortAttrs.indexOf(linkAttrs[2]) === -1) continue;
 
