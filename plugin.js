@@ -639,6 +639,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       }
       // chage html to conference html
       res.locals.htmlTemplate = 'conference/html';
+      // set registration count metadata
+      res.locals.metadata.cfRegistrationCount = cf.registrationCount;
 
       async.parallel([
         function loadMainMenu(cb){
@@ -700,14 +702,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             }
             cb();
           });
-        },
-        function cfregistrationCount(cb) {
-          we.db.models.cfregistration.count({
-            where: { status: 'registered' }
-          }).then(function (count) {
-            res.locals.metadata.cfRegistrationCount = count;
-            cb();
-          }).catch(cb);
         },
         function cfcontactCount(cb) {
           we.db.models.cfcontact.count()
