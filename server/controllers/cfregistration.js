@@ -36,11 +36,8 @@ module.exports = {
         }
       }
 
-      if (!req.isAuthenticated()) {
-        // only authenticated
-        res.locals.template = 'cfregistration/registration-unAuthenticated';
-        return res.ok();
-      } else if (res.locals.userCfregistration) {
+      // return my registration page
+      if (req.isAuthenticated() && res.locals.userCfregistration) {
         res.locals.title = req.__('conference.registered');
 
         res.locals.template =
@@ -64,6 +61,18 @@ module.exports = {
             return res.ok();
           });
         }).catch(res.queryError);
+      }
+
+      // return to conference and show error message if conference not is open
+      if (res.locals.conference.registrationStatus != 'open') {
+        res.addMessage('error', 'conference.'+res.locals.conference.registrationStatus);
+        return res.goTo('/conference/'+ res.locals.conference.id);
+      }
+
+      if (!req.isAuthenticated()) {
+        // only authenticated
+        res.locals.template = 'cfregistration/registration-unAuthenticated';
+        return res.ok();
       }
 
       if (r.length === 1) r[0].checked = true;
