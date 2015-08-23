@@ -42,6 +42,11 @@ module.exports = function Model(we) {
         formFieldType: 'number'
       },
 
+      registrationCount: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null
+      },
+
       location: { type: we.db.Sequelize.TEXT },
 
       published: {
@@ -83,7 +88,7 @@ module.exports = function Model(we) {
       /**
        * registration status
        *
-       * return closed, closed_before, open or closed_after
+       * return closed, closed_before, open, closed_no_vacancies or closed_after
        *
        * @type {Object}
        */
@@ -105,7 +110,13 @@ module.exports = function Model(we) {
 
           if (startDate && endDate) {
             // is open if are between start and end date
-            if ((now > startDate) && (now < endDate)) return 'open';
+            if ((now > startDate) && (now < endDate)) {
+              var vac = this.getDataValue('vacancies');
+              if (vac && (vac >= this.getDataValue('registrationCount')) ) {
+                return 'closed_no_vacancies';
+              }
+              return 'open';
+            }
           }
 
           return 'closed';
@@ -205,39 +216,37 @@ module.exports = function Model(we) {
         },
 
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
+          // TODO
           return cb();
-          // var widgets = [{
-          //   title: 'Menu',
-          //   configuration :{
-          //     menu: 'admin',
-          //   },
-          //   type: 'we-cf-menu',
-          //   layout: 'conferenceAdmin',
-          //   theme: 'we-theme-conference',
-          //   context: 'conference-' + this.id,
-          //   regionName: 'sidebar',
-          //   creatorId: this.creatorId
-          // }, {
-          //   title: 'Menu',
-          //   configuration :{
-          //     menu: 'side',
-          //   },
-          //   type: 'we-cf-menu',
-          //   layout: 'default',
-          //   theme: 'we-theme-conference',
-          //   context: 'conference-' + this.id,
-          //   regionName: 'sidebar',
-          //   creatorId: this.creatorId
-          // }];
-
-          // we.db.models.widget.bulkCreate(widgets).then(function() {
-          //   cb(null);
-          // }).catch(function (err) {
-          //   cb(err);
-          // });
         }
       },
       hooks: {
+        afterFind: function(record, options, cb) {
+          // load registration count for every conference
+          var finds = [];
+          if (we.utils._.isArray(record) ) {
+            record.forEach(function(r){
+              finds.push(function (cb) {
+                we.db.models.cfregistration.count({
+                  where: {  conferenceId: r.id }
+                }).then(function (count){
+                  r.registrationCount = count;
+                  return cb();
+                }).catch(cb);
+              });
+            });
+          } else {
+            finds.push(function (cb){
+              we.db.models.cfregistration.count({
+                where: {  conferenceId: record.id }
+              }).then(function (count){
+                record.registrationCount = count;
+                return cb();
+              }).catch(cb);
+            });
+          }
+          async.parallel(finds, cb);
+        },
         afterCreate: function afterCreate (record, options, cb) {
           async.parallel([
             record.generateDefaultMenus.bind(record),
