@@ -71,7 +71,11 @@ module.exports = function Model(we) {
           var ms = this.getDataValue('managers');
           if (!ms) return [];
           return ms.map(function(m) {
-            return m.id;
+            if (typeof m == 'object') {
+              return m.id;
+            }  else {
+              return m;
+            }
           });
         }
       },
