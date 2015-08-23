@@ -74,6 +74,38 @@ module.exports = function Model(we) {
             return m.id;
           });
         }
+      },
+
+      /**
+       * registration status
+       *
+       * return closed, closed_before, open or closed_after
+       *
+       * @type {Object}
+       */
+      registrationStatus: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function() {
+          var startDate = this.getDataValue('registrationStartDate');
+          var endDate = this.getDataValue('registrationEndDate');
+
+          if (startDate) startDate = we.utils.moment(startDate).unix();
+          if (endDate) endDate = we.utils.moment(endDate).unix();
+          var now = we.utils.moment().unix();
+
+          // before registration
+          if (startDate && (now < startDate) ) return 'closed_before';
+          // after registration date
+          if (endDate && (now > endDate) ) return 'closed_after';
+
+          if (startDate && endDate) {
+            // is open if are between start and end date
+            if ((now > startDate) && (now < endDate)) return 'open';
+          }
+
+          return 'closed';
+        }
       }
     },
     associations: {
