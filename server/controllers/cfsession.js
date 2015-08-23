@@ -249,11 +249,20 @@ module.exports = {
       where: { id: req.params.cfsessionId }
     }).then(function (r) {
       if (!r) return res.notFound();
+      // add user association
+      res.locals.query.include = [ { model: req.we.db.models.user, as: 'user'} ];
+      // sort by fullName by default
+      if (!req.query.notSortByFullName) {
+        res.locals.query.order = [[
+          { model: req.we.db.models.user, as: 'user' },
+          'fullName', 'ASC'
+        ]];
+      }
+
+      delete res.locals.query.limit;
 
       res.locals.record = r;
-      r.getSubscribers({
-        include: [ { model: req.we.db.models.user, as: 'user'} ]
-      }).then(function (s) {
+      r.getSubscribers(res.locals.query).then(function (s) {
         res.locals.record.subscribers = s;
 
         var subscriptions = s.map(function (i) {

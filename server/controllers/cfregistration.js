@@ -1,5 +1,15 @@
 var _ = require('lodash');
 
+var registrationFields  = [
+  'registrationId'+
+  'userId'+
+  'email'+
+  'displayName'+
+  'fullName'+
+  'status'+
+  'registrationDate'
+];
+
 module.exports = {
   register: function register(req, res) {
     var we = req.getWe();
@@ -159,6 +169,19 @@ module.exports = {
   exportRegistration: function exportRegistration(req, res) {
     var we = req.getWe();
 
+    var order = ' order by fullName ASC ';
+    // valid and parse orderby
+    if (req.query.order) {
+      var orderParams = req.query.order.split(' ');
+      if (orderParams.length == 2) {
+        if ( (orderParams[1] =='ASC') || (orderParams[1] == 'DESC') ) {
+          if (registrationFields.indexOf(orderParams[0])) {
+            order = ' order by '+req.query.order;
+          }
+        }
+      }
+    }
+
     var sql = 'SELECT '+
       'cfregistrations.id as registrationId, '+
       'cfregistrations.userId, '+
@@ -169,7 +192,8 @@ module.exports = {
       'cfregistrations.createdAt AS registrationDate '+
     'FROM cfregistrations '+
     'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
-    'WHERE cfregistrations.conferenceId='+ res.locals.conference.id;
+    'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
+    order;
 
     we.db.defaultConnection.query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT}
