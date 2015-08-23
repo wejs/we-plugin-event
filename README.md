@@ -3,9 +3,16 @@
 [![Dependency Status](https://david-dm.org/wejs/we-plugin-conference.png)](https://david-dm.org/wejs/we-plugin-conference)
 [![Build Status](https://travis-ci.org/wejs/we-plugin-conference.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-conference)
 
+## Requirements in your we.js project
+
+- we-core
+- we-plugin-menu
+- we-plugin-form
+- we-plugin-file
+
 ## Has suport to:
 
- - Add event crud
+ - Add a muilti conference system in your we.js project
 
 ### How to test
 
