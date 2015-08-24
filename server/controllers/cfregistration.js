@@ -262,19 +262,16 @@ module.exports = {
     'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
     'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
     '   AND cfregistrations.status="registered" '+
-    order + ' limit 45 ';
+    order;
 
     we.db.defaultConnection.query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT}
     ).then(function (results) {
 
-      var doc = new PDFDocument({
-
-      });
+      var doc = new PDFDocument();
 
       doc.pipe(res);
 
-      console.log('r>>\n', results[0]);
       var marginLeft = 3;
       var marginTop = 20;
       var col = 0;
@@ -284,7 +281,7 @@ module.exports = {
       var h = 115;
       var count = 1;
 
-      req.we.utils.async.eachSeries(results, function(r, next){
+      req.we.utils.async.eachSeries(results, function (r, next){
         var name;
 
         if (r.fullName) {
@@ -341,15 +338,11 @@ module.exports = {
         }
 
         next();
-      }, function(){
+      }, function(err){
+        if (err) return res.serverError(err);
         // finalize the PDF and end the stream
         doc.end();
-
       });
-      // res.setHeader('Content-disposition', 'attachment; filename='+fileName);
-      //     res.set('Content-Type', 'application/octet-stream');
-      //     res.send(data);
-
     }).catch(res.queryError);
   }
 }
