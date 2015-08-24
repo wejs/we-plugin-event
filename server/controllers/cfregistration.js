@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var PDFDocument = require('pdfkit');
 
 var registrationFields  = [
   'registrationId'+
@@ -202,6 +203,7 @@ module.exports = {
     'FROM cfregistrations '+
     'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
     'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
+    '   AND cfregistrations.status="registered" '+
     order;
 
     we.db.defaultConnection.query(sql
@@ -229,6 +231,125 @@ module.exports = {
           res.set('Content-Type', 'application/octet-stream');
           res.send(data);
         });
+    }).catch(res.queryError);
+  },
+
+  exportRegistrationUserTags: function(req, res) {
+    var we = req.getWe();
+
+    var order = ' order by fullName ASC ';
+    // valid and parse orderby
+    if (req.query.order) {
+      var orderParams = req.query.order.split(' ');
+      if (orderParams.length == 2) {
+        if ( (orderParams[1] =='ASC') || (orderParams[1] == 'DESC') ) {
+          if (registrationFields.indexOf(orderParams[0])) {
+            order = ' order by '+req.query.order;
+          }
+        }
+      }
+    }
+
+    var sql = 'SELECT '+
+      'cfregistrations.id as registrationId, '+
+      'cfregistrations.userId, '+
+      'u.email, '+
+      'u.displayName, '+
+      'u.fullName, '+
+      'cfregistrations.status, '+
+      'cfregistrations.createdAt AS registrationDate '+
+    'FROM cfregistrations '+
+    'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
+    'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
+    '   AND cfregistrations.status="registered" '+
+    order + ' limit 45 ';
+
+    we.db.defaultConnection.query(sql
+      , { type: we.db.defaultConnection.QueryTypes.SELECT}
+    ).then(function (results) {
+
+      var doc = new PDFDocument({
+
+      });
+
+      doc.pipe(res);
+
+      console.log('r>>\n', results[0]);
+      var marginLeft = 3;
+      var marginTop = 20;
+      var col = 0;
+      var row = 0;
+      var perRow = 3;
+      var w = 200;
+      var h = 115;
+      var count = 1;
+
+      req.we.utils.async.eachSeries(results, function(r, next){
+        var name;
+
+        if (r.fullName) {
+          var fa = r.fullName.split(' ');
+
+          name = fa[0];
+          if (fa[1]) {
+            if (fa[1].length>2) {
+              name += ' \n' + fa[1];
+            } else if (fa[2]) {
+              name += ' \n' + fa[2];
+            }
+
+          }
+        } else {
+          name = r.displayName.split(' ')[0];
+        }
+
+        // displayName
+        doc.fontSize(20);
+        doc.text(name,
+          marginLeft*(col+1) + 10 +(w*col),
+          marginTop + 10 +(h*row)
+        );
+        // registration code
+        doc.fontSize(11);
+        doc.text('id: '+r.registrationId,
+          marginLeft*(col+1) + 10 +(w*col),
+          marginTop + 100 +(h*row)
+        );
+
+        // draw bounding rectangle
+        doc.rect(
+          (marginLeft*(col+1) )+(w*col),
+          marginTop + 0+(h*row),
+          w,
+          h
+        ).stroke();
+
+        if (col < perRow-1) {
+          col++;
+        } else {
+          col=0;
+          row++;
+        }
+
+        count++;
+
+        if (count > 18) {
+          // next page
+          doc.addPage();
+          count = 1;
+          row = 0;
+        }
+
+        next();
+      }, function(){
+        // finalize the PDF and end the stream
+        doc.end();
+
+      });
+      // res.setHeader('Content-disposition', 'attachment; filename='+fileName);
+      //     res.set('Content-Type', 'application/octet-stream');
+      //     res.send(data);
+
     }).catch(res.queryError);
   }
 }

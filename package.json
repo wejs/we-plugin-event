@@ -10,6 +10,7 @@
   "dependencies": {
     "async": "^1.0.0",
     "lodash": "^3.0.1",
+    "pdfkit": "^0.7.1",
     "video-url-inspector": "^1.0.0"
   },
   "devDependencies": {

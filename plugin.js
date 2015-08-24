@@ -305,6 +305,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'manage_conference',
       responseType  : 'cvs'
     },
+    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/usertags.pdf': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfregistration',
+      action        : 'exportRegistrationUserTags',
+      model         : 'cfregistration',
+      permission    : 'manage_conference',
+      responseType  : 'pdf'
+    },
     // registration type
     'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type': {
       layoutName    : 'conferenceAdmin',
