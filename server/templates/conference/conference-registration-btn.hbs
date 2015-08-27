@@ -20,8 +20,14 @@
       </a>
     {{/ifCond}}
   {{else}}
-    <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/conference/{{conference.id}}/register">
-      <strong>{{t 'conference.btn.register'}}</strong>
-    </a>
+    {{#ifCond conference.registrationStatus 'open'}}
+      <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/conference/{{conference.id}}/register">
+        <strong>{{t 'conference.btn.register'}}</strong>
+      </a>
+    {{else}}
+      <a class="btn btn-default btn-block btn-lg disabled" href="#">
+        <strong>{{t 'conference.btn.closed'}}</strong>
+      </a>
+    {{/ifCond}}
   {{/if}}
 {{/if}}
