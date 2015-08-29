@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 module.exports = {
   find: function findAll(req, res, next) {
     var we = req.getWe();
@@ -71,14 +69,14 @@ module.exports = {
 
     if (!res.locals.record) res.locals.record = {};
 
-     _.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.record, req.query);
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.userId = req.user.id;
 
       // set temp record for use in validation errors
       res.locals.record = req.query;
-      _.merge(res.locals.record, req.body);
+      req.we.utils._.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {

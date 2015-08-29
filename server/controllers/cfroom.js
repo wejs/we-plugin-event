@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 module.exports = {
   find: function find(req, res, next) {
     res.locals.query.conferenceId = res.locals.conference.id;
@@ -17,7 +15,7 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.record) res.locals.record = {};
     // set temp record for use in validation errors
-    _.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.record, req.query);
 
     res.locals.record.conferenceId = req.params.conferenceId;
 
@@ -27,7 +25,7 @@ module.exports = {
       req.body.conferenceId = req.params.conferenceId;
 
       res.locals.record = req.query;
-      _.merge(res.locals.record, req.body);
+      req.we.utils._.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {

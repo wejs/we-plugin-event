@@ -2,8 +2,6 @@ var assert = require('assert');
 var request = require('supertest');
 var helpers = require('we-test-tools').helpers;
 var stubs = require('we-test-tools').stubs;
-var async = require('async');
-var _ = require('lodash');
 var http;
 var we;
 var agent;

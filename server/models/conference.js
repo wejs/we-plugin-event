@@ -5,7 +5,6 @@
  * @description :: System conference model
  *
  */
-var async = require('async');
 
 module.exports = function Model(we) {
   var model = {
@@ -179,7 +178,7 @@ module.exports = function Model(we) {
         generateDefaultMenus: function generateDefaultMenus(cb) {
           var self = this;
 
-          async.series([
+          we.utils.async.series([
             function (done) {
               we.db.models.cfmenu.create({
                 conferenceId: self.id,
@@ -225,7 +224,7 @@ module.exports = function Model(we) {
           // load registration count for every conference
           var finds = [];
           if (we.utils._.isArray(record) ) {
-            record.forEach(function(r){
+            record.forEach(function (r){
               finds.push(function (cb) {
                 we.db.models.cfregistration.count({
                   where: {  conferenceId: r.id }
@@ -236,7 +235,10 @@ module.exports = function Model(we) {
               });
             });
           } else {
-            finds.push(function (cb){
+            // 0 itens found
+            if (!record) return cb();
+            // load cfregistration count for find one record
+            finds.push(function (cb) {
               we.db.models.cfregistration.count({
                 where: {  conferenceId: record.id }
               }).then(function (count){
@@ -245,10 +247,10 @@ module.exports = function Model(we) {
               }).catch(cb);
             });
           }
-          async.parallel(finds, cb);
+          we.utils.async.parallel(finds, cb);
         },
         afterCreate: function afterCreate (record, options, cb) {
-          async.parallel([
+          we.utils.async.parallel([
             record.generateDefaultMenus.bind(record),
             record.generateDefaultWidgets.bind(record),
             function addCreatorAsManager(done) {

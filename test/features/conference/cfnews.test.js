@@ -2,8 +2,6 @@ var assert = require('assert');
 var request = require('supertest');
 var helpers = require('we-test-tools').helpers;
 var stubs = require('we-test-tools').stubs;
-var async = require('async');
-var _ = require('lodash');
 var http;
 var we;
 var agent;
@@ -18,7 +16,7 @@ describe('cfnewsFeature', function() {
     we = helpers.getWe();
     we.config.acl.disabled = true;
 
-    async.series([
+    we.utils.async.series([
       function createAuthenticatedUser(done) {
         var userStub = stubs.userStub();
         helpers.createUser(userStub, function(err, user) {

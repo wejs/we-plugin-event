@@ -1,12 +1,10 @@
-var _ = require('lodash');
-
 module.exports = {
   create: function create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
     if (!res.locals.record) res.locals.record = {};
 
-    _.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.record, req.query);
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
@@ -14,7 +12,7 @@ module.exports = {
       res.locals.messageSend = false;
       // set temp record for use in validation errors
       res.locals.record = req.query;
-      _.merge(res.locals.record, req.body);
+      req.we.utils._.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {

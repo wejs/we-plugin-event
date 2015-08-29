@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var PDFDocument = require('pdfkit');
 
 var registrationFields  = [
@@ -362,7 +361,7 @@ function saveUserRegistration(req, res) {
   }
 
   // merge req.body with locals record to handle validation errors
-  _.merge(res.locals.record, req.body);
+  we.utils._.merge(res.locals.record, req.body);
 
   if (choiseRegistrationType.requireValidation) {
     req.body.status = 'requested';

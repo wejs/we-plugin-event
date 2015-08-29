@@ -1,7 +1,6 @@
 /**
  * We.js we-plugin-conference plugin settings
  */
-var async = require('async');
 
 module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
@@ -650,7 +649,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       // set registration count metadata
       res.locals.metadata.cfRegistrationCount = cf.registrationCount;
 
-      async.parallel([
+      we.utils.async.parallel([
         function loadMainMenu(cb){
           if (!cf.mainMenu) return cb();
           cf.mainMenu.getLinks({
