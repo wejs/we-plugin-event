@@ -30,6 +30,7 @@ module.exports = function Model(we) {
     },
     associations: {},
     options: {
+      titleField: 'name',
       classMethods: {},
       instanceMethods: {},
       // TODO check if user is already registered in conference
