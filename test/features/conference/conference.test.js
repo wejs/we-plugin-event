@@ -40,6 +40,7 @@ describe('conferenceFeature', function() {
       cf.email = null;
       authenticatedRequest.post('/conference/create')
       .send({})
+      .set('Accept', 'application/json')
       .expect(400)
       .end(function (err, res) {
         if (err) throw err;
