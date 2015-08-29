@@ -1,6 +1,6 @@
 node_modules
 coverage
-config
+config/local.js
 files/wejsdoc
 files/uploads
 *.log
