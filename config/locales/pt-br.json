@@ -59,5 +59,11 @@
 	"form-conference-favicon": "form-conference-favicon",
 	"form-helper-conference-favicon": "form-helper-conference-favicon",
 	"Save": "Save",
-	"conference.find": "conference.find"
+	"conference.find": "conference.find",
+	"cfregistrationtype.create": "cfregistrationtype.create",
+	"cfregistrationtype.find": "cfregistrationtype.find",
+	"conference.register": "conference.register",
+	"conference.closed_before": "conference.closed_before",
+	"conference.registration.success.email": "conference.registration.success.email",
+	"cfregistrationtype.delete.have.registrations": "cfregistrationtype.delete.have.registrations"
 }
