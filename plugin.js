@@ -139,6 +139,12 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
   plugin.setResource({
     parent: 'conference',
+    name: 'cfregistrationtype',
+    namespace: '/admin',
+    layoutName: 'conferenceAdmin'
+  });
+  plugin.setResource({
+    parent: 'conference',
     name: 'cfroom',
     edit: { layoutName: 'conferenceAdmin' },
     create: { layoutName: 'conferenceAdmin' },
@@ -311,47 +317,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistration',
       permission    : 'manage_conference',
       responseType  : 'pdf'
-    },
-    // registration type
-    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistrationtype',
-      action        : 'find',
-      model         : 'cfregistrationtype',
-      permission    : 'manage_conference',
-    },
-    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type/create': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistrationtype',
-      action        : 'create',
-      model         : 'cfregistrationtype',
-      permission    : 'manage_conference',
-      template      : 'cfregistrationtype/form'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/cfregistration/type/create': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistrationtype',
-      action        : 'create',
-      model         : 'cfregistrationtype',
-      permission    : 'manage_conference',
-      template      : 'cfregistrationtype/form'
-    },
-    // edit registration type
-    'get /conference/:conferenceId([0-9]+)/admin/cfregistration/type/:cfregistrationtypeId([0-9]+)': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistrationtype',
-      action        : 'edit',
-      model         : 'cfregistrationtype',
-      permission    : 'manage_conference',
-      template      : 'cfregistrationtype/form'
-    },
-    'post /conference/:conferenceId([0-9]+)/admin/cfregistration/type/:cfregistrationtypeId([0-9]+)': {
-      layoutName    : 'conferenceAdmin',
-      controller    : 'cfregistrationtype',
-      action        : 'edit',
-      model         : 'cfregistrationtype',
-      permission    : 'manage_conference',
-      template      : 'cfregistrationtype/form'
     },
    // -- News
     'get /conference/:conferenceId([0-9]+)/admin/news': {
