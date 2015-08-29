@@ -47,5 +47,32 @@ module.exports = {
     } else {
       res.ok();
     }
+  },
+  delete: function deletePage(req, res) {
+    if (!res.locals.template)
+      res.locals.template = res.local.model + '/' + 'delete';
+
+    var record = res.locals.record;
+    if (!record) return res.notFound();
+
+    res.locals.deleteMsg = res.locals.model+'.delete.confirm.msg';
+
+    if (req.method === 'POST') {
+      req.we.db.models.cfregistration.count({
+        where: { cfregistrationtypeId: record.id }
+      }).then(function (count){
+        if (count > 0) {
+          return res.badRequest('cfregistrationtype.delete.have.registrations');
+        }
+
+        record.destroy().then(function() {
+          res.locals.deleted = true;
+          return res.deleted();
+        }).catch(res.queryError);
+
+      }).catch(res.queryError);
+    } else {
+      return res.ok();
+    }
   }
 }
