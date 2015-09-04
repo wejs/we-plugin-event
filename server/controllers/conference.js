@@ -44,60 +44,6 @@ module.exports = {
     }).catch(res.serverError);
   },
 
-  adminLayouts: function adminLayouts(req, res) {
-    var we = req.getWe();
-
-    res.locals.title = req.__('Layouts');
-
-    res.locals.conferenceLayouts = we.view.themes[res.locals.theme].layouts;
-    return res.ok();
-  },
-
-  adminLayout: function adminLayout(req, res) {
-    var we = req.getWe();
-
-    var layoutToUpdate = we.view.themes[res.locals.theme].layouts[req.params.name];
-    if (!layoutToUpdate)  return res.notFound();
-
-    if (!res.locals.data) res.locals.data = {};
-
-    res.locals.title = req.__('Layout') + ' - ' + req.params.name
-
-    // find conference widgets
-    we.db.models.widget.findAll({
-      where: {
-        theme: res.locals.theme,
-        layout: req.params.name,
-        context: (res.locals.widgetContext || null)
-      },
-      order: 'weight ASC'
-    }).then(function (widgets) {
-
-      res.locals.data.regions = we.utils._.cloneDeep(layoutToUpdate.regions);
-      res.locals.data.widgets = we.view.widgets;
-
-      widgets.forEach(function (w) {
-        var regionName = w.regionName;
-        if (!regionName) regionName = 'No region';
-
-        if (!res.locals.data.regions[regionName]) res.locals.data.regions[regionName] = {
-          name: regionName,
-          widgets: []
-        };
-        if (!res.locals.data.regions[regionName].widgets)
-          res.locals.data.regions[regionName].widgets = [];
-
-        res.locals.data.regions[regionName].widgets.push(w);
-      });
-
-      res.locals.data.layout = req.params.name;
-      res.locals.data.currentTheme = we.view.themes[res.locals.theme];
-      res.locals.data.themeName = res.locals.theme;
-
-      res.view();
-    });
-  },
-
   /**
    * Create or update one conference widget
    */
