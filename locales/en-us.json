@@ -1,0 +1,14 @@
+{
+  "Login": "Login",
+  "cfnews.create": "cfnews.create",
+  "cfpage.create": "cfpage.create",
+  "cfregistrationtype.create": "cfregistrationtype.create",
+  "cfregistrationtype.find": "cfregistrationtype.find",
+  "conference.register": "conference.register",
+  "conference.registration.success.email": "conference.registration.success.email",
+  "cfregistrationtype.delete.have.registrations": "cfregistrationtype.delete.have.registrations",
+  "cfvideo.create": "cfvideo.create",
+  "conference.create": "conference.create",
+  "title cannot be null": "title cannot be null",
+  "conference.find": "conference.find"
+}
