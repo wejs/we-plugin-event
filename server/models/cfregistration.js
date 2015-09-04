@@ -54,6 +54,12 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         defaultValue: 'requested',
         formFieldType: null
+      },
+
+      present: {
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false,
+        formFieldType: null
       }
     },
     associations: {
