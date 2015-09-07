@@ -19,7 +19,11 @@ module.exports = function Model(we) {
       },
       about: { type: we.db.Sequelize.TEXT },
       weight: { type: we.db.Sequelize.INTEGER },
-      highlighted: { type: we.db.Sequelize.BOOLEAN, defaultsTo: false }
+      highlighted: {
+        type: we.db.Sequelize.BOOLEAN,
+        formFieldType: 'boolean',
+        defaultsTo: false
+      }
     },
     options: {
       imageFields: {
