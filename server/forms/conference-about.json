@@ -23,6 +23,10 @@
       "formFieldHeight": 300,
       "allowNull": false
     },
+    "location": {
+      "type": "text",
+      "allowNull": false
+    },
     "vacancies": {
       "type": "number",
       "defaultValue": 0
