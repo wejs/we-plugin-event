@@ -16,6 +16,7 @@
 	"cfcontact.findOne": "Mensagem de contato",
 	"cfcontact.new.email.subject": "Novo email do fale conosco",
 	"cflink.delete.confirm.msg": "Tem certeza que deseja deletar esse link?",
+	"cflink.create": "Criar link",
 	"cfmenu.create": "Criar menu",
 	"cfmenu.edit": "Editar menu",
 	"cfmenu.find": "Menus",
@@ -113,6 +114,7 @@
 	"conference.menu.reset": "Resetar os menus da conferência",
 	"conference.register.user": "Registrar usuário na conferência",
 	"conference.registered": "Minha inscrição",
+	"conference.registration.closed": "As incrições na conferência estão fechadas",
 	"conference.registration.accept.success": "Sua inscrição na conferência foi aceita",
 	"conference.registration.registered": "Inscrito na conferência",
 	"conference.registration.requested": "Aguardando aprovação da inscrição",
@@ -227,6 +229,9 @@
 	"form-cfspeaker-name": "Nome do conferêncista",
 	"form-cfspeaker-picture": "Foto do conferêncista",
 	"form-cfspeaker-weight": "Peso",
+	"form-cfspeaker-highlighted": "Destaque",
+	"form-placeholder-cfspeaker-highlighted": " ",
+	"form-helper-cfspeaker-highlighted": " ",
 	"form-cftopic-about": "Sobre",
 	"form-cftopic-banner": "Baner",
 	"form-cftopic-categories": "Categorias",
@@ -521,6 +526,11 @@
 	"form-helper-conference-about-registeredText": "Este texto aparece para os usuários inscritos na conferência e pode ser usado para informar algo sobre a conferência",
 	"form-conference-about-submit": "Salvar",
 	"form-conference-about-save_next": "Salvar e avançar",
+
+	"form-conference-about-location": "Localização",
+	"form-placeholder-conference-about-location": " ",
+	"form-helper-conference-about-location": "O endereço de onde a conferencia vai acontecer",
+
 	"form-conference-dates-callForPapersStartDate": "Data inicial para o envio de trabalhos",
 	"form-placeholder-conference-dates-callForPapersStartDate": "Clique aqui e selecione a data...",
 	"form-conference-dates-callForPapersEndDate": "Data final para o envio de trabalhos",
@@ -540,22 +550,18 @@
 	"form-helper-conference-theme-theme": "Trocar o tema visual permite alterar totalmente o visual da conferência",
 	"form-conference-theme-logo": "Logo da conferência",
 	"form-helper-conference-theme-logo": "Tamanho ideal de 250px por 250px",
-
 	"form-conference-theme-banner": "Banner da conferência",
 	"form-helper-conference-theme-banner": "Tamanho ideal de 1600px por 850px",
 	"form-conference-theme-favicon": "Ícone da conferência",
 	"form-helper-conference-theme-favicon": "Tamanho ideal de 38px por 38px",
-
 	"form-conference-theme-submit": "Salvar",
 	"form-conference-theme-save_next": "Salvar e avançar",
-
 	"conference.edit.publish": "Publicar",
 	"conference.edit.unpublish": "Despublicar",
-
 	"conference.edit.step.about": "Sobre",
 	"conference.edit.step.dates": "Datas",
 	"conference.edit.step.visual": "Visual",
 	"conference.edit.step.publish": "Publicar",
-
-	"conference.managers": "Gerentes da conferência"
+	"conference.managers": "Gerentes da conferência",
+	"conference.location": "Localização"
 }
