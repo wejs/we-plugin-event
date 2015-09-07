@@ -10,7 +10,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     conference: {
       // add a conference id for load in all conference portal as a single conference portal
       singleConferenceId: false,
-      defaultTheme: 'we-theme-conference',
+      // a list of theme names avaible to conferences
+      themes: [],
+      // set default theme here, if is null the system will load the portal theme
+      defaultTheme: null,
       models: [
         'conference',
         'cfcertification',
@@ -54,6 +57,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
     forms: {
       'user-cfsession': __dirname + '/server/forms/user-cfsession.json',
+      'conference-about': __dirname + '/server/forms/conference-about.json',
+      'conference-dates': __dirname + '/server/forms/conference-dates.json',
+      'conference-emails': __dirname + '/server/forms/conference-emails.json',
+      'conference-publish': __dirname + '/server/forms/conference-publish.json',
+      'conference-theme': __dirname + '/server/forms/conference-theme.json'
     }
   });
 
@@ -538,6 +546,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     },
   });
 
+  // use we:after:load:plugins for set default conference theme
+  plugin.events.on('we:after:load:plugins', function (we) {
+    if (
+      !we.config.conference.defaultTheme &&
+      we.config.themes.app
+    ) {
+      we.config.conference.defaultTheme = we.config.themes.app;
+    }
+  });
+
   plugin.hooks.on('we:router:request:before:load:context', function (data, done) {
     var we = data.req.we;
     // set conference id in all requests if singleConferenceId is set
@@ -609,6 +627,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       } else {
         res.locals.theme = we.config.conference.defaultTheme;
       }
+
       // chage html to conference html
       res.locals.htmlTemplate = 'conference/html';
       // set registration count metadata

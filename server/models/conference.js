@@ -49,7 +49,8 @@ module.exports = function Model(we) {
       location: { type: we.db.Sequelize.TEXT },
 
       published: {
-        type: we.db.Sequelize.BOOLEAN, defaultValue: true ,
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false,
         formFieldType: 'boolean'
       },
 
@@ -120,6 +121,10 @@ module.exports = function Model(we) {
 
           return 'closed';
         }
+      },
+      theme: {
+        type: we.db.Sequelize.STRING,
+        formFieldType: 'cf-theme-selector'
       }
     },
     associations: {
@@ -167,7 +172,45 @@ module.exports = function Model(we) {
         favicon: { formFieldMultiple: false }
       },
 
-      classMethods: {},
+      classMethods: {
+        /**
+         * Context loader, preload current request record and related data
+         *
+         * @param  {Object}   req  express.js request
+         * @param  {Object}   res  express.js response
+         * @param  {Function} done callback
+         */
+        contextLoader: function contextLoader(req, res, done) {
+          if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
+          // if conference is already loaded with req.params
+          if (res.locals.conference) {
+            res.locals.record = res.locals.conference;
+            if (res.locals.record && res.locals.record.dataValues.creatorId && req.isAuthenticated()) {
+              // ser role owner
+              if (res.locals.record.isOwner(req.user.id)) {
+                if(req.userRoleNames.indexOf('owner') == -1 ) req.userRoleNames.push('owner');
+              }
+            }
+            return done();
+          }
+
+          // else load the conference
+          return this.find({
+            where: { id: res.locals.id},
+            include: [{ all: true }]
+          }).then(function (record) {
+            res.locals.record = record;
+            if (record && record.dataValues.creatorId && req.isAuthenticated()) {
+              // ser role owner
+              if (record.isOwner(req.user.id)) {
+                if(req.userRoleNames.indexOf('owner') == -1 ) req.userRoleNames.push('owner');
+              }
+            }
+
+            return done();
+          })
+        }
+      },
       instanceMethods: {
         isManager: function isManager(userId, cb) {
           var ms = this.managerIds;

@@ -13,11 +13,24 @@ module.exports = {
          * Add present column
          */
         update: function update0327(we, done) {
-          var sql = 'ALTER TABLE `cfregistrations` ADD '+
-            ' COLUMN `present` TINYINT(1) NOT NULL DEFAULT 0;';
-          we.db.defaultConnection.query(sql).then(function(){
-            done();
-          }).catch(done);
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `cfregistrations` ADD '+
+                ' COLUMN `present` TINYINT(1) NOT NULL DEFAULT 0;';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(done);
+            },
+            function(done) {
+              var sql = 'ALTER TABLE `conferences` ADD '+
+                ' COLUMN `theme` VARCHAR(250);';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(done);
+            }
+          ], function(){
+
+          });
         }
       }
     ];

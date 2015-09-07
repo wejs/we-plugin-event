@@ -1,0 +1,50 @@
+{
+  "title": "conference.edit.dates",
+  "method": "post",
+
+  "fields": {
+    "callForPapersStartDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "callForPapersEndDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "registrationSeparator": {
+      "type": "break"
+    },
+    "registrationStartDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "registrationEndDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "eventSeparator": {
+      "type": "break"
+    },
+    "eventStartDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "eventEndDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "actionsSeparator": {
+      "type": "break"
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    },
+    "save_next": {
+      "type": "submit",
+      "defaultValue": "save_and_next"
+    }
+  }
+}

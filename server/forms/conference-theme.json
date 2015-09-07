@@ -1,0 +1,33 @@
+{
+  "title": "conference.edit.theme",
+  "method": "post",
+
+  "fields": {
+    "theme": {
+      "type": "cf-theme-selector"
+    },
+
+    "logo": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    },
+    "banner": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    },
+    "favicon": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    },
+    "save_next": {
+      "type": "submit",
+      "defaultValue": "save_and_next"
+    }
+  }
+}

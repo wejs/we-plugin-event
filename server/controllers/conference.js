@@ -1,4 +1,31 @@
 module.exports = {
+  edit: function edit(req, res, next) {
+    var record = res.locals.record;
+
+    if (req.method === 'POST') {
+      if (!record) return res.notFound();
+
+      record.updateAttributes(req.body)
+      .then(function() {
+        res.locals.record = record;
+
+        if (req.body.save_next) {
+          var ns = 2;
+          if (req.query.step) ns = Number(req.query.step)+1;
+
+          res.locals.redirectTo = req.path + '?step='+ns;
+        } else {
+          res.locals.redirectTo = req.url;
+        }
+
+
+        return res.updated();
+      }).catch(res.queryError);
+    } else {
+      res.ok();
+    }
+  },
+
   adminIndex: function adminIndex(req, res) {
     req.we.utils.async.parallel([
       function (done) {

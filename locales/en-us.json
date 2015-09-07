@@ -10,5 +10,6 @@
   "cfvideo.create": "cfvideo.create",
   "conference.create": "conference.create",
   "title cannot be null": "title cannot be null",
-  "conference.find": "conference.find"
+  "conference.find": "conference.find",
+  "conference.not.published.msg": "conference.not.published.msg"
 }

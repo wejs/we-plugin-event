@@ -1,0 +1,75 @@
+{
+  "title": "conference.edit.about",
+  "method": "post",
+
+  "fields": {
+    "title": {
+      "type": "text",
+      "defaultValue": "",
+      "allowNull": false
+    },
+    "abbreviation": {
+      "type": "text",
+      "defaultValue": "",
+      "allowNull": false
+    },
+    "email": {
+      "type": "email",
+      "allowNull": false
+    },
+    "about": {
+      "type": "html",
+      "defaultValue": "",
+      "formFieldHeight": 300,
+      "allowNull": false
+    },
+    "vacancies": {
+      "type": "number",
+      "defaultValue": 0
+    },
+    "tags": {
+      "type": "vocabulary/tag",
+      "vocabularyName": null,
+      "canCreate": true,
+      "formFieldMultiple": true,
+      "onlyLowercase": true
+    },
+    "categories": {
+      "type": "vocabulary/category",
+      "canCreate": false,
+      "formFieldMultiple": false
+    },
+    "managerSeparator": {
+      "type": "break"
+    },
+    "registrationManagerName": {
+      "type": "text",
+      "allowNull": false
+    },
+    "registrationManagerEmail": {
+      "type": "email",
+      "allowNull": false
+    },
+    "registeredTextSeparator": {
+      "type": "break"
+    },
+    "registeredText": {
+      "type": "html",
+      "formFieldHeight": 300,
+      "allowNull": false
+    },
+    "registeredTextSeparator2": {
+      "type": "break"
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    },
+    "save_next": {
+      "type": "submit",
+      "defaultValue": "save_and_next"
+    }
+  }
+}

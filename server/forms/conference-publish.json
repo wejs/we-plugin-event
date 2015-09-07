@@ -1,0 +1,15 @@
+{
+  "title": "conference.edit.publish",
+  "method": "post",
+
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    },
+    "save_next": {
+      "type": "submit",
+      "defaultValue": "save_and_next"
+    }
+  }
+}

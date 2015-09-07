@@ -17,12 +17,12 @@
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "wejs/we-core",
+    "we-core": "0.3.69",
     "we-plugin-file": "^0.3.4",
     "we-plugin-form": "^0.3.1",
     "we-test-tools": "wejs/we-test-tools",
     "we-theme-admin-default": "^0.3.1",
-    "we-theme-site-wejs": "^0.3.11"
+    "we-theme-site-wejs": "^0.3.15"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
