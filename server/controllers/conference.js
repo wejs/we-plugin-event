@@ -1,4 +1,10 @@
 module.exports = {
+  location: function(req, res, next) {
+    if (!res.locals.conference) return res.notFound();
+
+    res.locals.record = res.locals.conference;
+    req.we.controllers.conference.findOne(req, res, next);
+  },
   edit: function edit(req, res, next) {
     var record = res.locals.record;
 
