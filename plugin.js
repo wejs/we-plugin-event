@@ -94,9 +94,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setResource({
     parent: 'conference',
     name: 'cfmenu',
-    edit: { layoutName: 'conferenceAdmin' },
-    create: { layoutName: 'conferenceAdmin' },
-    delete: { layoutName: 'conferenceAdmin' }
+    namespace: '/admin',
+    layoutName: 'conferenceAdmin'
   });
   plugin.setResource({
     parent: 'conference',
@@ -544,6 +543,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       layoutName    : 'conferenceAdmin',
       template      : 'conference/admin/managers'
     },
+    'get /conference/:conferenceId([0-9]+)/location': {
+      titleHandler  : 'i18n',
+      titleI18n     : 'conference.location',
+      controller    : 'conference',
+      action        : 'location',
+      model         : 'conference',
+      permission    : 'find_conference',
+      template      : 'conference/location'
+    },
+
   });
 
   // use we:after:load:plugins for set default conference theme
@@ -565,6 +574,22 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     if (!data.req.params.conferenceId) return done();
     // load conference context
     loadConferenceAndConferenceContext(data.req, data.res, done, data.req.params.conferenceId);
+  });
+
+  //{
+        //   req: req, res: res
+        // }
+  plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
+    if(!data.res.locals.conference) return done();
+
+    if (
+      data.res.locals.action == 'find' &&
+      data.req.we.config.conference.models.indexOf(data.res.locals.model) > -1
+    ) {
+      data.res.locals.query.where.conferenceId =  data.res.locals.conference.id;
+    }
+
+    done();
   });
 
   plugin.hooks.on('we-plugin-menu:after:set:core:menus', function (data, done) {
