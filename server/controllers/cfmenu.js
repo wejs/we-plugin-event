@@ -1,17 +1,4 @@
 module.exports = {
-  find: function find(req, res, next) {
-    res.locals.query.conferenceId = res.locals.conference.id;
-
-    return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function (record) {
-      if (!record) return next();
-
-      res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
-
-      return res.ok();
-    });
-  },
   createPage: function createPage(req, res) {
     if (!res.locals.record) res.locals.record = {};
 
@@ -64,6 +51,8 @@ module.exports = {
     }
   },
   managePage: function managePage(req, res) {
+    res.locals.query.where.conferenceId = req.params.conferenceId;
+
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return res.notFound();
