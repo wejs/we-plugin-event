@@ -1,6 +1,6 @@
 module.exports = {
   find: function find(req, res, next) {
-    res.locals.query.conferenceId = res.locals.conference.id;
+    res.locals.query.eventId = res.locals.event.id;
 
     res.locals.query.order = [ ['weight','ASC'], ['createdAt','ASC'] ];
     return res.locals.Model.findAndCountAll(res.locals.query)

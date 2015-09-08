@@ -1,11 +1,11 @@
-<form we-submit="ajax" action="/conference/{{conference.id}}/admin/edit" method="post">
-<legend>{{t 'conference.structure.menus'}}</legend>
+<form we-submit="ajax" action="/event/{{event.id}}/admin/edit" method="post">
+<legend>{{t 'event.structure.menus'}}</legend>
   <div class="form-group">
-    <label for="conferenceMainMenu" class="col-sm-2 control-label">{{t 'menu.main'}}:</label>
+    <label for="eventMainMenu" class="col-sm-2 control-label">{{t 'menu.main'}}:</label>
     <div class="col-sm-10">
-      <select id="conferenceMainMenu" name="mainMenuId" class="form-control">
+      <select id="eventMainMenu" name="mainMenuId" class="form-control">
         {{#each record}}
-          {{#ifCond id ../conference.mainMenu.id}}
+          {{#ifCond id ../event.mainMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
             <option value="{{id}}">{{name}}</option>
@@ -18,11 +18,11 @@
   <br><br>
 
   <div class="form-group">
-    <label for="conferenceSecondaryMenu" class="col-sm-2 control-label">{{t 'menu.secondary'}}:</label>
+    <label for="eventSecondaryMenu" class="col-sm-2 control-label">{{t 'menu.secondary'}}:</label>
     <div class="col-sm-10">
-      <select id="conferenceSecondaryMenu" name="secondaryMenuId" class="form-control">
+      <select id="eventSecondaryMenu" name="secondaryMenuId" class="form-control">
         {{#each record}}
-          {{#ifCond id ../conference.secondaryMenu.id}}
+          {{#ifCond id ../event.secondaryMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
             <option value="{{id}}">{{name}}</option>
@@ -35,11 +35,11 @@
   <br><br>
 
   <div class="form-group">
-    <label for="conferenceSocialMenu" class="col-sm-2 control-label">{{t 'menu.social'}}:</label>
+    <label for="eventSocialMenu" class="col-sm-2 control-label">{{t 'menu.social'}}:</label>
     <div class="col-sm-10">
-      <select id="conferenceSocialMenu" name="socialMenu" class="form-control">
+      <select id="eventSocialMenu" name="socialMenu" class="form-control">
         {{#each record}}
-          {{#ifCond id ../conference.socialMenu.id}}
+          {{#ifCond id ../event.socialMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
             <option value="{{id}}">{{name}}</option>
@@ -62,7 +62,7 @@
 
 <div class="row">
   <div class="col-lg-12 actions">
-    {{#link-to 'cfmenu.create' conference.id class='btn btn-default'}}{{t 'Create'}}{{/link-to}}
+    {{#link-to 'cfmenu.create' event.id class='btn btn-default'}}{{t 'Create'}}{{/link-to}}
   </div>
   <div class="col-lg-12">
     <table class="table table-striped table-hover">
@@ -79,12 +79,12 @@
           <td>{{id}}</td>
           <td>{{name}}</td>
           <td>
-            {{#link-to 'cfmenu.edit' conferenceId id class='btn btn-primary btn-sm'}}{{t 'Edit'}}{{/link-to}}
-            {{#link-to 'cfmenu.delete' conferenceId id class='btn btn-default btn-sm'}}{{t 'Delete'}}{{/link-to}}
+            {{#link-to 'cfmenu.edit' eventId id class='btn btn-primary btn-sm'}}{{t 'Edit'}}{{/link-to}}
+            {{#link-to 'cfmenu.delete' eventId id class='btn btn-default btn-sm'}}{{t 'Delete'}}{{/link-to}}
           </td>
         </tr>
       {{else}}
-        <tr><td colspan="3" class="text-center">{{t 'conference.menu.empty'}}</td></tr>
+        <tr><td colspan="3" class="text-center">{{t 'event.menu.empty'}}</td></tr>
       {{/each}}
       </tbody>
     </table>

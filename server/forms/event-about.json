@@ -1,5 +1,5 @@
 {
-  "title": "conference.edit.about",
+  "title": "event.edit.about",
   "method": "post",
 
   "fields": {

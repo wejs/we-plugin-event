@@ -38,7 +38,7 @@
   <div class="panel-body">
 
     <div>
-      <table class="table table-striped table-bordered table-hover" id="conferenceAdminWidget">
+      <table class="table table-striped table-bordered table-hover" id="eventAdminWidget">
         <thead>
           <tr>
             <th>{{t 'widget.name'}}</th>
@@ -50,7 +50,7 @@
             <tr>
               <td>{{type}}</td>
               <td>
-                <form id="form-add-region-to-{{@key}}" name="layout-widget-selector" onsubmit="return we.structure.openWidgetForm(event);" class="form-inline" we-form-widget-url="/conference/{{../conference.id}}/admin/widget/create">
+                <form id="form-add-region-to-{{@key}}" name="layout-widget-selector" onsubmit="return we.structure.openWidgetForm(event);" class="form-inline" we-form-widget-url="/event/{{../event.id}}/admin/widget/create">
                   <span>Add in regions:</span>
                   <input type="hidden" name="type" value="{{type}}" />
                   <input type="hidden" name="theme" value="{{../data.themeName}}" />

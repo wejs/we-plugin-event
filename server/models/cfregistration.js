@@ -2,12 +2,12 @@
  * Conference registration
  *
  * @module      :: Model
- * @description :: System conference registration model
+ * @description :: System event registration model
  */
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null
@@ -17,20 +17,20 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.INTEGER,
         validate: {
           isRegistered: function(uid, done) {
-            var conferenceId = this.getDataValue('conferenceId');
-            if (!conferenceId) return done();
+            var eventId = this.getDataValue('eventId');
+            if (!eventId) return done();
             if (!uid || !Number(uid) )
               return done('user.not-found');
 
             we.db.models.cfregistration.findOne({
               where: {
-                conferenceId: conferenceId,
+                eventId: eventId,
                 userId: uid
               },
               attributes: ['id']
             }).then(function (count) {
               if (count) {
-                return done('conference.cfregistration.already.registered');
+                return done('event.cfregistration.already.registered');
               }
               done();
             }).catch(done);

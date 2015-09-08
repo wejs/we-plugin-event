@@ -1,7 +1,7 @@
 /**
- * We.js conference menu helper
+ * We.js event menu helper
  *
- * render one conference menu
+ * render one event menu
  *
  * usage:  {{we-cf-menu 'menu}}
  */

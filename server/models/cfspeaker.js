@@ -2,12 +2,12 @@
  * Conference speakers
  *
  * @module      :: Model
- * @description :: System conference speakers model
+ * @description :: System event speakers model
  */
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null

@@ -7,7 +7,7 @@ module.exports = {
     if (req.method === 'POST') {
 
       req.body.creatorId = req.user.id;
-      req.body.conferenceId = res.locals.conference.id;
+      req.body.eventId = res.locals.event.id;
       // set temp record for use in validation errors
       res.locals.record = req.query;
       req.we.utils._.merge(res.locals.record, req.body);
@@ -18,7 +18,7 @@ module.exports = {
         res.locals.record = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/registration/type'
+            '/event/' + res.locals.event.id + '/admin/registration/type'
           );
 
         res.created();
@@ -32,14 +32,14 @@ module.exports = {
     if (!res.locals.record) return res.notFound();
 
     if (req.method === 'POST') {
-      // dont change conference id for registration type
-      req.body.conferenceId = res.locals.conference.id;
+      // dont change event id for registration type
+      req.body.eventId = res.locals.event.id;
 
       res.locals.record.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/registration/type'
+            '/event/' + res.locals.event.id + '/admin/registration/type'
           );
         res.created();
       }).catch(res.queryError);

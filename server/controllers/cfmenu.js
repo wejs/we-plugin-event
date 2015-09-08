@@ -7,7 +7,7 @@ module.exports = {
     if (req.method === 'POST') {
 
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
-      req.body.conferenceId = res.locals.conference.id;
+      req.body.eventId = res.locals.event.id;
       // set temp record for use in validation errors
 
       res.locals.record = req.query;
@@ -19,7 +19,7 @@ module.exports = {
         res.locals.record = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/menu'
+            '/event/' + res.locals.event.id + '/admin/menu'
           );
 
         res.created();
@@ -34,14 +34,14 @@ module.exports = {
     if (!res.locals.record) return res.notFound();
 
     if (req.method === 'POST') {
-      // dont change conference id for registration type
-      req.body.conferenceId = res.locals.conference.id;
+      // dont change event id for registration type
+      req.body.eventId = res.locals.event.id;
 
       res.locals.record.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/menu/'+ res.locals.record.id
+            '/event/' + res.locals.event.id + '/admin/menu/'+ res.locals.record.id
           );
         res.created();
       }).catch(res.queryError);
@@ -51,7 +51,7 @@ module.exports = {
     }
   },
   managePage: function managePage(req, res) {
-    res.locals.query.where.conferenceId = req.params.conferenceId;
+    res.locals.query.where.eventId = req.params.eventId;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {

@@ -2,12 +2,12 @@
  * Conferece patner model
  *
  * @module      :: Model
- * @description :: Store conference patner data
+ * @description :: Store event patner data
  */
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null

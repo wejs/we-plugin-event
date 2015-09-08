@@ -6,7 +6,7 @@
     class="form-control" {{fieldAttrs}}
     {{#if field.formFieldMultiple}}multiple="multiple"{{/if}}>
       <option value="">{{t 'select.option.text'}}</option>
-      {{#each locals.conference.topics}}
+      {{#each locals.event.topics}}
         {{#ifCond id ../values.topicId}}
           <option value="{{id}}" selected="selected">{{title}}</option>
         {{else}}

@@ -12,7 +12,7 @@ module.exports = function Model(we) {
   var model = {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
-      conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
+      eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
       // video url
       url: { type: we.db.Sequelize.STRING(1500), allowNull:false },

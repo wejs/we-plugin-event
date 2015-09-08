@@ -4,12 +4,12 @@
   "cfpage.create": "cfpage.create",
   "cfregistrationtype.create": "cfregistrationtype.create",
   "cfregistrationtype.find": "cfregistrationtype.find",
-  "conference.register": "conference.register",
-  "conference.registration.success.email": "conference.registration.success.email",
+  "event.register": "event.register",
+  "event.registration.success.email": "event.registration.success.email",
   "cfregistrationtype.delete.have.registrations": "cfregistrationtype.delete.have.registrations",
   "cfvideo.create": "cfvideo.create",
-  "conference.create": "conference.create",
+  "event.create": "event.create",
   "title cannot be null": "title cannot be null",
-  "conference.find": "conference.find",
-  "conference.not.published.msg": "conference.not.published.msg"
+  "event.find": "event.find",
+  "event.not.published.msg": "event.not.published.msg"
 }

@@ -6,7 +6,7 @@ var http;
 var we;
 var agent;
 
-describe('conferenceFeature', function() {
+describe('eventFeature', function() {
   var salvedUser, salvedUserPassword, authenticatedRequest;
 
   before(function (done) {
@@ -34,11 +34,11 @@ describe('conferenceFeature', function() {
     })
   });
 
-  describe('conferenceCRUD', function() {
-    it ('post /conference/create should return 400 with invalid data', function (done) {
-      var cf = stubs.conferenceStub();
+  describe('eventCRUD', function() {
+    it ('post /event/create should return 400 with invalid data', function (done) {
+      var cf = stubs.eventStub();
       cf.email = null;
-      authenticatedRequest.post('/conference/create')
+      authenticatedRequest.post('/event/create')
       .send({})
       .set('Accept', 'application/json')
       .expect(400)
@@ -50,37 +50,37 @@ describe('conferenceFeature', function() {
     });
   });
 
-  describe('conferenceCRUD', function() {
-    // it ('post /conference should create one conference with unpublished status and generate default conference structure', function (done) {
-    //   var cf = stubs.conferenceStub();
-    //   authenticatedRequest.post('/conference')
+  describe('eventCRUD', function() {
+    // it ('post /event should create one event with unpublished status and generate default event structure', function (done) {
+    //   var cf = stubs.eventStub();
+    //   authenticatedRequest.post('/event')
     //   .send(cf)
     //   .set('Accept', 'application/json')
     //   .expect(201)
     //   .end(function (err, res) {
     //     if (err) throw err;
-    //     assert(res.body.conference);
-    //     assert(res.body.conference[0]);
-    //     assert(res.body.conference[0].id);
-    //     assert.equal(res.body.conference[0].title, cf.title);
+    //     assert(res.body.event);
+    //     assert(res.body.event[0]);
+    //     assert(res.body.event[0].id);
+    //     assert.equal(res.body.event[0].title, cf.title);
     //     done();
     //   });
     // });
-    it ('post /conference/create should create one conference with unpublished status and generate default conference structure', function (done) {
-      var cf = stubs.conferenceStub();
-      authenticatedRequest.post('/conference/create')
+    it ('post /event/create should create one event with unpublished status and generate default event structure', function (done) {
+      var cf = stubs.eventStub();
+      authenticatedRequest.post('/event/create')
       .send(cf)
       .set('Accept', 'application/json')
       .expect(201)
       .end(function (err, res) {
         if (err) throw err;
-        assert(res.body.conference);
-        assert(res.body.conference[0]);
-        assert(res.body.conference[0].id);
-        assert.equal(res.body.conference[0].title, cf.title);
+        assert(res.body.event);
+        assert(res.body.event[0]);
+        assert(res.body.event[0].id);
+        assert.equal(res.body.event[0].title, cf.title);
 
         we.db.models.cfmenu.findAll({
-          where: { conferenceId: res.body.conference[0].id }
+          where: { eventId: res.body.event[0].id }
         }).then(function (m) {
           // should create more than one menu
           assert(m.length > 0);
@@ -88,79 +88,79 @@ describe('conferenceFeature', function() {
         });
       });
     });
-    it ('get /conference/:id should get one conference', function (done) {
-      var cf = stubs.conferenceStub();
-      we.db.models.conference.create(cf).then(function (scf) {
-        authenticatedRequest.get('/conference/'+ scf.id)
+    it ('get /event/:id should get one event', function (done) {
+      var cf = stubs.eventStub();
+      we.db.models.event.create(cf).then(function (scf) {
+        authenticatedRequest.get('/event/'+ scf.id)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {
           if (err) throw err;
-          assert(res.body.conference);
-          assert(res.body.conference[0]);
-          assert.equal(res.body.conference[0].id, scf.id);
-          assert.equal(res.body.conference[0].title, cf.title);
+          assert(res.body.event);
+          assert(res.body.event[0]);
+          assert.equal(res.body.event[0].id, scf.id);
+          assert.equal(res.body.event[0].title, cf.title);
           done();
         });
       });
     });
-    it ('get /conference should get conference list', function (done) {
+    it ('get /event should get event list', function (done) {
       var cfs = [
-        stubs.conferenceStub(), stubs.conferenceStub(), stubs.conferenceStub()
+        stubs.eventStub(), stubs.eventStub(), stubs.eventStub()
       ];
 
-      we.db.models.conference.bulkCreate(cfs).then(function () {
+      we.db.models.event.bulkCreate(cfs).then(function () {
         request(http)
-        .get('/conference')
+        .get('/event')
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {
           if (err) throw err;
-          assert(res.body.conference);
-          assert(res.body.conference.length >= 3);
+          assert(res.body.event);
+          assert(res.body.event.length >= 3);
 
           done();
         });
       });
     });
 
-    it ('get /conference/:id/edit should get conference edit form');
-    it ('post /conference/:id/edit should update one conference');
+    it ('get /event/:id/edit should get event edit form');
+    it ('post /event/:id/edit should update one event');
 
-    it ('post /conference/:id/delete should delete one conference', function (done) {
-      var cf = stubs.conferenceStub();
-      we.db.models.conference.create(cf).then(function (scf) {
+    it ('post /event/:id/delete should delete one event', function (done) {
+      var cf = stubs.eventStub();
+      we.db.models.event.create(cf).then(function (scf) {
 
-        authenticatedRequest.post('/conference/'+ scf.id+'/delete')
+        authenticatedRequest.post('/event/'+ scf.id+'/delete')
         .set('Accept', 'application/json')
         .expect(204)
         .end(function (err, res) {
           if (err) throw err;
-          assert(!res.body.conference);
-          we.db.models.conference.findById(scf.id).then(function (scf) {
+          assert(!res.body.event);
+          we.db.models.event.findById(scf.id).then(function (scf) {
             assert( we.utils._.isEmpty(scf) );
             done();
           });
         });
       });
     });
-    it ('delete /conference/:id should delete one conference and delete related models');
+    it ('delete /event/:id should delete one event and delete related models');
   });
 
-  describe('conferencePageCRUD', function() {
+  describe('eventPageCRUD', function() {
     var SC;
     before(function (done) {
-      var cf = stubs.conferenceStub();
-      we.db.models.conference.create(cf).then(function (scf) {
+      var cf = stubs.eventStub();
+      we.db.models.event.create(cf).then(function (scf) {
         SC = scf;
         done();
       });
     });
 
-    it ('post /conference/:conferenceId/cfpage/create should create one page inside the conference and return JSON',
+    it ('post /event/:eventId/cfpage/create should create one page inside the event and return JSON',
     function (done) {
       var pageStub = stubs.pageStub();
-      authenticatedRequest.post('/conference/'+SC.id+'/cfpage/create')
+      authenticatedRequest.post('/event/'+SC.id+'/cfpage/create')
       .send(pageStub)
       .set('Accept', 'application/json')
       .expect(201)
@@ -175,22 +175,22 @@ describe('conferenceFeature', function() {
     });
   });
 
-  it ('post /conference/:conferenceId([0-9]+)/subscribe-in-session return a warning'+
+  it ('post /event/:eventId([0-9]+)/subscribe-in-session return a warning'+
     ' and dont addSubscriber if session dont have vacancy');
 
   // describe('roomCRUD', function() {
   //   var SC;
   //   before(function (done) {
-  //     var cf = stubs.conferenceStub();
-  //     we.db.models.conference.create(cf).then(function (scf) {
+  //     var cf = stubs.eventStub();
+  //     we.db.models.event.create(cf).then(function (scf) {
   //       SC = scf;
   //       done();
   //     });
   //   });
 
-  //   it ('post /conference/:conferenceId/room should create one room inside the conference', function (done) {
+  //   it ('post /event/:eventId/room should create one room inside the event', function (done) {
   //     var cfroomStub = stubs.cfroomStub();
-  //     authenticatedRequest.post('/conference/'+SC.id+'/room')
+  //     authenticatedRequest.post('/event/'+SC.id+'/room')
   //     .send(cfroomStub)
   //     .set('Accept', 'application/json')
   //     .expect(201)
@@ -203,11 +203,11 @@ describe('conferenceFeature', function() {
   //       done();
   //     });
   //   });
-  //   it ('get /conference/:conferenceId/room/:id should get one conference room', function (done) {
+  //   it ('get /event/:eventId/room/:id should get one event room', function (done) {
   //     var cfroom = stubs.cfroomStub();
-  //     cfroom.conferenceId = SC.id;
+  //     cfroom.eventId = SC.id;
   //     we.db.models.cfroom.create(cfroom).then(function (r) {
-  //       authenticatedRequest.get('/conference/'+SC.id+'/room/'+r.id)
+  //       authenticatedRequest.get('/event/'+SC.id+'/room/'+r.id)
   //       .set('Accept', 'application/json')
   //       .expect(200)
   //       .end(function (err, res) {
@@ -220,18 +220,18 @@ describe('conferenceFeature', function() {
   //       });
   //     });
   //   });
-  //   it ('get /conference/:conferenceId/room should get conference room list', function (done) {
+  //   it ('get /event/:eventId/room should get event room list', function (done) {
   //     var cfs = [
   //       stubs.cfroomStub(), stubs.cfroomStub(), stubs.cfroomStub()
   //     ];
 
   //     for (var i = cfs.length - 1; i >= 0; i--) {
-  //       cfs[i].conferenceId = SC.id;
+  //       cfs[i].eventId = SC.id;
   //     }
 
   //     we.db.models.cfroom.bulkCreate(cfs).then(function () {
   //       request(http)
-  //       .get('/conference/'+SC.id+'/room')
+  //       .get('/event/'+SC.id+'/room')
   //       .set('Accept', 'application/json')
   //       .expect(200)
   //       .end(function (err, res) {
@@ -242,15 +242,15 @@ describe('conferenceFeature', function() {
   //       });
   //     });
   //   });
-  //   it ('put /conference/:conferenceId/room/:id should update one conference', function (done) {
+  //   it ('put /event/:eventId/room/:id should update one event', function (done) {
   //     var cf = stubs.cfroomStub();
-  //     cf.conferenceId = SC.id;
+  //     cf.eventId = SC.id;
   //     we.db.models.cfroom.create(cf).then(function (r) {
   //       var newCfData = {
   //         name: 'updated title :)',
   //         about: 'Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis.',
   //       };
-  //       authenticatedRequest.put('/conference/'+SC.id+'/room/'+r.id)
+  //       authenticatedRequest.put('/event/'+SC.id+'/room/'+r.id)
   //       .send(newCfData)
   //       .set('Accept', 'application/json')
   //       .expect(200)
@@ -267,11 +267,11 @@ describe('conferenceFeature', function() {
   //       });
   //     });
   //   });
-  //   it ('delete /conference/:conferenceId/room/:id should delete one conference', function (done) {
-  //     var cf = stubs.conferenceStub();
-  //     cf.conferenceId = SC.id;
+  //   it ('delete /event/:eventId/room/:id should delete one event', function (done) {
+  //     var cf = stubs.eventStub();
+  //     cf.eventId = SC.id;
   //     we.db.models.cfroom.create(cf).then(function (r) {
-  //       authenticatedRequest.delete('/conference/'+SC.id+'/room/'+r.id)
+  //       authenticatedRequest.delete('/event/'+SC.id+'/room/'+r.id)
   //       .set('Accept', 'application/json')
   //       .expect(204)
   //       .end(function (err, res) {
@@ -286,5 +286,5 @@ describe('conferenceFeature', function() {
   //   });
   //
   // });
-  it ('delete /conference/:conferenceId/room/:id should delete one room and remove sessions from this room');
+  it ('delete /event/:eventId/room/:id should delete one room and remove sessions from this room');
 });

@@ -10,7 +10,7 @@ function cfregistrationtypeStub(cfId){
   return {
     name: 'one test title',
     description: 'one test text',
-    conferenceId: cfId
+    eventId: cfId
   };
 }
 
@@ -56,8 +56,8 @@ describe('cfregistrationtypeFeature', function() {
         });
       },
       function createConference(done) {
-        var cf = stubs.conferenceStub();
-        we.db.models.conference.create(cf)
+        var cf = stubs.eventStub();
+        we.db.models.event.create(cf)
         .then(function (scf) {
           salvedConference = scf;
           done();
@@ -67,10 +67,10 @@ describe('cfregistrationtypeFeature', function() {
   });
 
   describe('CRUD', function() {
-    it ('post /conference/:conferenceId/admin/cfregistrationtype/create should create one registration type', function (done) {
+    it ('post /event/:eventId/admin/cfregistrationtype/create should create one registration type', function (done) {
       var cfrt = cfregistrationtypeStub();
       authenticatedRequest
-      .post('/conference/'+salvedConference.id+'/admin/cfregistrationtype/create')
+      .post('/event/'+salvedConference.id+'/admin/cfregistrationtype/create')
       .send(cfrt)
       .set('Accept', 'application/json')
       .expect(201)
@@ -85,14 +85,14 @@ describe('cfregistrationtypeFeature', function() {
       });
     });
 
-    it ('get /conference/:conferenceId/admin/cfregistrationtype/:id should get one registration type', function (done) {
+    it ('get /event/:eventId/admin/cfregistrationtype/:id should get one registration type', function (done) {
       var cfrt = cfregistrationtypeStub(salvedConference.id);
       we.db.models.cfregistrationtype.create(cfrt)
       .then(function (r) {
         assert(r.id);
 
         authenticatedRequest
-        .get('/conference/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id)
+        .get('/event/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {
@@ -107,7 +107,7 @@ describe('cfregistrationtypeFeature', function() {
       }).catch(done);
     });
 
-    it ('get /conference/:conferenceId/admin/cfregistrationtype should get registration type list', function (done) {
+    it ('get /event/:eventId/admin/cfregistrationtype should get registration type list', function (done) {
       var cfrts = [
         cfregistrationtypeStub(salvedConference.id),
         cfregistrationtypeStub(salvedConference.id),
@@ -117,7 +117,7 @@ describe('cfregistrationtypeFeature', function() {
       .then(function () {
 
         authenticatedRequest
-        .get('/conference/'+salvedConference.id+'/admin/cfregistrationtype')
+        .get('/event/'+salvedConference.id+'/admin/cfregistrationtype')
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {
@@ -129,14 +129,14 @@ describe('cfregistrationtypeFeature', function() {
       }).catch(done);
     });
 
-    it ('post /conference/:conferenceId/admin/cfregistrationtype/:id/edit should update one registrationtype', function (done) {
+    it ('post /event/:eventId/admin/cfregistrationtype/:id/edit should update one registrationtype', function (done) {
       var cfrt = cfregistrationtypeStub(salvedConference.id);
       we.db.models.cfregistrationtype.create(cfrt)
       .then(function (r) {
         assert(r.id);
         var newValues = { name: 'one new test name' };
         authenticatedRequest
-        .post('/conference/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/edit')
+        .post('/event/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/edit')
         .send(newValues)
         .set('Accept', 'application/json')
         .expect(200)
@@ -153,14 +153,14 @@ describe('cfregistrationtypeFeature', function() {
       }).catch(done);
     });
 
-    it ('post /conference/:conferenceId/admin/cfregistrationtype/:id/delete should delete one registrationtype', function (done) {
+    it ('post /event/:eventId/admin/cfregistrationtype/:id/delete should delete one registrationtype', function (done) {
       var cfrt = cfregistrationtypeStub(salvedConference.id);
       we.db.models.cfregistrationtype.create(cfrt)
       .then(function (r) {
         assert(r.id);
 
         authenticatedRequest
-        .post('/conference/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/delete')
+        .post('/event/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/delete')
         .set('Accept', 'application/json')
         .expect(204)
         .end(function (err) {
@@ -176,14 +176,14 @@ describe('cfregistrationtypeFeature', function() {
       }).catch(done);
     });
 
-    it ('post /conference/:conferenceId/admin/cfregistrationtype/:id/delete should return badRequest id try to delete one registrationtype with registrations', function (done) {
+    it ('post /event/:eventId/admin/cfregistrationtype/:id/delete should return badRequest id try to delete one registrationtype with registrations', function (done) {
       var cfrt = cfregistrationtypeStub(salvedConference.id);
       we.db.models.cfregistrationtype.create(cfrt)
       .then(function (r) {
         assert(r.id);
         // self register
         authenticatedRequest
-        .post('/conference/'+salvedConference.id+'/register')
+        .post('/event/'+salvedConference.id+'/register')
         .send({
           cfregistrationtypeId: r.id
         }).set('Accept', 'application/json')
@@ -192,7 +192,7 @@ describe('cfregistrationtypeFeature', function() {
           if (err) throw(err);
 
           authenticatedRequest
-          .post('/conference/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/delete')
+          .post('/event/'+salvedConference.id+'/admin/cfregistrationtype/'+r.id+'/delete')
           .set('Accept', 'application/json')
           .expect(400)
           .end(function (err, res) {

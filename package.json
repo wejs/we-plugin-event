@@ -1,6 +1,6 @@
 {
-  "name": "we-plugin-conference",
-  "description": "We.js plugin with conference features",
+  "name": "we-plugin-event",
+  "description": "We.js plugin with event features",
   "version": "0.3.26",
   "main": "lib/index.js",
   "scripts": {
@@ -31,6 +31,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wejs/we-plugin-conference"
+    "url": "git@github.com:wejs/we-plugin-event"
   }
 }

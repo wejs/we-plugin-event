@@ -1,6 +1,6 @@
 module.exports = {
   find: function find(req, res, next) {
-    res.locals.query.conferenceId = res.locals.conference.id;
+    res.locals.query.eventId = res.locals.event.id;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -17,12 +17,12 @@ module.exports = {
     // set temp record for use in validation errors
     req.we.utils._.merge(res.locals.record, req.query);
 
-    res.locals.record.conferenceId = req.params.conferenceId;
+    res.locals.record.eventId = req.params.eventId;
 
     if (req.method === 'POST') {
 
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
-      req.body.conferenceId = req.params.conferenceId;
+      req.body.eventId = req.params.eventId;
 
       res.locals.record = req.query;
       req.we.utils._.merge(res.locals.record, req.body);
@@ -31,7 +31,7 @@ module.exports = {
       .then(function (record) {
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/room'
+            '/event/' + res.locals.event.id + '/admin/room'
           );
 
         res.created();
@@ -53,13 +53,13 @@ module.exports = {
 
       if (req.method == 'POST' || req.method == 'PUT') {
 
-        req.body.conferenceId = req.params.conferenceId;
+        req.body.eventId = req.params.eventId;
 
         record.updateAttributes(req.body)
         .then(function() {
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/room'
+            '/event/' + res.locals.event.id + '/admin/room'
           );
           res.ok();
         }).catch(res.queryError);

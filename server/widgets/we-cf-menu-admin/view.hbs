@@ -1,29 +1,29 @@
 {{#if widget.cfid}}
   <ul class="metismenu nav nav-pills sidebar-menu nav-stacked" id="widget-cf-menu-admin-{{widget.id}}">
     <li>
-      <a href="/conference/{{widget.cfid}}/admin"> <i class="fa fa-tachometer"></i> {{t 'conference_admin'}} </a>
+      <a href="/event/{{widget.cfid}}/admin"> <i class="fa fa-tachometer"></i> {{t 'event_admin'}} </a>
     </li>
     <li>
-      <a href="/conference/{{widget.cfid}}/edit?redirectTo={{req.url}}"> <i class="fa fa-pencil-square-o"></i> {{t 'conference_admin_edit'}} </a>
+      <a href="/event/{{widget.cfid}}/edit?redirectTo={{req.url}}"> <i class="fa fa-pencil-square-o"></i> {{t 'event_admin_edit'}} </a>
     </li>
     <li>
-      <a href="/conference/{{widget.cfid}}/admin/cfregistration"> <i class="fa fa-user-plus"></i> {{t 'conference_admin_registration'}} </a>
+      <a href="/event/{{widget.cfid}}/admin/cfregistration"> <i class="fa fa-user-plus"></i> {{t 'event_admin_registration'}} </a>
     </li>
     <li>
-      <a href="/conference/{{widget.cfid}}/admin/cfregistrationtype"> <i class="fa fa-user-plus"></i> {{t 'cfregistrationtype.find'}} </a>
+      <a href="/event/{{widget.cfid}}/admin/cfregistrationtype"> <i class="fa fa-user-plus"></i> {{t 'cfregistrationtype.find'}} </a>
     </li>
     <li>
       <a href="#Structure"><i class="fa fa-building"></i>
       {{t 'Structure'}} <span class="fa arrow"></span></a>
       <ul class="nav nav-pills sidebar-menu nav-stacked">
-        <li><a href="/conference/{{widget.cfid}}/admin/menu"> <i class="fa fa-sitemap"></i> {{t 'conference_admin_menu'}} </a>
+        <li><a href="/event/{{widget.cfid}}/admin/menu"> <i class="fa fa-sitemap"></i> {{t 'event_admin_menu'}} </a>
         </li>
-        <li class=""><a href="/conference/{{widget.cfid}}/admin/page"> <i class="fa fa-files-o"></i> {{t 'conference_findOne.page_manage'}} </a>
+        <li class=""><a href="/event/{{widget.cfid}}/admin/page"> <i class="fa fa-files-o"></i> {{t 'event_findOne.page_manage'}} </a>
         </li>
       </ul>
     </li>
     <li>
-      <a href="/conference/{{widget.cfid}}/admin/managers"> <i class="fa fa-user-md"></i> {{t 'conference.managers'}} </a>
+      <a href="/event/{{widget.cfid}}/admin/managers"> <i class="fa fa-user-md"></i> {{t 'event.managers'}} </a>
     </li>
   </ul>
   <script>$(document).ready(function() {

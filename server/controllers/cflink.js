@@ -9,7 +9,7 @@ module.exports = {
 
     if (req.method === 'POST') {
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
-      req.body.conferenceId = res.locals.conference.id;
+      req.body.eventId = res.locals.event.id;
       req.body.cfmenuId = req.params.cfmenuId;
       // set temp record for use in validation errors
       res.locals.record = req.query;
@@ -20,7 +20,7 @@ module.exports = {
         res.locals.record = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
-            '/conference/' + res.locals.conference.id + '/admin/menu/' + req.params.cfmenuId
+            '/event/' + res.locals.event.id + '/admin/menu/' + req.params.cfmenuId
           );
         res.created();
       }).catch(res.queryError);
@@ -33,16 +33,16 @@ module.exports = {
     if (!res.locals.record) return res.notFound();
 
     if (req.method === 'POST') {
-      // dont change conference id for registration type
+      // dont change event id for registration type
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
-      req.body.conferenceId = res.locals.conference.id;
+      req.body.eventId = res.locals.event.id;
       req.body.cfmenuId = req.params.cfmenuId;
 
       res.locals.record.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html')
           return res.redirect(
-           '/conference/' + res.locals.conference.id + '/admin/menu/' + req.params.cfmenuId
+           '/event/' + res.locals.event.id + '/admin/menu/' + req.params.cfmenuId
           );
         res.created();
       }).catch(res.queryError);

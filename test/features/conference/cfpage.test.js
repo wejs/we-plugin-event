@@ -33,7 +33,7 @@ describe('cfpageFeature', function() {
       .end(function(err){
         if (err) return done(err);
 
-        we.db.models.conference.create(stubs.conferenceStub())
+        we.db.models.event.create(stubs.eventStub())
         .then(function (c) {
           cf = c;
           done();
@@ -44,10 +44,10 @@ describe('cfpageFeature', function() {
 
 
   describe('cfpageCRUD', function() {
-    it ('post /conference/:conferenceId/cfpage/create?redirectTo=/redirecttome should create one page and redirect', function (done) {
+    it ('post /event/:eventId/cfpage/create?redirectTo=/redirecttome should create one page and redirect', function (done) {
       var cfp = { title: 'One page' };
 
-      authenticatedRequest.post('/conference/'+cf.id+'/cfpage/create?redirectTo=/redirecttome')
+      authenticatedRequest.post('/event/'+cf.id+'/cfpage/create?redirectTo=/redirecttome')
       .send(cfp)
       .expect(302)
       .end(function (err, res) {
@@ -57,14 +57,14 @@ describe('cfpageFeature', function() {
       });
     });
 
-   it ('post /conference/:conferenceId/cfpage/:id/edit?redirectTo=/redirecttome should edit one page and redirect', function (done) {
+   it ('post /event/:eventId/cfpage/:id/edit?redirectTo=/redirecttome should edit one page and redirect', function (done) {
       we.db.models.cfpage.create({
         title: 'One page',
-        conferenceId: cf.id
+        eventId: cf.id
       }).then(function(cfp){
         cfp.title = 'changed title';
         // then edit
-        authenticatedRequest.post('/conference/'+cf.id+'/cfpage/'+cfp.id+'/edit?redirectTo=/redirecttome')
+        authenticatedRequest.post('/event/'+cf.id+'/cfpage/'+cfp.id+'/edit?redirectTo=/redirecttome')
         .send(cfp)
         .expect(302)
         .end(function (err, res) {

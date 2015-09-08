@@ -1,7 +1,7 @@
-# We.js conference plugin
+# We.js event plugin
 
-[![Dependency Status](https://david-dm.org/wejs/we-plugin-conference.png)](https://david-dm.org/wejs/we-plugin-conference)
-[![Build Status](https://travis-ci.org/wejs/we-plugin-conference.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-conference)
+[![Dependency Status](https://david-dm.org/wejs/we-plugin-event.png)](https://david-dm.org/wejs/we-plugin-event)
+[![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-event)
 
 ## Requirements in your we.js project
 
@@ -12,7 +12,7 @@
 
 ## Has suport to:
 
- - Add a muilti conference system in your we.js project
+ - Add a muilti event system in your we.js project
 
 ### How to test
 
@@ -35,7 +35,7 @@ npm run lint
 ```
 
 #### NPM Info:
-[![NPM](https://nodei.co/npm/we-plugin-conference.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/we-plugin-conference/)
+[![NPM](https://nodei.co/npm/we-plugin-event.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/we-plugin-event/)
 
 ## Copyright and license
 

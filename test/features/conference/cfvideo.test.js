@@ -33,7 +33,7 @@ describe('cfvideoFeature', function() {
       .end(function(err){
         if (err) return done(err);
 
-        we.db.models.conference.create(stubs.conferenceStub())
+        we.db.models.event.create(stubs.eventStub())
         .then(function (c) {
           cf = c;
           done();
@@ -44,10 +44,10 @@ describe('cfvideoFeature', function() {
 
 
   describe('cfvideoCRUD', function() {
-    it ('post /conference/:conferenceId/cfvideo/create?redirectTo=/redirecttome should create one video and redirect', function (done) {
+    it ('post /event/:eventId/cfvideo/create?redirectTo=/redirecttome should create one video and redirect', function (done) {
       var cfv = { title: 'One video', url: 'https://www.youtube.com/watch?v=escUU8iBPpo' };
 
-      authenticatedRequest.post('/conference/'+cf.id+'/cfvideo/create?redirectTo=/redirecttome')
+      authenticatedRequest.post('/event/'+cf.id+'/cfvideo/create?redirectTo=/redirecttome')
       .send(cfv)
       .expect(302)
       .end(function (err, res) {
@@ -57,15 +57,15 @@ describe('cfvideoFeature', function() {
       });
     });
 
-    it ('post /conference/:conferenceId/cfvideo/:id/edit?redirectTo=/redirecttome should edit one video and redirect', function (done) {
+    it ('post /event/:eventId/cfvideo/:id/edit?redirectTo=/redirecttome should edit one video and redirect', function (done) {
       we.db.models.cfvideo.create({
         title: 'One video',
         url: 'https://www.youtube.com/watch?v=escUU8iBPpo',
-        conferenceId: cf.id
+        eventId: cf.id
       }).then(function(cfv){
         cfv.title = 'changed title';
         // then edit
-        authenticatedRequest.post('/conference/'+cf.id+'/cfvideo/'+cfv.id+'/edit?redirectTo=/redirecttome')
+        authenticatedRequest.post('/event/'+cf.id+'/cfvideo/'+cfv.id+'/edit?redirectTo=/redirecttome')
         .send(cfv)
         .expect(302)
         .end(function (err, res) {
@@ -77,10 +77,10 @@ describe('cfvideoFeature', function() {
       }).catch(done);
     });
 
-    it ('post /conference/:conferenceId/cfvideo/create should create one video and return json', function (done) {
+    it ('post /event/:eventId/cfvideo/create should create one video and return json', function (done) {
       var cfv = { title: 'One video :)', url: 'https://www.youtube.com/watch?v=escUU8iBPpo' };
 
-      authenticatedRequest.post('/conference/'+cf.id+'/cfvideo/create')
+      authenticatedRequest.post('/event/'+cf.id+'/cfvideo/create')
       .send(cfv)
       .set('Accept', 'application/json')
       .expect(201)

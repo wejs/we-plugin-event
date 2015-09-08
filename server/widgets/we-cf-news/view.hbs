@@ -6,15 +6,15 @@
 
     {{#each featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
 
-    <h2 class="teaser-title">{{#link-to 'cfnews.findOne' conferenceId id}}{{title}}{{/link-to}}</h2>
+    <h2 class="teaser-title">{{#link-to 'cfnews.findOne' eventId id}}{{title}}{{/link-to}}</h2>
 
     {{{teaser}}}
 
     <div class="clearfix"></div>
     <footer class="article-actions">
-      {{we-action-view-btn 'cfnews' this ../locals.req conferenceId id }}
-      {{we-action-edit-btn 'cfnews' this ../locals.req conferenceId id }}
-      {{we-action-delete-btn 'cfnews' this ../locals.req conferenceId id }}
+      {{we-action-view-btn 'cfnews' this ../locals.req eventId id }}
+      {{we-action-edit-btn 'cfnews' this ../locals.req eventId id }}
+      {{we-action-delete-btn 'cfnews' this ../locals.req eventId id }}
     </footer>
   </article>
 {{/with}}

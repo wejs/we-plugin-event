@@ -21,7 +21,7 @@ module.exports = function Model(we) {
 
       published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' },
 
-      conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
+      eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
     },
     options: {
       imageFields: {

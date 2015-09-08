@@ -2,12 +2,12 @@
  * Conferece Contact model
  *
  * @module      :: Model
- * @description :: Store conference contact messages
+ * @description :: Store event contact messages
  */
  module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null

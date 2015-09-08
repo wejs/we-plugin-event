@@ -1,17 +1,17 @@
 <div class="row">
   <div class="col-lg-12 actions">
-    {{#link-to 'cfregistration.create' conference.id class="btn btn-default"}}
-      {{t 'conference.register.user'}}
+    {{#link-to 'cfregistration.create' event.id class="btn btn-default"}}
+      {{t 'event.register.user'}}
     {{/link-to}}
 
-    {{#link-to 'cfregistration.exportRegistration' conference.id class="btn btn-default"}}
+    {{#link-to 'cfregistration.exportRegistration' event.id class="btn btn-default"}}
       <i class="glyphicon glyphicon-floppy-open"></i>
       {{t 'export'}}
     {{/link-to}}
 
-    {{#link-to 'cfregistration.exportRegistrationUserTags' conference.id class="btn btn-default"}}
+    {{#link-to 'cfregistration.exportRegistrationUserTags' event.id class="btn btn-default"}}
       <i class="glyphicon glyphicon-th"></i>
-      {{t 'conference.userTags'}}
+      {{t 'event.userTags'}}
     {{/link-to}}
   </div>
 
@@ -62,15 +62,15 @@
           <td>{{we-date updatedAt}}</td>
           <td>
             {{#ifCond status 'requested'}}
-              {{#link-to 'cfregistration.accept' conferenceId id class="btn btn-success"}}
+              {{#link-to 'cfregistration.accept' eventId id class="btn btn-success"}}
                 <i class="glyphicon glyphicon-ok"></i>
                 {{t 'accept'}}
               {{/link-to}}
             {{/ifCond}}
 
-            {{we-action-view-btn 'cfregistration' this ../req conferenceId id }}
-            {{we-action-edit-btn 'cfregistration' this ../req conferenceId id }}
-            {{we-action-delete-btn 'cfregistration' this ../req conferenceId id }}
+            {{we-action-view-btn 'cfregistration' this ../req eventId id }}
+            {{we-action-edit-btn 'cfregistration' this ../req eventId id }}
+            {{we-action-delete-btn 'cfregistration' this ../req eventId id }}
           </td>
         </tr>
       {{/each}}

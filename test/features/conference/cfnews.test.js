@@ -48,8 +48,8 @@ describe('cfnewsFeature', function() {
         });
       },
       function createConference(done) {
-        var cf = stubs.conferenceStub();
-        we.db.models.conference.create(cf)
+        var cf = stubs.eventStub();
+        we.db.models.event.create(cf)
         .then(function (scf) {
           salvedConference = scf;
           done();
@@ -59,14 +59,14 @@ describe('cfnewsFeature', function() {
   });
 
   describe('cfnewsCRUD', function() {
-    it ('post /conference/:conferenceId/cfnews/create should create one cfnews', function (done) {
+    it ('post /event/:eventId/cfnews/create should create one cfnews', function (done) {
       var cf = {
         title: 'one test title',
         text: 'one test text',
         featuredImage: [ 'null', salvedImage.id ]
       }
       authenticatedRequest
-      .post('/conference/'+salvedConference.id+'/cfnews/create')
+      .post('/event/'+salvedConference.id+'/cfnews/create')
       .send(cf)
       .set('Accept', 'application/json')
       .expect(201)

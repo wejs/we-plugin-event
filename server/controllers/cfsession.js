@@ -90,7 +90,7 @@ module.exports = {
   },
 
   /**
-   * Route to current user register in conference
+   * Route to current user register in event
    */
   addRegistration: function addRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
@@ -101,12 +101,12 @@ module.exports = {
       }]);
       return res.goTo((res.locals.redirectTo || '/'));
     }
-    // user not is registered in current conference
+    // user not is registered in current event
     if (
       !res.locals.userCfregistration ||
       (res.locals.userCfregistration.status != 'registered')
     ) {
-      res.addMessage('error', 'cfsession.addRegistration.user.not.in.conference');
+      res.addMessage('error', 'cfsession.addRegistration.user.not.in.event');
       return res.goTo((res.locals.redirectTo || '/'));
     }
 
@@ -133,7 +133,7 @@ module.exports = {
 
         var templateVariables = {
           user: user,
-          conference: res.locals.conference,
+          event: res.locals.event,
           cfsession: session,
           site: {
             name: we.config.appName,
@@ -154,8 +154,8 @@ module.exports = {
           // if success send the confirmation message
           we.email.sendEmail('CFSessionRegisterSuccess', {
             email: req.user.email,
-            subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.conference.abbreviation,
-            replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+            subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.event.abbreviation,
+            replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
           }, templateVariables, function(err , emailResp){
             if (err) {
               we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
@@ -288,7 +288,7 @@ module.exports = {
         }, function (err, data) {
           if (err) return res.serverError(err);
           var fileName = 'subscriptions-export-' +
-            res.locals.conference.id + '-'+
+            res.locals.event.id + '-'+
             req.params.cfsessionId + '-'+
             new Date().getTime() + '.csv';
 

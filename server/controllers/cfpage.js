@@ -1,6 +1,6 @@
 module.exports = {
   find: function find(req, res, next) {
-    res.locals.query.conferenceId = res.locals.conference.id;
+    res.locals.query.eventId = res.locals.event.id;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -17,10 +17,10 @@ module.exports = {
   //   // set temp record for use in validation errors
   //   _.merge(res.locals.record, req.query);
 
-  //   res.locals.record.conferenceId = req.params.conferenceId;
+  //   res.locals.record.eventId = req.params.eventId;
 
   //   if(req.isAuthenticated()) req.body.creatorId = req.user.id;
-  //   req.body.conferenceId = req.params.conferenceId;
+  //   req.body.eventId = req.params.eventId;
 
   //   if (req.method === 'POST') {
   //     _.merge(res.locals.record, req.body);
@@ -39,15 +39,15 @@ module.exports = {
 
   //   if (!res.locals.record) return res.notFound();
 
-  //   req.body.conferenceId = req.params.conferenceId;
+  //   req.body.eventId = req.params.eventId;
 
   //   if (req.method == 'POST' || req.method == 'PUT') {
   //     res.locals.record.updateAttributes(req.body)
   //     .then(function() {
   //       if (res.locals.responseType == 'html') {
   //         return res.redirect(we.router.urlTo(
-  //           'conference_findOne.page_findOne',
-  //           [res.locals.record.conferenceId, res.locals.record.id],
+  //           'event_findOne.page_findOne',
+  //           [res.locals.record.eventId, res.locals.record.id],
   //           we
   //         ));
   //       }

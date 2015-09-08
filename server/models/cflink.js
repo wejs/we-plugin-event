@@ -2,16 +2,16 @@
  * Conferece link model
  *
  * @module      :: Model
- * @description :: Store conference menu link config
+ * @description :: Store event menu link config
  */
 
 module.exports = function Model(we) {
   var model = {
     definition: {
       /**
-       * conference Id
+       * event Id
        */
-      conferenceId: { type:  we.db.Sequelize.BIGINT, formFieldType: null },
+      eventId: { type:  we.db.Sequelize.BIGINT, formFieldType: null },
       href: { type:  we.db.Sequelize.TEXT, formFieldType: 'text' },
 
       text: { type:  we.db.Sequelize.TEXT, formFieldType: 'text' },

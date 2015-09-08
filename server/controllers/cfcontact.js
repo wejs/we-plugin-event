@@ -22,7 +22,7 @@ module.exports = {
         var we = req.getWe();
         var templateVariables = {
           cfcontact: record,
-          conference: res.locals.conference,
+          event: res.locals.event,
           site: {
             name: we.config.appName,
             url: we.config.hostname
@@ -32,14 +32,14 @@ module.exports = {
         we.email.sendEmail('CFContactSuccess', {
           email: record.email,
           subject: req.__('cfcontact.email.subject', templateVariables),
-          replyTo: res.locals.conference.title + ' <' + res.locals.conference.email  + '>'
+          replyTo: res.locals.event.title + ' <' + res.locals.event.email  + '>'
         }, templateVariables, function (err) {
           if (err) {
             we.log.error('Action:CFContactSuccess sendEmail:', err);
           }
         });
         we.email.sendEmail('CFContactNewMessage', {
-          email: res.locals.conference.email,
+          email: res.locals.event.email,
           subject: req.__('cfcontact.new.email.subject', templateVariables),
           replyTo: record.name + ' <' + record.email  + '>'
         }, templateVariables, function (err) {

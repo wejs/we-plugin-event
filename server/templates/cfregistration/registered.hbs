@@ -3,7 +3,7 @@
     <div class="jumbotron">
       <h2>Número de inscrição: <strong>{{userCfregistration.id}}</strong></h2>
       <br>
-      <p>{{#link-to 'cfregistration.unRegister' conference.id class="btn btn-default btn-sm text-danger"}}
+      <p>{{#link-to 'cfregistration.unRegister' event.id class="btn btn-default btn-sm text-danger"}}
         <i class="glyphicon glyphicon-remove-sign text-danger"></i> {{t 'cfregistration.un-register'}}
       {{/link-to}}</p>
     </div>
@@ -11,12 +11,12 @@
 </div>
 
 <div class="registration-message">
-  {{{conference.registeredText}}}
+  {{{event.registeredText}}}
 </div>
 <br>
 {{#if userCfregistration.sessions}}
   {{#each userCfregistration.sessions}}
-    <form method="post" action="/conference/{{../conference.id}}/unsubscribe-from-session"><div class="panel panel-default">
+    <form method="post" action="/event/{{../event.id}}/unsubscribe-from-session"><div class="panel panel-default">
       <div class="panel-heading"><h4>Você está inscrito na atividade:</h4></div>
       <div class="panel-body">
 
@@ -43,7 +43,7 @@
   {{/each}}
 {{else}}
   {{#if sessionsToRegister}}
-  <form method="post" action="/conference/{{conference.id}}/subscribe-in-session"><div class="panel panel-default">
+  <form method="post" action="/event/{{event.id}}/subscribe-in-session"><div class="panel panel-default">
     <div class="panel-heading"><h4>Deseja se inscrever em alguma atividade?</h4></div>
     <div class="panel-body">
       <div class="select-session">

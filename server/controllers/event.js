@@ -1,9 +1,9 @@
 module.exports = {
   location: function(req, res, next) {
-    if (!res.locals.conference) return res.notFound();
+    if (!res.locals.event) return res.notFound();
 
-    res.locals.record = res.locals.conference;
-    req.we.controllers.conference.findOne(req, res, next);
+    res.locals.record = res.locals.event;
+    req.we.controllers.event.findOne(req, res, next);
   },
   edit: function edit(req, res, next) {
     var record = res.locals.record;
@@ -37,7 +37,7 @@ module.exports = {
       function (done) {
         return req.we.db.models.cfsession.findAll({
           where: {
-            conferenceId: res.locals.conference.id,
+            eventId: res.locals.event.id,
             requireRegistration: 1
           },
           include: [
@@ -66,24 +66,24 @@ module.exports = {
     var we = req.getWe();
 
     we.db.models.cfmenu.destroy({
-      where: { conferenceId: res.locals.conference.id }
+      where: { eventId: res.locals.event.id }
     }).then(function (result) {
-      we.log.info('conference resetConferenceMenu result: ', result);
-      res.locals.conference.generateDefaultMenus(function(err) {
+      we.log.info('event resetConferenceMenu result: ', result);
+      res.locals.event.generateDefaultMenus(function(err) {
         if (err) return res.serverError(err);
 
-        res.redirect('/conference/' + res.locals.conference.id + '/admin/menu');
+        res.redirect('/event/' + res.locals.event.id + '/admin/menu');
       });
     }).catch(res.serverError);
   },
 
   /**
-   * Create or update one conference widget
+   * Create or update one event widget
    */
   saveWidget: function saveWidget(req, res, next) {
     var we = req.getWe();
 
-    if (!res.locals.conference || !res.locals.widgetContext)
+    if (!res.locals.event || !res.locals.widgetContext)
       return res.forbidden();
 
     req.body.context = res.locals.widgetContext;
@@ -95,12 +95,12 @@ module.exports = {
           req.body.modelId = null;
           return done();
         } else if (req.body.modelName) {
-          // not is a conference model
-          if (we.config.conference.models.indexOf(req.body.modelName) === -1)
-            return done('modelName not is a valid conference model');
-          if (req.body.modelName === 'conference') {
-            // current conference
-            req.body.modelId = res.locals.conference.id;
+          // not is a event model
+          if (we.config.event.models.indexOf(req.body.modelName) === -1)
+            return done('modelName not is a valid event model');
+          if (req.body.modelName === 'event') {
+            // current event
+            req.body.modelId = res.locals.event.id;
             return done();
           }
           // session widget
@@ -113,8 +113,8 @@ module.exports = {
               req.body.modelId = null;
               return done();
             }
-            // only allow add widgets in models how are inside current conference
-            if (r.conferenceId != res.locals.conference.id) {
+            // only allow add widgets in models how are inside current event
+            if (r.eventId != res.locals.event.id) {
               req.body.modelName = null;
               req.body.modelId = null;
             }
@@ -139,7 +139,7 @@ module.exports = {
   deleteWidget: function deleteWidget(req, res, next) {
     var we = req.getWe();
 
-    if (!res.locals.conference || !res.locals.widgetContext)
+    if (!res.locals.event || !res.locals.widgetContext)
       return res.forbidden();
 
     we.db.models.widget.findById(res.locals.id)
@@ -166,10 +166,10 @@ module.exports = {
 
     if (req.method == 'POST') {
       if (req.body.idToAdd)
-        return we.controllers.conference.addManager(req, res, next);
+        return we.controllers.event.addManager(req, res, next);
 
       if (req.body.idToRemove)
-        return we.controllers.conference.removerManager(req, res, next);
+        return we.controllers.event.removerManager(req, res, next);
 
       res.ok();
     } else {
@@ -188,12 +188,12 @@ module.exports = {
         res.addMessage('error', 'user.not.found');
         return res.ok();
       }
-      var conference = res.locals.conference;
-      conference.addManager(mu).then(function() {
-        // TODO addManager dont are updating conference.managers list then we need to get it
-        conference.getManagers().then(function(managers) {
-          res.locals.conference.managers = managers;
-          res.addMessage('success', 'conference.manager.add.success');
+      var event = res.locals.event;
+      event.addManager(mu).then(function() {
+        // TODO addManager dont are updating event.managers list then we need to get it
+        event.getManagers().then(function(managers) {
+          res.locals.event.managers = managers;
+          res.addMessage('success', 'event.manager.add.success');
           res.ok();
         }).catch(res.queryError);
       }).catch(res.queryError);
@@ -212,14 +212,14 @@ module.exports = {
         return res.ok();
       }
 
-      var conference = res.locals.conference;
+      var event = res.locals.event;
 
-      conference.removeManager(mu).then(function() {
-        // TODO removeManager dont are updating conference.managers list then we need to get it
-        conference.getManagers().then(function(managers) {
-          res.locals.conference.managers = managers;
+      event.removeManager(mu).then(function() {
+        // TODO removeManager dont are updating event.managers list then we need to get it
+        event.getManagers().then(function(managers) {
+          res.locals.event.managers = managers;
 
-          res.addMessage('success', 'conference.manager.remove.success');
+          res.addMessage('success', 'event.manager.remove.success');
           res.ok();
         }).catch(res.queryError);
       }).catch(res.queryError);
@@ -227,7 +227,7 @@ module.exports = {
   },
 
   /**
-   * Authenticated user area inside the conference
+   * Authenticated user area inside the event
    */
   my: function my(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();

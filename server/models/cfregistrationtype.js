@@ -18,7 +18,7 @@ module.exports = function Model(we) {
         formFieldType: 'html',
         formFieldHeight: 300
       },
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null
@@ -33,7 +33,7 @@ module.exports = function Model(we) {
       titleField: 'name',
       classMethods: {},
       instanceMethods: {},
-      // TODO check if user is already registered in conference
+      // TODO check if user is already registered in event
       hooks: {}
     }
   }

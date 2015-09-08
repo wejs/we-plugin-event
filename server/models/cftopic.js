@@ -2,7 +2,7 @@
  * Conference topic
  *
  * @module      :: Model
- * @description :: System conference topic model
+ * @description :: System event topic model
  *
  */
 module.exports = function Model(we) {

@@ -1,11 +1,11 @@
-{{log locals.req.we.config.conference.themes}}
+{{log locals.req.we.config.event.themes}}
 
 <div class="form-group {{#if error}}has-error has-feedback{{/if}}">
   <label for="{{fieldId}}">{{t fieldName}} {{#ifCond field.allowNull false}}*{{/ifCond}}</label>
   <select class="form-control" id="{{fieldId}}" name="{{name}}">
     <option value="" selected="selected">{{t placeholder}}</option>
 
-    {{#each locals.req.we.config.conference.themes}}
+    {{#each locals.req.we.config.event.themes}}
       {{#ifCond this ../value}}
         <option selected="selected" value="{{../this}}">{{../this}}</option>
       {{else}}

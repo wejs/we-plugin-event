@@ -2,7 +2,7 @@
  * Certification
  *
  * @module      :: Model
- * @description :: System conference certification model
+ * @description :: System event certification model
  *
  */
 
@@ -11,7 +11,7 @@ module.exports = function Model(we) {
     definition: {
       text: { type: we.db.Sequelize.TEXT },
       userId: { type: we.db.Sequelize.BIGINT, allowNull: false },
-      conferenceId: { type: we.db.Sequelize.BIGINT, allowNull: false },
+      eventId: { type: we.db.Sequelize.BIGINT, allowNull: false },
       sessionId: { type: we.db.Sequelize.BIGINT },
 
       checked: {

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-lg-12">
     <ul class="nav nav-pills">
-      {{#each conferenceLayouts}}
+      {{#each eventLayouts}}
         <li role="presentation">
-          {{#link-to 'conference_admin_layout' ../conference.id @key}}{{@key}}{{/link-to}}
+          {{#link-to 'event_admin_layout' ../event.id @key}}{{@key}}{{/link-to}}
         </li>
       {{/each}}
     </ul>

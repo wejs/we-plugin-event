@@ -22,15 +22,13 @@ module.exports = {
               }).catch(done);
             },
             function(done) {
-              var sql = 'ALTER TABLE `conferences` ADD '+
+              var sql = 'ALTER TABLE `events` ADD '+
                 ' COLUMN `theme` VARCHAR(250);';
               we.db.defaultConnection.query(sql).then(function(){
                 done();
               }).catch(done);
             }
-          ], function(){
-
-          });
+          ], done);
         }
       }
     ];

@@ -1,0 +1,57 @@
+<div>
+  <h3>{{t 'event.menu.admin'}}</h3>
+
+  <ul class="metismenu nav nav-pills sidebar-menu nav-stacked" id="admin-menu">
+
+    <li>
+      <a href="/event/{{event.id}}/admin"> <i class="fa fa-tachometer"></i> {{t 'event_admin'}} </a>
+    </li>
+    <li>
+      {{#link-to 'event.edit' event.id}} <i class="fa fa-pencil-square-o"></i> {{t 'event_admin_edit'}} {{/link-to}}
+    </li>
+    <li>
+      <a href="/event/{{event.id}}/admin/registration"> <i class="fa fa-user-plus"></i> {{t 'event_admin_registration'}} </a>
+    </li>
+    <li>
+      <a href="#Content"><i class="fa fa-microphone"></i>
+      {{t 'Content'}} <span class="fa arrow"></span></a>
+      <ul class="nav nav-pills sidebar-menu nav-stacked">
+        <li>
+          <a href="/event/{{event.id}}/admin/topic"> <i class="fa fa-tags"></i> {{t 'cftopic.managePage'}} </a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/admin/news"> <i class="fa fa-rss"></i> {{t 'event_findOne.news_manage'}} </a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/admin/room"> <i class="fa fa-tasks"></i> {{t 'event_findOne.room_manage'}} </a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/admin/cfsession"> <i class="fa fa-users"></i> {{t 'event.cfsession'}} </a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/cfspeaker"><i class="fa fa-microphone"></i> {{t 'event.cfspeaker'}}</a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/cfpartner"><i class="fa fa-usd"></i> {{t 'cfpartner.find'}}</a>
+        </li>
+        <li>
+          <a href="/event/{{event.id}}/cfvideo"><i class="fa fa-video-camera"></i> {{t 'cfvideo.find'}}</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#Structure"><i class="fa fa-building"></i>
+ {{t 'Structure'}} <span class="fa arrow"></span></a>
+      <ul class="nav nav-pills sidebar-menu nav-stacked">
+        <li><a href="/event/{{event.id}}/admin/menu"> <i class="fa fa-sitemap"></i> {{t 'event_admin_menu'}} </a>
+        </li>
+        <li class=""><a href="/event/{{event.id}}/admin/layout"> <i class="fa fa-newspaper-o"></i> {{t 'event_admin_layouts'}} </a>
+        </li>
+        <li class=""><a href="/event/{{event.id}}/admin/page"> <i class="fa fa-files-o"></i> {{t 'event_findOne.page_manage'}} </a>
+        </li>
+      </ul>
+    </li>
+</div>
+<script>$(document).ready(function() {
+  we.components.metisMenu('#admin-menu', {});
+});</script>

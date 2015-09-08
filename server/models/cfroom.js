@@ -2,13 +2,13 @@
  * Conference room
  *
  * @module      :: Model
- * @description :: System conference room model
+ * @description :: System event room model
  *
  */
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null

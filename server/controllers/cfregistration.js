@@ -17,12 +17,12 @@ module.exports = {
     if (!res.locals.record) res.locals.record = {};
 
     we.db.models.cfregistrationtype.findAll({
-      where: { conferenceId: res.locals.conference.id }
+      where: { eventId: res.locals.event.id }
     }).then(function (r) {
       res.locals.cfregistrationtypes = r;
 
       if (!r || !r.length) {
-        res.locals.registrationClosedInfo = req.__('conference.registration.closed');
+        res.locals.registrationClosedInfo = req.__('event.registration.closed');
         res.locals.template = 'cfregistration/registration-closed';
         return res.ok();
       } else {
@@ -38,14 +38,14 @@ module.exports = {
 
       // return my registration page
       if (req.isAuthenticated() && res.locals.userCfregistration) {
-        res.locals.title = req.__('conference.registered');
+        res.locals.title = req.__('event.registered');
 
         res.locals.template =
           'cfregistration/' + res.locals.userCfregistration.status;
         // get sessions to user subscribe
         return we.db.models.cfsession.findAll({
           where: {
-            conferenceId: res.locals.conference.id,
+            eventId: res.locals.event.id,
             requireRegistration: 1
           },
           include: [
@@ -63,10 +63,10 @@ module.exports = {
         }).catch(res.queryError);
       }
 
-      // return to conference and show error message if conference not is open
-      if (res.locals.conference.registrationStatus != 'open') {
-        res.addMessage('error', 'conference.'+res.locals.conference.registrationStatus);
-        return res.goTo('/conference/'+ res.locals.conference.id);
+      // return to event and show error message if event not is open
+      if (res.locals.event.registrationStatus != 'open') {
+        res.addMessage('error', 'event.'+res.locals.event.registrationStatus);
+        return res.goTo('/event/'+ res.locals.event.id);
       }
 
       if (!req.isAuthenticated()) {
@@ -101,19 +101,19 @@ module.exports = {
     res.locals.deleteMsg = req.__('cfregistration.unRegister.confirm.msg');
 
     res.locals.deleteRedirectUrl = we.router.urlTo(
-      'conference.findOne', [res.locals.conference.id], we
+      'event.findOne', [res.locals.event.id], we
     );
 
     if (req.method === 'POST') {
       if (res.locals.userCfregistration) {
         res.locals.userCfregistration.destroy().then(function(){
           res.redirect(we.router.urlTo(
-            'conference.findOne', [res.locals.conference.id], we
+            'event.findOne', [res.locals.event.id], we
           ));
         }).catch(res.queryError);
       } else {
         res.redirect(we.router.urlTo(
-          'conference.findOne', [res.locals.conference.id], we
+          'event.findOne', [res.locals.event.id], we
         ));
       }
     } else {
@@ -130,7 +130,7 @@ module.exports = {
     var we = req.getWe();
 
     we.db.models.cfregistrationtype.findAll({
-      where: { conferenceId: res.locals.conference.id }
+      where: { eventId: res.locals.event.id }
     }).then(function (r) {
       res.locals.cfregistrationtypes = r;
 
@@ -142,8 +142,8 @@ module.exports = {
       }
 
       if (req.method === 'POST') {
-        // dont change conference id for registration type
-        req.body.conferenceId = res.locals.conference.id;
+        // dont change event id for registration type
+        req.body.eventId = res.locals.event.id;
 
         res.locals.record.updateAttributes(req.body)
         .then(function() {
@@ -159,7 +159,7 @@ module.exports = {
     res.locals.Model.findOne({
       where: {
         id: req.params.cfregistrationId,
-        conferenceId: res.locals.conference.id
+        eventId: res.locals.event.id
       }
     }).then(function (record) {
       if (!record) return res.notFound();
@@ -173,7 +173,7 @@ module.exports = {
     }).catch(res.queryError);
   },
   /**
-   * Export conference registration list
+   * Export event registration list
    */
   exportRegistration: function exportRegistration(req, res) {
     var we = req.getWe();
@@ -201,7 +201,7 @@ module.exports = {
       'cfregistrations.createdAt AS registrationDate '+
     'FROM cfregistrations '+
     'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
-    'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
+    'WHERE cfregistrations.eventId='+ res.locals.event.id+
     '   AND cfregistrations.status="registered" '+
     order;
 
@@ -223,7 +223,7 @@ module.exports = {
         }, function (err, data){
           if (err) return res.serverError();
           var fileName = 'registration-export-' +
-            res.locals.conference.id + '-'+
+            res.locals.event.id + '-'+
             new Date().getTime() + '.csv';
 
           res.setHeader('Content-disposition', 'attachment; filename='+fileName);
@@ -259,7 +259,7 @@ module.exports = {
       'cfregistrations.createdAt AS registrationDate '+
     'FROM cfregistrations '+
     'INNER JOIN users AS u ON u.id=cfregistrations.userId '+
-    'WHERE cfregistrations.conferenceId='+ res.locals.conference.id+
+    'WHERE cfregistrations.eventId='+ res.locals.event.id+
     '   AND cfregistrations.status="registered" '+
     order;
 
@@ -349,7 +349,7 @@ module.exports = {
 function saveUserRegistration(req, res) {
   var we = req.we;
   req.body.userId = req.user.id;
-  req.body.conferenceId = res.locals.conference.id;
+  req.body.eventId = res.locals.event.id;
   var r = res.locals.cfregistrationtypes;
 
   var choiseRegistrationType;
@@ -375,7 +375,7 @@ function saveUserRegistration(req, res) {
 
     var templateVariables = {
       user: user,
-      conference: res.locals.conference,
+      event: res.locals.event,
       cfregistration: record,
       site: {
         name: we.config.appName,
@@ -385,8 +385,8 @@ function saveUserRegistration(req, res) {
 
     we.email.sendEmail('CFRegistrationSuccess', {
       email: req.user.email,
-      subject: req.__('conference.registration.success.email') + ' - ' + res.locals.conference.abbreviation,
-      replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+      subject: req.__('event.registration.success.email') + ' - ' + res.locals.event.abbreviation,
+      replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
     }, templateVariables, function(err , emailResp){
       if (err) {
         we.log.error('Error on send email CFRegistrationSuccess', err, emailResp);
@@ -398,7 +398,7 @@ function saveUserRegistration(req, res) {
     res.locals.template =
       'cfregistration/' + res.locals.userCfregistration.status;
     // redirect after register
-    res.locals.redirectTo = '/conference/' + res.locals.conference.id + '/register';
+    res.locals.redirectTo = '/event/' + res.locals.event.id + '/register';
     res.created();
   }).catch(res.queryError);
 }

@@ -1,5 +1,5 @@
 {
-  "title": "conference.edit.email",
+  "title": "event.edit.publish",
   "method": "post",
 
   "actions": {

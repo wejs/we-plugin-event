@@ -2,13 +2,13 @@
  * Conference session
  *
  * @module      :: Model
- * @description :: System conference session model
+ * @description :: System event session model
  *
  */
 module.exports = function Model(we) {
   var model = {
     definition: {
-      conferenceId: {
+      eventId: {
         type: we.db.Sequelize.BIGINT, allowNull: false, formFieldType: null
       },
 
@@ -32,11 +32,11 @@ module.exports = function Model(we) {
         defaultValue: 'send',
         formFieldType: 'select' ,
         fieldOptions: {
-          send: 'conference.cfsession.status.send',
-          'in_review': 'conference.cfsession.status.in_review',
-          'need_update': 'conference.cfsession.status.need_update',
-          accepted: 'conference.cfsession.status.accepted',
-          discarded: 'conference.cfsession.status.discarded'
+          send: 'event.cfsession.status.send',
+          'in_review': 'event.cfsession.status.in_review',
+          'need_update': 'event.cfsession.status.need_update',
+          accepted: 'event.cfsession.status.accepted',
+          discarded: 'event.cfsession.status.discarded'
         }
       },
 

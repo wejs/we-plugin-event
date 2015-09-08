@@ -2,10 +2,10 @@
 <div class="schedule" id="schedule">
   <div class="container">
     <div class="section-heading">
-      <p class="lead">{{we-date conference.eventStartDate 'DD'}} {{t 'date.to'}} {{we-date conference.eventEndDate 'LL'}}</p>
+      <p class="lead">{{we-date event.eventStartDate 'DD'}} {{t 'date.to'}} {{we-date event.eventEndDate 'LL'}}</p>
     </div>
     <div class="row">
-      <div class="col-md-12 actions">{{we-action-create-btn model req conference.id}}</div>
+      <div class="col-md-12 actions">{{we-action-create-btn model req event.id}}</div>
       <div class="col-md-12 wow fadeInDown">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified">
@@ -35,8 +35,8 @@
                           {{{about}}}
                         </div>
                         <div class="actions">
-                          {{we-action-edit-btn 'cfsession' this ../../req conferenceId id}}
-                          {{we-action-delete-btn 'cfsession' this ../../req conferenceId id}}
+                          {{we-action-edit-btn 'cfsession' this ../../req eventId id}}
+                          {{we-action-delete-btn 'cfsession' this ../../req eventId id}}
                         </div>
                       </div>
                     </div>

@@ -2,7 +2,7 @@
  * Conference
  *
  * @module      :: Model
- * @description :: System conference model
+ * @description :: System event model
  *
  */
 
@@ -22,7 +22,7 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING(1500),
         validate: { isEmail: true }
       },
-      // conference dates
+      // event dates
       callForPapersStartDate: { type: we.db.Sequelize.DATE },
       callForPapersEndDate: { type: we.db.Sequelize.DATE },
       registrationStartDate: { type: we.db.Sequelize.DATE },
@@ -182,9 +182,9 @@ module.exports = function Model(we) {
          */
         contextLoader: function contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
-          // if conference is already loaded with req.params
-          if (res.locals.conference) {
-            res.locals.record = res.locals.conference;
+          // if event is already loaded with req.params
+          if (res.locals.event) {
+            res.locals.record = res.locals.event;
             if (res.locals.record && res.locals.record.dataValues.creatorId && req.isAuthenticated()) {
               // ser role owner
               if (res.locals.record.isOwner(req.user.id)) {
@@ -194,7 +194,7 @@ module.exports = function Model(we) {
             return done();
           }
 
-          // else load the conference
+          // else load the event
           return this.find({
             where: { id: res.locals.id},
             include: [{ all: true }]
@@ -224,7 +224,7 @@ module.exports = function Model(we) {
           we.utils.async.series([
             function (done) {
               we.db.models.cfmenu.create({
-                conferenceId: self.id,
+                eventId: self.id,
                 name:  'main',
                 class: 'nav navbar-nav navbar-right'
               }).then(function (m) {
@@ -235,7 +235,7 @@ module.exports = function Model(we) {
             },
             function (done) {
               we.db.models.cfmenu.create({
-                conferenceId: self.id,
+                eventId: self.id,
                 name: 'secondary',
                 class: 'nav nav-pills sidebar-menu nav-stacked'
               }).then(function (m) {
@@ -246,7 +246,7 @@ module.exports = function Model(we) {
             },
             function (done) {
               we.db.models.cfmenu.create({
-                conferenceId: self.id,
+                eventId: self.id,
                 name: 'social',
                 class: 'list-inline join-us'
               }).then(function (m) {
@@ -264,13 +264,13 @@ module.exports = function Model(we) {
       },
       hooks: {
         afterFind: function(record, options, cb) {
-          // load registration count for every conference
+          // load registration count for every event
           var finds = [];
           if (we.utils._.isArray(record) ) {
             record.forEach(function (r){
               finds.push(function (cb) {
                 we.db.models.cfregistration.count({
-                  where: {  conferenceId: r.id }
+                  where: {  eventId: r.id }
                 }).then(function (count){
                   r.registrationCount = count;
                   return cb();
@@ -283,7 +283,7 @@ module.exports = function Model(we) {
             // load cfregistration count for find one record
             finds.push(function (cb) {
               we.db.models.cfregistration.count({
-                where: {  conferenceId: record.id }
+                where: {  eventId: record.id }
               }).then(function (count){
                 record.registrationCount = count;
                 return cb();

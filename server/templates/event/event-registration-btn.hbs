@@ -1,0 +1,33 @@
+{{#if userCfregistration}}
+  {{#ifCond userCfregistration.status 'requested'}}
+    <button class="btn btn-default btn-block btn-lg disabled" type="button">
+      <strong>{{t 'event.btn.requested'}}</strong>
+    </button>
+  {{else}}
+    <a class="btn btn-default btn-block btn-lg" href="/event/{{event.id}}/register">
+      <strong>{{t 'event.btn.registered'}}</strong>
+    </a>
+  {{/ifCond}}
+{{else}}
+  {{#if req.user.id}}
+    {{#ifCond event.registrationStatus 'open'}}
+      <a class="btn btn-warning btn-block btn-lg" href="/event/{{event.id}}/register">
+        <strong>{{t 'event.btn.register'}}</strong>
+      </a>
+    {{else}}
+      <a class="btn btn-default btn-block btn-lg disabled" href="#">
+        <strong>{{t 'event.btn.closed'}}</strong>
+      </a>
+    {{/ifCond}}
+  {{else}}
+    {{#ifCond event.registrationStatus 'open'}}
+      <a class="btn btn-warning btn-block btn-lg" href="/signup?redirectTo=/event/{{event.id}}/register">
+        <strong>{{t 'event.btn.register'}}</strong>
+      </a>
+    {{else}}
+      <a class="btn btn-default btn-block btn-lg disabled" href="#">
+        <strong>{{t 'event.btn.closed'}}</strong>
+      </a>
+    {{/ifCond}}
+  {{/if}}
+{{/if}}

@@ -12,7 +12,7 @@ module.exports = function Model(we) {
 			creatorId: {
 				type: we.db.Sequelize.BIGINT, formFieldType: null
 			},
-      conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
+      eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
 			title: {
 				type: we.db.Sequelize.STRING, allowNull: false
