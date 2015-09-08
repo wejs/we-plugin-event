@@ -494,7 +494,7 @@
 	"form-placeholder-event-vacancies": " ",
 	"form-placeholder-cfcertification-template-id": " ",
 	"event.managers": "Gerentes do evento",
-	"event.not.published.msg": "Atenção! A suo evento ainda não foi publicada, você deve preencher as informações e conteúdos do evento e depois clicar em publicar no editar evento",
+	"event.not.published.msg": "Atenção! O seu evento ainda não foi publicada, você deve preencher as informações e conteúdos do evento e depois clicar em publicar no editar evento",
 	"form-event-about-title": "Título",
 	"form-placeholder-event-about-title": "Digite o título aqui...",
 	"form-helper-event-about-title": " ",
@@ -509,13 +509,13 @@
 	"form-helper-event-about-about": "Digite um texto sobre o evento",
 	"form-event-about-vacancies": "Vagas",
 	"form-placeholder-event-about-vacancies": "0",
-	"form-helper-event-about-vacancies": "O máximo de vagas disponíveis para as inscrições da suo evento",
+	"form-helper-event-about-vacancies": "O máximo de vagas disponíveis para as inscrições do seu evento",
 	"form-event-about-tags": "Tags",
 	"form-placeholder-event-about-tags": " ",
 	"form-helper-event-about-tags": "Adicione algumas palavras relacionadas com o seu evento",
 	"form-event-about-categories": "Categorias",
 	"form-placeholder-event-about-categories": " ",
-	"form-helper-event-about-categories": "Selecione a categoria da suo evento",
+	"form-helper-event-about-categories": "Selecione a categoria do seu evento",
 	"form-event-about-registrationManagerName": "Nome do gerente do evento",
 	"form-placeholder-event-about-registrationManagerName": "Digite o nome aqui...",
 	"form-helper-event-about-registrationManagerName": "Digite o nome da pessoa responsável",
@@ -563,5 +563,6 @@
 	"event.edit.step.visual": "Visual",
 	"event.edit.step.publish": "Publicar",
 	"event.managers": "Gerentes do evento",
-	"event.location": "Localização"
+	"event.location": "Localização",
+	"event.find.my": "Meus eventos"
 }
