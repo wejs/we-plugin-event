@@ -5,6 +5,34 @@ module.exports = {
     res.locals.record = res.locals.event;
     req.we.controllers.event.findOne(req, res, next);
   },
+
+  create: function create(req, res) {
+    if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
+
+    if (!res.locals.record) res.locals.record = {};
+
+     req.we .utils._.merge(res.locals.record, req.query);
+
+    if (req.method === 'POST') {
+      if (req.isAuthenticated()) req.body.creatorId = req.user.id;
+
+      // set temp record for use in validation errors
+      res.locals.record = req.query;
+      req.we .utils._.merge(res.locals.record, req.body);
+
+      return res.locals.Model.create(req.body)
+      .then(function (record) {
+        res.locals.record = record;
+
+        res.locals.redirectTo = '/event/'+record.id+'/edit';
+        res.created();
+      }).catch(res.queryError);
+    } else {
+      res.locals.record = req.query;
+      res.ok();
+    }
+  },
+
   edit: function edit(req, res, next) {
     var record = res.locals.record;
 
