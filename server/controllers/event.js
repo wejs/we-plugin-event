@@ -6,6 +6,33 @@ module.exports = {
     req.we.controllers.event.findOne(req, res, next);
   },
 
+  find: function findAll(req, res, next) {
+    if (req.query.my) {
+      if (!req.isAuthenticated()) return res.forbidden();
+      res.locals.query.include.push({
+        model: req.we.db.models.user, as: 'managers',
+        where: { id: req.user.id }
+      });
+    } else if (req.query.manager) {
+      res.locals.query.include.push({
+        model: req.we.db.models.user, as: 'managers',
+        where: { id: req.query.manager }
+      });
+    } else {
+      res.locals.query.where.published = true;
+    }
+
+    return res.locals.Model.findAndCountAll(res.locals.query)
+    .then(function (record) {
+      if (!record) return next();
+
+      res.locals.metadata.count = record.count;
+      res.locals.record = record.rows;
+
+      return res.ok();
+    });
+  },
+
   create: function create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
@@ -33,7 +60,7 @@ module.exports = {
     }
   },
 
-  edit: function edit(req, res, next) {
+  edit: function edit(req, res) {
     var record = res.locals.record;
 
     if (req.method === 'POST') {

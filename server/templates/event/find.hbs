@@ -1,5 +1,11 @@
 <div class="actions">
-{{we-action-create-btn 'event' req}}
+  {{we-action-create-btn 'event' req}}
+
+  {{#if req.user.id}}
+    <a href="?my={{req.user.id}}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-cog"></i> {{t 'event.find.my'}}
+    </a>
+  {{/if}}
 </div>
 
 {{#each record}}
