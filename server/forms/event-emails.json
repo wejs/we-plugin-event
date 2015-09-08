@@ -1,7 +1,16 @@
 {
   "title": "event.edit.email",
   "method": "post",
-
+  "fields": {
+    "registeredText": {
+      "type": "html",
+      "formFieldHeight": 300,
+      "allowNull": false
+    },
+    "registeredTextSeparator2": {
+      "type": "break"
+    }
+  },
   "actions": {
     "submit": {
       "type": "submit",
