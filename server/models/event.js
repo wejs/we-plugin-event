@@ -303,8 +303,25 @@ module.exports = function Model(we) {
         },
 
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
-          // TODO
-          return cb();
+          var self = this;
+
+          we.utils.async.series([
+            function (done) {
+              we.db.models.widget.create({
+                title: 'Admin Menu',
+                type: 'we-cf-menu-admin',
+                layout: 'eventAdmin',
+                regionName: 'sidebar',
+                context: 'event-' + self.id,
+                theme: 'we-theme-event'
+              })
+              .then(function() {
+                console.log('New widget has been created...');
+                done();
+              })
+              .catch(done);
+            }
+          ], cb);
         }
       },
       hooks: {
