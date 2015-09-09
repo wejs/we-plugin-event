@@ -3,7 +3,7 @@
  *
  * render one conference registration btn
  *
- * usage:  {{we-cf-registration-btn event=eventRecord locals=locals
+ * usage:  {{we-cf-registration-btn event=eventRecord userCfregistration="" locals=locals
  *           class=""
  *           classClosedAfter=""
  *           classClosedNoVacancies=""
@@ -22,22 +22,34 @@ module.exports = function(we) {
       text: options.hash.locals.__('event.btn.'+options.hash.event.registrationStatus)
     };
 
-    switch(options.hash.event.registrationStatus) {
-      case 'closed_after':
-        ctx.btnClass += (options.hash.classClosedAfter || 'btn-danger');
-        break;
-      case 'closed_no_vacancies':
-        ctx.btnClass += (options.hash.classClosedNoVacancies || 'btn-danger');
-        break;
-      case 'open':
-        ctx.btnClass += (options.hash.classOpen || 'btn-default');
-        ctx.disabled = '';
-        break;
-      case 'closed_before':
-        ctx.btnClass += (options.hash.classClosedBefore || 'btn-danger');
-        break;
-      default:
-        ctx.btnClass += (options.hash.classClosed || 'btn-danger');
+    var id = options.hash.event.id;
+
+    if (options.hash.event.userCfregistration) {
+      // user is registered in this event
+      ctx.btnClass += (options.hash.classOpen || 'btn-default');
+      ctx.disabled = '';
+      ctx.href = '/event/'+id+'/register';
+      ctx.text = options.hash.locals.__('event.btn.registered');
+    } else {
+      // user not is registered then check btn registration status
+      switch(options.hash.event.registrationStatus) {
+        case 'closed_after':
+          ctx.btnClass += (options.hash.classClosedAfter || 'btn-danger');
+          break;
+        case 'closed_no_vacancies':
+          ctx.btnClass += (options.hash.classClosedNoVacancies || 'btn-danger');
+          break;
+        case 'open':
+          ctx.btnClass += (options.hash.classOpen || 'btn-default');
+          ctx.disabled = '';
+          ctx.href = '/event/'+id+'/register';
+          break;
+        case 'closed_before':
+          ctx.btnClass += (options.hash.classClosedBefore || 'btn-danger');
+          break;
+        default:
+          ctx.btnClass += (options.hash.classClosed || 'btn-danger');
+      }
     }
 
     var theme = options.hash.locals.theme;
