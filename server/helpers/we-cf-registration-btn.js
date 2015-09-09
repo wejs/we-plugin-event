@@ -31,6 +31,7 @@ module.exports = function(we) {
         break;
       case 'open':
         ctx.btnClass += (options.hash.classOpen || 'btn-default');
+        ctx.disabled = '';
         break;
       case 'closed_before':
         ctx.btnClass += (options.hash.classClosedBefore || 'btn-danger');
