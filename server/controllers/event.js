@@ -29,7 +29,21 @@ module.exports = {
       res.locals.metadata.count = record.count;
       res.locals.record = record.rows;
 
-      return res.ok();
+      if (!req.isAuthenticated()) return res.ok();
+      // if user is authenticated load its registration status
+      req.we.utils.async.each(res.locals.record, function (r, next) {
+        // load current user registration register
+        req.we.db.models.cfregistration.findOne({
+          where: { eventId: r.id, userId: req.user.id }
+        }).then(function (cfr) {
+          if (!cfr) return next();
+          r.userCfregistration = cfr;
+          next();
+        }).catch(next);
+      }, function (err){
+        if (err) return res.serverError();
+        return res.ok();
+      });
     });
   },
 
