@@ -201,7 +201,7 @@ describe('cfregistrationtypeFeature', function() {
             assert.equal(res.body.messages[0].status, 'warning');
             assert.equal(
               res.body.messages[0].message,
-              'cfregistrationtype.delete.have.registrations'
+              we.i18n.__('cfregistrationtype.delete.have.registrations')
             );
 
             // check if this registration type is deleted
