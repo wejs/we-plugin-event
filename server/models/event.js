@@ -230,6 +230,20 @@ module.exports = function Model(we) {
               }).then(function (m) {
                 self.setMainMenu(m);
 
+                we.db.models.cflink.bulkCreate([
+                  {
+                    eventId: self.id,
+                    cfmenuId: m.id,
+                    text: 'Noticias',
+                    title: 'Noticias',
+                    href: '/event/' + self.id + '/admin/news',
+                    depth: 1
+                  }
+                ])
+                .then(function() {
+                  console.log('Main links has been created...')
+                });
+
                 done();
               }).catch(done)
             },
@@ -251,6 +265,37 @@ module.exports = function Model(we) {
                 class: 'list-inline join-us'
               }).then(function (m) {
                 self.setSocialMenu(m);
+
+                we.db.models.cflink.bulkCreate([
+                  {
+                    eventId: self.id,
+                    cfmenuId: m.id,
+                    text: 'Social Link 1',
+                    title: 'Social Link 1',
+                    href: 'https://www.socialink.com',
+                    depth: 1
+                  },
+                  {
+                    eventId: self.id,
+                    cfmenuId: m.id,
+                    text: 'Social Link 2',
+                    title: 'Social Link 2',
+                    href: 'https://www.socialink.com',
+                    depth: 1
+                  },
+                  {
+                    eventId: self.id,
+                    cfmenuId: m.id,
+                    text: 'Social Link 3',
+                    title: 'Social Link 3',
+                    href: 'https://www.socialink.com',
+                    depth: 1
+                  }
+                ])
+                .then(function() {
+                  console.log('Social links has been created...')
+                });
+
                 done();
               }).catch(done)
             }
@@ -258,8 +303,25 @@ module.exports = function Model(we) {
         },
 
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
-          // TODO
-          return cb();
+          var self = this;
+
+          we.utils.async.series([
+            function (done) {
+              we.db.models.widget.create({
+                title: 'Admin Menu',
+                type: 'we-cf-menu-admin',
+                layout: 'eventAdmin',
+                regionName: 'sidebar',
+                context: 'event-' + self.id,
+                theme: 'we-theme-event'
+              })
+              .then(function() {
+                console.log('New widget has been created...');
+                done();
+              })
+              .catch(done);
+            }
+          ], cb);
         }
       },
       hooks: {
