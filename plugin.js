@@ -559,7 +559,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.events.on('we:after:load:plugins', function (we) {
     if (
       !we.config.event.defaultTheme &&
-      we.config.themes.app
+      ( we.config.themes && we.config.themes.app )
     ) {
       we.config.event.defaultTheme = we.config.themes.app;
     }
