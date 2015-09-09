@@ -361,6 +361,14 @@ module.exports = function Model(we) {
               record.addManager(record.creatorId).then(function(){
                 done();
               }).catch(done);
+            },
+            function (done) {
+              we.db.models.cfregistrationtype.create({
+                name: we.i18n.__('event.cfregistrationtype.name.default'),
+                eventId: record.id,
+              }).then(function(){
+                done();
+              }).catch(done);
             }
           ], function (err) {
             cb(err, record);
