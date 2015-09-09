@@ -17,12 +17,12 @@
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "0.3.69",
-    "we-plugin-file": "^0.3.4",
-    "we-plugin-form": "^0.3.1",
+    "we-core": "wejs/we-core",
+    "we-plugin-file": "wejs/we-plugin-file",
+    "we-plugin-form": "wejs/we-plugin-form",
     "we-test-tools": "wejs/we-test-tools",
-    "we-theme-admin-default": "^0.3.1",
-    "we-theme-site-wejs": "^0.3.15"
+    "we-theme-admin-default": "wejs/we-theme-admin-default",
+    "we-theme-site-wejs": "wejs/we-theme-site-wejs"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
