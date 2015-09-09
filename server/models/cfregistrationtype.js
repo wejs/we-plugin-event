@@ -18,17 +18,18 @@ module.exports = function Model(we) {
         formFieldType: 'html',
         formFieldHeight: 300
       },
-      eventId: {
-        type: we.db.Sequelize.BIGINT,
-        allowNull: false,
-        formFieldType: null
-      },
       requireValidation: {
         type: we.db.Sequelize.BOOLEAN,
+        formFieldType: 'boolean',
         defaultValue: false
       }
     },
-    associations: {},
+    associations: {
+      event: {
+        type: 'belongsTo',
+        model: 'event'
+      }
+    },
     options: {
       titleField: 'name',
       classMethods: {},
