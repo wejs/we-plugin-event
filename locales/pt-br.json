@@ -207,7 +207,7 @@
 	"form-cfregistration-userId": "ID do usuário",
 	"form-cfregistrationtype-description": "Descrição",
 	"form-cfregistrationtype-name": "Nome",
-	"form-cfregistrationtype-requireValidation": "Requer inscrição?",
+	"form-cfregistrationtype-requireValidation": "Requer validação de inscrição de usuário?",
 	"form-cfroom-about": "Sobre",
 	"form-cfroom-categories": "Categorias",
 	"form-cfroom-name": "Nome",
@@ -499,7 +499,7 @@
 	"form-placeholder-event-vacancies": " ",
 	"form-placeholder-cfcertification-template-id": " ",
 	"event.managers": "Gerentes do evento",
-	"event.not.published.msg": "Atenção! O seu evento ainda não foi publicada, você deve preencher as informações e conteúdos do evento e depois clicar em publicar no editar evento",
+	"event.not.published.msg": "Atenção! O seu evento ainda não foi publicado, você deve preencher as informações e conteúdos do evento e depois clicar em publicar no editar evento",
 	"form-event-about-title": "Título",
 	"form-placeholder-event-about-title": "Digite o título aqui...",
 	"form-helper-event-about-title": " ",
@@ -569,5 +569,6 @@
 	"event.edit.step.publish": "Publicar",
 	"event.managers": "Gerentes do evento",
 	"event.location": "Localização",
-	"event.find.my": "Meus eventos"
+	"event.find.my": "Meus eventos",
+	"event.cfregistrationtype.name.default": "Inscrição padrão"
 }

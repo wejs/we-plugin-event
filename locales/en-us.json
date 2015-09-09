@@ -18,7 +18,7 @@
 	"event.btn.closed_after": "Registration end",
 	"event.menu.admin": "Administration menu",
 	"event.menu.content": "Content menu",
-	"ER_BAD_FIELD_ERROR: Unknown column 'cfmanager.eventId' in 'field list'": "ER_BAD_FIELD_ERROR: Unknown column 'cfmanager.eventId' in 'field list'",
-	"cfnews.find": "cfnews.find",
-	"cfvideo.find": "cfvideo.find"
+	"cfnews.find": "News",
+	"cfvideo.find": "Videos",
+	"event.cfregistrationtype.name.default": "Default registration"
 }
