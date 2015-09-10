@@ -26,14 +26,16 @@ module.exports = function(projectPath, Widget) {
       var nodayString = req.__('cfsession.no.date');
 
       widget.record.forEach(function (r) {
-        if (!r.startDate) return;
         var sdate = we.utils.moment(r.startDate)
         var day;
 
-        if (we.utils.moment(r.startDate).isValid()) {
-          day = sdate.locale(we.config.i18n.defaultLocale).format('L');
+        if (
+          !r.startDate ||
+          !we.utils.moment(r.startDate).isValid()
+        ) {
+          day = nodayString;
         } else {
-          day = nodayString
+          day = sdate.locale(we.config.i18n.defaultLocale).format('L');
         }
 
         if (!widget.days[day]) {
