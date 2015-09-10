@@ -50,8 +50,10 @@ module.exports = {
       res.ok();
     }
   },
-  managePage: function managePage(req, res) {
-    res.locals.query.where.eventId = req.params.eventId;
+  managePage: function managePage(req, res, next) {
+    if (!res.locals.event) return next();
+
+    res.locals.query.where.eventId = res.locals.event.id;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
