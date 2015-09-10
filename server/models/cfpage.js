@@ -19,9 +19,10 @@ module.exports = function Model(we) {
         formFieldHeight: 300
       },
 
-      published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' },
-
-      eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
+      published: { type: we.db.Sequelize.BOOLEAN, defaultValue: false, formFieldType: 'boolean' }
+    },
+    associations: {
+      event: { type: 'belongsTo', model: 'event' }
     },
     options: {
       imageFields: {
