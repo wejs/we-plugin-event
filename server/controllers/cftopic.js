@@ -95,6 +95,10 @@ module.exports = {
     }
   },
   managePage: function managePage(req, res) {
+    if (!res.locals.conference) return res.notFound();
+
+    res.locals.query.where.conferenceId = res.locals.conference.id;
+
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return res.notFound();
