@@ -1,7 +1,7 @@
 /**
- * We.js conference registration btn
+ * We.js event registration btn
  *
- * render one conference registration btn
+ * render one event registration btn
  *
  * usage:  {{we-cf-registration-btn event=eventRecord userCfregistration="" locals=locals
  *           class=""
