@@ -30,6 +30,26 @@ module.exports = {
             }
           ], done);
         }
+      },
+      {
+        version: '0.3.31',
+        /**
+         * Add present column
+         */
+        update: function update0331(we, done) {
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `cftopics` ADD '+
+                ' COLUMN `eventId` INT;';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                we.log.error(err);
+                done();
+              });
+            }
+          ], done);
+        }
       }
     ];
   }
