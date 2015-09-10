@@ -16,6 +16,9 @@ module.exports = function Model(we) {
       },
       weight: { type:  we.db.Sequelize.INTEGER }
     },
+    associations: {
+      event: { type: 'belongsTo', model: 'event' }
+    },
     options: {
       titleField: 'title',
       termFields: {
