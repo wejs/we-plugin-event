@@ -20,5 +20,16 @@
 	"event.menu.content": "Content menu",
 	"cfnews.find": "News",
 	"cfvideo.find": "Videos",
-	"event.cfregistrationtype.name.default": "Default registration"
+	"event.cfregistrationtype.name.default": "Default registration",
+	"not.found": "not.found",
+	"go.to": "go.to",
+	"home": "home",
+	"widget.delete.confirm.msg": "widget.delete.confirm.msg",
+	"widget.sort": "widget.sort",
+	"widget.update": "widget.update",
+	"widget.add": "widget.add",
+	"layout.select.widget.type": "layout.select.widget.type",
+	"Next": "Next",
+	"layout.edit.btn": "layout.edit.btn",
+	"layout.edit.hide.btn": "layout.edit.hide.btn"
 }
