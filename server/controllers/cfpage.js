@@ -14,6 +14,19 @@ module.exports = {
       return res.ok();
     });
   },
+  findOne: function findOne(req, res, next) {
+    if (!res.locals.record) return next();
+
+    if (req.params.eventId != res.locals.record.eventId)
+      return next();
+
+    req.we.hooks.trigger('we:after:send:ok:response', {
+      res: res, req: req
+    }, function (err) {
+      if (err) return res.serverError(err);
+      return res.ok();
+    });
+  },
   managePage: function managePage(req, res, next) {
     if (!res.locals.event) return next();
 
