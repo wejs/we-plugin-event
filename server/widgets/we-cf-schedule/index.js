@@ -1,20 +1,16 @@
+var eventModule = require('../../../lib');
+
 module.exports = function(projectPath, Widget) {
   var widget = new Widget('we-cf-schedule', __dirname);
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
     var we = req.getWe();
-    var cfId;
-    if (res.locals.event) {
-      cfId = res.locals.event.id;
-    } else {
-      var ctx = widget.dataValues.context.split('-');
-      if ( (ctx[0] == 'event') && ctx[1] && Number(ctx[1]) )
-        cfId = ctx[1];
-    }
-    if (!cfId) return next();
+
+    var eventId = eventModule.getEventIdFromWidget(widget, res);
+    if (!eventId) return next();
 
     we.db.models.cfsession.findAndCountAll({
-      where: { eventId: cfId },
+      where: { eventId: eventId },
       order:[['startDate', 'ASC'], ['createdAt', 'ASC']]
     }).then(function (result) {
       var activeSet = false;
