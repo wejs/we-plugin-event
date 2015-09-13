@@ -12,6 +12,8 @@ module.exports = function(we) {
     var start = we.utils.moment(options.hash.start);
     var end = we.utils.moment(options.hash.end);
 
+    if (!start.isValid() || !end.isValid()) return '';
+
     var __ = ( options.hash.__ || we.i18n.__ );
 
     // dd/mm a dd/mm de aaaa
