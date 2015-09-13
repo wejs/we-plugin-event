@@ -570,5 +570,6 @@
 	"event.managers": "Gerentes do evento",
 	"event.location": "Localização",
 	"event.find.my": "Meus eventos",
-	"event.cfregistrationtype.name.default": "Inscrição padrão"
+	"event.cfregistrationtype.name.default": "Inscrição padrão",
+	"event.date.range": "{{start}} a {{end}} de {{yearEnd}}"
 }

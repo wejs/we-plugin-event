@@ -31,5 +31,6 @@
 	"layout.select.widget.type": "layout.select.widget.type",
 	"Next": "Next",
 	"layout.edit.btn": "layout.edit.btn",
-	"layout.edit.hide.btn": "layout.edit.hide.btn"
+	"layout.edit.hide.btn": "layout.edit.hide.btn",
+	"event.date.range": "{{start}} to {{end}} of {{yearEnd}}"
 }
