@@ -82,7 +82,23 @@ module.exports = function Model(we) {
         }
       },
       instanceMethods: {},
-      hooks: {}
+      hooks: {
+        afterDestroy: function afterDestroy(record, opts, done) {
+          // delete related cflinks
+          if (!record || !record.eventId || !record.id) return done();
+          we.db.models.cflink.destroy({
+            where: {
+              href: we.router.urlTo('cfpage.findOne', [record.eventId, record.id])
+            }
+          }).then(function(){
+            done();
+          }).catch(function(err){
+            we.log.error('Error on destroy cfpage links:', err);
+
+            done();
+          });
+        }
+      }
     }
   }
 
