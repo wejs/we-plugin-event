@@ -12,8 +12,10 @@ module.exports = function(we) {
     var start = we.utils.moment(options.hash.start);
     var end = we.utils.moment(options.hash.end);
 
+    var __ = ( options.hash.__ || we.i18n.__ );
+
     // dd/mm a dd/mm de aaaa
-    return new we.hbs.SafeString(options.hash.__('event.date.range', {
+    return new we.hbs.SafeString(__('event.date.range', {
       start: start.format('DD/MM'),
       end: end.format('DD/MM'),
       yearStart: start.format('YYYY'),
