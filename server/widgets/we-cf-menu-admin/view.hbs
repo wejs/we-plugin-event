@@ -13,20 +13,7 @@
       <a href="/event/{{widget.cfid}}/admin/cfregistrationtype"> <i class="fa fa-user-plus"></i> {{t 'cfregistrationtype.find'}} </a>
     </li>
     <li>
-      <a href="#Structure"><i class="fa fa-building"></i>
-      {{t 'Structure'}} <span class="fa arrow"></span></a>
-      <ul class="nav nav-pills sidebar-menu nav-stacked">
-        <li><a href="/event/{{widget.cfid}}/admin/menu"> <i class="fa fa-sitemap"></i> {{t 'event_admin_menu'}} </a>
-        </li>
-        <li class=""><a href="/event/{{widget.cfid}}/admin/page"> <i class="fa fa-files-o"></i> {{t 'event_findOne.page_manage'}} </a>
-        </li>
-      </ul>
-    </li>
-    <li>
       <a href="/event/{{widget.cfid}}/admin/managers"> <i class="fa fa-user-md"></i> {{t 'event.managers'}} </a>
     </li>
   </ul>
-  <script>$(document).ready(function() {
-    we.components.metisMenu('#widget-cf-menu-admin-{{widget.id}}', {});
-  });</script>
 {{/if}}
