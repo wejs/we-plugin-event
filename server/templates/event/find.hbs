@@ -21,10 +21,10 @@
         {{/each}}
 
         <div>
-          {{#ifCond callForPapersStartDate '0000-00-00 00:00:00'}}{{else}}
+          {{#if callForPapersStartDate}}
             <strong>Envio de trabalhos:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
             <br>
-          {{/ifCond}}
+          {{/if}}
           <strong>Inscrições:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
           <br>
           <strong>Data do evento:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
