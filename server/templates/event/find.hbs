@@ -22,10 +22,12 @@
 
         <div>
           {{#ifCond callForPapersStartDate '0000-00-00 00:00:00'}}{{else}}
-            <strong>Envio de trabalhos:</strong> {{we-date callForPapersStartDate 'DD'}} {{t 'date.to'}} {{we-date callForPapersEndDate 'LL'}}<br>
+            <strong>Envio de trabalhos:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
+            <br>
           {{/ifCond}}
-          <strong>Inscrições:</strong> {{we-date registrationStartDate 'DD'}} {{t 'date.to'}} {{we-date registrationEndDate 'LL'}} <br>
-          <strong>Data do evento:</strong> {{we-date eventStartDate 'DD'}} {{t 'date.to'}} {{we-date eventEndDate 'LL'}}
+          <strong>Inscrições:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
+          <br>
+          <strong>Data do evento:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
         </div>
       </div>
       <div class="col-md-9">
