@@ -1,7 +1,7 @@
 {
   "name": "we-plugin-event",
   "description": "We.js plugin with event features",
-  "version": "0.3.40",
+  "version": "0.3.41",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
