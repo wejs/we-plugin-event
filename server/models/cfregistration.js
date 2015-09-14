@@ -15,6 +15,7 @@ module.exports = function Model(we) {
 
       userId: {
         type: we.db.Sequelize.INTEGER,
+        formFieldType: null,
         validate: {
           isRegistered: function(uid, done) {
             var eventId = this.getDataValue('eventId');
