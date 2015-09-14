@@ -1,5 +1,6 @@
 {{#ifCond locals.cfregistrationtypes.length 1}}
   {{#each locals.cfregistrationtypes}}
+    <p>{{{description}}}</p>
     <input type="hidden" name="{{../name}}" id="{{../fieldId}}" value="{{id}}">
   {{/each}}
 {{else}}
