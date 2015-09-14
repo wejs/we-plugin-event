@@ -720,8 +720,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           });
         },
         function cfcontactCount(cb) {
-          we.db.models.cfcontact.count()
-          .then(function (count) {
+          we.db.models.cfcontact.count({
+            where: { eventId: id }
+          }).then(function (count) {
             res.locals.metadata.cfcontactCount = count;
             cb();
           }).catch(cb);
