@@ -24,7 +24,10 @@ module.exports = function(we) {
 
     var id = options.hash.event.id;
 
-    if (options.hash.event.userCfregistration) {
+    if (
+      options.hash.userCfregistration &&
+      ( options.hash.userCfregistration.status == 'registered' )
+    ) {
       // user is registered in this event
       ctx.btnClass += (options.hash.classOpen || 'btn-default');
       ctx.disabled = '';
