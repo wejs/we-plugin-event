@@ -32,5 +32,11 @@
 	"Next": "Next",
 	"layout.edit.btn": "layout.edit.btn",
 	"layout.edit.hide.btn": "layout.edit.hide.btn",
-	"event.date.range": "{{start}} to {{end}} of {{yearEnd}}"
+	"event.date.range": "{{start}} to {{end}} of {{yearEnd}}",
+	"event.edit.step.messages": "Messages",
+  "form-event-messages-registeredText": "Information text to show in my registration page for registered users",
+  "form-helper-event-messages-registeredText": " ",
+  "form-placeholder-event-messages-registeredText": " ",
+  "form-event-messages-submit": "Save",
+  "form-event-messages-save_next": "Save and next"
 }

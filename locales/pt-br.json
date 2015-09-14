@@ -571,5 +571,11 @@
 	"event.location": "Localização",
 	"event.find.my": "Meus eventos",
 	"event.cfregistrationtype.name.default": "Inscrição padrão",
-	"event.date.range": "{{start}} a {{end}} de {{yearEnd}}"
+	"event.date.range": "{{start}} a {{end}} de {{yearEnd}}",
+	"event.edit.step.messages": "Mensagens",
+  "form-event-messages-registeredText": "Texto de informações para os usuários inscritos",
+  "form-helper-event-messages-registeredText": "Esse texto aparece na página de minha inscrição para o usuário inscrito",
+  "form-placeholder-event-messages-registeredText": " ",
+  "form-event-messages-submit": "Salvar",
+  "form-event-messages-save_next": "Salvar e avançar"
 }

@@ -3,7 +3,8 @@
     <li role="presentation" class="active"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
     <li role="presentation"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
     <li role="presentation"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
-    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.publish'}}</a></li>
+    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
   {{{form 'event-about' record validationError}}}
@@ -14,7 +15,8 @@
     <li role="presentation"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
     <li role="presentation" class="active"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
     <li role="presentation"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
-    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.publish'}}</a></li>
+    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
   {{{form 'event-dates' record validationError}}}
@@ -25,29 +27,45 @@
     <li role="presentation"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
     <li role="presentation"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
     <li role="presentation" class="active"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
-    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.publish'}}</a></li>
+    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
   {{{form 'event-theme' record validationError}}}
 {{/ifCond}}
+
+{{#ifCond req.query.step '4'}}
+  <ul class="nav nav-tabs">
+    <li role="presentation"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
+    <li role="presentation"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
+    <li role="presentation"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
+    <li role="presentation" class="active"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
+  </ul>
+  <br>
+  {{{form 'event-messages' record validationError}}}
+{{/ifCond}}
+
 {{!--
 {{#ifCond req.query.step '4'}}
   <ul class="nav nav-tabs">
     <li role="presentation"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
     <li role="presentation"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
     <li role="presentation"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
-    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.publish'}}</a></li>
+    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
   {{{form 'event-emails' record validationError}}}
 {{/ifCond}}
  --}}
-{{#ifCond req.query.step '4'}}
+{{#ifCond req.query.step '5'}}
   <ul class="nav nav-tabs">
     <li role="presentation"><a href="?step=">{{t 'event.edit.step.about'}}</a></li>
     <li role="presentation"><a href="?step=2">{{t 'event.edit.step.dates'}}</a></li>
     <li role="presentation"><a href="?step=3">{{t 'event.edit.step.visual'}}</a></li>
-    <li role="presentation" class="active"><a href="?step=4">{{t 'event.edit.step.publish'}}</a></li>
+    <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
+    <li role="presentation" class="active"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
 
