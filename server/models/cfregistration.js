@@ -46,6 +46,7 @@ module.exports = function Model(we) {
 
       specialRequirements: {
         type: we.db.Sequelize.TEXT,
+        formFieldType: null,
         allowNull: true
       },
 
