@@ -80,6 +80,19 @@ describe('cfnewsFeature', function() {
         done();
       });
     });
+
+    it ('get /event/:eventId/cfnews/create should get a list of cfnews', function (done) {
+      authenticatedRequest
+      .get('/event/' + salvedConference + '/news')
+      .send('Accept', 'application/json')
+      expect(200)
+      .end(function(err, res) {
+        if (err) throw err;
+
+        assert(res.body);
+        done();
+      });
+    });
   });
 
 
