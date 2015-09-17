@@ -13,12 +13,13 @@
   <p class="help-block">{{t help}}</p>
   {{{field-help-error error}}}
 </div>
+
 <script>$(document).ready(function() {
   we.components.select.init('#{{fieldId}}', {
     searchField: 'name',
     cache: true,
     url: function () {
-      return '/event/{{values.eventId}}/cfroom';
+      return '/event/{{locals.event.id}}/cfroom';
     },
     processResults: function (data, params) {
       if (!data || !data.cfroom) return {};
