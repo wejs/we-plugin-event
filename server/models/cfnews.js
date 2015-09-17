@@ -17,7 +17,11 @@ module.exports = function Model(we) {
 			title: {
 				type: we.db.Sequelize.STRING, allowNull: false
 			},
-      teaser: { type: we.db.Sequelize.TEXT },
+      teaser: {
+        type: we.db.Sequelize.TEXT,
+        formFieldType: 'html',
+        formFieldHeight: 200
+      },
 			text: {
 				type: we.db.Sequelize.TEXT,
 				formFieldType: 'html',
