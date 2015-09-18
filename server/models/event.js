@@ -123,6 +123,35 @@ module.exports = function Model(we) {
           return 'closed';
         }
       },
+      /**
+       * Resolve and return sendWorkStatus based in
+       *
+       * disabled || after || before || open
+       * @type {Object}
+       */
+      sendWorkStatus: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function() {
+         var s = this.getDataValue('callForPapersStartDate');
+          var e = this.getDataValue('callForPapersEndDate');
+
+          if (s) s = we.utils.moment(s).unix();
+          if (e) e = we.utils.moment(e).unix();
+
+          if (!s||!e) return 'disabled';
+
+          var now = we.utils.moment().unix();
+
+          if (s <= now || now>=e) {
+            return 'open';
+          } else if (s > now){
+            return 'before';
+          } else {
+            return 'after';
+          }
+        }
+      },
       theme: {
         type: we.db.Sequelize.STRING,
         formFieldType: 'cf-theme-selector'
