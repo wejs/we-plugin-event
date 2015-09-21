@@ -92,12 +92,12 @@ describe('cfnewsFeature', function() {
     });
 
     it ('get /event/:eventId/admin/news should get news list', function (done) {
-      var cfrts = [
+      var cf = [
         cfnewsStub(salvedImage.id),
         cfnewsStub(salvedImage.id),
         cfnewsStub(salvedImage.id)
       ];
-      we.db.models.cfnews.bulkCreate(cfrts)
+      we.db.models.cfnews.bulkCreate(cf)
       .then(function () {
 
         authenticatedRequest
@@ -108,6 +108,29 @@ describe('cfnewsFeature', function() {
           if (err) throw err;
           assert(res.body.cfnews);
           assert(res.body.cfnews.length >= 3);
+          done();
+        });
+      }).catch(done);
+    });
+
+    it ('post /event/:eventId/admin/cfnews/:id/edit should update one news', function (done) {
+      var cf = cfnewsStub(salvedImage.id);
+      we.db.models.cfnews.create(cf)
+      .then(function (r) {
+        assert(r.id);
+        var newValues = { title: 'one new test title' };
+        authenticatedRequest
+        .post('/event/' + salvedConference.id + '/admin/cfnews/' + r.id + '/edit')
+        .send(newValues)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) throw err;
+          assert(res.body.cfnews);
+          assert(res.body.cfnews[0]);
+          assert.equal(res.body.cfnews[0].id, r.id);
+          assert.equal(res.body.cfnews[0].title, newValues.title);
+          assert.equal(res.body.cfnews[0].text, cf.text);
           done();
         });
       }).catch(done);
