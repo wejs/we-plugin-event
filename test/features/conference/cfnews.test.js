@@ -114,7 +114,11 @@ describe('cfnewsFeature', function() {
     });
 
     it ('post /event/:eventId/admin/cfnews/:id/edit should update one news', function (done) {
-      var cf = cfnewsStub(salvedImage.id);
+      var cf = {
+        title: 'one test title',
+        text: 'one test text',
+        featuredImage: [ 'null', salvedImage.id ]
+      }
       we.db.models.cfnews.create(cf)
       .then(function (r) {
         assert(r.id);
@@ -132,6 +136,30 @@ describe('cfnewsFeature', function() {
           assert.equal(res.body.cfnews[0].title, newValues.title);
           assert.equal(res.body.cfnews[0].text, cf.text);
           done();
+        });
+      }).catch(done);
+    });
+
+    it ('post /event/:eventId/admin/cfnews/:id/delete should delete one news', function (done) {
+      var cf = {
+        title: 'one test title',
+        text: 'one test text',
+        featuredImage: [ 'null', salvedImage.id ]
+      }
+      we.db.models.cfnews.create(cf)
+      .then(function (r) {
+        assert(r.id);
+        authenticatedRequest
+        .post('/event/' + salvedConference.id + '/admin/cfnews/' + r.id + '/delete')
+        .set('Accept', 'application/json')
+        .expect(204)
+        .end(function (err) {
+          if (err) throw err;
+          we.db.models.cfnews.findById(r.id)
+          .then(function (result){
+            assert(!result);
+            done();
+          }).catch(done);
         });
       }).catch(done);
     });
