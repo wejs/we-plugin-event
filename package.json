@@ -23,7 +23,7 @@
     "we-plugin-menu": "^0.3.2",
     "we-test-tools": "wejs/we-test-tools",
     "we-theme-admin-default": "0.3.1",
-    "we-theme-site-wejs": "0.3.15"
+    "we-theme-site-wejs": "0.3.21"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
