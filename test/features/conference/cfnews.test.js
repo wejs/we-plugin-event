@@ -2,9 +2,19 @@ var assert = require('assert');
 var request = require('supertest');
 var helpers = require('we-test-tools').helpers;
 var stubs = require('we-test-tools').stubs;
+var stubs = require('we-test-tools').stubs;
 var http;
 var we;
 var agent;
+
+function cfnewsStub(salvedImageId){
+  return {
+    title: 'one test title',
+    text: 'one test text',
+    featuredImage: [ 'null', salvedImageId]
+  };
+}
+
 
 describe('cfnewsFeature', function() {
   var salvedUser, salvedUserPassword, authenticatedRequest;
@@ -81,19 +91,26 @@ describe('cfnewsFeature', function() {
       });
     });
 
-    it ('get /event/:eventId/cfnews/create should get a list of cfnews', function (done) {
-      authenticatedRequest
-      .get('/event/' + salvedConference + '/news')
-      .send('Accept', 'application/json')
-      expect(200)
-      .end(function(err, res) {
-        if (err) throw err;
+    it ('get /event/:eventId/admin/news should get news list', function (done) {
+      var cfrts = [
+        cfnewsStub(salvedImage.id),
+        cfnewsStub(salvedImage.id),
+        cfnewsStub(salvedImage.id)
+      ];
+      we.db.models.cfnews.bulkCreate(cfrts)
+      .then(function () {
 
-        assert(res.body);
-        done();
-      });
+        authenticatedRequest
+        .get('/event/' + salvedConference.id + '/admin/news')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) throw err;
+          assert(res.body.cfnews);
+          assert(res.body.cfnews.length >= 3);
+          done();
+        });
+      }).catch(done);
     });
   });
-
-
 });

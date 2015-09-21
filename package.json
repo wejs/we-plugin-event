@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "pdfkit": "^0.7.1",
-    "video-url-inspector": "^1.0.0"
+    "video-url-inspector": "^1.0.0",
+    "we-test-tools": "^0.3.9"
   },
   "devDependencies": {
     "fs-extra": "^0.18.2",
@@ -17,7 +18,7 @@
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "0.3.69",
+    "we-core": "0.3.81",
     "we-plugin-file": "^0.3.4",
     "we-plugin-form": "^0.3.1",
     "we-test-tools": "wejs/we-test-tools",
