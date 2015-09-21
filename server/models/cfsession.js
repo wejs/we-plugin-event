@@ -125,6 +125,24 @@ module.exports = function Model(we) {
           return we.db.models.cfsessionSubscriber.count({
             where: { cfsessionId: this.id }
           });
+        },
+        /**
+         * Check if current cfsession record have conflict with sessions list
+         *
+         * @param  {Object} sessions
+         * @return {Boolean}
+         */
+        haveTimeConflict: function haveTimeConflict(sessions) {
+          if (!sessions) return false;
+
+          for (var i = 0; i < sessions.length; i++) {
+            if (
+              (this.startDate <= sessions[i].endDate)  &&
+              (this.endDate >= sessions[i].startDate)
+            ){
+              return true;
+            }
+          }
         }
       },
       hooks: {

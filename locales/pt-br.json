@@ -580,5 +580,12 @@
   "form-event-messages-save_next": "Salvar e avançar",
   "event.closed_before": "As inscrições para o evento ainda não estão disponíveis",
   "event.closed": "As inscrições para o evento estão fechadas",
-  "event.closed_after": "As inscrições para o evento já encerraram"
+  "event.closed_after": "As inscrições para o evento já encerraram",
+  "cfroom.vacancy.full": "Sem vagas",
+  "cfroom.vacancy.conflict": "conflito de datas",
+  "cfsession.sessions.to.register": "Atividades disponíveis",
+  "cfsession.sessions.registered": "Você está inscrito nas atividades:",
+  "event.startDate": "início",
+  "event.endDate": "fim",
+  "cfregistration.registered.code.msg": "Você está inscrito com o código"
 }

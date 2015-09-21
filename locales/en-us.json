@@ -21,8 +21,8 @@
 	"cfnews.find": "News",
 	"cfvideo.find": "Videos",
 	"event.cfregistrationtype.name.default": "Default registration",
-	"not.found": "not.found",
-	"go.to": "go.to",
+	"not.found": "not found",
+	"go.to": "go to",
 	"home": "home",
 	"widget.delete.confirm.msg": "widget.delete.confirm.msg",
 	"widget.sort": "widget.sort",
@@ -38,5 +38,12 @@
   "form-helper-event-messages-registeredText": " ",
   "form-placeholder-event-messages-registeredText": " ",
   "form-event-messages-submit": "Save",
-  "form-event-messages-save_next": "Save and next"
+  "form-event-messages-save_next": "Save and next",
+  "cfroom.vacancy.full": "full",
+  "cfroom.vacancy.conflict": "conflict",
+  "cfsession.sessions.to.register": "Sessions avaible to register",
+  "cfsession.sessions.registered": "Sessions you are registered:",
+  "event.startDate": "Start",
+  "event.endDate": "end",
+  "cfregistration.registered.code.msg": "You are registered with code"
 }

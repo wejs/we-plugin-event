@@ -54,9 +54,21 @@ module.exports = {
             { model: we.db.models.cfregistration, as: 'subscribers' }
           ]
         }).then(function (cfsessions) {
-          res.locals.sessionsToRegister = cfsessions;
-
           res.locals.userCfregistration.getSessions().then(function(s){
+            res.locals.sessionsToRegister = cfsessions.filter(function (r){
+              r.conflict = r.haveTimeConflict(s);
+
+              if (!s) return true;
+
+              // check if is registered
+              for (var i = 0; i < s.length; i++) {
+                if (s[i].id == r.id) {
+                  return false;
+                }
+              }
+              return true;
+            });
+
             res.locals.userCfregistration.sessions = s;
             return res.ok();
           });
