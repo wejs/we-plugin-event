@@ -577,5 +577,8 @@
   "form-helper-event-messages-registeredText": "Esse texto aparece na página de minha inscrição para o usuário inscrito",
   "form-placeholder-event-messages-registeredText": " ",
   "form-event-messages-submit": "Salvar",
-  "form-event-messages-save_next": "Salvar e avançar"
+  "form-event-messages-save_next": "Salvar e avançar",
+  "event.closed_before": "As inscrições para o evento ainda não estão disponíveis",
+  "event.closed": "As inscrições para o evento estão fechadas",
+  "event.closed_after": "As inscrições para o evento já encerraram"
 }
