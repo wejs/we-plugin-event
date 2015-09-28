@@ -231,6 +231,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       permission    : 'find_event'
     },
 
+    // mark all users registered in event as present
+    'post /event/:eventId([0-9]+)/admin/cfregistrationtype/:cfregistrationtypeId([0-9]+)/mark-all-as-present': {
+      titleHandler  : 'i18n',
+      titleI18n: 'cfregistrationtype.markAllAsPresent',
+      controller    : 'cfregistrationtype',
+      action        : 'markAllAsPresent',
+      model         : 'cfregistrationtype',
+      permission    : 'manage_event'
+    },
+
     // -- event admin
     'get /event/:eventId([0-9]+)/admin': {
       name          : 'event_admin',

@@ -46,10 +46,11 @@
         <tr>
           <th>id</th>
           <th>userId</th>
-          <th>Nome</th>
-          <th>email</th>
-          <th>Atualizado em</th>
-          <th>Ações</th>
+          <th>{{t 'name'}}</th>
+          <th>{{t 'email'}}</th>
+          <th>{{t 'updatedAt'}}</th>
+          <th>{{t 'present'}}</th>
+          <th>{{t 'actions'}}</th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +61,13 @@
           <td>{{user.displayName}}</td>
           <td>{{user.email}}</td>
           <td>{{we-date updatedAt}}</td>
+          <td>
+            {{#if present}}
+              <i class="glyphicon glyphicon-check text-success"><span class="sr-only">{{t 'event.present'}}</span></i>
+            {{else}}
+              <i class="glyphicon glyphicon-uncheck"><span class="sr-only">{{t 'event.not-present'}}</span></i>
+            {{/if}}
+          </td>
           <td>
             {{#ifCond status 'requested'}}
               {{#link-to 'cfregistration.accept' eventId id class="btn btn-success"}}

@@ -20,8 +20,7 @@ module.exports = function Model(we) {
           isRegistered: function(uid, done) {
             var eventId = this.getDataValue('eventId');
             if (!eventId) return done();
-            if (!uid || !Number(uid) )
-              return done('user.not-found');
+            if (!uid || !Number(uid) ) return done('user.not-found');
 
             we.db.models.cfregistration.findOne({
               where: {
@@ -38,26 +37,22 @@ module.exports = function Model(we) {
           }
         }
       },
-
       cfregistrationtypeId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: 'cf-type-selector'
       },
-
       specialRequirements: {
         type: we.db.Sequelize.TEXT,
         formFieldType: null,
         allowNull: true
       },
-
       // requested, registered
       status: {
         type: we.db.Sequelize.STRING,
         defaultValue: 'requested',
         formFieldType: null
       },
-
       present: {
         type: we.db.Sequelize.BOOLEAN,
         defaultValue: false,
