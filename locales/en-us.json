@@ -45,5 +45,9 @@
   "cfsession.sessions.registered": "Sessions you are registered:",
   "event.startDate": "Start",
   "event.endDate": "end",
-  "cfregistration.registered.code.msg": "You are registered with code"
+  "cfregistration.registered.code.msg": "You are registered with code",
+  "present": "present",
+  "event.present": "Present",
+  "event.not-present": "Not present",
+  "cfcertification.generate.all": "Generate all certs"
 }

@@ -587,5 +587,9 @@
   "cfsession.sessions.registered": "Você está inscrito nas atividades:",
   "event.startDate": "início",
   "event.endDate": "fim",
-  "cfregistration.registered.code.msg": "Você está inscrito com o código"
+  "cfregistration.registered.code.msg": "Você está inscrito com o código",
+  "present": "presente",
+  "event.present": "Presente",
+  "event.not-present": "Não registrado",
+  "cfcertification.generate.all": "Gerar todos os certificados"
 }
