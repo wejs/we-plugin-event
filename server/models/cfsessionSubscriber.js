@@ -7,11 +7,14 @@
 
 module.exports = function Model(we) {
   var model = {
-    definition: {},
-
-    options: {
-      paranoid: false
-    }
+    definition: {
+      present: {
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false,
+        formFieldType: null
+      }
+    },
+    options: { paranoid: false }
   };
   return model;
 };

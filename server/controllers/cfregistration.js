@@ -375,7 +375,11 @@ function saveUserRegistration(req, res) {
   // merge req.body with locals record to handle validation errors
   we.utils._.merge(res.locals.record, req.body);
 
-  if (choiseRegistrationType.requireValidation) {
+  if (!choiseRegistrationType) {
+    we.log.warn('Event: choiseRegistrationType : not found', req.body);
+  }
+
+  if (choiseRegistrationType && choiseRegistrationType.requireValidation) {
     req.body.status = 'requested';
   } else {
     req.body.status = 'registered';
