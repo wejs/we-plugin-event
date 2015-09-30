@@ -19,7 +19,7 @@
     searchField: 'name',
     cache: true,
     url: function () {
-      return '/event/1/cfroom';
+      return '/event/{{locals.event.id}}/cfroom';
     },
     processResults: function (data, params) {
       if (!data || !data.cfroom) return {};

@@ -112,7 +112,8 @@ module.exports = function Model(we) {
             // is open if are between start and end date
             if ((now > startDate) && (now < endDate)) {
               var vac = this.getDataValue('vacancies');
-              if (vac && (vac >= this.getDataValue('registrationCount')) ) {
+
+              if (vac && (vac <= this.getDataValue('registrationCount')) ) {
                 return 'closed_no_vacancies';
               }
               return 'open';
@@ -120,6 +121,35 @@ module.exports = function Model(we) {
           }
 
           return 'closed';
+        }
+      },
+      /**
+       * Resolve and return sendWorkStatus based in
+       *
+       * disabled || after || before || open
+       * @type {Object}
+       */
+      sendWorkStatus: {
+        type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
+        get: function() {
+         var s = this.getDataValue('callForPapersStartDate');
+          var e = this.getDataValue('callForPapersEndDate');
+
+          if (s) s = we.utils.moment(s).unix();
+          if (e) e = we.utils.moment(e).unix();
+
+          if (!s||!e) return 'disabled';
+
+          var now = we.utils.moment().unix();
+
+          if (s <= now || now>=e) {
+            return 'open';
+          } else if (s > now){
+            return 'before';
+          } else {
+            return 'after';
+          }
         }
       },
       theme: {
@@ -229,22 +259,23 @@ module.exports = function Model(we) {
                 class: 'nav navbar-nav navbar-right'
               }).then(function (m) {
                 self.setMainMenu(m);
-
-                we.db.models.cflink.bulkCreate([
-                  {
-                    eventId: self.id,
-                    cfmenuId: m.id,
-                    text: 'Noticias',
-                    title: 'Noticias',
-                    href: '/event/' + self.id + '/admin/news',
-                    depth: 1
-                  }
-                ])
-                .then(function() {
-                  console.log('Main links has been created...')
+                we.db.models.cflink.bulkCreate([{
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: we.i18n.__('cfnews.find'),
+                  title: we.i18n.__('cfnews.find'),
+                  href: we.router.urlTo('cfnews.find', [self.id]),
+                  depth: 1
+                },{
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: we.i18n.__('cfvideo.find'),
+                  title: we.i18n.__('cfvideo.find'),
+                  href: we.router.urlTo('cfvideo.find', [self.id]),
+                  depth: 1
+                }]).then(function() {
+                  done();
                 });
-
-                done();
               }).catch(done)
             },
             function (done) {
@@ -254,7 +285,6 @@ module.exports = function Model(we) {
                 class: 'nav nav-pills sidebar-menu nav-stacked'
               }).then(function (m) {
                 self.setSecondaryMenu(m);
-
                 done();
               }).catch(done)
             },
@@ -266,60 +296,58 @@ module.exports = function Model(we) {
               }).then(function (m) {
                 self.setSocialMenu(m);
 
-                we.db.models.cflink.bulkCreate([
-                  {
-                    eventId: self.id,
-                    cfmenuId: m.id,
-                    text: 'Social Link 1',
-                    title: 'Social Link 1',
-                    href: 'https://www.socialink.com',
-                    depth: 1
-                  },
-                  {
-                    eventId: self.id,
-                    cfmenuId: m.id,
-                    text: 'Social Link 2',
-                    title: 'Social Link 2',
-                    href: 'https://www.socialink.com',
-                    depth: 1
-                  },
-                  {
-                    eventId: self.id,
-                    cfmenuId: m.id,
-                    text: 'Social Link 3',
-                    title: 'Social Link 3',
-                    href: 'https://www.socialink.com',
-                    depth: 1
-                  }
-                ])
-                .then(function() {
-                  console.log('Social links has been created...')
+                we.db.models.cflink.bulkCreate([{
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: '<i class="fa fa-youtube-play"></i> ',
+                  href: '#',
+                  class: 'btn btn-empty-inverse btn-lg',
+                  depth: 1
+                },
+                {
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: '<i class="fa fa-facebook"></i> ',
+                  href: '#',
+                  class: 'btn btn-empty-inverse btn-lg',
+                  depth: 1
+                },
+                {
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: '<i class="fa fa-twitter"></i> ',
+                  href: '#',
+                  class: 'btn btn-empty-inverse btn-lg',
+                  depth: 1
+                }]).then(function() {
+                  done();
                 });
-
-                done();
               }).catch(done)
             }
           ], cb);
         },
-
         generateDefaultWidgets: function generateDefaultWidgets(cb) {
           var self = this;
 
           we.utils.async.series([
             function (done) {
-              we.db.models.widget.create({
-                title: 'Admin Menu',
+              we.db.models.widget.bulkCreate([{
+                title: we.i18n.__('event.menu.admin'),
                 type: 'we-cf-menu-admin',
                 layout: 'eventAdmin',
                 regionName: 'sidebar',
                 context: 'event-' + self.id,
-                theme: 'we-theme-event'
-              })
-              .then(function() {
-                console.log('New widget has been created...');
+                theme: we.config.event.defaultTheme
+              },{
+                title: we.i18n.__('event.menu.content'),
+                type: 'we-cf-menu-content',
+                layout: 'eventAdmin',
+                regionName: 'sidebar',
+                context: 'event-' + self.id,
+                theme: we.config.event.defaultTheme
+              }]).then(function() {
                 done();
-              })
-              .catch(done);
+              }).catch(done);
             }
           ], cb);
         }
@@ -360,6 +388,14 @@ module.exports = function Model(we) {
             record.generateDefaultWidgets.bind(record),
             function addCreatorAsManager(done) {
               record.addManager(record.creatorId).then(function(){
+                done();
+              }).catch(done);
+            },
+            function (done) {
+              we.db.models.cfregistrationtype.create({
+                name: we.i18n.__('event.cfregistrationtype.name.default'),
+                eventId: record.id,
+              }).then(function(){
                 done();
               }).catch(done);
             }

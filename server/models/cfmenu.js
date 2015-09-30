@@ -38,6 +38,13 @@ module.exports = function Model(we) {
           }).then(function (record) {
             res.locals.record = record;
             if (record) {
+              // in other event
+              if (req.params.eventId) {
+                if (req.params.eventId != record.eventId) {
+                  return res.notFound();
+                }
+              }
+
               if( record.dataValues.creatorId && req.isAuthenticated()) {
                 // ser role owner
                 if (req.user.id == record.dataValues.creatorId)

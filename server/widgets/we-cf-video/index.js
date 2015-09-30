@@ -1,11 +1,18 @@
+var eventModule = require('../../../lib');
+
 module.exports = function cfVideoWidget(projectPath, Widget) {
   var widget = new Widget('we-cf-video', __dirname);
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
-    if (!widget.configuration.vid) return next();
-    var we = req.getWe();
-    we.db.models.cfvideo.findOne({
-      where: { id: widget.configuration.vid }
+    var eventId = eventModule.getEventIdFromWidget(widget, res);
+    if (!eventId) return next();
+
+    var where =  { eventId: eventId };
+    if (widget.configuration.vid)
+      where.id = widget.configuration.vid;
+
+    req.we.db.models.cfvideo.findOne({
+      where: where
     }).then(function (r) {
       if (!r) return next();
       widget.cfvideo = r;

@@ -74,5 +74,25 @@ module.exports = {
     } else {
       return res.ok();
     }
+  },
+
+  markAllAsPresent: function markAllAsPresent(req, res) {
+    req.we.db.models.cfregistration.update({
+      present: true
+    }, {
+      where: {
+        eventId: res.locals.event.id,
+        present: false
+      }
+    }).then(function (r) {
+      res.locals.metadata = r[0];
+
+      if (req.body.redirectTo) {
+        res.addMessage('success', 'cfregistrationtype.markAllAsPresent.success');
+        res.goTo(req.body.redirectTo);
+      } else {
+        return res.send(res.locals.metadata);
+      }
+    }).catch(res.queryError);
   }
 }

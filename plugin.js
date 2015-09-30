@@ -61,7 +61,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'event-dates': __dirname + '/server/forms/event-dates.json',
       'event-emails': __dirname + '/server/forms/event-emails.json',
       'event-publish': __dirname + '/server/forms/event-publish.json',
-      'event-theme': __dirname + '/server/forms/event-theme.json'
+      'event-theme': __dirname + '/server/forms/event-theme.json',
+      'event-messages': __dirname + '/server/forms/event-messages.json'
     }
   });
 
@@ -228,6 +229,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       action        : 'unRegister',
       model         : 'cfregistration',
       permission    : 'find_event'
+    },
+
+    // mark all users registered in event as present
+    'post /event/:eventId([0-9]+)/admin/cfregistrationtype/:cfregistrationtypeId([0-9]+)/mark-all-as-present': {
+      titleHandler  : 'i18n',
+      titleI18n: 'cfregistrationtype.markAllAsPresent',
+      controller    : 'cfregistrationtype',
+      action        : 'markAllAsPresent',
+      model         : 'cfregistrationtype',
+      permission    : 'manage_event'
     },
 
     // -- event admin
@@ -559,7 +570,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.events.on('we:after:load:plugins', function (we) {
     if (
       !we.config.event.defaultTheme &&
-      we.config.themes.app
+      ( we.config.themes && we.config.themes.app )
     ) {
       we.config.event.defaultTheme = we.config.themes.app;
     }
@@ -592,7 +603,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     done();
   });
 
-  plugin.hooks.on('we-plugin-menu:after:set:core:menus', function (data, done) {
+  plugin.hooks.on('we:request:acl:after:load:context', function (data, done) {
     var we = data.req.we;
     // set admin menu
     if (
@@ -720,8 +731,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           });
         },
         function cfcontactCount(cb) {
-          we.db.models.cfcontact.count()
-          .then(function (count) {
+          we.db.models.cfcontact.count({
+            where: { eventId: id }
+          }).then(function (count) {
             res.locals.metadata.cfcontactCount = count;
             cb();
           }).catch(cb);

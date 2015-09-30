@@ -1,6 +1,6 @@
 module.exports = {
   find: function find(req, res, next) {
-    res.locals.query.eventId = res.locals.event.id;
+    res.locals.query.where.eventId = res.locals.event.id;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -95,6 +95,10 @@ module.exports = {
     }
   },
   managePage: function managePage(req, res) {
+    if (!res.locals.event) return res.notFound();
+
+    res.locals.query.where.eventId = res.locals.event.id;
+
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return res.notFound();

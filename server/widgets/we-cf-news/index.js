@@ -1,15 +1,17 @@
+var eventModule = require('../../../lib');
+
 module.exports = function(projectPath, Widget) {
   var widget = new Widget('we-cf-news', __dirname);
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
-    var we = req.getWe();
+    var eventId = eventModule.getEventIdFromWidget(widget, res);
+    if (!eventId) return next();
 
-    var where =  {};
-
+    var where =  { eventId: res.locals.event.id };
     if (widget.configuration.nid)
       where.id = widget.configuration.nid;
 
-    we.db.models.cfnews.findOne({
+    req.we.db.models.cfnews.findOne({
       where: where
     }).then(function (r) {
       if (!r) return next();

@@ -108,6 +108,10 @@ describe('eventFeature', function() {
       var cfs = [
         stubs.eventStub(), stubs.eventStub(), stubs.eventStub()
       ];
+      // publish the events
+      cfs.forEach(function (e){
+        e.published = true;
+      });
 
       we.db.models.event.bulkCreate(cfs).then(function () {
         request(http)

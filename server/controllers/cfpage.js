@@ -1,6 +1,8 @@
 module.exports = {
   find: function find(req, res, next) {
-    res.locals.query.eventId = res.locals.event.id;
+    if (!res.locals.event) return next();
+
+    res.locals.query.where.eventId = res.locals.event.id;
 
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -12,52 +14,24 @@ module.exports = {
       return res.ok();
     });
   },
-  // create: function create(req, res) {
-  //   if (!res.locals.record) res.locals.record = {};
-  //   // set temp record for use in validation errors
-  //   _.merge(res.locals.record, req.query);
+  findOne: function findOne(req, res, next) {
+    if (!res.locals.record) return next();
 
-  //   res.locals.record.eventId = req.params.eventId;
+    if (req.params.eventId != res.locals.record.eventId)
+      return next();
 
-  //   if(req.isAuthenticated()) req.body.creatorId = req.user.id;
-  //   req.body.eventId = req.params.eventId;
+    req.we.hooks.trigger('we:after:send:ok:response', {
+      res: res, req: req
+    }, function (err) {
+      if (err) return res.serverError(err);
+      return res.ok();
+    });
+  },
+  managePage: function managePage(req, res, next) {
+    if (!res.locals.event) return next();
 
-  //   if (req.method === 'POST') {
-  //     _.merge(res.locals.record, req.body);
-  //     return res.locals.Model.create(req.body)
-  //     .then(function (record) {
-  //       res.locals.record = record;
-  //       res.created();
-  //     }).catch(res.queryError);
-  //   } else {
-  //     res.locals.record = req.query;
-  //     res.ok();
-  //   }
-  // },
-  // edit: function edit(req, res) {
-  //   var we = req.getWe();
+    res.locals.query.where.eventId = res.locals.event.id;
 
-  //   if (!res.locals.record) return res.notFound();
-
-  //   req.body.eventId = req.params.eventId;
-
-  //   if (req.method == 'POST' || req.method == 'PUT') {
-  //     res.locals.record.updateAttributes(req.body)
-  //     .then(function() {
-  //       if (res.locals.responseType == 'html') {
-  //         return res.redirect(we.router.urlTo(
-  //           'event_findOne.page_findOne',
-  //           [res.locals.record.eventId, res.locals.record.id],
-  //           we
-  //         ));
-  //       }
-  //       res.ok();
-  //     }).catch(res.queryError);
-  //   } else {
-  //     res.ok();
-  //   }
-  // },
-  managePage: function managePage(req, res) {
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return res.notFound();

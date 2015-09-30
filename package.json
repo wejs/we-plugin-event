@@ -1,7 +1,7 @@
 {
   "name": "we-plugin-event",
   "description": "We.js plugin with event features",
-  "version": "0.3.28",
+  "version": "0.3.45",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
@@ -13,17 +13,18 @@
     "we-test-tools": "^0.3.9"
   },
   "devDependencies": {
-    "fs-extra": "^0.18.2",
+    "fs-extra": "^0.24.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "0.3.81",
-    "we-plugin-file": "^0.3.4",
-    "we-plugin-form": "^0.3.1",
+    "we-core": "0.3.82",
+    "we-plugin-file": "0.3.11",
+    "we-plugin-form": "0.3.1",
+    "we-plugin-menu": "^0.3.2",
     "we-test-tools": "wejs/we-test-tools",
-    "we-theme-admin-default": "^0.3.1",
-    "we-theme-site-wejs": "^0.3.15"
+    "we-theme-admin-default": "0.3.1",
+    "we-theme-site-wejs": "0.3.21"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

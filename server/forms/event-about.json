@@ -56,14 +56,6 @@
     },
     "registeredTextSeparator": {
       "type": "break"
-    },
-    "registeredText": {
-      "type": "html",
-      "formFieldHeight": 300,
-      "allowNull": false
-    },
-    "registeredTextSeparator2": {
-      "type": "break"
     }
   },
   "actions": {

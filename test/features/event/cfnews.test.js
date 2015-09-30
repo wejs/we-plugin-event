@@ -15,7 +15,6 @@ function cfnewsStub(salvedImageId){
   };
 }
 
-
 describe('cfnewsFeature', function() {
   var salvedUser, salvedUserPassword, authenticatedRequest;
   var salvedConference, salvedImage;
@@ -68,7 +67,7 @@ describe('cfnewsFeature', function() {
     ], done);
   });
 
-  describe('cfnewsCRUD', function() {
+  describe('CRUD', function() {
     it ('post /event/:eventId/cfnews/create should create one cfnews', function (done) {
       var cf = {
         title: 'one test title',

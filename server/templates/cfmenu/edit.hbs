@@ -28,8 +28,8 @@
             <input class="row-parent" name="link-{{id}}-parent" type="text" value="{{parent}}">
           </td>
           <td>
-            <a href="/event/{{eventId}}/admin/menu/{{cfmenuId}}/link/{{id}}" class="btn btn-primary btn-sm">{{t 'Edit'}}</a>
-            <a href="/event/{{eventId}}/admin/menu/{{cfmenuId}}/link/{{id}}/delete" class="btn btn-default btn-sm">{{t 'Delete'}}</a>
+            {{we-action-edit-btn 'cflink' this ../req eventId cfmenuId id}}
+            {{we-action-delete-btn 'cflink' this ../req eventId cfmenuId id}}
           </td>
         </tr>
       {{/tabledrag}}

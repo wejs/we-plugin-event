@@ -10,6 +10,7 @@
   {{/ifCond}}
 {{else}}
   {{#if req.user.id}}
+
     {{#ifCond event.registrationStatus 'open'}}
       <a class="btn btn-warning btn-block btn-lg" href="/event/{{event.id}}/register">
         <strong>{{t 'event.btn.register'}}</strong>
