@@ -6,6 +6,13 @@ var http;
 var we;
 var agent;
 
+
+function cfpageStub(){
+  return {
+    title: 'One Page',
+  };
+}
+
 describe('cfpageFeature', function() {
   var cf, salvedUser, salvedUserPassword, authenticatedRequest;
 
@@ -42,7 +49,6 @@ describe('cfpageFeature', function() {
     });
   });
 
-
   describe('cfpageCRUD', function() {
     it ('post /event/:eventId/cfpage/create?redirectTo=/redirecttome should create one page and redirect', function (done) {
       var cfp = { title: 'One page' };
@@ -71,6 +77,28 @@ describe('cfpageFeature', function() {
           if (err) throw err;
 
           assert.equal(res.headers.location, '/redirecttome');
+          done();
+        });
+      }).catch(done);
+    });
+
+    it ('get /event/:eventId/admin/page should get pages list', function (done) {
+      var cf = [
+        cfpageStub(),
+        cfpageStub(),
+        cfpageStub()
+      ];
+      we.db.models.cfpage.bulkCreate(cf)
+      .then(function () {
+
+        authenticatedRequest
+        .get('/event/' + salvedConference.id + '/admin/page')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) throw err;
+          assert(res.body.cfpage);
+          assert(res.body.cfpage.length >= 3);
           done();
         });
       }).catch(done);
