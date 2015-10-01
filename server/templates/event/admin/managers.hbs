@@ -1,25 +1,4 @@
-<form method="POST">
-<div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <h4>{{t 'event.admin.managers.add'}}</h4>
-    </div>
-    <div class="step-1-search">
-      <div class="form-group">
-        <label>{{t 'event.admin.managers.searchById.label'}}:</label>
-        <input class="form-controll" name="idToAdd" type="text">
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-default">{{t 'save'}}</button>
-      </div>
-    </div>
-
-    <div class="step-2-save">
-    {{!-- todo --}}
-    </div>
-  </div>
-</div>
-</form>
+{{form 'event-managers-add' '' validationError}}
 
 <hr>
 

@@ -1,0 +1,17 @@
+{
+  "title": "event-managers-add",
+  "method": "post",
+  "fields": {
+    "idToAdd": {
+      "type": "user-selector",
+      "allowNull": false,
+      "fieldName": "idToAdd"
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    }
+  }
+}

@@ -62,7 +62,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'event-emails': __dirname + '/server/forms/event-emails.json',
       'event-publish': __dirname + '/server/forms/event-publish.json',
       'event-theme': __dirname + '/server/forms/event-theme.json',
-      'event-messages': __dirname + '/server/forms/event-messages.json'
+      'event-messages': __dirname + '/server/forms/event-messages.json',
+      'event-managers-add': __dirname + '/server/forms/event-managers-add.json',
     }
   });
 

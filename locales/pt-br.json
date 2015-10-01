@@ -591,5 +591,9 @@
   "present": "presente",
   "event.present": "Presente",
   "event.not-present": "Não registrado",
-  "cfcertification.generate.all": "Gerar todos os certificados"
+  "cfcertification.generate.all": "Gerar todos os certificados",
+  "form-event-managers-add-idToAdd": "Buscar usuário para adicionar",
+  "form-placeholder-event-managers-add-idToAdd": " ",
+  "form-helper-event-managers-add-idToAdd": " ",
+  "form-event-managers-add-submit": "Adicionar"
 }

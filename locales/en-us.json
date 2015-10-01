@@ -49,5 +49,9 @@
   "present": "present",
   "event.present": "Present",
   "event.not-present": "Not present",
-  "cfcertification.generate.all": "Generate all certs"
+  "cfcertification.generate.all": "Generate all certs",
+  "form-event-managers-add-idToAdd": "Search user to add",
+  "form-placeholder-event-managers-add-idToAdd": " ",
+  "form-helper-event-managers-add-idToAdd": " ",
+  "form-event-managers-add-submit": "Add"
 }
