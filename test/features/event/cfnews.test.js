@@ -7,11 +7,12 @@ var http;
 var we;
 var agent;
 
-function cfnewsStub(salvedImageId){
+function cfnewsStub(salvedImageId, eventId){
   return {
     title: 'one test title',
     text: 'one test text',
-    featuredImage: [ 'null', salvedImageId]
+    featuredImage: [ 'null', salvedImageId],
+    eventId: eventId
   };
 }
 
@@ -92,9 +93,9 @@ describe('cfnewsFeature', function() {
 
     it ('get /event/:eventId/admin/news should get news list', function (done) {
       var cf = [
-        cfnewsStub(salvedImage.id),
-        cfnewsStub(salvedImage.id),
-        cfnewsStub(salvedImage.id)
+        cfnewsStub(salvedImage.id, salvedConference.id),
+        cfnewsStub(salvedImage.id, salvedConference.id),
+        cfnewsStub(salvedImage.id,salvedConference.id)
       ];
       we.db.models.cfnews.bulkCreate(cf)
       .then(function () {
@@ -112,18 +113,19 @@ describe('cfnewsFeature', function() {
       }).catch(done);
     });
 
-    it ('post /event/:eventId/admin/cfnews/:id/edit should update one news', function (done) {
+    it ('post /event/:eventId/cfnews/:id/edit should update one news', function (done) {
       var cf = {
         title: 'one test title',
         text: 'one test text',
-        featuredImage: [ 'null', salvedImage.id ]
+        featuredImage: [ 'null', salvedImage.id ],
+        eventId: salvedConference.id
       }
       we.db.models.cfnews.create(cf)
       .then(function (r) {
         assert(r.id);
         var newValues = { title: 'one new test title' };
         authenticatedRequest
-        .post('/event/' + salvedConference.id + '/admin/cfnews/' + r.id + '/edit')
+        .post('/event/' + salvedConference.id + '/cfnews/' + r.id + '/edit')
         .send(newValues)
         .set('Accept', 'application/json')
         .expect(200)
@@ -139,17 +141,18 @@ describe('cfnewsFeature', function() {
       }).catch(done);
     });
 
-    it ('post /event/:eventId/admin/cfnews/:id/delete should delete one news', function (done) {
+    it ('post /event/:eventId/cfnews/:id/delete should delete one news', function (done) {
       var cf = {
         title: 'one test title',
         text: 'one test text',
-        featuredImage: [ 'null', salvedImage.id ]
+        featuredImage: [ 'null', salvedImage.id ],
+        eventId: salvedConference.id
       }
       we.db.models.cfnews.create(cf)
       .then(function (r) {
         assert(r.id);
         authenticatedRequest
-        .post('/event/' + salvedConference.id + '/admin/cfnews/' + r.id + '/delete')
+        .post('/event/' + salvedConference.id + '/cfnews/' + r.id + '/delete')
         .set('Accept', 'application/json')
         .expect(204)
         .end(function (err) {

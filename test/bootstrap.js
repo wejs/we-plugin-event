@@ -15,7 +15,8 @@ before(function(callback) {
     we.bootstrap({
       port: 9800,
       i18n: {
-        directory: path.resolve(__dirname, '..', 'locales')
+        directory: path.resolve(__dirname, '../config', 'locales'),
+        updateFiles: true
       }
     } , function(err, we) {
       if (err) throw err;

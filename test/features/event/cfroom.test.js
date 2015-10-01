@@ -7,15 +7,16 @@ var http;
 var we;
 var agent;
 
-function cfroomStub() {
+function cfroomStub(eventId) {
   return {
-    name: 'One room test'
+    name: 'One room test',
+    eventId: eventId
   };
 }
 
 describe('cfRoomFeatures', function() {
   var salvedUser, salvedUserPassword, authenticatedRequest;
-  var salvedConference, salvedImage;
+  var salvedConference;
 
   before(function (done) {
     http = helpers.getHttp();
@@ -57,7 +58,8 @@ describe('cfRoomFeatures', function() {
   describe('CRUD', function() {
     it ('post /event/:eventId/cfroom/create should create one cfroom', function (done) {
       var cf = {
-        name: 'One room test'
+        name: 'One room test',
+        eventId: salvedConference.id
       }
       authenticatedRequest
       .post('/event/'+salvedConference.id+'/cfroom/create')
@@ -69,17 +71,16 @@ describe('cfRoomFeatures', function() {
         assert(res.body.cfroom);
         assert(res.body.cfroom[0]);
         assert(res.body.cfroom[0].id);
-        assert.equal(res.body.cfroom[0].title, cf.title);
-
+        assert.equal(res.body.cfroom[0].name, cf.name);
         done();
       });
     });
 
     it ('get /event/:eventId/admin/room should get room list', function (done) {
       var cf = [
-        cfroomStub(),
-        cfroomStub(),
-        cfroomStub()
+        cfroomStub(salvedConference.id),
+        cfroomStub(salvedConference.id),
+        cfroomStub(salvedConference.id)
       ];
       we.db.models.cfroom.bulkCreate(cf)
       .then(function () {
@@ -97,16 +98,17 @@ describe('cfRoomFeatures', function() {
       }).catch(done);
     });
 
-    it ('post /event/:eventId/admin/cfroom/:id/edit should update one room', function (done) {
+    it ('post /event/:eventId/cfroom/:id/edit should update one room', function (done) {
       var cf = {
-        name: 'One room test'
+        name: 'One room test',
+        eventId: salvedConference.id
       }
       we.db.models.cfroom.create(cf)
       .then(function (r) {
         assert(r.id);
-        var newValues = { title: 'one new test title' };
+        var newValues = { name: 'one new test title' };
         authenticatedRequest
-        .post('/event/' + salvedConference.id + '/admin/cfroom/' + r.id + '/edit')
+        .post('/event/' + salvedConference.id + '/cfroom/' + r.id + '/edit')
         .send(newValues)
         .set('Accept', 'application/json')
         .expect(200)
@@ -115,22 +117,23 @@ describe('cfRoomFeatures', function() {
           assert(res.body.cfroom);
           assert(res.body.cfroom[0]);
           assert.equal(res.body.cfroom[0].id, r.id);
-          assert.equal(res.body.cfroom[0].title, newValues.title);
+          assert.equal(res.body.cfroom[0].name, newValues.name);
           assert.equal(res.body.cfroom[0].text, cf.text);
           done();
         });
       }).catch(done);
     });
 
-    it ('post /event/:eventId/admin/cfroom/:id/delete should delete one room', function (done) {
+    it ('post /event/:eventId/cfroom/:id/delete should delete one room', function (done) {
       var cf = {
-        name: 'One room test'
+        name: 'One room test',
+        eventId: salvedConference.id
       }
       we.db.models.cfroom.create(cf)
       .then(function (r) {
         assert(r.id);
         authenticatedRequest
-        .post('/event/' + salvedConference.id + '/admin/cfroom/' + r.id + '/delete')
+        .post('/event/' + salvedConference.id + '/cfroom/' + r.id + '/delete')
         .set('Accept', 'application/json')
         .expect(204)
         .end(function (err) {

@@ -5,4 +5,5 @@ test
 .travis.yml
 .gitignore
 *.log
+config
 files/wejsdoc

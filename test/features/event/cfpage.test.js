@@ -7,9 +7,10 @@ var we;
 var agent;
 
 
-function cfpageStub(){
+function cfpageStub(eventId){
   return {
     title: 'One Page',
+    eventId: eventId
   };
 }
 
@@ -83,16 +84,16 @@ describe('cfpageFeature', function() {
     });
 
     it ('get /event/:eventId/admin/page should get pages list', function (done) {
-      var cf = [
-        cfpageStub(),
-        cfpageStub(),
-        cfpageStub()
+      var cfn = [
+        cfpageStub(cf.id),
+        cfpageStub(cf.id),
+        cfpageStub(cf.id)
       ];
-      we.db.models.cfpage.bulkCreate(cf)
+      we.db.models.cfpage.bulkCreate(cfn)
       .then(function () {
 
         authenticatedRequest
-        .get('/event/' + salvedConference.id + '/admin/page')
+        .get('/event/' + cf.id + '/admin/page')
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {
