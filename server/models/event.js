@@ -46,6 +46,11 @@ module.exports = function Model(we) {
         formFieldType: null
       },
 
+      workload: {
+        type: we.db.Sequelize.INTEGER,
+        formFieldType: 'number'
+      },
+
       location: { type: we.db.Sequelize.TEXT },
 
       published: {

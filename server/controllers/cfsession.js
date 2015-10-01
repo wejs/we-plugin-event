@@ -299,5 +299,25 @@ module.exports = {
 
       }).catch(res.queryError);
     }).catch(res.queryError);
+  },
+
+  markAllAsPresent: function markAllAsPresent(req, res) {
+    req.we.db.models.cfsessionSubscriber.update({
+      present: true
+    }, {
+      where: {
+        cfsessionId: req.params.cfsessionId,
+        present: false
+      }
+    }).then(function (r) {
+      res.locals.metadata = r[0];
+
+      if (req.body.redirectTo) {
+        res.addMessage('success', 'cfsession.markAllAsPresent.success');
+        res.goTo(req.body.redirectTo);
+      } else {
+        return res.send(res.locals.metadata);
+      }
+    }).catch(res.queryError);
   }
 };

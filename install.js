@@ -40,7 +40,35 @@ module.exports = {
           we.utils.async.series([
             function (done) {
               var sql = 'ALTER TABLE `cftopics` ADD '+
-                ' COLUMN `eventId` INT;';
+                ' COLUMN `eventId` INT';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                we.log.error(err);
+                done();
+              });
+            }
+          ], done);
+        }
+      },
+      {
+        version: '0.3.45',
+        /**
+         * Add present column
+         */
+        update: function update0345(we, done) {
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `cfsessionSubscribers` ADD COLUMN `present` TINYINT(1) NOT NULL DEFAULT 0';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                we.log.error(err);
+                done();
+              });
+            },
+            function (done) {
+              var sql = ' ALTER TABLE `event` ADD COLUMN `workload` INT(11)';
               we.db.defaultConnection.query(sql).then(function(){
                 done();
               }).catch(function (err){
@@ -54,3 +82,6 @@ module.exports = {
     ];
   }
 };
+//
+//
+

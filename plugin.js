@@ -240,6 +240,15 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       model         : 'cfregistrationtype',
       permission    : 'manage_event'
     },
+    // mark all users subscribed in cfsession as present
+    'post /event/:eventId([0-9]+)/admin/cfsession/:cfsessionId([0-9]+)/mark-all-as-present': {
+      titleHandler  : 'i18n',
+      titleI18n: 'cfsession.markAllAsPresent',
+      controller    : 'cfsession',
+      action        : 'markAllAsPresent',
+      model         : 'cfsession',
+      permission    : 'manage_event'
+    },
 
     // -- event admin
     'get /event/:eventId([0-9]+)/admin': {

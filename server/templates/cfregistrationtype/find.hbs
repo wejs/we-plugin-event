@@ -22,11 +22,6 @@
             {{we-action-view-btn 'cfregistrationtype' this ../req eventId id }}
             {{we-action-edit-btn 'cfregistrationtype' this ../req eventId id }}
             {{we-action-delete-btn 'cfregistrationtype' this ../req eventId id }}
-
-            <form action="/event/{{eventId}}/admin/cfregistrationtype/{{id}}/mark-all-as-present" method="post">
-              <input name="redirectTo" type="hidden" value="{{../req.path}}">
-              <button class="btn btn-sm btn-default">{{t 'cfcertificationtype.markAllAsPresent'}}</button>
-            </form>
           </td>
         </tr>
       {{/each}}
