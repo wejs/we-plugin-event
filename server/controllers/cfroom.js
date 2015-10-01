@@ -27,11 +27,11 @@ module.exports = {
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
+        res.locals.record = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
             '/event/' + res.locals.event.id + '/admin/room'
           );
-
         res.created();
       }).catch(res.queryError);
     } else {
