@@ -78,10 +78,36 @@ module.exports = {
             }
           ], done);
         }
+      },
+      {
+        version: '0.3.47',
+        /**
+         * Add present column
+         */
+        update: function update0347(we, done) {
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `sessfProd`.`cfcontacts` ADD COLUMN `status` '+
+                'VARCHAR(45) NULL DEFAULT \'new\' AFTER `deletedAt`';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                we.log.error(err);
+                done();
+              });
+            },
+            function (done) {
+              var sql = 'UPDATE `cfcontacts` SET `status`=\'opened\'';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                we.log.error(err);
+                done();
+              });
+            }
+          ], done);
+        }
       }
     ];
   }
 };
-//
-//
-

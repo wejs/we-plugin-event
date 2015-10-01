@@ -33,6 +33,23 @@
           rows: 6
         },
         allowNull: false
+      },
+      status: {
+        type: we.db.Sequelize.STRING,
+        defaultValue: 'opened',
+        formFieldType: null,
+      },
+      statusClass: {
+        type: we.db.Sequelize.VIRTUAL,
+        get: function() {
+          if (this.getDataValue('status') == 'opened') {
+            return 'danger'
+          } else if(this.getDataValue('status') == 'closed'){
+            return 'success'
+          }
+
+          return '';
+        }
       }
     },
     options: {

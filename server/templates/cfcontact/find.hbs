@@ -4,20 +4,35 @@
       <thead>
         <tr>
           <th>id</th>
-          <th>name</th>
-          <th>createdAt</th>
-          <th></th>
+          <th>{{t 'name'}}</th>
+          <th>{{t 'status'}}</th>
+          <th>{{t 'createdAt'}}</th>
+          <th>{{t 'actions'}}</th>
         </tr>
       </thead>
       <tbody>
       {{#each record}}
-        <tr>
-          <td>{{ id }}</td>
-          <td>{{ name }}</td>
-          <td>{{ we-date createdAt }}</td>
+        <tr class="{{statusClass}}">
+          <td>{{id}}</td>
+          <td>{{name}}</td>
+          <td>{{status}}</td>
+          <td>{{we-date createdAt }}</td>
           <td>
             {{ we-action-view-btn 'cfcontact' this ../req eventId id }}
             {{ we-action-delete-btn 'cfcontact' this ../req eventId id }}
+
+            <form class="form" action="{{../req.path}}/{{id}}/edit" method="post">
+              <input type="hidden" name="redirectTo" value="{{../req.path}}">
+              {{#ifCond status 'closed'}}
+                <div class="form-group">
+                  <button name="status" value="opened" type="submit" class="btn btn-default">{{t 'cfcontact.open'}}</button>
+                </div>
+              {{else}}
+                <div class="form-group">
+                  <button name="status" value="closed" type="submit" class="btn btn-default">{{t 'cfcontact.close'}}</button>
+                </div>
+              {{/ifCond}}
+            </form>
           </td>
         </tr>
       {{/each}}
