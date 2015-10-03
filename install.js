@@ -87,7 +87,7 @@ module.exports = {
         update: function update0347(we, done) {
           we.utils.async.series([
             function (done) {
-              var sql = 'ALTER TABLE `sessfProd`.`cfcontacts` ADD COLUMN `status` '+
+              var sql = 'ALTER TABLE `cfcontacts` ADD COLUMN `status` '+
                 'VARCHAR(45) NULL DEFAULT \'new\' AFTER `deletedAt`';
               we.db.defaultConnection.query(sql).then(function(){
                 done();
