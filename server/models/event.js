@@ -148,7 +148,7 @@ module.exports = function Model(we) {
 
           var now = we.utils.moment().unix();
 
-          if (s <= now || now>=e) {
+          if ( (s <= now) && (now>=e) ) {
             return 'open';
           } else if (s > now){
             return 'before';
