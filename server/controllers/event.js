@@ -198,7 +198,7 @@ module.exports = {
       if (err) return res.serverError();
 
       if (req.params.widgetId) {
-        we.controllers.widget.update(req, res, next);
+        we.controllers.widget.edit(req, res, next);
       } else {
         we.controllers.widget.create(req, res, next);
       }
@@ -218,7 +218,7 @@ module.exports = {
 
       res.locals.data = widget;
 
-      we.controllers.widget.destroy(req, res, next);
+      we.controllers.widget.delete(req, res, next);
     }).catch(res.queryError);
   },
   /**
