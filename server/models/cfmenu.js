@@ -36,7 +36,7 @@ module.exports = function Model(we) {
           return this.find({
             where: { id: res.locals.id }
           }).then(function (record) {
-            res.locals.record = record;
+            res.locals.data = record;
             if (record) {
               // in other event
               if (req.params.eventId) {
