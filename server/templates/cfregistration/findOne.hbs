@@ -1,9 +1,9 @@
-{{#if record.specialRequirements}}
+{{#if data.specialRequirements}}
   <p><strong>{{t 'form-cfregistration-specialRequirements'}}</strong></p>
-  <p>{{record.specialRequirements}}</p>
+  <p>{{data.specialRequirements}}</p>
 {{/if}}
 
-{{#with record.user}}
+{{#with data.user}}
 <div>
   <table class="table table-striped table-hover">
     <tbody>

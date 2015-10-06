@@ -1,20 +1,20 @@
 <article>
   <header>
     <div class="article-meta">
-      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time> -
-      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+      {{t 'Updated at'}} <time datetime="{{data.createdAt}}"><strong>{{we-date data.updatedAt}}</strong></time> -
+      {{#each data.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
     </div>
 
   </header>
 
-  {{#each record.featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
-  {{{record.text}}}
+  {{#each data.featuredImage}}{{{we-image this 'medium' class="article-featured-image thumbnail"}}}{{/each}}
+  {{{data.text}}}
 
   <footer>
-    <div class="row"><div class="col col-md-12">{{{we-terms record.tags}}}</div></div>
+    <div class="row"><div class="col col-md-12">{{{we-terms data.tags}}}</div></div>
     <div class="row actions"><div class="col col-md-12">
-      {{we-action-edit-btn model record req record.eventId id }}
-      {{we-action-delete-btn model record req record.eventId id }}
+      {{we-action-edit-btn model data req data.eventId id }}
+      {{we-action-delete-btn model data req data.eventId id }}
     </div></div>
   </footer>
 

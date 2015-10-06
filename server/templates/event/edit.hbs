@@ -7,7 +7,7 @@
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
-  {{{form 'event-about' record validationError}}}
+  {{{form 'event-about' data validationError}}}
 {{/unless}}
 
 {{#ifCond req.query.step '2'}}
@@ -19,7 +19,7 @@
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
-  {{{form 'event-dates' record validationError}}}
+  {{{form 'event-dates' data validationError}}}
 {{/ifCond}}
 
 {{#ifCond req.query.step '3'}}
@@ -31,7 +31,7 @@
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
-  {{{form 'event-theme' record validationError}}}
+  {{{form 'event-theme' data validationError}}}
 {{/ifCond}}
 
 {{#ifCond req.query.step '4'}}
@@ -43,7 +43,7 @@
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
-  {{{form 'event-messages' record validationError}}}
+  {{{form 'event-messages' data validationError}}}
 {{/ifCond}}
 
 {{!--
@@ -56,7 +56,7 @@
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
   <br>
-  {{{form 'event-emails' record validationError}}}
+  {{{form 'event-emails' data validationError}}}
 {{/ifCond}}
  --}}
 {{#ifCond req.query.step '5'}}

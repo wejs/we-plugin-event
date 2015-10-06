@@ -2,7 +2,7 @@ module.exports = {
   location: function(req, res, next) {
     if (!res.locals.event) return res.notFound();
 
-    res.locals.record = res.locals.event;
+    res.locals.data = res.locals.event;
     req.we.controllers.event.findOne(req, res, next);
   },
 
@@ -27,11 +27,11 @@ module.exports = {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       if (!req.isAuthenticated()) return res.ok();
       // if user is authenticated load its registration status
-      req.we.utils.async.each(res.locals.record, function (r, next) {
+      req.we.utils.async.each(res.locals.data, function (r, next) {
         // load current user registration register
         req.we.db.models.cfregistration.findOne({
           where: { eventId: r.id, userId: req.user.id }
@@ -50,39 +50,39 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
-     req.we .utils._.merge(res.locals.record, req.query);
+     req.we .utils._.merge(res.locals.data, req.query);
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
 
       // set temp record for use in validation errors
-      res.locals.record = req.query;
-      req.we .utils._.merge(res.locals.record, req.body);
+      res.locals.data = req.query;
+      req.we .utils._.merge(res.locals.data, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
+        res.locals.data = record;
 
         res.locals.redirectTo = '/event/'+record.id+'/edit';
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       res.ok();
     }
   },
 
   edit: function edit(req, res) {
-    var record = res.locals.record;
+    var record = res.locals.data;
 
     if (req.method === 'POST') {
       if (!record) return res.notFound();
 
       record.updateAttributes(req.body)
       .then(function() {
-        res.locals.record = record;
+        res.locals.data = record;
 
         if (req.body.save_next) {
           var ns = 2;
@@ -216,7 +216,7 @@ module.exports = {
       if(!widget) return res.notFound();
       if (widget.context !== res.locals.widgetContext) return res.forbidden();
 
-      res.locals.record = widget;
+      res.locals.data = widget;
 
       we.controllers.widget.destroy(req, res, next);
     }).catch(res.queryError);

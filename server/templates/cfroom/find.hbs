@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each record}}
+        {{#each data}}
           <tr>
             <td>{{id}}</td>
             <td>{{name}}</td>
@@ -29,7 +29,7 @@
         <tr>
           <td colspan="3">
             <div class="paginate-sumary">
-              {{t 'paginate.sumary' recordsLength=record.length count=metadata.count}}
+              {{t 'paginate.sumary' recordsLength=data.length count=metadata.count}}
             </div>
 
             {{paginate count=metadata.count limit=query.limit currentPage=query.page req=req}}

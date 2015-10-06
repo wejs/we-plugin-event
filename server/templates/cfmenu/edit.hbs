@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    {{{form-model 'cfmenu' record validationError}}}
+    {{{form-model 'cfmenu' data validationError}}}
   </div>
 </div>
 
@@ -9,12 +9,12 @@
 <h3>{{t 'Links'}}</h3>
 <div class="row">
   <div class="col-lg-12 actions">
-    <a class="btn btn-default" href="/event/{{event.id}}/admin/menu/{{record.id}}/add-link">{{t 'Add'}}</a>
+    <a class="btn btn-default" href="/event/{{event.id}}/admin/menu/{{data.id}}/add-link">{{t 'Add'}}</a>
   </div>
   <div class="col-lg-12">
-    <form class="cflinkOrderForm" action="/event/{{event.id}}/admin/menu/{{record.id}}/sort-links" method="POST">
+    <form class="cflinkOrderForm" action="/event/{{event.id}}/admin/menu/{{data.id}}/sort-links" method="POST">
 
-      {{#tabledrag id='cflinkTable' menu=record}}
+      {{#tabledrag id='cflinkTable' menu=data}}
         <tr class="draggable">
           <td>{{tabledrag-indentation depth=depth}}
             {{{text}}}

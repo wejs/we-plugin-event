@@ -9,15 +9,15 @@ module.exports = {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });
   },
   findOne: function findOne(req, res, next) {
-    if (!res.locals.record) return next();
+    if (!res.locals.data) return next();
 
-    if (req.params.eventId != res.locals.record.eventId)
+    if (req.params.eventId != res.locals.data.eventId)
       return next();
 
     req.we.hooks.trigger('we:after:send:ok:response', {
@@ -37,7 +37,7 @@ module.exports = {
       if (!record) return res.notFound();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });

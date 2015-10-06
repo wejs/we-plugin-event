@@ -14,7 +14,7 @@ module.exports = {
   register: function register(req, res) {
     var we = req.getWe();
 
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
     we.db.models.cfregistrationtype.findAll({
       where: { eventId: res.locals.event.id }
@@ -97,9 +97,9 @@ module.exports = {
         if (!req.body) req.body = {};
 
         if (!req.body.certificationName)
-          res.locals.record.certificationName = (req.user.fullName || req.user.displayName);
+          res.locals.data.certificationName = (req.user.fullName || req.user.displayName);
         if (!req.body.userEmail)
-          res.locals.record.userEmail = req.user.email;
+          res.locals.data.userEmail = req.user.email;
 
         res.ok();
       }
@@ -138,7 +138,7 @@ module.exports = {
     res.ok();
   },
   edit: function editPage(req, res) {
-    if (!res.locals.record) return res.notFound();
+    if (!res.locals.data) return res.notFound();
     var we = req.getWe();
 
     we.db.models.cfregistrationtype.findAll({
@@ -147,7 +147,7 @@ module.exports = {
       res.locals.cfregistrationtypes = r;
 
       for (var i = 0; i < r.length; i++) {
-        if (r[i].id === res.locals.record.id) {
+        if (r[i].id === res.locals.data.id) {
           r[i].checked = true;
           break;
         }
@@ -157,7 +157,7 @@ module.exports = {
         // dont change event id for registration type
         req.body.eventId = res.locals.event.id;
 
-        res.locals.record.updateAttributes(req.body)
+        res.locals.data.updateAttributes(req.body)
         .then(function() {
           res.updated();
         }).catch(res.queryError);
@@ -373,7 +373,7 @@ function saveUserRegistration(req, res) {
   }
 
   // merge req.body with locals record to handle validation errors
-  we.utils._.merge(res.locals.record, req.body);
+  we.utils._.merge(res.locals.data, req.body);
 
   if (!choiseRegistrationType) {
     we.log.warn('Event: choiseRegistrationType : not found', req.body);
@@ -409,7 +409,7 @@ function saveUserRegistration(req, res) {
       }
     });
 
-    res.locals.record = record;
+    res.locals.data = record;
     res.locals.userCfregistration = record;
     res.locals.template =
       'cfregistration/' + res.locals.userCfregistration.status;

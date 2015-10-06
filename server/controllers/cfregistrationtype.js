@@ -1,21 +1,21 @@
 module.exports = {
   createPage: function createPage(req, res) {
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.data, req.query);
 
     if (req.method === 'POST') {
 
       req.body.creatorId = req.user.id;
       req.body.eventId = res.locals.event.id;
       // set temp record for use in validation errors
-      res.locals.record = req.query;
-      req.we.utils._.merge(res.locals.record, req.body);
+      res.locals.data = req.query;
+      req.we.utils._.merge(res.locals.data, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
 
-        res.locals.record = record;
+        res.locals.data = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
             '/event/' + res.locals.event.id + '/admin/registration/type'
@@ -24,18 +24,18 @@ module.exports = {
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       res.ok();
     }
   },
   editPage: function editPage(req, res) {
-    if (!res.locals.record) return res.notFound();
+    if (!res.locals.data) return res.notFound();
 
     if (req.method === 'POST') {
       // dont change event id for registration type
       req.body.eventId = res.locals.event.id;
 
-      res.locals.record.updateAttributes(req.body)
+      res.locals.data.updateAttributes(req.body)
       .then(function() {
         if (res.locals.responseType == 'html')
           return res.redirect(
@@ -52,7 +52,7 @@ module.exports = {
     if (!res.locals.template)
       res.locals.template = res.local.model + '/' + 'delete';
 
-    var record = res.locals.record;
+    var record = res.locals.data;
     if (!record) return res.notFound();
 
     res.locals.deleteMsg = res.locals.model+'.delete.confirm.msg';

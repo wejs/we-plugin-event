@@ -6,7 +6,7 @@ module.exports = {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });

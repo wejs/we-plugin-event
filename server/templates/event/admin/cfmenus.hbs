@@ -4,7 +4,7 @@
     <label for="eventMainMenu" class="col-sm-2 control-label">{{t 'menu.main'}}:</label>
     <div class="col-sm-10">
       <select id="eventMainMenu" name="mainMenuId" class="form-control">
-        {{#each record}}
+        {{#each data}}
           {{#ifCond id ../event.mainMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
@@ -21,7 +21,7 @@
     <label for="eventSecondaryMenu" class="col-sm-2 control-label">{{t 'menu.secondary'}}:</label>
     <div class="col-sm-10">
       <select id="eventSecondaryMenu" name="secondaryMenuId" class="form-control">
-        {{#each record}}
+        {{#each data}}
           {{#ifCond id ../event.secondaryMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
@@ -38,7 +38,7 @@
     <label for="eventSocialMenu" class="col-sm-2 control-label">{{t 'menu.social'}}:</label>
     <div class="col-sm-10">
       <select id="eventSocialMenu" name="socialMenu" class="form-control">
-        {{#each record}}
+        {{#each data}}
           {{#ifCond id ../event.socialMenu.id}}
             <option selected value="{{id}}">{{name}}</option>
           {{else}}
@@ -74,7 +74,7 @@
         </tr>
       </thead>
       <tbody>
-      {{#each record}}
+      {{#each data}}
         <tr>
           <td>{{id}}</td>
           <td>{{name}}</td>

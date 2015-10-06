@@ -68,7 +68,7 @@ module.exports = {
               });
             },
             function (done) {
-              var sql = ' ALTER TABLE `event` ADD COLUMN `workload` INT(11)';
+              var sql = ' ALTER TABLE `events` ADD COLUMN `workload` INT(11)';
               we.db.defaultConnection.query(sql).then(function(){
                 done();
               }).catch(function (err){

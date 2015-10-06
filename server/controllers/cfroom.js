@@ -5,29 +5,29 @@ module.exports = {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });
   },
   create: function create(req, res) {
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
     // set temp record for use in validation errors
-    req.we.utils._.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.data, req.query);
 
-    res.locals.record.eventId = req.params.eventId;
+    res.locals.data.eventId = req.params.eventId;
 
     if (req.method === 'POST') {
 
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
       req.body.eventId = req.params.eventId;
 
-      res.locals.record = req.query;
-      req.we.utils._.merge(res.locals.record, req.body);
+      res.locals.data = req.query;
+      req.we.utils._.merge(res.locals.data, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
+        res.locals.data = record;
         if (res.locals.responseType == 'html')
           return res.redirect(
             '/event/' + res.locals.event.id + '/admin/room'
@@ -35,7 +35,7 @@ module.exports = {
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       res.ok();
     }
   },
@@ -47,7 +47,7 @@ module.exports = {
       }}).then(function (record) {
       if (!record) return res.notFound();
 
-      res.locals.record = record;
+      res.locals.data = record;
 
       if (req.method == 'POST' || req.method == 'PUT') {
 
@@ -76,7 +76,7 @@ module.exports = {
       if (!record) return res.notFound();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });

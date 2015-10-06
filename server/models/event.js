@@ -219,10 +219,10 @@ module.exports = function Model(we) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
           // if event is already loaded with req.params
           if (res.locals.event) {
-            res.locals.record = res.locals.event;
-            if (res.locals.record && res.locals.record.dataValues.creatorId && req.isAuthenticated()) {
+            res.locals.data = res.locals.event;
+            if (res.locals.data && res.locals.data.dataValues.creatorId && req.isAuthenticated()) {
               // ser role owner
-              if (res.locals.record.isOwner(req.user.id)) {
+              if (res.locals.data.isOwner(req.user.id)) {
                 if(req.userRoleNames.indexOf('owner') == -1 ) req.userRoleNames.push('owner');
               }
             }
@@ -234,7 +234,7 @@ module.exports = function Model(we) {
             where: { id: res.locals.id},
             include: [{ all: true }]
           }).then(function (record) {
-            res.locals.record = record;
+            res.locals.data = record;
             if (record && record.dataValues.creatorId && req.isAuthenticated()) {
               // ser role owner
               if (record.isOwner(req.user.id)) {

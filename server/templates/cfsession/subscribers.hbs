@@ -1,16 +1,16 @@
 <ul class="nav nav-tabs">
   <li role="presentation">
-    {{#link-to 'cfsession.findOne' record.eventId record.id}}
+    {{#link-to 'cfsession.findOne' data.eventId data.id}}
       {{t 'View'}}
     {{/link-to}}
   </li>
   <li role="presentation" class="active">
-    {{#link-to 'cfsession.subscribers' record.eventId record.id}}
+    {{#link-to 'cfsession.subscribers' data.eventId data.id}}
       <i class="fa fa-user-plus"></i> {{t 'cfsession.subscribers'}}
     {{/link-to}}
   </li>
   <li role="presentation">
-    {{#link-to 'cfsession.exportSubscribers' record.eventId record.id}}
+    {{#link-to 'cfsession.exportSubscribers' data.eventId data.id}}
       <i class="glyphicon glyphicon-floppy-open"></i> {{t 'export'}}
     {{/link-to}}
   </li>
@@ -29,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-    {{#each record.subscribers}}
+    {{#each data.subscribers}}
       <tr>
         <td>{{id}}</td>
         <td>{{user.id}}</td>

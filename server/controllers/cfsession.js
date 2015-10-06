@@ -22,12 +22,12 @@ module.exports = {
       var activeSet = false;
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       res.locals.days = {};
       var nodayString = req.__('cfsession.no.date');
 
-      res.locals.record.forEach(function (r) {
+      res.locals.data.forEach(function (r) {
         if (!r.startDate) return;
         var sdate = we.utils.moment(r.startDate)
         var day;
@@ -67,24 +67,24 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.data, req.query);
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.userId = req.user.id;
 
       // set temp record for use in validation errors
-      res.locals.record = req.query;
-      req.we.utils._.merge(res.locals.record, req.body);
+      res.locals.data = req.query;
+      req.we.utils._.merge(res.locals.data, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
+        res.locals.data = record;
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       res.ok();
     }
   },
@@ -224,13 +224,13 @@ module.exports = {
 
       res.locals.title = r.title;
 
-      res.locals.record = r;
+      res.locals.data = r;
       r.getSubscribers({
         include: [
           { model: req.we.db.models.user, as: 'user'}
         ]
       }).then(function (s) {
-        res.locals.record.subscribers = s;
+        res.locals.data.subscribers = s;
         res.ok();
       }).catch(res.queryError);
     }).catch(res.queryError);
@@ -259,9 +259,9 @@ module.exports = {
 
       delete res.locals.query.limit;
 
-      res.locals.record = r;
+      res.locals.data = r;
       r.getSubscribers(res.locals.query).then(function (s) {
-        res.locals.record.subscribers = s;
+        res.locals.data.subscribers = s;
 
         var subscriptions = s.map(function (i) {
           return {

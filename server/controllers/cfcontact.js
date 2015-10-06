@@ -2,21 +2,21 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.record, req.query);
+    req.we.utils._.merge(res.locals.data, req.query);
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
 
       res.locals.messageSend = false;
       // set temp record for use in validation errors
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       req.we.utils._.merge(res.locals.record, req.body);
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
+        res.locals.data = record;
         res.locals.messageSend = true;
 
         var we = req.getWe();
@@ -57,11 +57,11 @@ module.exports = {
         res.redirect('/');
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
 
       if (req.isAuthenticated()) {
-        res.locals.record.name = req.user.displayName;
-        res.locals.record.email = req.user.email;
+        res.locals.data.name = req.user.displayName;
+        res.locals.data.email = req.user.email;
       }
 
       res.status(200);

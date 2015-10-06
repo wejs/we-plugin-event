@@ -68,7 +68,7 @@
             where: { id: res.locals.id },
             include: [{ all: true }]
           }).then(function (record) {
-            res.locals.record = record;
+            res.locals.data = record;
 
             // in other event
             if (record && req.params.eventId) {
