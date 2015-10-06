@@ -16,7 +16,7 @@ module.exports = {
   },
   create: function create(req, res) {
     var we = req.getWe();
-    if (!res.locals.data) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
     // set temp record for use in validation errors
     we.utils._.merge(res.locals.data, req.query);
 

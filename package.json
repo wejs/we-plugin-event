@@ -1,7 +1,7 @@
 {
   "name": "we-plugin-event",
   "description": "We.js plugin with event features",
-  "version": "0.3.48",
+  "version": "0.3.49",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "pdfkit": "^0.7.1",
-    "video-url-inspector": "^1.0.0",
-    "we-test-tools": "^0.3.9"
+    "video-url-inspector": "^1.0.0"
   },
   "devDependencies": {
     "fs-extra": "^0.24.0",
@@ -18,7 +17,7 @@
     "rimraf": "^2.3.3",
     "sinon": "^1.14.1",
     "supertest": "^1.0.1",
-    "we-core": "0.3.83",
+    "we-core": "0.3.87",
     "we-plugin-file": "0.3.11",
     "we-plugin-form": "0.3.1",
     "we-plugin-menu": "^0.3.2",
