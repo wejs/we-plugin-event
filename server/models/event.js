@@ -138,7 +138,7 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
         get: function() {
-         var s = this.getDataValue('callForPapersStartDate');
+          var s = this.getDataValue('callForPapersStartDate');
           var e = this.getDataValue('callForPapersEndDate');
 
           if (s) s = we.utils.moment(s).unix();
@@ -148,7 +148,7 @@ module.exports = function Model(we) {
 
           var now = we.utils.moment().unix();
 
-          if ( (s <= now) && (now>=e) ) {
+          if ( (s <= now) && (now<=e) ) {
             return 'open';
           } else if (s > now){
             return 'before';
