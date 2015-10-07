@@ -1,5 +1,5 @@
 /**
- * Conferece patner model
+ * Conferece partner model
  *
  * @module      :: Model
  * @description :: Store event patner data

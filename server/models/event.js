@@ -407,6 +407,76 @@ module.exports = function Model(we) {
           ], function (err) {
             cb(err, record);
           });
+        },
+        afterDestroy: function afterDestroy(record, options, cb) {
+          // after destroy delete all related content
+          we.utils.async.parallel([
+            function (done) {
+              we.db.models.cfcontact.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cflink.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfmenu.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfnews.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfpage.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfpartner.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfregistration.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfregistrationtype.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfroom.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfsession.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfspeaker.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cftopic.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            },
+            function(done) {
+              we.db.models.cfvideo.destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            }
+          ], cb);
         }
       }
     }

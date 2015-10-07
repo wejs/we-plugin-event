@@ -131,24 +131,32 @@ describe('eventFeature', function() {
     it ('get /event/:id/edit should get event edit form');
     it ('post /event/:id/edit should update one event');
 
-    it ('post /event/:id/delete should delete one event', function (done) {
+    it ('post /event/:id/delete should delete one event and related models', function (done) {
       var cf = stubs.eventStub();
       we.db.models.event.create(cf).then(function (scf) {
-
-        authenticatedRequest.post('/event/'+ scf.id+'/delete')
-        .set('Accept', 'application/json')
-        .expect(204)
-        .end(function (err, res) {
-          if (err) throw err;
-          assert(!res.body.event);
-          we.db.models.event.findById(scf.id).then(function (scf) {
-            assert( we.utils._.isEmpty(scf) );
-            done();
+        we.db.models.cfpage.create({
+          eventId: scf.id,
+          title: 'A example page',
+          body: 'something awsome',
+          creatorId: salvedUser.id
+        }).then(function (page){
+          authenticatedRequest.post('/event/'+ scf.id+'/delete')
+          .set('Accept', 'application/json')
+          .expect(204)
+          .end(function (err, res) {
+            if (err) throw err;
+            assert(!res.body.event);
+            we.db.models.event.findById(scf.id).then(function (scf) {
+              assert( we.utils._.isEmpty(scf) );
+              we.db.models.cfpage.findById(page.id).then(function(p){
+                assert(!p);
+                done();
+              }).catch(done);
+            }).catch(done);
           });
-        });
+        }).catch(done);
       });
     });
-    it ('delete /event/:id should delete one event and delete related models');
   });
 
   describe('eventPageCRUD', function() {
