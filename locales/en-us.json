@@ -13,7 +13,7 @@
 	"event.find": "event.find",
 	"event.not.published.msg": "event.not.published.msg",
 	"ER_TRUNCATED_WRONG_VALUE: Incorrect datetime value: 'Invalid date' for column 'callForPapersStartDate' at row 1": "ER_TRUNCATED_WRONG_VALUE: Incorrect datetime value: 'Invalid date' for column 'callForPapersStartDate' at row 1",
-	"cfnews.managePage": "cfnews.managePage"
+	"cfnews.managePage": "cfnews.managePage",
 	"cfnews.create": "Create news",
 	"cfpage.create": "Create page",
 	"cfregistrationtype.create": "Create registration type",
