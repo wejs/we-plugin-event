@@ -277,7 +277,14 @@ module.exports = function Model(we) {
                   text: we.i18n.__('cfvideo.find'),
                   title: we.i18n.__('cfvideo.find'),
                   href: we.router.urlTo('cfvideo.find', [self.id]),
-                  depth: 1
+                  depth: 3
+                },{
+                  eventId: self.id,
+                  cfmenuId: m.id,
+                  text: we.i18n.__('cfcontact.link'),
+                  title: we.i18n.__('cfcontact.link'),
+                  href: we.router.urlTo('event_contact', [self.id]),
+                  depth: 5
                 }]).then(function() {
                   done();
                 });

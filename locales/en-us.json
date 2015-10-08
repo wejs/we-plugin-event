@@ -147,19 +147,19 @@
 
   "form-event-theme-theme": "Theme",
   "form-placeholder-event-theme-theme": "Default theme",
-  "form-helper-event-theme-theme": "",
+  "form-helper-event-theme-theme": " ",
 
   "form-event-theme-logo": "Logo",
   "form-placeholder-event-theme-logo": " ",
-  "form-helper-event-theme-logo": "",
+  "form-helper-event-theme-logo": " ",
 
   "form-event-theme-banner": "Banner",
   "form-placeholder-event-theme-banner": " ",
-  "form-helper-event-theme-banner": "",
+  "form-helper-event-theme-banner": " ",
 
   "form-event-theme-favicon": "Favicon",
   "form-placeholder-event-theme-favicon": " ",
-  "form-helper-event-theme-favicon": "",
+  "form-helper-event-theme-favicon": " ",
 
   "form-event-theme-submit": "Save",
   "form-event-theme-save_next": "Save and next",
@@ -362,6 +362,7 @@
   "form-placeholder-cfvideo-tags": " ",
   "form-helper-cfvideo-tags": " ",
 
+  "cfcontact.link": "Contact",
   "cfcontact.find": "Contact us messages",
 
   "form-cfcontact-name": "Your name",
