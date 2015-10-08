@@ -1,1 +1,11 @@
-TODO!
+<form method="post" action="/event/{{event.id}}/admin/cfregistration/create" class="" name="cfregistration" id="cfregistration">
+
+<div class="form-group ">
+  {{t 'userId'}}: <input type="text" name="userId" required="required">
+</div>
+
+<input type="hidden" name="cfregistrationtypeId" value="1">
+
+
+<button class="btn btn-primary" type="submit">{{t 'save'}}</button>
+</form>
