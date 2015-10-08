@@ -1,31 +1,31 @@
 {
 	"Login": "Login",
-	"cfnews.create": "cfnews.create",
-	"cfpage.create": "cfpage.create",
-	"cfregistrationtype.create": "cfregistrationtype.create",
-	"cfregistrationtype.find": "cfregistrationtype.find",
-	"event.register": "event.register",
-	"event.registration.success.email": "event.registration.success.email",
-	"cfregistrationtype.delete.have.registrations": "cfregistrationtype.delete.have.registrations",
-	"cfvideo.create": "cfvideo.create",
-	"event.create": "event.create",
+	"cfnews.create": "Create news",
+	"cfpage.create": "Create page",
+	"cfregistrationtype.create": "Create registration type",
+	"cfregistrationtype.find": "Registration types",
+	"event.register": "Register",
+	"event.registration.success.email": "Event registration success",
+	"cfregistrationtype.delete.have.registrations": "Cant delete this registration type, it already have registrations",
+	"cfvideo.create": "Create video",
+	"event.create": "Create event",
 	"title cannot be null": "title cannot be null",
-	"event.find": "event.find",
-	"event.not.published.msg": "event.not.published.msg",
+	"event.find": "Events",
+	"event.not.published.msg": "Warning! Your event dont are published, add all event data after publish",
 	"ER_TRUNCATED_WRONG_VALUE: Incorrect datetime value: 'Invalid date' for column 'callForPapersStartDate' at row 1": "ER_TRUNCATED_WRONG_VALUE: Incorrect datetime value: 'Invalid date' for column 'callForPapersStartDate' at row 1",
-	"cfnews.managePage": "cfnews.managePage",
+	"cfnews.managePage": "News",
 	"cfnews.create": "Create news",
 	"cfpage.create": "Create page",
 	"cfregistrationtype.create": "Create registration type",
 	"cfregistrationtype.find": "Find registration type",
 	"event.register": "event.register",
-	"event.registration.success.email": "event.registration.success.email",
+	"event.registration.success.email": "Registration on event saved successfully",
 	"cfregistrationtype.delete.have.registrations": "You cant delete this registration type while it have registrations",
 	"cfvideo.create": "Create video",
 	"event.create": "Create event",
 	"title cannot be null": "title cannot be null",
 	"event.find": "Events",
-	"event.not.published.msg": "Heads up! Your event has not been published, you fill all information and content of the event and then click publish in event edit page",
+	"event.not.published.msg": "Heads up! Your event has not been published, fill all information and content before publish the event in edit event page",
 	"event.btn.closed_before": "Registration closed",
 	"event.btn.open": "Register",
 	"event.btn.closed_no_vacancies": "No vacancy",
@@ -35,17 +35,7 @@
 	"cfnews.find": "News",
 	"cfvideo.find": "Videos",
 	"event.cfregistrationtype.name.default": "Default registration",
-	"not.found": "not found",
-	"go.to": "go to",
-	"home": "home",
-	"widget.delete.confirm.msg": "widget.delete.confirm.msg",
-	"widget.sort": "widget.sort",
-	"widget.update": "widget.update",
-	"widget.add": "widget.add",
-	"layout.select.widget.type": "layout.select.widget.type",
 	"Next": "Next",
-	"layout.edit.btn": "layout.edit.btn",
-	"layout.edit.hide.btn": "layout.edit.hide.btn",
 	"event.date.range": "{{start}} to {{end}} of {{yearEnd}}",
 	"event.edit.step.messages": "Messages",
   "form-event-messages-registeredText": "Information text to show in my registration page for registered users",
@@ -70,5 +60,443 @@
   "form-event-managers-add-submit": "Add",
   "event.cfcontact.send": "The message is send",
   "cfcontact.open": "Open",
-  "cfcontact.close": "Close"
+  "cfcontact.close": "Close",
+  "cftopic.managePage": "Topics",
+  "event_findOne.news_manage": "News",
+  "event_findOne.room_manage": "Rooms",
+  "event.cfsession": "Sessions",
+  "event.cfspeaker": "Speakers",
+  "cfpartner.find": "Partners",
+  "event.contact": "Contacts",
+  "event_admin": "Dashboard",
+  "event_admin_edit": "Edit event",
+  "event_admin_registration": "Registrations",
+  "event_admin_menu": "Menus and links",
+  "event_findOne.page_manage": "Pages",
+  "event.managers": "Event managers",
+  "event.edit.step.about": "About",
+  "event.edit.step.dates": "Dates",
+  "event.edit.step.visual": "Visual",
+  "event.edit.step.publish": "Publish",
+  "form-event-dates-callForPapersStartDate": "Call for papers start date",
+  "form-placeholder-event-dates-callForPapersStartDate": " " ,
+  "form-helper-event-dates-callForPapersStartDate": " ",
+  "form-event-dates-callForPapersEndDate": "call for papers end date",
+  "form-placeholder-event-dates-callForPapersEndDate": " ",
+  "form-helper-event-dates-callForPapersEndDate": " ",
+  "form-event-dates-registrationStartDate": "Registration start date",
+  "form-placeholder-event-dates-registrationStartDate": " ",
+  "form-helper-event-dates-registrationStartDate": " ",
+  "form-event-dates-registrationEndDate": "Registration end date",
+  "form-placeholder-event-dates-registrationEndDate": " ",
+  "form-helper-event-dates-registrationEndDate": " ",
+
+
+  "form-event-dates-eventStartDate": "Event start date",
+  "form-placeholder-event-dates-eventStartDate": " ",
+  "form-helper-event-dates-eventStartDate": " ",
+
+  "form-event-dates-eventEndDate": "Event end date",
+  "form-placeholder-event-dates-eventEndDate": " ",
+  "form-helper-event-dates-eventEndDate": " ",
+  "form-event-dates-submit": "Save",
+  "form-event-dates-save_next": "Save and next",
+
+  "form-event-about-title": "Title",
+  "form-placeholder-event-about-title": " ",
+  "form-helper-event-about-title": " ",
+
+  "form-event-about-abbreviation": "Abbreviation",
+  "form-placeholder-event-about-abbreviation": " ",
+  "form-helper-event-about-abbreviation": " ",
+
+  "form-event-about-email": "Email",
+  "form-placeholder-event-about-email": " ",
+  "form-helper-event-about-email": " ",
+
+  "form-event-about-about": "About",
+  "form-placeholder-event-about-about": " ",
+  "form-helper-event-about-about": " ",
+
+  "form-event-about-location": "Location",
+  "form-placeholder-event-about-location": " ",
+  "form-helper-event-about-location": " ",
+
+  "form-event-about-vacancies": "Vacancy",
+  "form-placeholder-event-about-vacancies": " ",
+  "form-helper-event-about-vacancies": " ",
+
+  "form-event-about-tags": "Tags",
+  "form-placeholder-event-about-tags": " ",
+  "form-helper-event-about-tags": " ",
+
+  "form-event-about-categories": "Categories",
+  "form-placeholder-event-about-categories": " ",
+  "form-helper-event-about-categories": " ",
+
+  "form-event-about-registrationManagerName": "Manager name",
+  "form-placeholder-event-about-registrationManagerName": " ",
+  "form-helper-event-about-registrationManagerName": " ",
+
+  "form-event-about-registrationManagerEmail": "Manager email",
+  "form-placeholder-event-about-registrationManagerEmail": " ",
+  "form-helper-event-about-registrationManagerEmail": " ",
+
+  "form-event-about-submit": "Save",
+  "form-event-about-save_next": "Save and next",
+
+  "form-event-theme-theme": "Theme",
+  "form-placeholder-event-theme-theme": "Default theme",
+  "form-helper-event-theme-theme": "",
+
+  "form-event-theme-logo": "Logo",
+  "form-placeholder-event-theme-logo": " ",
+  "form-helper-event-theme-logo": "",
+
+  "form-event-theme-banner": "Banner",
+  "form-placeholder-event-theme-banner": " ",
+  "form-helper-event-theme-banner": "",
+
+  "form-event-theme-favicon": "Favicon",
+  "form-placeholder-event-theme-favicon": " ",
+  "form-helper-event-theme-favicon": "",
+
+  "form-event-theme-submit": "Save",
+  "form-event-theme-save_next": "Save and next",
+
+  "event.edit.publish": "Publish the event",
+
+  "event.topic.empty": "This event dont have topics",
+  "cftopic.create": "Create topic",
+  "form-cftopic-title" : "Title",
+  "form-placeholder-cftopic-title" : " ",
+  "form-helper-cftopic-title" : " ",
+
+  "form-cftopic-about" : "About",
+  "form-placeholder-cftopic-about" : " ",
+  "form-helper-cftopic-about" : " ",
+
+  "form-cftopic-weight" : "Weight",
+  "form-placeholder-cftopic-weight" : " ",
+  "form-helper-cftopic-weight" : " ",
+
+  "form-cftopic-tags" : "Tags",
+  "form-placeholder-cftopic-tags" : " ",
+  "form-helper-cftopic-tags" : " ",
+
+  "form-cftopic-categories" : "Categories",
+  "form-placeholder-cftopic-categories" : " ",
+  "form-helper-cftopic-categories" : " ",
+
+  "form-cftopic-image" : "Image",
+  "form-placeholder-cftopic-image" : " ",
+  "form-helper-cftopic-image" : " ",
+
+  "form-cfnews-title": "Title",
+  "form-placeholder-cfnews-title": " ",
+  "form-helper-cfnews-title": " ",
+
+  "form-cfnews-teaser": "Teaser",
+  "form-placeholder-cfnews-teaser": " ",
+  "form-helper-cfnews-teaser": " ",
+
+  "form-cfnews-text": "Text",
+  "form-placeholder-cfnews-text": " ",
+  "form-helper-cfnews-text": " ",
+
+  "form-cfnews-published": "Published?",
+  "form-placeholder-cfnews-published": " ",
+  "form-helper-cfnews-published": " ",
+
+  "form-cfnews-keepAbove": "Keep above?",
+  "form-placeholder-cfnews-keepAbove": " ",
+  "form-helper-cfnews-keepAbove": " ",
+
+  "form-cfnews-categories": "categories",
+  "form-placeholder-cfnews-categories": " ",
+  "form-helper-cfnews-categories": " ",
+
+  "form-cfnews-tags": "Tags",
+  "form-placeholder-cfnews-tags": " ",
+  "form-helper-cfnews-tags": " ",
+
+  "form-cfnews-featuredImage": "Featured image",
+  "form-placeholder-cfnews-featuredImage": " ",
+  "form-helper-cfnews-featuredImage": " ",
+
+  "cfroom.managePage": "Rooms",
+  "event.cfroom.empty": "This event dont have rooms",
+
+  "form-cfroom-name": "Name",
+  "form-placeholder-cfroom-name": " ",
+  "form-helper-cfroom-name": " ",
+
+  "form-cfroom-about": "About",
+  "form-placeholder-cfroom-about": " ",
+  "form-helper-cfroom-about": " ",
+
+  "form-cfroom-vacancy": "Vacancy",
+  "form-placeholder-cfroom-vacancy": " ",
+  "form-helper-cfroom-vacancy": " ",
+
+  "form-cfroom-tags": "Tags",
+  "form-placeholder-cfroom-tags": " ",
+  "form-helper-cfroom-tags": " ",
+
+  "form-cfroom-categories": "Categories",
+  "form-placeholder-cfroom-categories": " ",
+  "form-helper-cfroom-categories": " ",
+
+  "form-cfroom-picture": "Picture",
+  "form-placeholder-cfroom-picture": " ",
+  "form-helper-cfroom-picture": " ",
+
+  "cfsession.find": "Sessions",
+  "event.cfsession.empty": "This event dont have sessions",
+  "cfsession.create": "Create session",
+
+  "form-cfsession-title": "Title",
+  "form-placeholder-cfsession-title": " ",
+  "form-helper-cfsession-title": " ",
+
+  "form-cfsession-about": "About",
+  "form-placeholder-cfsession-about": " ",
+  "form-helper-cfsession-about": " ",
+
+  "form-cfsession-startDate": "Start date",
+  "form-placeholder-cfsession-startDate": " ",
+  "form-helper-cfsession-startDate": " ",
+
+  "form-cfsession-endDate": "End date",
+  "form-placeholder-cfsession-endDate": " ",
+  "form-helper-cfsession-endDate": " ",
+
+  "form-cfsession-topicIdSelector": "With topic",
+  "form-placeholder-cfsession-topicIdSelector": " ",
+  "form-helper-cfsession-topicIdSelector": " ",
+
+  "form-cfsession-roomIdSelector": "In room",
+  "form-placeholder-cfsession-roomIdSelector": " ",
+  "form-helper-cfsession-roomIdSelector": " ",
+
+  "form-cfsession-requireRegistration": "Require registration",
+  "form-placeholder-cfsession-requireRegistration": " ",
+  "form-helper-cfsession-requireRegistration": " ",
+
+  "form-cfsession-status": "Status",
+  "form-placeholder-cfsession-status": " ",
+  "form-helper-cfsession-status": " ",
+
+  "form-cfsession-picture": "Picture",
+  "form-placeholder-cfsession-picture": " ",
+  "form-helper-cfsession-picture": " ",
+
+  "event.cfsession.status.send": "Send",
+  "event.cfsession.status.in_review": "In review",
+  "event.cfsession.status.need_update": "Need update",
+  "event.cfsession.status.accepted": "Accepted",
+  "event.cfsession.status.discarted": "Discarted",
+
+  "cfspeaker.find": "Speakers",
+  "event.cfspeaker.empty": "This event dont have speakers",
+  "cfspeaker.create":"Add speaker",
+
+  "form-cfspeaker-name": "Name",
+  "form-placeholder-cfspeaker-name": " ",
+  "form-helper-cfspeaker-name": " ",
+
+  "form-cfspeaker-about": "About",
+  "form-placeholder-cfspeaker-about": " ",
+  "form-helper-cfspeaker-about": " ",
+
+  "form-cfspeaker-weight": "Weight",
+  "form-placeholder-cfspeaker-weight": " ",
+  "form-helper-cfspeaker-weight": " ",
+
+  "form-cfspeaker-highlighted": "Highlighted?",
+  "form-placeholder-cfspeaker-highlighted": " ",
+  "form-helper-cfspeaker-highlighted": " ",
+
+  "form-cfspeaker-picture": "Picture",
+  "form-placeholder-cfspeaker-picture": " ",
+  "form-helper-cfspeaker-picture": " ",
+
+  "event.cfpartner.empty": "This event dont have partners",
+
+  "cfpartner.create": "Add partner",
+
+  "form-cfpartner-name": "Name",
+  "form-placeholder-cfpartner-name": " ",
+  "form-helper-cfpartner-name": " ",
+
+  "form-cfpartner-link": "Link",
+  "form-placeholder-cfpartner-link": " ",
+  "form-helper-cfpartner-link": " ",
+
+  "form-cfpartner-weight": "Weight",
+  "form-placeholder-cfpartner-weight": " ",
+  "form-helper-cfpartner-weight": " ",
+
+  "form-cfpartner-logo": "Logo",
+  "form-placeholder-cfpartner-logo": " ",
+  "form-helper-cfpartner-logo": " ",
+
+
+  "form-cfvideo-url": "Vídeo URL",
+  "form-placeholder-cfvideo-url": " ",
+  "form-helper-cfvideo-url": " ",
+
+  "form-cfvideo-title": "Title",
+  "form-placeholder-cfvideo-title": " ",
+  "form-helper-cfvideo-title": " ",
+
+  "form-cfvideo-description": "Description",
+  "form-placeholder-cfvideo-description": " ",
+  "form-helper-cfvideo-description": " ",
+
+  "form-cfvideo-categories": "Categories",
+  "form-placeholder-cfvideo-categories": " ",
+  "form-helper-cfvideo-categories": " ",
+
+  "form-cfvideo-tags": "Tags",
+  "form-placeholder-cfvideo-tags": " ",
+  "form-helper-cfvideo-tags": " ",
+
+  "cfcontact.find": "Contact us messages",
+
+  "form-cfcontact-name": "Your name",
+  "form-placeholder-cfcontact-name": " ",
+  "form-helper-cfcontact-name": " ",
+
+  "form-cfcontact-email": "Your email",
+  "form-placeholder-cfcontact-email": " ",
+  "form-helper-cfcontact-email": " ",
+
+  "form-cfcontact-message": "Your message",
+  "form-placeholder-cfcontact-message": " ",
+  "form-helper-cfcontact-message": " ",
+
+  "cfregistration.find": "User registrations",
+  "event.register.user": "Register user",
+  "event.userTags": "User tags",
+
+  "cf.registration.name": "name",
+
+  "form-cfregistrationtype-name": "Name",
+  "form-placeholder-cfregistrationtype-name": " ",
+  "form-helper-cfregistrationtype-name": " ",
+
+  "form-cfregistrationtype-description": "Description",
+  "form-placeholder-cfregistrationtype-description": " ",
+  "form-helper-cfregistrationtype-description": " ",
+
+
+  "form-cfregistrationtype-requireValidation": "Require validation",
+  "form-placeholder-cfregistrationtype-requireValidation": " ",
+  "form-helper-cfregistrationtype-requireValidation": " ",
+
+  "event.structure.menus": "Event menus",
+
+  "menu.main": "Main menu",
+  "menu.secondary": "Secondary menu",
+  "menu.social": "Social menu",
+
+  "cfmenu.create": "Create menu",
+
+  "form-cfmenu-name": "Name",
+  "form-placeholder-cfmenu-name": " ",
+  "form-helper-cfmenu-name": " ",
+
+  "form-cfmenu-class": "Class",
+  "form-placeholder-cfmenu-class": " ",
+  "form-helper-cfmenu-class": " ",
+
+  "cfmenu.edit": "Edit menu",
+
+  "form-cfmenu-name": "Name",
+  "form-placeholder-cfmenu-name": " ",
+  "form-helper-cfmenu-name": " ",
+
+  "form-cfmenu-class": "Class",
+  "form-placeholder-cfmenu-class": " ",
+  "form-helper-cfmenu-class": " ",
+
+  "order.save.btn": "Save",
+
+  "cflink.create": "Create link",
+
+  "form-cflink-href": "HREF",
+  "form-placeholder-cflink-href": " ",
+  "form-helper-cflink-href": "Link url, href attribute",
+
+  "form-cflink-text": "Text",
+  "form-placeholder-cflink-text": " ",
+  "form-helper-cflink-text": " ",
+
+  "form-cflink-title": "Title",
+  "form-placeholder-cflink-title": " ",
+  "form-helper-cflink-title": " ",
+
+  "form-cflink-class": "Class",
+  "form-placeholder-cflink-class": " ",
+  "form-helper-cflink-class": " ",
+
+  "form-cflink-style": "Style",
+  "form-placeholder-cflink-style": " ",
+  "form-helper-cflink-style": " ",
+
+  "form-cflink-target": "Target",
+  "form-placeholder-cflink-target": " ",
+  "form-helper-cflink-target": " ",
+
+  "form-cflink-rel": "Rel",
+  "form-placeholder-cflink-rel": " ",
+  "form-helper-cflink-rel": " ",
+
+  "form-cflink-key": "Key",
+  "form-placeholder-cflink-key": " ",
+  "form-helper-cflink-key": " ",
+
+  "form-cflink-depth": "Depth",
+  "form-placeholder-cflink-depth": " ",
+  "form-helper-cflink-depth": " ",
+
+  "form-cflink-weight": "Weight",
+  "form-placeholder-cflink-weight": " ",
+  "form-helper-cflink-weight": " ",
+
+  "form-cflink-parent": "Parent",
+  "form-placeholder-cflink-parent": " ",
+  "form-helper-cflink-parent": " ",
+
+  "cfpage.managePage": "Pages",
+
+  "form-cfpage-title": "Title",
+  "form-placeholder-cfpage-title": " ",
+  "form-helper-cfpage-title": " ",
+
+  "form-cfpage-body": "Body",
+  "form-placeholder-cfpage-body": " ",
+  "form-helper-cfpage-body": " ",
+
+  "form-cfpage-published": "Published?",
+  "form-placeholder-cfpage-published": " ",
+  "form-helper-cfpage-published": " ",
+
+  "form-cfpage-categories": "Categories",
+  "form-placeholder-cfpage-categories": " ",
+  "form-helper-cfpage-categories": " ",
+
+  "form-cfpage-tags": "Tags",
+  "form-placeholder-cfpage-tags": " ",
+  "form-helper-cfpage-tags": " ",
+
+  "form-cfpage-featuredImage": "Featured image",
+  "form-placeholder-cfpage-featuredImage": " ",
+  "form-helper-cfpage-featuredImage": " ",
+
+  "event.setManagers": "Event managers",
+
+  "managers.salved": "Event managers salved",
+  "event.admin.managers.empty": "This event dont have managers"
 }
