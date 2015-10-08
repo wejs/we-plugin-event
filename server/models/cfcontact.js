@@ -41,6 +41,7 @@
       },
       statusClass: {
         type: we.db.Sequelize.VIRTUAL,
+        formFieldType: null,
         get: function() {
           if (this.getDataValue('status') == 'opened') {
             return 'danger'
