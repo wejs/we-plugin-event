@@ -4,7 +4,6 @@
 	"cfpage.create": "Create page",
 	"cfregistrationtype.create": "Create registration type",
 	"cfregistrationtype.find": "Registration types",
-	"event.register": "Register",
 	"event.registration.success.email": "Event registration success",
 	"cfregistrationtype.delete.have.registrations": "Cant delete this registration type, it already have registrations",
 	"cfvideo.create": "Create video",
@@ -18,7 +17,6 @@
 	"cfpage.create": "Create page",
 	"cfregistrationtype.create": "Create registration type",
 	"cfregistrationtype.find": "Find registration type",
-	"event.register": "event.register",
 	"event.registration.success.email": "Registration on event saved successfully",
 	"cfregistrationtype.delete.have.registrations": "You cant delete this registration type while it have registrations",
 	"cfvideo.create": "Create video",
@@ -501,5 +499,11 @@
   "managers.salved": "Event managers salved",
   "event.admin.managers.empty": "This event dont have managers",
 
-  "event.cfnews.empty": "This event dont have news"
+  "event.cfnews.empty": "This event dont have news",
+
+  "event.registration.unAuthenticated": "You must be logged in to register in this event",
+  "event.register": "Register in event",
+  "event.registered": "Registration",
+  "cfregistration.un-register": "Cancel registration",
+  "event.btn.registered": "My registration"
 }
