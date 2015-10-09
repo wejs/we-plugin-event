@@ -499,5 +499,7 @@
   "event.setManagers": "Event managers",
 
   "managers.salved": "Event managers salved",
-  "event.admin.managers.empty": "This event dont have managers"
+  "event.admin.managers.empty": "This event dont have managers",
+
+  "event.cfnews.empty": "This event dont have news"
 }
