@@ -5,6 +5,13 @@
  * @description :: System event model
  *
  */
+var assocModelsToDelete = [
+  'cfcontact', 'cflink', 'cfmenu',
+  'cfnews', 'cfpage', 'cfpartner',
+  'cfregistration', 'cfregistrationtype', 'cfroom',
+  'cfsession', 'cfspeaker', 'cftopic',
+  'cfvideo'
+];
 
 module.exports = function Model(we) {
   var model = {
@@ -396,13 +403,13 @@ module.exports = function Model(we) {
         },
         afterCreate: function afterCreate (record, options, cb) {
           we.utils.async.parallel([
-            record.generateDefaultMenus.bind(record),
-            record.generateDefaultWidgets.bind(record),
             function addCreatorAsManager(done) {
               record.addManager(record.creatorId).then(function(){
                 done();
               }).catch(done);
             },
+            record.generateDefaultMenus.bind(record),
+            record.generateDefaultWidgets.bind(record),
             function (done) {
               we.db.models.cfregistrationtype.create({
                 name: we.i18n.__('event.cfregistrationtype.name.default'),
@@ -416,74 +423,16 @@ module.exports = function Model(we) {
           });
         },
         afterDestroy: function afterDestroy(record, options, cb) {
+          var fns = [];
+          assocModelsToDelete.forEach(function (m){
+            fns.push(function (done) {
+              we.db.models[m].destroy({
+                where: { $or: [{ eventId: record.id }, { eventId: null }] }
+              }).then(function(){ done(); }).catch(done);
+            });
+          });
           // after destroy delete all related content
-          we.utils.async.parallel([
-            function (done) {
-              we.db.models.cfcontact.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cflink.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfmenu.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfnews.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfpage.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfpartner.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfregistration.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfregistrationtype.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfroom.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfsession.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfspeaker.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cftopic.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            },
-            function(done) {
-              we.db.models.cfvideo.destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
-            }
-          ], cb);
+          we.utils.async.parallel(fns, cb);
         }
       }
     }
