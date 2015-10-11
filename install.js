@@ -1,5 +1,28 @@
 module.exports = {
   /**
+   * Install function run in we.js install.
+   *
+   * @param  {Object}   we    we.js object
+   * @param  {Function} done  callback
+   */
+  install: function install(we, done) {
+    we.utils.async.series([
+      /**
+       * Check and create default roles required for all we.js projects
+       *
+       * @param  {object} we
+       * @param  {Function} cb callback
+       */
+      function registerDefaultRoles(done) {
+        we.utils.async.parallel([
+          function eventManager(done) {
+            we.acl.registerOneDefaltRole(we, 'eventManager', done);
+          },
+        ], done);
+      }
+    ], done);
+  },
+  /**
    * Return a list of updates
    *
    * @param  {Object} we we.js object
