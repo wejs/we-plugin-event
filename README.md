@@ -1,4 +1,6 @@
-# We.js event plugin
+# We.js full-featured events/conference portal plugin
+
+> Install this plugin and get a full-featured evnets/conference portal We.js powered!
 
 [![Dependency Status](https://david-dm.org/wejs/we-plugin-event.png)](https://david-dm.org/wejs/we-plugin-event)
 [![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-event)
@@ -37,6 +39,5 @@ npm run lint
 #### NPM Info:
 [![NPM](https://nodei.co/npm/we-plugin-event.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/we-plugin-event/)
 
-## Copyright and license
-
-Copyright 2013-2014 Alberto Souza <alberto.souza.dev@gmail.com> and contributors , under [the MIT license](LICENSE).
+## License
+[the MIT license](LICENSE).
