@@ -432,7 +432,7 @@ module.exports = function Model(we) {
             });
           });
           // after destroy delete all related content
-          we.utils.async.parallel(fns, cb);
+          we.utils.async.series(fns, cb);
         }
       }
     }
