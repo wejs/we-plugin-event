@@ -598,5 +598,14 @@
   "form-event-managers-add-submit": "Adicionar",
   "event.cfcontact.send": "A mensagem foi enviada",
   "cfcontact.open": "Abrir",
-  "cfcontact.close": "Finalizar"
+  "cfcontact.close": "Finalizar",
+  "widget.we-cf-location-map.label": "Mapa com a localização do evento",
+  "widget.we-cf-menu-admin.label": "Menu de administração do evento",
+  "widget.we-cf-menu-content.label": "Menu de conteúdos do evento",
+  "widget.we-cf-news.label": "Bloco de notícias do evento",
+  "widget.we-cf-partners.label": "Bloco de parceiros e apoio do evento",
+  "widget.we-cf-schedule.label": "Bloco com a programação do evento",
+  "widget.we-cf-speakers.label": "Bloco com os palestrantes do evento",
+  "widget.we-cf-topics.label": "Bloco com os temas do evento",
+  "widget.we-cf-video.label": "Bloco com os vídeos do evento"
 }

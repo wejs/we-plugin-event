@@ -505,5 +505,14 @@
   "event.register": "Register in event",
   "event.registered": "Registration",
   "cfregistration.un-register": "Cancel registration",
-  "event.btn.registered": "My registration"
+  "event.btn.registered": "My registration",
+  "widget.we-cf-location-map.label": "Event location map",
+  "widget.we-cf-menu-admin.label": "Event administration menu",
+  "widget.we-cf-menu-content.label": "Event content admin menu",
+  "widget.we-cf-news.label": "Event news block",
+  "widget.we-cf-partners.label": "Event partners block",
+  "widget.we-cf-schedule.label": "Event schendule block",
+  "widget.we-cf-speakers.label": "Event speakers block",
+  "widget.we-cf-topics.label": "Event topics block",
+  "widget.we-cf-video.label": "Event videos block"
 }
