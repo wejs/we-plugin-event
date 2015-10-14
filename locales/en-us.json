@@ -518,5 +518,7 @@
 
   "event.callForPapersDates": "Call for papers date",
   "event.registrationDates": "Registration date",
-  "event.dates": "Event date"
+  "event.dates": "Event date",
+
+  "event.find.my": "My events"
 }
