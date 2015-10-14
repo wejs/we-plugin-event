@@ -1,0 +1,20 @@
+<div class="event-about">{{{data.about}}}</div>
+<br>
+<p class="event-dates">
+{{#with data}}
+  {{#if callForPapersStartDate}}
+    <strong>{{t 'event.callForPapersDates'}}:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
+    <br>
+  {{/if}}
+  <strong>{{t 'event.registrationDates'}}:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
+  <br>
+  <strong>{{t 'event.dates'}}:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
+{{/with}}
+</p>
+<p class="event-contact">
+  <strong>{{t 'form-event-about-email'}}</strong>: {{data.email}}
+  <br>
+  <strong>{{t "form-event-about-registrationManagerName"}}</strong>: {{data.registrationManagerName}}
+  <br>
+  <strong>{{t 'form-event-about-registrationManagerEmail'}}</strong>: {{data.registrationManagerEmail}}
+</p>

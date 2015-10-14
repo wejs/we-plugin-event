@@ -19,15 +19,14 @@
         {{#each logo}}
           <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
         {{/each}}
-
         <div>
           {{#if callForPapersStartDate}}
-            <strong>Envio de trabalhos:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
+            <strong>{{t 'event.callForPapersDates'}}:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
             <br>
           {{/if}}
-          <strong>Inscrições:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
+          <strong>{{t 'event.registrationDates'}}:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
           <br>
-          <strong>Data do evento:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
+          <strong>{{t 'event.dates'}}:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
         </div>
       </div>
       <div class="col-md-9">

@@ -607,5 +607,9 @@
   "widget.we-cf-schedule.label": "Bloco com a programação do evento",
   "widget.we-cf-speakers.label": "Bloco com os palestrantes do evento",
   "widget.we-cf-topics.label": "Bloco com os temas do evento",
-  "widget.we-cf-video.label": "Bloco com os vídeos do evento"
+  "widget.we-cf-video.label": "Bloco com os vídeos do evento",
+
+  "event.callForPapersDates": "Envio de trabalhos",
+  "event.registrationDates": "Inscrições",
+  "event.dates": "Data do evento"
 }

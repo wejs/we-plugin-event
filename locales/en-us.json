@@ -514,5 +514,9 @@
   "widget.we-cf-schedule.label": "Event schendule block",
   "widget.we-cf-speakers.label": "Event speakers block",
   "widget.we-cf-topics.label": "Event topics block",
-  "widget.we-cf-video.label": "Event videos block"
+  "widget.we-cf-video.label": "Event videos block",
+
+  "event.callForPapersDates": "Call for papers date",
+  "event.registrationDates": "Registration date",
+  "event.dates": "Event date"
 }
