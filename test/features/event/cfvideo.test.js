@@ -87,15 +87,15 @@ describe('cfvideoFeature', function() {
       .end(function (err, res) {
         if (err) throw err;
 
-        assert(res.body.cfvideo[0]);
-        assert(res.body.cfvideo[0].id);
-        assert(res.body.cfvideo[0].provider);
-        assert(res.body.cfvideo[0].idInProvider);
-        assert(res.body.cfvideo[0].embedUrl);
-        assert(res.body.cfvideo[0].thumbnails);
+        assert(res.body.cfvideo);
+        assert(res.body.cfvideo.id);
+        assert(res.body.cfvideo.provider);
+        assert(res.body.cfvideo.idInProvider);
+        assert(res.body.cfvideo.embedUrl);
+        assert(res.body.cfvideo.thumbnails);
 
-        assert.equal(res.body.cfvideo[0].url, cfv.url);
-        assert.equal(res.body.cfvideo[0].title, cfv.title);
+        assert.equal(res.body.cfvideo.url, cfv.url);
+        assert.equal(res.body.cfvideo.title, cfv.title);
 
         done();
       });

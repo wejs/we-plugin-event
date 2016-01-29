@@ -42,7 +42,7 @@ describe('eventFeature', function() {
       .send({})
       .set('Accept', 'application/json')
       .expect(400)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) throw err;
         // todo , do more tests
         done();
@@ -75,12 +75,11 @@ describe('eventFeature', function() {
       .end(function (err, res) {
         if (err) throw err;
         assert(res.body.event);
-        assert(res.body.event[0]);
-        assert(res.body.event[0].id);
-        assert.equal(res.body.event[0].title, cf.title);
+        assert(res.body.event.id);
+        assert.equal(res.body.event.title, cf.title);
 
         we.db.models.cfmenu.findAll({
-          where: { eventId: res.body.event[0].id }
+          where: { eventId: res.body.event.id }
         }).then(function (m) {
           // should create more than one menu
           assert(m.length > 0);
@@ -97,9 +96,8 @@ describe('eventFeature', function() {
         .end(function (err, res) {
           if (err) throw err;
           assert(res.body.event);
-          assert(res.body.event[0]);
-          assert.equal(res.body.event[0].id, scf.id);
-          assert.equal(res.body.event[0].title, cf.title);
+          assert.equal(res.body.event.id, scf.id);
+          assert.equal(res.body.event.title, cf.title);
           done();
         });
       });
@@ -179,9 +177,8 @@ describe('eventFeature', function() {
       .end(function (err, res) {
         if (err) throw err;
         assert(res.body.cfpage);
-        assert(res.body.cfpage[0]);
-        assert(res.body.cfpage[0].id);
-        assert.equal(res.body.cfpage[0].title, pageStub.title);
+        assert(res.body.cfpage.id);
+        assert.equal(res.body.cfpage.title, pageStub.title);
         done();
       });
     });

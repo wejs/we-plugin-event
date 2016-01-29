@@ -53,7 +53,7 @@ describe('cfnewsFeature', function() {
         .attach('image', stubs.getImageFilePath())
         .end(function (err, res) {
           if(err) throw err;
-          salvedImage = res.body.image[0];
+          salvedImage = res.body.image;
           done(err);
         });
       },
@@ -83,9 +83,9 @@ describe('cfnewsFeature', function() {
       .end(function (err, res) {
         if (err) throw err;
         assert(res.body.cfnews);
-        assert(res.body.cfnews[0]);
-        assert(res.body.cfnews[0].id);
-        assert.equal(res.body.cfnews[0].title, cf.title);
+        assert(res.body.cfnews);
+        assert(res.body.cfnews.id);
+        assert.equal(res.body.cfnews.title, cf.title);
 
         done();
       });
@@ -132,10 +132,9 @@ describe('cfnewsFeature', function() {
         .end(function (err, res) {
           if (err) throw err;
           assert(res.body.cfnews);
-          assert(res.body.cfnews[0]);
-          assert.equal(res.body.cfnews[0].id, r.id);
-          assert.equal(res.body.cfnews[0].title, newValues.title);
-          assert.equal(res.body.cfnews[0].text, cf.text);
+          assert.equal(res.body.cfnews.id, r.id);
+          assert.equal(res.body.cfnews.title, newValues.title);
+          assert.equal(res.body.cfnews.text, cf.text);
           done();
         });
       }).catch(done);

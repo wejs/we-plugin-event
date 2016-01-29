@@ -4,26 +4,26 @@
   "version": "0.3.57",
   "main": "lib/index.js",
   "scripts": {
-    "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
+    "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js -b",
     "prepublish": "npm prune"
   },
   "dependencies": {
-    "pdfkit": "^0.7.1",
-    "video-url-inspector": "^1.0.0"
+    "pdfkit": "^0.7.2",
+    "video-url-inspector": "^1.0.2"
   },
   "devDependencies": {
-    "fs-extra": "^0.24.0",
-    "mocha": "^2.2.5",
-    "rimraf": "^2.3.3",
-    "sinon": "^1.14.1",
+    "fs-extra": "^0.26.5",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.1",
+    "sinon": "^1.17.3",
     "supertest": "^1.0.1",
-    "we-core": "0.3.87",
-    "we-plugin-file": "0.3.11",
-    "we-plugin-form": "0.3.1",
-    "we-plugin-menu": "^0.3.2",
-    "we-test-tools": "wejs/we-test-tools",
-    "we-theme-admin-default": "0.3.1",
-    "we-theme-site-wejs": "0.3.21"
+    "we-core": "^0.3.116",
+    "we-plugin-file": "^1.0.1",
+    "we-plugin-form": "^0.3.27",
+    "we-plugin-menu": "^0.3.12",
+    "we-test-tools": "^0.3.11",
+    "we-theme-admin-default": "^0.3.12",
+    "we-theme-site-wejs": "^0.3.31"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

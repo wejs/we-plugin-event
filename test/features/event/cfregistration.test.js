@@ -51,7 +51,7 @@ describe('cfregistrationtypeFeature', function() {
         .attach('image', stubs.getImageFilePath())
         .end(function (err, res) {
           if(err) throw err;
-          salvedImage = res.body.image[0];
+          salvedImage = res.body.image;
           done(err);
         });
       },
@@ -77,10 +77,9 @@ describe('cfregistrationtypeFeature', function() {
       .end(function (err, res) {
         if (err) throw err;
         assert(res.body.cfregistrationtype);
-        assert(res.body.cfregistrationtype[0]);
-        assert(res.body.cfregistrationtype[0].id);
-        assert.equal(res.body.cfregistrationtype[0].name, cfrt.name);
-        assert.equal(res.body.cfregistrationtype[0].requireValidation, false);
+        assert(res.body.cfregistrationtype.id);
+        assert.equal(res.body.cfregistrationtype.name, cfrt.name);
+        assert.equal(res.body.cfregistrationtype.requireValidation, false);
         done();
       });
     });
@@ -98,10 +97,9 @@ describe('cfregistrationtypeFeature', function() {
         .end(function (err, res) {
           if (err) throw err;
           assert(res.body.cfregistrationtype);
-          assert(res.body.cfregistrationtype[0]);
-          assert(res.body.cfregistrationtype[0].id);
-          assert.equal(res.body.cfregistrationtype[0].name, cfrt.name);
-          assert.equal(res.body.cfregistrationtype[0].requireValidation, false);
+          assert(res.body.cfregistrationtype.id);
+          assert.equal(res.body.cfregistrationtype.name, cfrt.name);
+          assert.equal(res.body.cfregistrationtype.requireValidation, false);
           done();
         });
       }).catch(done);
@@ -143,11 +141,10 @@ describe('cfregistrationtypeFeature', function() {
         .end(function (err, res) {
           if (err) throw err;
           assert(res.body.cfregistrationtype);
-          assert(res.body.cfregistrationtype[0]);
-          assert.equal(res.body.cfregistrationtype[0].id, r.id);
-          assert.equal(res.body.cfregistrationtype[0].name, newValues.name);
-          assert.equal(res.body.cfregistrationtype[0].description, cfrt.description);
-          assert.equal(res.body.cfregistrationtype[0].requireValidation, false);
+          assert.equal(res.body.cfregistrationtype.id, r.id);
+          assert.equal(res.body.cfregistrationtype.name, newValues.name);
+          assert.equal(res.body.cfregistrationtype.description, cfrt.description);
+          assert.equal(res.body.cfregistrationtype.requireValidation, false);
           done();
         });
       }).catch(done);

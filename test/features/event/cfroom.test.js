@@ -69,9 +69,8 @@ describe('cfRoomFeatures', function() {
       .end(function (err, res) {
         if (err) throw err;
         assert(res.body.cfroom);
-        assert(res.body.cfroom[0]);
-        assert(res.body.cfroom[0].id);
-        assert.equal(res.body.cfroom[0].name, cf.name);
+        assert(res.body.cfroom.id);
+        assert.equal(res.body.cfroom.name, cf.name);
         done();
       });
     });
@@ -115,10 +114,9 @@ describe('cfRoomFeatures', function() {
         .end(function (err, res) {
           if (err) throw err;
           assert(res.body.cfroom);
-          assert(res.body.cfroom[0]);
-          assert.equal(res.body.cfroom[0].id, r.id);
-          assert.equal(res.body.cfroom[0].name, newValues.name);
-          assert.equal(res.body.cfroom[0].text, cf.text);
+          assert.equal(res.body.cfroom.id, r.id);
+          assert.equal(res.body.cfroom.name, newValues.name);
+          assert.equal(res.body.cfroom.text, cf.text);
           done();
         });
       }).catch(done);

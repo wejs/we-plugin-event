@@ -401,9 +401,9 @@ function saveUserRegistration(req, res) {
 
     we.email.sendEmail('CFRegistrationSuccess', {
       email: req.user.email,
-      subject: req.__('event.registration.success.email') + ' - ' + res.locals.event.abbreviation,
+      subject: res.locals.__('event.registration.success.email') + ' - ' + res.locals.event.abbreviation,
       replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
-    }, templateVariables, function(err , emailResp){
+    }, templateVariables, function (err , emailResp){
       if (err) {
         we.log.error('Error on send email CFRegistrationSuccess', err, emailResp);
       }
@@ -415,6 +415,8 @@ function saveUserRegistration(req, res) {
       'cfregistration/' + res.locals.userCfregistration.status;
     // redirect after register
     res.locals.redirectTo = '/event/' + res.locals.event.id + '/register';
+
+
     res.created();
   }).catch(res.queryError);
 }
