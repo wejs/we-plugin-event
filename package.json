@@ -17,7 +17,7 @@
     "rimraf": "^2.5.1",
     "sinon": "^1.17.3",
     "supertest": "^1.0.1",
-    "we-core": "^0.3.116",
+    "we-core": "^0.3.117",
     "we-plugin-file": "^1.0.1",
     "we-plugin-form": "^0.3.27",
     "we-plugin-menu": "^0.3.12",
