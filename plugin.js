@@ -270,53 +270,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'event/admin/index',
       responseType  : 'html'
     },
-    // get edit widget
-    'get /event/:eventId([0-9]+)/admin/widget/:id([0-9]+)/form': {
-      controller    : 'widget',
-      action        : 'getForm',
-      model         : 'widget',
-      permission    : 'manage_widget',
-      skipWidgets   : true
-    },
-
-    'post /event/:eventId([0-9]+)/admin/widget/create': {
-      controller    : 'event',
-      action        : 'saveWidget',
-      model         : 'widget',
-      permission    : 'manage_event',
-      responseType  : 'json'
-    },
-    'post /event/:eventId([0-9]+)/admin/widget/:widgetId([0-9]+)': {
-      controller    : 'event',
-      action        : 'saveWidget',
-      model         : 'widget',
-      permission    : 'manage_event',
-      responseType  : 'json'
-    },
-    'post /event/:eventId([0-9]+)/admin/widget/:widgetId([0-9]+)/delete': {
-      controller    : 'event',
-      action        : 'deleteWidget',
-      model         : 'widget',
-      permission    : 'manage_event',
-      responseType  : 'json'
-    },
-
-    // sort widgets
-    'get /event/:eventId([0-9]+)/admin/widget/sortWidgets/:theme/:layout/:regionName': {
-      controller    : 'event',
-      action        : 'sortWidgets',
-      model         : 'widget',
-      permission    : 'manage_event',
-      responseType  : 'modal'
-    },
-    'post /event/:eventId([0-9]+)/admin/widget/sortWidgets/:theme/:layout/:regionName': {
-      controller    : 'event',
-      action        : 'sortWidgets',
-      model         : 'widget',
-      permission    : 'manage_event',
-      responseType  : 'modal'
-    },
-
 
     // -- Pages
     'get /event/:eventId([0-9]+)/admin/page': {
@@ -645,19 +598,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     done();
   });
 
-  plugin.events.on('we:config:getAppBootstrapConfig', function(opts) {
-    if (opts.context && opts.context.widgetContext && opts.context.event) {
-     opts.configs.widgetContext = opts.context.widgetContext;
-
-     var cfID = opts.context.event.id;
-
-     opts.configs.structure.widgetCreateUrl = '/event/'+cfID+'/admin/widget/create';
-     opts.configs.structure.widgetUpdateUrl = '/event/'+cfID+'/admin/widget/';
-     opts.configs.structure.widgetDeleteUrl = '/event/'+cfID+'/admin/widget/';
-     opts.configs.structure.widgetSortUrl = '/event/'+cfID+'/admin/widget/sortWidgets/';
-     opts.configs.structure.widgetEditFormUrl = '/event/'+cfID+'/admin/widget/';
-    }
-  });
   // event loader
   function loadConferenceAndConferenceContext(req, res, next, id) {
     // skip in admin pages
