@@ -1,8 +1,16 @@
 {{#if locals.event.location}}
-<iframe
-  width="100%"
-  height="740px"
-  frameborder="0" style="border:0"
-  src="https://www.google.com/maps/embed/v1/place?key={{widget.API_KEY}}&q={{locals.event.location}}" allowfullscreen >
-</iframe>
+<div class="row">
+  <div class="col col-md-6">
+    <iframe class="we-cf-location-map-iframe"
+      width="100%"
+      height="370px"
+      frameborder="0" style="border:0"
+      src="https://www.google.com/maps/embed/v1/place?key={{widget.API_KEY}}&q={{locals.event.location}}" allowfullscreen >
+    </iframe>
+  </div>
+  <div class="col col-md-6">
+    <h1 class="we-cf-location-map-iframe-title">{{t 'form-event-about-location'}}</h1>
+    <p>{{locals.event.location}}</p>
+  </div>
+</div>
 {{/if}}

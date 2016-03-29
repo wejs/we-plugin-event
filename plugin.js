@@ -55,6 +55,14 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         'description': ''
       }
     },
+    roles: {
+      eventManager: {
+        isSystemRole: true,
+        permissions: [
+          'find_event', 'create_event', 'update_event', 'delete_event', 'manage_event'
+        ]
+      }
+    },
     forms: {
       'user-cfsession': __dirname + '/server/forms/user-cfsession.json',
       'event-about': __dirname + '/server/forms/event-about.json',
@@ -751,6 +759,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       ], next);
     });
   }
+
+  plugin.addCss('we-plugin-event', {
+    type: 'plugin', weight: 10, pluginName: 'we-plugin-event',
+    path: 'files/public/we-plugin-event.css'
+  });
 
   return plugin;
 };

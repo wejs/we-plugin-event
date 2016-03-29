@@ -1,0 +1,16 @@
+.event-teaser {
+  margin: 5px 0px 15px 0px;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.event-teaser > h3 {
+  margin-top: 0px;
+}
+.cf-closed_after {
+  background-color: #ddd;
+}
+
+.event-teaser .img-responsive{
+  margin: 0px 0px 10px 0px
+}
