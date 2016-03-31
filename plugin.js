@@ -126,7 +126,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     done();
   });
 
-  plugin.hooks.on('we:request:acl:after:load:context', function (data, done) {
+  plugin.hooks.on('we-plugin-menu:after:set:core:menus', function (data, done) {
     var we = data.req.we;
     // set admin menu
     if (
