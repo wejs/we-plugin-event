@@ -19,7 +19,11 @@ module.exports = function Model(we) {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
       title: { type: we.db.Sequelize.STRING(1500), allowNull: false },
       // unique name used in url
-      abbreviation: { type:  we.db.Sequelize.STRING, unique: true },
+      abbreviation: {
+        type:  we.db.Sequelize.STRING,
+        unique: true,
+        allowNull: false
+      },
       about: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
@@ -47,25 +51,20 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.INTEGER,
         formFieldType: 'number'
       },
-
       registrationCount: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null
       },
-
       workload: {
         type: we.db.Sequelize.INTEGER,
         formFieldType: 'number'
       },
-
       location: { type: we.db.Sequelize.TEXT },
-
       published: {
         type: we.db.Sequelize.BOOLEAN,
         defaultValue: false,
         formFieldType: 'boolean'
       },
-
       registrationEmail: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
@@ -96,7 +95,6 @@ module.exports = function Model(we) {
           });
         }
       },
-
       /**
        * registration status
        *
@@ -194,6 +192,9 @@ module.exports = function Model(we) {
     },
     options: {
       titleField: 'title',
+
+      enableAlias: true,
+
       termFields: {
         tags: {
           vocabularyName: null,
@@ -207,13 +208,11 @@ module.exports = function Model(we) {
           formFieldMultiple: false
         }
       },
-
       imageFields: {
         logo: { formFieldMultiple: false },
         banner: { formFieldMultiple: false },
         favicon: { formFieldMultiple: false }
       },
-
       classMethods: {
         /**
          * Context loader, preload current request record and related data
@@ -251,6 +250,14 @@ module.exports = function Model(we) {
 
             return done();
           })
+        },
+        // returns an url alias
+        urlAlias: function urlAlias(record) {
+          if (!record.abbreviation) return null;
+          return {
+            alias: '/e/'+we.utils.string( record.abbreviation ).slugify().s,
+            target: '/event/' + record.id,
+          }
         }
       },
       instanceMethods: {
