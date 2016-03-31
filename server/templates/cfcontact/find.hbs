@@ -18,21 +18,20 @@
           <td>{{status}}</td>
           <td>{{we-date createdAt }}</td>
           <td>
-            {{ we-action-view-btn 'cfcontact' this ../req eventId id }}
-            {{ we-action-delete-btn 'cfcontact' this ../req eventId id }}
-
-            <form class="form" action="{{../req.path}}/{{id}}/edit" method="post">
+            <form class="form form-inline" action="{{../req.path}}/{{id}}/edit" method="post">
               <input type="hidden" name="redirectTo" value="{{../req.path}}">
               {{#ifCond status 'closed'}}
                 <div class="form-group">
-                  <button name="status" value="opened" type="submit" class="btn btn-default">{{t 'cfcontact.open'}}</button>
+                  <button name="status" value="opened" type="submit" class="btn btn-sm btn-default">{{t 'cfcontact.open'}}</button>
                 </div>
               {{else}}
                 <div class="form-group">
-                  <button name="status" value="closed" type="submit" class="btn btn-default">{{t 'cfcontact.close'}}</button>
+                  <button name="status" value="closed" type="submit" class="btn btn-sm btn-default">{{t 'cfcontact.close'}}</button>
                 </div>
               {{/ifCond}}
             </form>
+            {{ we-action-view-btn 'cfcontact' this ../req eventId id }}
+            {{ we-action-delete-btn 'cfcontact' this ../req eventId id }}
           </td>
         </tr>
       {{/each}}

@@ -4,10 +4,9 @@ module.exports = {
 
     if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.data, req.query);
-
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
+      req.body.eventId = res.locals.event.id;
 
       res.locals.messageSend = false;
       // set temp record for use in validation errors

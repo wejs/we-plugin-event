@@ -529,10 +529,10 @@
   "cfpage.find": "Pages",
   "cfroom.find": "Rooms",
   "cfsession.no.date": "No date",
+  "cfcontact.delete": "Delete message",
 
   "cfregistration.unRegister": "cfregistration.unRegister",
   "cfregistration.unRegister.confirm.msg": "cfregistration.unRegister.confirm.msg",
-  "cfregistration.unRegister": "cfregistration.unRegister",
   "cfregistrationtype.delete.confirm.msg": "cfregistrationtype.delete.confirm.msg",
   "cfmenu.delete": "cfmenu.delete",
   "cfmenu.delete.confirm.msg": "cfmenu.delete.confirm.msg",
@@ -544,5 +544,8 @@
   "cfnews.delete.confirm.msg": "cfnews.delete.confirm.msg",
   "cfroom.delete.confirm.msg": "cfroom.delete.confirm.msg",
   "cfsession.subscribers": "cfsession.subscribers",
-  "cfspeaker.delete.confirm.msg": "cfspeaker.delete.confirm.msg"
+  "cfspeaker.delete.confirm.msg": "cfspeaker.delete.confirm.msg",
+  "event.cfvideo.empty": "event.cfvideo.empty",
+  "cfcontact.email.success": "cfcontact.email.success",
+  "cfcontact.delete.confirm.msg": "cfcontact.delete.confirm.msg"
 }

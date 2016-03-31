@@ -243,7 +243,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         },
         function cfcontactCount(cb) {
           we.db.models.cfcontact.count({
-            where: { eventId: id }
+            where: {
+              eventId: id,
+              status: { $or: ['opened', null] } }
           }).then(function (count) {
             res.locals.metadata.cfcontactCount = count;
             cb();
