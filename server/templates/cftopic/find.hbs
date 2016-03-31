@@ -1,6 +1,5 @@
-<div class="row text-center">
-  {{#each widget.topics}}
-    <div class="col-md-4 wow bounceIn" data-wow-delay=".4s">
+<div class="cftopics text-center">
+  {{#we-grid items=data cols=3}}
       <div class="icon-wrap">
         {{#each image}}
           <img src="{{urls.original}}">
@@ -9,6 +8,5 @@
       <h3>{{title}}</h3>
       <hr>
       <p>{{{about}}}</p>
-    </div>
-  {{/each}}
+  {{/we-grid}}
 </div>

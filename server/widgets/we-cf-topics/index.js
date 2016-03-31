@@ -15,6 +15,7 @@ module.exports = function(projectPath, Widget) {
       if (!widget.dataValues.context) return next();
 
       var ctx = widget.dataValues.context.split('-');
+
       if ( (ctx[0] == 'event') && ctx[1] && Number(ctx[1]) ) {
         we.db.models.cftopic.find({
           where: { eventId: ctx[1] }

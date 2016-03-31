@@ -15,7 +15,7 @@
 	"cfnews.create": "Create news",
 	"cfpage.create": "Create page",
 	"cfregistrationtype.create": "Create registration type",
-	"cfregistrationtype.find": "Find registration type",
+	"cfregistrationtype.find": "Registration types",
 	"event.registration.success.email": "Registration on event saved successfully",
 	"cfregistrationtype.delete.have.registrations": "You cant delete this registration type while it have registrations",
 	"cfvideo.create": "Create video",
@@ -400,6 +400,7 @@
   "menu.social": "Social menu",
 
   "cfmenu.create": "Create menu",
+  "cfmenu.find": "Menus",
 
   "form-cfmenu-name": "Name",
   "form-placeholder-cfmenu-name": " ",
@@ -519,5 +520,27 @@
   "event.registrationDates": "Registration date",
   "event.dates": "Event date",
 
-  "event.find.my": "My events"
+  "event.find.my": "My events",
+  "View.details": "View details",
+  "event.edit.publish": "Publish",
+  "event.edit.unpublish": "Unpublish",
+
+  "cfregistration.findOne": "Registration data",
+  "cfpage.find": "Pages",
+  "cfroom.find": "Rooms",
+
+  "cfregistration.unRegister": "cfregistration.unRegister",
+  "cfregistration.unRegister.confirm.msg": "cfregistration.unRegister.confirm.msg",
+  "cfregistration.unRegister": "cfregistration.unRegister",
+  "cfregistrationtype.delete.confirm.msg": "cfregistrationtype.delete.confirm.msg",
+  "cfmenu.delete": "cfmenu.delete",
+  "cfmenu.delete.confirm.msg": "cfmenu.delete.confirm.msg",
+  "event.manager.add.success": "event.manager.add.success",
+  "event.manager.remove.success": "event.manager.remove.success",
+  "widget.form.news.nid": "widget.form.news.nid",
+  "widget.form.news.nid.placeholder": "widget.form.news.nid.placeholder",
+  "cftopic.delete.confirm.msg": "cftopic.delete.confirm.msg",
+  "cfnews.delete.confirm.msg": "cfnews.delete.confirm.msg",
+  "cfroom.delete.confirm.msg": "cfroom.delete.confirm.msg",
+  "cfsession.subscribers": "cfsession.subscribers"
 }

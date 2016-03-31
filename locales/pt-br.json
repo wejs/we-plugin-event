@@ -611,5 +611,8 @@
 
   "event.callForPapersDates": "Envio de trabalhos",
   "event.registrationDates": "Inscrições",
-  "event.dates": "Data do evento"
+  "event.dates": "Data do evento",
+  "cfpage.find": "Páginas",
+
+  "cfregistration.findOne": "Dados da inscrição"
 }

@@ -17,11 +17,11 @@
         <tr>
           <td>{{id}}</td>
           <td>{{name}}</td>
-          <td>{{requireValidation}}</td>
+          <td>{{#if requireValidation}}true{{else}}false{{/if}}</td>
           <td>
-            {{we-action-view-btn 'cfregistrationtype' this ../req eventId id }}
-            {{we-action-edit-btn 'cfregistrationtype' this ../req eventId id }}
-            {{we-action-delete-btn 'cfregistrationtype' this ../req eventId id }}
+            {{we-action-view-btn 'cfregistrationtype' this ../req ../event.id id }}
+            {{we-action-edit-btn 'cfregistrationtype' this ../req ../event.id id }}
+            {{we-action-delete-btn 'cfregistrationtype' this ../req ../event.id id }}
           </td>
         </tr>
       {{/each}}

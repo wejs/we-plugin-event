@@ -8,6 +8,7 @@
         <tr>
           <th>{{t 'id'}}</th>
           <th>{{t 'name'}}</th>
+          <th>{{t 'vacancy'}}</th>
           <th>{{t 'actions'}}</th>
         </tr>
       </thead>
@@ -16,6 +17,7 @@
           <tr>
             <td>{{id}}</td>
             <td>{{name}}</td>
+            <td>{{vacancy}}</td>
             <td>
               {{#link-to 'cfroom.edit' eventId id class="btn btn-primary btn-sm"}}{{t 'Edit'}}{{/link-to}}
               {{#link-to 'cfroom.delete' eventId id class="btn btn-default btn-sm"}}{{t 'Delete'}}{{/link-to}}
@@ -27,7 +29,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3">
+          <td colspan="4">
             <div class="paginate-sumary">
               {{t 'paginate.sumary' recordsLength=data.length count=metadata.count}}
             </div>

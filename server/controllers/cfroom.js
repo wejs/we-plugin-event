@@ -1,5 +1,9 @@
 module.exports = {
   find: function find(req, res, next) {
+    if (!res.locals.event) return res.notFound();
+
+    res.locals.query.where.eventId = res.locals.event.id;
+
     return res.locals.Model.findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return next();
@@ -12,8 +16,6 @@ module.exports = {
   },
   create: function create(req, res) {
     if (!res.locals.data) res.locals.data = {};
-    // set temp record for use in validation errors
-    req.we.utils._.merge(res.locals.data, req.query);
 
     res.locals.data.eventId = req.params.eventId;
 

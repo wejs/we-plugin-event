@@ -6,8 +6,9 @@
     <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
-  <br>
-  {{{form 'event-about' data validationError}}}
+  <div class="tab-content">
+    {{{form 'event-about' data validationError}}}
+  </div>
 {{/unless}}
 
 {{#ifCond req.query.step '2'}}
@@ -18,8 +19,9 @@
     <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
-  <br>
-  {{{form 'event-dates' data validationError}}}
+  <div class="tab-content">
+    {{{form 'event-dates' data validationError}}}
+  </div>
 {{/ifCond}}
 
 {{#ifCond req.query.step '3'}}
@@ -30,8 +32,9 @@
     <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
-  <br>
-  {{{form 'event-theme' data validationError}}}
+  <div class="tab-content">
+    {{{form 'event-theme' data validationError}}}
+  </div>
 {{/ifCond}}
 
 {{#ifCond req.query.step '4'}}
@@ -42,8 +45,9 @@
     <li role="presentation" class="active"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
     <li role="presentation"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
-  <br>
-  {{{form 'event-messages' data validationError}}}
+  <div class="tab-content">
+    {{{form 'event-messages' data validationError}}}
+  </div>
 {{/ifCond}}
 
 {{!--
@@ -67,18 +71,20 @@
     <li role="presentation"><a href="?step=4">{{t 'event.edit.step.messages'}}</a></li>
     <li role="presentation" class="active"><a href="?step=5">{{t 'event.edit.step.publish'}}</a></li>
   </ul>
-  <br>
 
-  <form id="event-publish" name="event-publish" action="" method="POST">
-    <div class="we-form-fields"></div>
-    <div class="we-form-actions">
-      {{#if event.published}}
-        <input type="hidden" name="published" value="0">
-        <button type="submit" class="btn btn-primary  btn-danger" name="submit" value="unpublish">{{t 'event.edit.unpublish'}}</button>
-      {{else}}
-        <input type="hidden" name="published" value="1">
-        <button type="submit" class="btn btn-primary" name="submit" value="publish">{{t 'event.edit.publish'}}</button>
-      {{/if}}
-    </div>
-  </form>
+
+  <div class="tab-content">
+    <form id="event-publish" name="event-publish" action="" method="POST">
+      <div class="we-form-fields"></div>
+      <div class="we-form-actions">
+        {{#if event.published}}
+          <input type="hidden" name="published" value="0">
+          <button type="submit" class="btn btn-primary  btn-danger" name="submit" value="unpublish">{{t 'event.edit.unpublish'}}</button>
+        {{else}}
+          <input type="hidden" name="published" value="1">
+          <button type="submit" class="btn btn-primary" name="submit" value="publish">{{t 'event.edit.publish'}}</button>
+        {{/if}}
+      </div>
+    </form>
+  </div>
 {{/ifCond}}

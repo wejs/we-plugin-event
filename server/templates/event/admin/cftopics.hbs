@@ -4,7 +4,7 @@
 
 <table class="table table-striped table-hover">
   <thead>
-    <th>id</th>
+    <th>{{t 'id'}}</th>
     <th>{{t 'title'}}</th>
     <th>{{t 'actions'}}</th>
   </thead>
@@ -14,7 +14,6 @@
         <td>{{id}}</td>
         <td>{{title}}</td>
         <td>
-          {{we-action-view-btn 'cftopic' this ../req eventId id }}
           {{we-action-edit-btn 'cftopic' this ../req eventId id }}
           {{we-action-delete-btn 'cftopic' this ../req eventId id }}
         </td>
