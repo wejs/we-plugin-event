@@ -18,12 +18,19 @@ module.exports = function(projectPath, Widget) {
       if ( (ctx[0] == 'event') && ctx[1] && Number(ctx[1]) )
         cfId = ctx[1];
     }
-    if (!cfId) return next();
+    if (!cfId) {
+      widget.hide = true;
+      return next();
+    }
 
     we.db.models.cfspeaker.findAll({
       where: { eventId: cfId },
       order: [ ['weight','ASC'], ['createdAt','ASC'] ]
-    }).then(function(cfspeakers) {
+    }).then(function afterLoadCfSpeaker (cfspeakers){
+      if (!cfspeakers || !cfspeakers.length) {
+        widget.hide = true;
+      }
+
       widget.speakers = cfspeakers;
       next();
     }).catch(next);

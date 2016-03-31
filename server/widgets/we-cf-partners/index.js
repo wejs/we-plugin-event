@@ -11,13 +11,21 @@ module.exports = function(projectPath, Widget) {
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
     var eventId = eventModule.getEventIdFromWidget(widget, res);
-    if (!eventId) return next();
+    if (!eventId) {
+      widget.hide = true;
+      return next();
+    }
 
     req.we.db.models.cfpartner.findAll({
       where: { eventId: eventId },
       order: [ ['weight','ASC'], ['createdAt','ASC'] ]
-    }).then(function (cfpartner) {
+    }).then(function afterLoadCfPartner (cfpartner){
+      if (!cfpartner || !cfpartner.length) {
+        widget.hide = true;
+      }
+
       widget.partners = cfpartner;
+
       next();
     }).catch(next);
   }

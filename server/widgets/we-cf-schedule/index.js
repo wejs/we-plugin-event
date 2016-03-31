@@ -13,13 +13,18 @@ module.exports = function(projectPath, Widget) {
     var we = req.getWe();
 
     var eventId = eventModule.getEventIdFromWidget(widget, res);
-    if (!eventId) return next();
+    if (!eventId) {
+      widget.hide = true;
+      return next();
+    }
 
     we.db.models.cfsession.findAndCountAll({
       where: { eventId: eventId },
       order:[['startDate', 'ASC'], ['createdAt', 'ASC']]
-    }).then(function (result) {
+    }).then(function afterLoadCfSession (result){
       var activeSet = false;
+
+      if (!result || !result.length) widget.hide = true;
 
       widget.count = result.count;
       widget.record = result.rows;

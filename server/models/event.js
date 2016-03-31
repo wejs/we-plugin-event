@@ -371,7 +371,51 @@ module.exports = function Model(we) {
                 regionName: 'sidebar',
                 context: 'event-' + self.id,
                 theme: we.config.event.defaultTheme
-              }]).then(function() {
+              },
+
+              {
+                title: we.i18n.__('cfnews.find'),
+                type: 'we-cf-news',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('cfpartner.find'),
+                type: 'we-cf-partners',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('event.schedule'),
+                type: 'we-cf-schedule',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('cfspeaker.find'),
+                type: 'we-cf-speakers',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('cftopic.find'),
+                type: 'we-cf-topics',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                type: 'we-cf-video',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              }
+
+              ]).then(function() {
                 done();
               }).catch(done);
             }

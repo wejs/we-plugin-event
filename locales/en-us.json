@@ -59,6 +59,7 @@
   "cfcontact.open": "Open",
   "cfcontact.close": "Close",
   "cftopic.managePage": "Topics",
+  "cftopic.find": "Topics",
   "event_findOne.news_manage": "News",
   "event_findOne.room_manage": "Rooms",
   "event.cfsession": "Sessions",
@@ -515,6 +516,7 @@
   "widget.we-cf-speakers.label": "Event speakers block",
   "widget.we-cf-topics.label": "Event topics block",
   "widget.we-cf-video.label": "Event videos block",
+  "event.schedule": "Schedule",
 
   "event.callForPapersDates": "Call for papers date",
   "event.registrationDates": "Registration date",

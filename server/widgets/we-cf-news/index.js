@@ -11,7 +11,10 @@ module.exports = function(projectPath, Widget) {
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
     var eventId = eventModule.getEventIdFromWidget(widget, res);
-    if (!eventId) return next();
+    if (!eventId) {
+      widget.hide = true;
+      return next();
+    }
 
     var where =  { eventId: res.locals.event.id };
     if (widget.configuration.nid)
@@ -19,14 +22,17 @@ module.exports = function(projectPath, Widget) {
 
     req.we.db.models.cfnews.findOne({
       where: where
-    }).then(function (r) {
-      if (!r) return next();
+    }).then(function afterLoadCfNews (r){
+      if (!r) {
+        widget.hide = true;
+        return next();
+      }
       widget.record = r;
       return next();
     }).catch(next);
   }
 
-  widget.afterSave = function widgetAfterSave(req, res, next) {
+  widget.afterSave = function widgetAfterSave (req, res, next){
     req.body.configuration = {
       nid: req.body.nid
     };

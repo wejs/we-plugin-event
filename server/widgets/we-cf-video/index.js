@@ -11,7 +11,10 @@ module.exports = function cfVideoWidget(projectPath, Widget) {
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
     var eventId = eventModule.getEventIdFromWidget(widget, res);
-    if (!eventId) return next();
+    if (!eventId) {
+      widget.hide = true;
+      return next();
+    }
 
     var where =  { eventId: eventId };
     if (widget.configuration.vid)
@@ -20,7 +23,10 @@ module.exports = function cfVideoWidget(projectPath, Widget) {
     req.we.db.models.cfvideo.findOne({
       where: where
     }).then(function (r) {
-      if (!r) return next();
+      if (!r || !r.length) {
+        widget.hide = true;
+        return next();
+      }
       widget.cfvideo = r;
       return next();
     }).catch(next);
