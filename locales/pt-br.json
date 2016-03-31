@@ -614,5 +614,12 @@
   "event.dates": "Data do evento",
   "cfpage.find": "Páginas",
 
-  "cfregistration.findOne": "Dados da inscrição"
+  "cfregistration.findOne": "Dados da inscrição",
+  "cfregistrationtype.delete.confirm.msg": "Você tem certeza que deseja deletar esse tipo de inscrição?",
+  "cfmenu.delete": "Deletar menu",
+  "cfmenu.delete.confirm.msg": "Você tem certeza que deseja deletar esse menu?",
+  "widget.form.news.nid": "ID da notícia",
+  "widget.form.news.nid.placeholder": " ",
+  "cfspeaker.delete.confirm.msg": "Você tem certeza que deseja remover esse palestrante do evento?",
+  "event.cfvideo.empty": "Esse evento não tem vídeos publicados"
 }
