@@ -528,6 +528,7 @@
   "cfregistration.findOne": "Registration data",
   "cfpage.find": "Pages",
   "cfroom.find": "Rooms",
+  "cfsession.no.date": "No date",
 
   "cfregistration.unRegister": "cfregistration.unRegister",
   "cfregistration.unRegister.confirm.msg": "cfregistration.unRegister.confirm.msg",
@@ -542,5 +543,6 @@
   "cftopic.delete.confirm.msg": "cftopic.delete.confirm.msg",
   "cfnews.delete.confirm.msg": "cfnews.delete.confirm.msg",
   "cfroom.delete.confirm.msg": "cfroom.delete.confirm.msg",
-  "cfsession.subscribers": "cfsession.subscribers"
+  "cfsession.subscribers": "cfsession.subscribers",
+  "cfspeaker.delete.confirm.msg": "cfspeaker.delete.confirm.msg"
 }

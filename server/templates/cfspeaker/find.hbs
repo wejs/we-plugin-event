@@ -1,24 +1,24 @@
-<div class="row">
-  <div class="col-lg-12">
-    {{we-action-create-btn model req event.id}}
-  </div>
+<div class="actions">
+  {{we-action-create-btn model req event.id}}
 </div>
 
 
-{{#each data}}
-<article class="teaser">
-  {{#each picture}}{{{we-image this 'thumbnail' class="article-featured-image thumbnail"}}}{{/each}}
-
-  <h3 class="teaser-title">{{#link-to 'cfspeaker.findOne' eventId id}}{{name}}{{/link-to}}</h3>
-
-  {{{about}}}
-
-  <div class="clearfix"></div>
-  <footer class="article-actions">
-    {{we-action-edit-btn 'cfspeaker' this ../req eventId id }}
-    {{we-action-delete-btn 'cfspeaker' this ../req eventId id }}
-  </footer>
-</article>
+{{#if data}}
+  <div class="cfspeaker text-center">
+    {{#we-grid items=data cols=3}}
+        <div class="icon-wrap">
+          {{#each picture}}
+            {{{we-image this 'medium' class="thumbnail"}}}
+          {{/each}}
+        </div>
+        <h3>{{name}}</h3>
+        <div>{{{about}}}</div>
+        <div class="actions">
+          {{we-action-edit-btn 'cfspeaker' this ../req eventId id }}
+          {{we-action-delete-btn 'cfspeaker' this ../req eventId id }}
+        </div>
+    {{/we-grid}}
+  </div>
 {{else}}
   <p> {{t 'event.cfspeaker.empty'}}</p>
-{{/each}}
+{{/if}}

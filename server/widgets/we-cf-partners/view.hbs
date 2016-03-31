@@ -2,9 +2,9 @@
   {{#each widget.partners}}
     <li>
     {{#if link}}
-      <a target="_blank" href="{{link}}">{{#each logo}}{{we-image this 'original'}}{{/each}}</a>
+      <a target="_blank" href="{{link}}">{{#each logo}}{{we-image this 'medium'}}{{/each}}</a>
     {{else}}
-      {{#each logo}}{{we-image this 'original'}}{{/each}}
+      {{#each logo}}{{we-image this 'medium'}}{{/each}}
     {{/if}}
     </li>
   {{/each}}
