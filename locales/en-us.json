@@ -547,5 +547,6 @@
   "cfspeaker.delete.confirm.msg": "Are you sure you want to delete this event speaker?",
   "event.cfvideo.empty": "No videos found in this event",
   "cfcontact.email.success": "Contact email send with success",
-  "cfcontact.delete.confirm.msg": "Are you sure you want to delete this event contact?"
+  "cfcontact.delete.confirm.msg": "Are you sure you want to delete this event contact?",
+  "event.btn.closed": "Event closed"
 }

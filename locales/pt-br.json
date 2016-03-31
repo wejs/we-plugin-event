@@ -621,5 +621,6 @@
   "widget.form.news.nid": "ID da notícia",
   "widget.form.news.nid.placeholder": " ",
   "cfspeaker.delete.confirm.msg": "Você tem certeza que deseja remover esse palestrante do evento?",
-  "event.cfvideo.empty": "Esse evento não tem vídeos publicados"
+  "event.cfvideo.empty": "Esse evento não tem vídeos publicados",
+  "event.btn.closed": "Evento fechado"
 }
