@@ -80,7 +80,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'event-publish': __dirname + '/server/forms/event-publish.json',
       'event-theme': __dirname + '/server/forms/event-theme.json',
       'event-messages': __dirname + '/server/forms/event-messages.json',
-      'event-managers-add': __dirname + '/server/forms/event-managers-add.json'
+      'event-managers-add': __dirname + '/server/forms/event-managers-add.json',
+      'cfcontact': __dirname + '/server/forms/cfcontact.json'
     }
   });
 

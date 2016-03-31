@@ -1,0 +1,33 @@
+{
+  "title": "event.edit.about",
+  "method": "post",
+
+  "fields": {
+    "name": {
+      "type": "text",
+      "allowNull": false
+    },
+    "email": {
+      "type": "email",
+      "defaultValue": "",
+      "validate": { "isEmail": true },
+      "allowNull": false
+    },
+    "message": {
+      "type": "textarea",
+      "formFieldAttributes": {
+        "rows": 6
+      },
+      "allowNull": false
+    },
+    "recaptcha": {
+      "type": "recaptcha"
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    }
+  }
+}
