@@ -16,9 +16,11 @@
 
     <div class="row">
       <div class="col-md-3">
-        {{#each logo}}
-          <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
-        {{/each}}
+        {{#link-to 'event.findOne' id}}
+          {{#each logo}}
+            <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
+          {{/each}}
+        {{/link-to}}
         <div>
           {{#if callForPapersStartDate}}
             <strong>{{t 'event.callForPapersDates'}}:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
