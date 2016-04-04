@@ -33,7 +33,7 @@
     },
     "tags": {
       "type": "vocabulary/tag",
-      "vocabularyName": null,
+      "vocabularyName": "Tags",
       "canCreate": true,
       "formFieldMultiple": true,
       "onlyLowercase": true
@@ -41,7 +41,8 @@
     "categories": {
       "type": "vocabulary/category",
       "canCreate": false,
-      "formFieldMultiple": false
+      "formFieldMultiple": false,
+      "vocabularyName":"Category"
     },
     "managerSeparator": {
       "type": "break"
