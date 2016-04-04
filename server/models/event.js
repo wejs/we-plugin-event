@@ -380,13 +380,6 @@ module.exports = function Model(we) {
                 context: 'event-' + self.id
               },
               {
-                title: we.i18n.__('cfpartner.find'),
-                type: 'we-cf-partners',
-                layout: 'eventHome',
-                regionName: 'afterContent',
-                context: 'event-' + self.id
-              },
-              {
                 title: we.i18n.__('event.schedule'),
                 type: 'we-cf-schedule',
                 layout: 'eventHome',
@@ -412,8 +405,21 @@ module.exports = function Model(we) {
                 layout: 'eventHome',
                 regionName: 'afterContent',
                 context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('cfpartner.find'),
+                type: 'we-cf-partners',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
+              },
+              {
+                title: we.i18n.__('form-event-about-location'),
+                type: 'we-cf-location-map',
+                layout: 'eventHome',
+                regionName: 'afterContent',
+                context: 'event-' + self.id
               }
-
               ]).spread(function afterCreateEventWidgets() {
                 done();
               }).catch(done);

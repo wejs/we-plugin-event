@@ -28,8 +28,11 @@
             <input class="row-parent" name="link-{{id}}-parent" type="text" value="{{parent}}">
           </td>
           <td>
-            {{we-action-edit-btn 'cflink' this ../req eventId cfmenuId id}}
-            {{we-action-delete-btn 'cflink' this ../req eventId cfmenuId id}}
+            <a href="/event/{{eventId}}/admin/menu/{{cfmenuId}}/link/{{id}}?redirectTo={{../req.url}}" class="btn btn-primary btn-sm">
+                {{t 'edit'}}
+            </a>  <a href="/event/{{eventId}}/admin/menu/{{cfmenuId}}/link/{{id}}/delete?redirectTo={{../req.url}}" class="btn btn-default btn-sm">
+                {{t 'delete'}}
+            </a>
           </td>
         </tr>
       {{/tabledrag}}

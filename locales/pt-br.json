@@ -624,5 +624,6 @@
   "event.cfvideo.empty": "Esse evento não tem vídeos publicados",
   "event.btn.closed": "Evento fechado",
   "form-cfcontact-submit": "Enviar",
-  "cfcontact.link": "Contato"
+  "cfcontact.link": "Contato",
+  "order.save.btn": "Salvar ordem"
 }
