@@ -623,5 +623,6 @@
   "cfspeaker.delete.confirm.msg": "Você tem certeza que deseja remover esse palestrante do evento?",
   "event.cfvideo.empty": "Esse evento não tem vídeos publicados",
   "event.btn.closed": "Evento fechado",
-  "form-cfcontact-submit": "Enviar"
+  "form-cfcontact-submit": "Enviar",
+  "cfcontact.link": "Contato"
 }
