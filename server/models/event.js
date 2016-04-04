@@ -271,55 +271,55 @@ module.exports = function Model(we) {
           var self = this;
 
           we.utils.async.series([
-            function (done) {
+            function createMainMenu (done){
               we.db.models.cfmenu.create({
                 eventId: self.id,
                 name:  'main',
                 class: 'nav navbar-nav navbar-right'
-              }).then(function (m) {
+              }).then(function afterCreateCFMenus(m) {
                 self.setMainMenu(m);
                 we.db.models.cflink.bulkCreate([{
                   eventId: self.id,
                   cfmenuId: m.id,
                   text: we.i18n.__('cfnews.find'),
                   title: we.i18n.__('cfnews.find'),
-                  href: we.router.urlTo('cfnews.find', [self.id]),
+                  href: '/event/'+self.id+'/cfnews',
                   depth: 1
                 },{
                   eventId: self.id,
                   cfmenuId: m.id,
                   text: we.i18n.__('cfvideo.find'),
                   title: we.i18n.__('cfvideo.find'),
-                  href: we.router.urlTo('cfvideo.find', [self.id]),
+                  href: '/event/'+self.id+'/cfvideo',
                   depth: 3
                 },{
                   eventId: self.id,
                   cfmenuId: m.id,
                   text: we.i18n.__('cfcontact.link'),
                   title: we.i18n.__('cfcontact.link'),
-                  href: we.router.urlTo('event_contact', [self.id]),
+                  href: '/event/'+self.id+'/contact',
                   depth: 5
-                }]).then(function() {
+                }]).spread(function afterAddLinksToMainMenu() {
                   done();
-                });
-              }).catch(done)
+                }).catch(done)
+              }).catch(done);
             },
-            function (done) {
+            function createSecondaryMenu (done){
               we.db.models.cfmenu.create({
                 eventId: self.id,
                 name: 'secondary',
                 class: 'nav nav-pills sidebar-menu nav-stacked'
-              }).then(function (m) {
+              }).then(function afterCreateSecondaryMenu(m) {
                 self.setSecondaryMenu(m);
                 done();
               }).catch(done)
             },
-            function (done) {
+            function createSocialMenu (done){
               we.db.models.cfmenu.create({
                 eventId: self.id,
                 name: 'social',
                 class: 'list-inline join-us'
-              }).then(function (m) {
+              }).then(function afterCreateSocialMenu(m) {
                 self.setSocialMenu(m);
 
                 we.db.models.cflink.bulkCreate([{
@@ -345,9 +345,9 @@ module.exports = function Model(we) {
                   href: '#',
                   class: 'btn btn-empty-inverse btn-lg',
                   depth: 1
-                }]).then(function() {
+                }]).then(function afterAddLinksToSocialMenu() {
                   done();
-                });
+                }).catch(done)
               }).catch(done)
             }
           ], cb);
@@ -356,7 +356,7 @@ module.exports = function Model(we) {
           var self = this;
 
           we.utils.async.series([
-            function (done) {
+            function createEventWidgets(done) {
               we.db.models.widget.bulkCreate([{
                 title: we.i18n.__('event.menu.admin'),
                 type: 'we-cf-menu-admin',
@@ -372,7 +372,6 @@ module.exports = function Model(we) {
                 context: 'event-' + self.id,
                 theme: we.config.event.defaultTheme
               },
-
               {
                 title: we.i18n.__('cfnews.find'),
                 type: 'we-cf-news',
@@ -415,7 +414,7 @@ module.exports = function Model(we) {
                 context: 'event-' + self.id
               }
 
-              ]).then(function() {
+              ]).spread(function afterCreateEventWidgets() {
                 done();
               }).catch(done);
             }
@@ -450,22 +449,23 @@ module.exports = function Model(we) {
               }).catch(cb);
             });
           }
-          we.utils.async.parallel(finds, cb);
+          we.utils.async.series(finds, cb);
         },
         afterCreate: function afterCreate (record, options, cb) {
-          we.utils.async.parallel([
-            function addCreatorAsManager(done) {
-              record.addManager(record.creatorId).then(function(){
+          we.utils.async.series([
+            function addCreatorAsManager (done){
+              record.addManager(record.creatorId)
+              .then(function afterAddCreatorAsManager (){
                 done();
               }).catch(done);
             },
             record.generateDefaultMenus.bind(record),
             record.generateDefaultWidgets.bind(record),
-            function (done) {
-              we.db.models.cfregistrationtype.create({
+            function createDefaultRegistrationType (done){
+              return we.db.models.cfregistrationtype.create({
                 name: we.i18n.__('event.cfregistrationtype.name.default'),
-                eventId: record.id,
-              }).then(function(){
+                eventId: record.id
+              }).then(function afterCreateOneRegistrationType (){
                 done();
               }).catch(done);
             }
@@ -473,7 +473,7 @@ module.exports = function Model(we) {
             cb(err, record);
           });
         },
-        afterDestroy: function afterDestroy(record, options, cb) {
+        afterDestroy: function afterDestroy (record, options, cb){
           var fns = [];
           assocModelsToDelete.forEach(function (m){
             fns.push(function (done) {

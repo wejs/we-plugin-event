@@ -76,7 +76,7 @@ module.exports = function Model(we) {
         contextLoader: function contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
           }).then(function (record) {
