@@ -187,8 +187,12 @@ module.exports = {
   /**
    * Export event registration list
    */
-  exportRegistration: function exportRegistration(req, res) {
-    var we = req.getWe();
+  exportRegistration: function exportRegistration (req, res){
+    var we = req.we;
+
+    if (!we.plugins['we-plugin-cvs']) {
+      return res.serverError('we-plugin-event:we-plugin-cvs plugin is required for export registrations');
+    }
 
     var order = ' order by fullName ASC ';
     // valid and parse orderby
@@ -219,7 +223,7 @@ module.exports = {
 
     we.db.defaultConnection.query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT}
-    ).then(function (results) {
+    ).then(function afterGetCFRegistrations (results){
         we.csv.stringify(results,{
           header: true,
           quotedString: true,
@@ -245,7 +249,7 @@ module.exports = {
     }).catch(res.queryError);
   },
 
-  exportRegistrationUserTags: function(req, res) {
+  exportRegistrationUserTags: function exportRegistrationUserTags(req, res){
     var we = req.getWe();
 
     var order = ' order by fullName ASC ';
