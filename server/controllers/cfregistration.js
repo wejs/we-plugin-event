@@ -190,8 +190,8 @@ module.exports = {
   exportRegistration: function exportRegistration (req, res){
     var we = req.we;
 
-    if (!we.plugins['we-plugin-cvs']) {
-      return res.serverError('we-plugin-event:we-plugin-cvs plugin is required for export registrations');
+    if (!we.plugins['we-plugin-csv']) {
+      return res.serverError('we-plugin-event:we-plugin-csv plugin is required for export registrations');
     }
 
     var order = ' order by fullName ASC ';
@@ -224,28 +224,20 @@ module.exports = {
     we.db.defaultConnection.query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT}
     ).then(function afterGetCFRegistrations (results){
-        we.csv.stringify(results,{
-          header: true,
-          quotedString: true,
-          columns: {
-            registrationId: 'registrationId',
-            userId: 'userId',
-            email: 'email',
-            displayName: 'displayName',
-            fullName: 'fullName',
-            status: 'status',
-            registrationDate: 'registrationDate'
-          }
-        }, function (err, data){
-          if (err) return res.serverError();
-          var fileName = 'registration-export-' +
-            res.locals.event.id + '-'+
-            new Date().getTime() + '.csv';
 
-          res.setHeader('Content-disposition', 'attachment; filename='+fileName);
-          res.set('Content-Type', 'application/octet-stream');
-          res.send(data);
-        });
+      res.locals.csvResponseColumns = {
+        registrationId: 'registrationId',
+        userId: 'userId',
+        email: 'email',
+        displayName: 'displayName',
+        fullName: 'fullName',
+        status: 'status',
+        registrationDate: 'registrationDate'
+      };
+
+      res.locals.data = results;
+
+      res.ok();
     }).catch(res.queryError);
   },
 
