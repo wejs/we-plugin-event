@@ -1,11 +1,12 @@
 # We.js full-featured events/conference portal plugin
 
-> Install this plugin and get a full-featured evnets/conference portal We.js powered!
+> Install this plugin in your porject to add a full-featured events/conference portal 
+> We.js powered!
 
 [![Dependency Status](https://david-dm.org/wejs/we-plugin-event.png)](https://david-dm.org/wejs/we-plugin-event)
 [![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-event)
 
-## Requirements in your we.js project
+## Requirements in your project
 
 - we-core
 - we-plugin-menu
@@ -14,7 +15,8 @@
 
 ## Has suport to:
 
- - Add a muilti event system in your we.js project
+ - Add a event portal system in your we.js project
+ - For see all features access http://events.wejs.org
 
 ### How to test
 
@@ -28,12 +30,6 @@ npm test
 
 ```sh
 NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js -g 'Chat'
-```
-
-##### For run the javascript linter
-
-```sh
-npm run lint
 ```
 
 #### NPM Info:
