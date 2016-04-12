@@ -1,7 +1,16 @@
 var linkSortAttrs = ['weight', 'id', 'depth', 'parent'];
 
 module.exports = {
+  findOne: function findOne(req, res, next) {
+    if (!res.locals.data) return next();
 
+    if (req.accepts('html')) {
+      return res.redirect(
+        '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
+      );
+    }
+    return res.ok();
+  },
   create: function create(req, res) {
     if (!res.locals.data) res.locals.data = {};
 
@@ -18,10 +27,12 @@ module.exports = {
       return res.locals.Model.create(req.body)
       .then(function (record) {
         res.locals.data = record;
-        if (res.locals.responseType == 'html')
+        if (req.accepts('html')) {
           return res.redirect(
-            '/event/' + res.locals.event.id + '/admin/menu/' + req.params.cfmenuId
+            '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
+        }
+
         res.created();
       }).catch(res.queryError);
     } else {
@@ -40,10 +51,12 @@ module.exports = {
 
       res.locals.data.updateAttributes(req.body)
       .then(function() {
-        if (res.locals.responseType == 'html')
+        if (req.accepts('html')) {
           return res.redirect(
-           '/event/' + res.locals.event.id + '/admin/menu/' + req.params.cfmenuId
+            '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
+        }
+
         res.created();
       }).catch(res.queryError);
     } else {

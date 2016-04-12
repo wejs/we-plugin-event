@@ -1,4 +1,15 @@
 module.exports = {
+  findOne: function findOne(req, res, next) {
+    if (!res.locals.data) return next();
+
+    if (req.accepts('html')) {
+      return res.redirect(
+        '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
+      );
+    }
+    return res.ok();
+  },
+
   createPage: function createPage(req, res) {
     if (!res.locals.data) res.locals.data = {};
 
@@ -17,9 +28,9 @@ module.exports = {
       .then(function (record) {
 
         res.locals.data = record;
-        if (res.locals.responseType == 'html')
+        if (req.accepts('html'))
           return res.redirect(
-            '/event/' + res.locals.event.id + '/admin/menu'
+            '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
 
         res.created();
@@ -39,9 +50,9 @@ module.exports = {
 
       res.locals.data.updateAttributes(req.body)
       .then(function() {
-        if (res.locals.responseType == 'html')
+        if (req.accepts('html'))
           return res.redirect(
-            '/event/' + res.locals.event.id + '/admin/menu/'+ res.locals.data.id
+            '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
         res.created();
       }).catch(res.queryError);

@@ -33,7 +33,7 @@ module.exports = function Model(we) {
         contextLoader: function contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id }
           }).then(function (record) {
             res.locals.data = record;
@@ -64,6 +64,17 @@ module.exports = function Model(we) {
               return done();
             }
           }).catch(res.queryError);
+        },
+        // disable urlAlias
+        urlAlias: false
+
+      },
+
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfmenu.findOne', [this.eventId, this.id]
+          );
         }
       }
     }

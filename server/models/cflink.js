@@ -29,12 +29,16 @@ module.exports = function Model(we) {
       weight: { type:  we.db.Sequelize.INTEGER },
       parent: { type:  we.db.Sequelize.INTEGER }
     },
-    // associations: {
-    //   cfmenu: {
-    //     type: 'belongsTo',
-    //     model: 'cfmenu'
-    //   }
-    // }
+
+    options: {
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cflink.findOne', [this.eventId, this.cfmenuId, this.id]
+          );
+        }
+      }
+    }
   }
   return model;
 };
