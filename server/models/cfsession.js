@@ -121,6 +121,11 @@ module.exports = function Model(we) {
         }
       },
       instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfsession.findOne', [this.eventId, this.id]
+          );
+        },
         getSubscriberCount: function getSubscriberCount() {
           return we.db.models.cfsessionSubscriber.count({
             where: { cfsessionId: this.id }

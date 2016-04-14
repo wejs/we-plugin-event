@@ -67,7 +67,13 @@ module.exports = function Model(we) {
           });
         }
       },
-      instanceMethods: {},
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfregistrationtype.findOne', [this.eventId, this.id]
+          );
+        }
+      },
       // TODO check if user is already registered in event
       hooks: {}
     }

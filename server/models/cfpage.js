@@ -81,7 +81,13 @@ module.exports = function Model(we) {
           });
         }
       },
-      instanceMethods: {},
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfpage.findOne', [this.eventId, this.id]
+          );
+        }
+      },
       hooks: {
         afterDestroy: function afterDestroy(record, opts, done) {
           // delete related cflinks

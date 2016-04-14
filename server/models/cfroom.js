@@ -70,6 +70,13 @@ module.exports = function Model(we) {
             return done();
           });
         }
+      },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfroom.findOne', [this.eventId, this.id]
+          );
+        }
       }
     }
   };

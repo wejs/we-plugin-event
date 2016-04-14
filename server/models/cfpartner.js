@@ -55,6 +55,13 @@ module.exports = function Model(we) {
             return done();
           });
         }
+      },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfpartner.findOne', [this.eventId, this.id]
+          );
+        }
       }
     }
   }

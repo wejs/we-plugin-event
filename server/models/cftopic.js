@@ -69,6 +69,13 @@ module.exports = function Model(we) {
           });
         }
       },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cftopic.findOne', [this.eventId, this.id]
+          );
+        }
+      },
       imageFields: {
         image: { formFieldMultiple: false }
       }

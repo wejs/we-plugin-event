@@ -64,6 +64,13 @@ module.exports = function Model(we) {
             return done();
           });
         }
+      },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfspeaker.findOne', [this.eventId, this.id]
+          );
+        }
       }
     }
   }

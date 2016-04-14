@@ -111,6 +111,11 @@ module.exports = function Model(we) {
           var obj = this.get();
           delete obj.deletedAt;
           return obj;
+        },
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfregistration.findOne', [this.eventId, this.id]
+          );
         }
       }
     }

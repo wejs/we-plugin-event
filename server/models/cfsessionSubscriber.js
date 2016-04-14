@@ -14,7 +14,14 @@ module.exports = function Model(we) {
         formFieldType: null
       }
     },
-    options: { paranoid: false }
+    options: {
+      paranoid: false ,
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return null;
+        }
+      }
+    }
   };
   return model;
 };

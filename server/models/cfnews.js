@@ -96,8 +96,13 @@ module.exports = function Model(we) {
           })
         }
       },
-      instanceMethods: {},
-      hooks: {}
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfnews.findOne', [this.eventId, this.id]
+          );
+        }
+      }
     }
 	};
 

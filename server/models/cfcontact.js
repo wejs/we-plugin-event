@@ -88,6 +88,13 @@
             return done();
           });
         }
+      },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfcontact.findOne', [this.eventId, this.id]
+          );
+        }
       }
     }
   }

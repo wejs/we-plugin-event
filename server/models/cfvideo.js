@@ -100,6 +100,13 @@ module.exports = function Model(we) {
           });
         }
       },
+      instanceMethods: {
+        getUrlPath: function getUrlPath() {
+          return we.router.urlTo(
+            'cfvideo.findOne', [this.eventId, this.id]
+          );
+        }
+      },
       titleField: 'title',
       hooks: {
         // Lifecycle Callbacks
