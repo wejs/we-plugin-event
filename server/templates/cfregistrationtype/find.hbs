@@ -22,6 +22,12 @@
             {{we-action-view-btn 'cfregistrationtype' this ../req ../event.id id }}
             {{we-action-edit-btn 'cfregistrationtype' this ../req ../event.id id }}
             {{we-action-delete-btn 'cfregistrationtype' this ../req ../event.id id }}
+
+            {{#if ../req.we.controllers.cfcertification}}
+              {{#link-to 'cfcertification.updateCFRTypeTemplate' eventId id class="btn btn-default btn-sm"}}
+                <span class="glyphicon glyphicon-picture"></span> {{t 'Certification'}}
+              {{/link-to}}
+            {{/if}}
           </td>
         </tr>
       {{/each}}

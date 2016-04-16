@@ -625,5 +625,11 @@
   "event.btn.closed": "Evento fechado",
   "form-cfcontact-submit": "Enviar",
   "cfcontact.link": "Contato",
-  "order.save.btn": "Salvar ordem"
+  "order.save.btn": "Salvar ordem",
+
+  "cfcertification.template.updated.successfully": "O template de certificado foi atualizado com sucesso",
+
+  "Certification": "Certificado",
+
+  "cfcertification.generation.count": "Certificados gerados"
 }

@@ -27,8 +27,16 @@
   </tbody>
   <tfoot>
     <tr><td colspan="2">
+      {{#link-to 'cfregistrationtype.find' event.id class="btn btn-default btn-sm"}}
+        <span class="glyphicon glyphicon-arrow-left"></span> {{t 'cfregistrationtype.find'}}
+      {{/link-to}}
       {{we-action-edit-btn 'cfregistrationtype' data req event.id data.id }}
-      {{we-action-delete-btn 'cfregistrationtype' data req event.id data.id }}
+
+      {{#if req.we.controllers.cfcertification}}
+        {{#link-to 'cfcertification.updateCFRTypeTemplate' event.id data.id class="btn btn-default btn-sm"}}
+          <span class="glyphicon glyphicon-picture"></span> {{t 'Certification'}}
+        {{/link-to}}
+      {{/if}}
     </td>
   </tr></tfoot>
 </table>

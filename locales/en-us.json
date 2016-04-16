@@ -551,5 +551,10 @@
   "cfcontact.email.success": "Contact email send with success",
   "cfcontact.delete.confirm.msg": "Are you sure you want to delete this event contact?",
   "event.btn.closed": "Event closed",
-  "form-cfcontact-submit": "Send"
+  "form-cfcontact-submit": "Send",
+
+  "cfcertification.template.updated.successfully": "The certification template has been updated successfully",
+
+  "Certification": "Certification",
+  "cfcertification.generation.count": "Certifications generated"
 }

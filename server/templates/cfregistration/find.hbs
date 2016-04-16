@@ -13,6 +13,11 @@
       <i class="glyphicon glyphicon-th"></i>
       {{t 'event.userTags'}}
     {{/link-to}}
+
+    <form style="display: inline;" action="/event/{{event.id}}/admin/cfregistration/mark-all-as-present" method="post">
+      <input type="hidden" name="redirectTo" value="{{req.url}}">
+      <button class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-ok"></span> {{t 'cfcertificationtype.markAllAsPresent'}}</button>
+    </form>
   </div>
 
   <div class="col-lg-12">
