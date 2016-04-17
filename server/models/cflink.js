@@ -12,9 +12,18 @@ module.exports = function Model(we) {
        * event Id
        */
       eventId: { type:  we.db.Sequelize.BIGINT, formFieldType: null },
-      href: { type:  we.db.Sequelize.TEXT, formFieldType: 'text' },
+      href: {
+        type:  we.db.Sequelize.TEXT,
+        formFieldType: 'text',
+        allowNull: false
+      },
 
-      text: { type:  we.db.Sequelize.TEXT, formFieldType: 'text' },
+      text: {
+        type:  we.db.Sequelize.TEXT,
+        formFieldType: 'text',
+        allowNull: false
+      },
+
       title: { type:  we.db.Sequelize.TEXT, formFieldType: 'text' },
 
       class: { type:  we.db.Sequelize.STRING },
@@ -27,7 +36,10 @@ module.exports = function Model(we) {
 
       depth: { type:  we.db.Sequelize.INTEGER },
       weight: { type:  we.db.Sequelize.INTEGER },
-      parent: { type:  we.db.Sequelize.INTEGER }
+      parent: {
+        type:  we.db.Sequelize.INTEGER,
+        formFieldType: null
+      }
     },
 
     options: {

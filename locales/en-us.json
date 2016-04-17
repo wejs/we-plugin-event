@@ -556,5 +556,7 @@
   "cfcertification.template.updated.successfully": "The certification template has been updated successfully",
 
   "Certification": "Certification",
-  "cfcertification.generation.count": "Certifications generated"
+  "cfcertification.generation.count": "Certifications generated",
+
+  "cflink.advanced-fields.text": "Advanced attributes"
 }

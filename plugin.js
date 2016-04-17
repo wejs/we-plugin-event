@@ -256,6 +256,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     });
   }
 
+  plugin.addJs('we-plugin-event', {
+    type: 'plugin', weight: 10, pluginName: 'we-plugin-event',
+    path: 'files/public/we-plugin-event.js'
+  });
+
   plugin.addCss('we-plugin-event', {
     type: 'plugin', weight: 10, pluginName: 'we-plugin-event',
     path: 'files/public/we-plugin-event.css'

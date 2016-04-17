@@ -631,5 +631,6 @@
 
   "Certification": "Certificado",
 
-  "cfcertification.generation.count": "Certificados gerados"
+  "cfcertification.generation.count": "Certificados gerados",
+  "cflink.advanced-fields.text": "Atributos avançados"
 }
