@@ -43,6 +43,8 @@ module.exports = function Model(we) {
     },
 
     options: {
+      titleField: 'text',
+
       instanceMethods: {
         getUrlPath: function getUrlPath() {
           return we.router.urlTo(
