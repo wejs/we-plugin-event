@@ -18,7 +18,7 @@
           <td>{{status}}</td>
           <td>{{we-date createdAt }}</td>
           <td>
-            <form class="form form-inline" action="{{../req.path}}/{{id}}/edit" method="post">
+            <form class="form form-inline" action="{{../req.path}}/{{id}}/edit" method="post" style="display: inline;">
               <input type="hidden" name="redirectTo" value="{{../req.path}}">
               {{#ifCond status 'closed'}}
                 <div class="form-group">
