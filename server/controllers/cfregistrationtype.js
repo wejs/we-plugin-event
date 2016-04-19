@@ -2,8 +2,6 @@ module.exports = {
   createPage: function createPage(req, res) {
     if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.data, req.query);
-
     if (req.method === 'POST') {
 
       req.body.creatorId = req.user.id;

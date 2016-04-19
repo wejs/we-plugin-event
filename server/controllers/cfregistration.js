@@ -11,6 +11,41 @@ var registrationFields  = [
 ];
 
 module.exports = {
+  create: function create(req, res) {
+    if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
+
+    if (!res.locals.data) res.locals.data = {};
+
+    req.we.db.models.cfregistrationtype.findAll({
+      where: { eventId: res.locals.event.id }
+    }).then(function (cfrts) {
+      res.locals.cfregistrationtypes = cfrts;
+
+      if (req.method === 'POST') {
+        return req.we.db.models.cfregistration.findOne({
+          where: {
+            userId: req.body.userId,
+            eventId: res.locals.event.id
+          }
+        }).then(function (r) {
+          // this user is already registered in any registration type
+          if (r) return res.ok();
+
+          req.body.eventId = res.locals.event.id;
+
+          return res.locals.Model.create(req.body)
+          .then(function (record) {
+            res.locals.data = record;
+            res.created();
+          }).catch(res.queryError);
+
+        }).catch(req.queryError);
+      } else {
+        res.locals.data = req.query;
+        res.ok();
+      }
+    }).catch(req.queryError);
+  },
   register: function register(req, res) {
     var we = req.getWe();
 
