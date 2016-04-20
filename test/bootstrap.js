@@ -9,7 +9,9 @@ before(function(callback) {
   this.timeout(30000);
 
   testTools.copyLocalConfigIfNotExitst(projectPath, function() {
-    we = require('we-core');
+    var We = require('we-core');
+    we = new We();
+
     testTools.init({}, we);
 
     we.bootstrap({
