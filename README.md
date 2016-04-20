@@ -13,7 +13,15 @@
 - we-plugin-form
 - we-plugin-file
 
-## Has suport to:
+## Installation:
+
+In We.js project run:
+
+```sh
+npm install --save we-plugin-event we-plugin-menu we-plugin-form we-plugin-file
+```
+
+## Have suport to:
 
  - Add a event portal system in your we.js project
  - For see all features access http://events.wejs.org
@@ -26,14 +34,15 @@ after clone and install npm packages:
 npm test
 ```
 
-##### For run only 'Chat' test use:
+##### For run only 'cfnewsFeature' test use:
 
 ```sh
-NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js -g 'Chat'
+we test -g 'cfnewsFeature'
 ```
 
 #### NPM Info:
 [![NPM](https://nodei.co/npm/we-plugin-event.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/we-plugin-event/)
 
 ## License
-[the MIT license](LICENSE).
+
+[the MIT license](https://github.com/wejs/we-core/blob/master/LICENSE.md).
