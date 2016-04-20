@@ -5,13 +5,14 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js -b",
-    "prepublish": "npm prune"
+    "coverage": "NODE_ENV=test LOG_LV=info node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/bootstrap.js test/**/*.test.js"
   },
   "dependencies": {
     "pdfkit": "^0.7.2",
     "video-url-inspector": "^1.0.2"
   },
   "devDependencies": {
+    "istanbul": "^0.4.3",
     "fs-extra": "^0.28.0",
     "mocha": "^2.4.5",
     "rimraf": "^2.5.2",
@@ -28,7 +29,7 @@
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
-  "author": "Alberto Souza <alberto.souza.dev@gmail.com>",
+  "author": "Alberto Souza <contato@albertosouza.net>",
   "license": "MIT",
   "repository": {
     "type": "git",

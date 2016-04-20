@@ -1,9 +1,12 @@
 test
+coverage
 .jscsrc
 .jshintignore
 .jshintrc
 .travis.yml
 .gitignore
 *.log
+.tmp
 config
 files/wejsdoc
+files/uploads

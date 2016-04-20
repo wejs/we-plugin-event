@@ -1,12 +1,12 @@
 language: node_js
-
 node_js:
-  - '4.2'
+  - v4
 
 services:
   - mysql
 
 addons:
+  code_climate:
   apt:
     packages:
     - graphicsmagick
@@ -19,3 +19,8 @@ before_script:
 notifications:
   email:
     - alberto@wejs.org
+
+after_success:
+- npm install coveralls
+- npm run coverage
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
