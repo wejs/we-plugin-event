@@ -127,7 +127,6 @@ describe('controller_cfcontact', function () {
           we.email.sendEmail = sendEmail;
 
           assert(we.log.error.called);
-          var error = we.log.error;
           we.log.error = error;
 
           done();

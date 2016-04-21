@@ -632,5 +632,7 @@
   "Certification": "Certificado",
 
   "cfcertification.generation.count": "Certificados gerados",
-  "cflink.advanced-fields.text": "Atributos avançados"
+  "cflink.advanced-fields.text": "Atributos avançados",
+
+   "cflink.create.success": "O link foi criado com sucesso"
 }

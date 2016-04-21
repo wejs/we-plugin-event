@@ -558,5 +558,7 @@
   "Certification": "Certification",
   "cfcertification.generation.count": "Certifications generated",
 
-  "cflink.advanced-fields.text": "Advanced attributes"
+  "cflink.advanced-fields.text": "Advanced attributes",
+
+  "cflink.create.success": "Event link created with success"
 }

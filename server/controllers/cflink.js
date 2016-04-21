@@ -1,11 +1,11 @@
-var linkSortAttrs = ['weight', 'id', 'depth', 'parent'];
+var helpers = require('../../lib/helpers');
 
 module.exports = {
   findOne: function findOne(req, res, next) {
     if (!res.locals.data) return next();
 
     if (req.accepts('html')) {
-      return res.redirect(
+      return res.goTo(
         '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
       );
     }
@@ -14,21 +14,27 @@ module.exports = {
   create: function create(req, res) {
     if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.data, req.query);
-
     if (req.method === 'POST') {
       if(req.isAuthenticated()) req.body.creatorId = req.user.id;
+
       req.body.eventId = res.locals.event.id;
       req.body.cfmenuId = req.params.cfmenuId;
-      // set temp record for use in validation errors
-      res.locals.data = req.query;
-      req.we.utils._.merge(res.locals.record, req.body);
 
-      return res.locals.Model.create(req.body)
-      .then(function (record) {
+      // set temporary record for use in validation errors run in res.queryError
+      req.we.utils._.merge(res.locals.data, req.body);
+
+      return req.we.db.models.cflink.create(req.body)
+      .then(function afterCreate(record) {
         res.locals.data = record;
+        // add message
+        res.addMessage('success', {
+          text: 'cflink.create.success',
+          vars: { record: record.toJSON() }
+        });
+
         if (req.accepts('html')) {
-          return res.redirect(
+          // redirect to cfmenu.edit if are html response
+          return res.goTo(
             '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
         }
@@ -36,7 +42,9 @@ module.exports = {
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.data = req.query;
+      // auto fill form data based in query params
+      req.we.utils._.merge(res.locals.data, req.query);
+
       res.ok();
     }
   },
@@ -44,20 +52,26 @@ module.exports = {
     if (!res.locals.data) return res.notFound();
 
     if (req.method === 'POST') {
-      // dont change event id for registration type
-      if (req.isAuthenticated()) req.body.creatorId = req.user.id;
-      req.body.eventId = res.locals.event.id;
-      req.body.cfmenuId = req.params.cfmenuId;
+      // never change eventId, cfmenuId and creator in edit request
+      delete req.body.eventId;
+      delete req.body.cfmenuId;
+      delete req.body.creatorId;
 
       res.locals.data.updateAttributes(req.body)
-      .then(function() {
+      .then(function afterUpdate() {
+        // add message
+        res.addMessage('success', {
+          text: 'cflink.updated.success',
+          vars: { record: res.locals.data.toJSON() }
+        });
+
         if (req.accepts('html')) {
-          return res.redirect(
+          return res.goTo(
             '/event/' + res.locals.event.id + '/admin/cfmenu/' + req.params.cfmenuId+ '/edit'
           );
         }
 
-        res.created();
+        res.updated();
       }).catch(res.queryError);
     } else {
       res.ok();
@@ -65,45 +79,31 @@ module.exports = {
   },
   sortLinks: function sortLinks(req, res) {
     var redirectTo = req.we.utils.getRedirectUrl(req, res);
-    if (redirectTo) res.locals.redirectTo = redirectTo;
 
     if (!req.body) {
-      if (redirectTo) return res.redirect(redirectTo);
+      // skip if dont are post request
+      if (redirectTo) return res.goTo(redirectTo);
       return res.send();
     }
 
     req.we.db.models.cfmenu.findOne({
-      where: { id: req.params.cfmenuId}, include: { all: true }
-    }).then(function (cfmenu) {
+      where: { id: req.params.cfmenuId }, include: { all: true }
+    }).then(function afterFindCurrentMenu(cfmenu) {
       if (!cfmenu) return res.notFound();
 
-      var itensToSave = {};
-      var linkAttrs;
+      var itensToSave = helpers.parseLinksFromBody(req);
 
-      for (var item in req.body) {
-        linkAttrs = item.split('-');
-
-        if (linkAttrs.length !== 3) continue;
-        if (linkAttrs[0] !== 'link') continue;
-        if (req.we.utils._.isNumber(linkAttrs[1])) continue;
-        if (linkSortAttrs.indexOf(linkAttrs[2]) === -1) continue;
-
-        if (!itensToSave[linkAttrs[1]]) itensToSave[linkAttrs[1]] = {};
-
-        itensToSave[linkAttrs[1]][linkAttrs[2]] = req.body[item];
-      }
-
-      req.we.utils.async.each(cfmenu.links, function(link, next) {
+      req.we.utils.async.eachSeries(cfmenu.links, function onEachLink(link, next) {
         if (!itensToSave[link.id]) return next();
 
         link.updateAttributes(itensToSave[link.id])
-        .then(function() {
+        .then(function afterUpdateLink() {
           next();
         }).catch(next);
-      }, function(err) {
+      }, function afterUpdateAll(err) {
         if (err) return res.serverError(err);
-        if (redirectTo) return res.redirect(redirectTo);
-        res.send();
+        if (redirectTo) return res.goTo(redirectTo);
+        res.send({ cfmenu: cfmenu });
       });
     }).catch(res.queryError);
   }
