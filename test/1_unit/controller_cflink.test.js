@@ -58,7 +58,19 @@ describe('controller_cflink', function () {
         },
         locals: {
           event: { id: 1 },
-          data: null
+          data: null,
+          Model: {
+            create: function(opts) {
+              assert.equal(opts.href, req.body.href);
+
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({
+                  id: 99,
+                  toJSON: function() { return this }
+                });
+              });
+            }
+          }
         },
         goTo: function(path) {
           assert.equal(path, '/event/1/admin/cfmenu/4/edit');
@@ -98,7 +110,19 @@ describe('controller_cflink', function () {
         },
         locals: {
           event: { id: 1 },
-          data: null
+          data: null,
+          Model: {
+            create: function(opts) {
+              assert.equal(opts.href, req.body.href);
+
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({
+                  id: 100,
+                  toJSON: function() { return this }
+                });
+              });
+            }
+          }
         },
         created: function() {
           assert(res.locals.data.id);

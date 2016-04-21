@@ -23,7 +23,7 @@ module.exports = {
       // set temporary record for use in validation errors run in res.queryError
       req.we.utils._.merge(res.locals.data, req.body);
 
-      return req.we.db.models.cflink.create(req.body)
+      return res.locals.Model.create(req.body)
       .then(function afterCreate(record) {
         res.locals.data = record;
         // add message
