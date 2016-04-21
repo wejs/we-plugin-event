@@ -1,26 +1,24 @@
 module.exports = {
-  find: function find(req, res, next) {
-    if (!res.locals.event) return res.notFound();
-
+  find: function find(req, res) {
     res.locals.query.where.eventId = res.locals.event.id;
 
-    return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function (record) {
-      if (!record) return next();
+    return res.locals.Model.findAll(res.locals.query)
+    .then(function afterFind(record) {
+      res.locals.data = record;
 
-      res.locals.metadata.count = record.count;
-      res.locals.data = record.rows;
+      res.locals.Model.count(res.locals.query)
+      .then(function afterCount(count) {
 
-      return res.ok();
-    });
+        res.locals.metadata.count = count;
+
+        return res.ok();
+      }).catch(res.queryError);
+    }).catch(res.queryError);
   },
   create: function create(req, res) {
-    var we = req.getWe();
-    if (!res.locals.data) res.locals.data = {};
-    // set temp record for use in validation errors
-    we.utils._.merge(res.locals.data, req.query);
+    var we = req.we;
 
-    res.locals.data.eventId = req.params.eventId;
+    if (!res.locals.data) res.locals.data = {};
 
     if (req.method === 'POST') {
 
@@ -31,59 +29,46 @@ module.exports = {
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        if (res.locals.responseType == 'html') {
+        res.locals.data = record;
+
+        if (req.accepts('html')) {
           // push id to paramsArray for use in urlTo
           req.paramsArray.push(record.id);
           // redirect to content after create
-          return res.redirect(we.router.urlTo(res.locals.model + '.findOne', req.paramsArray));
+          return res.goTo(we.router.urlTo('cfnews.findOne', req.paramsArray));
         }
-        res.locals.data = record;
+
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.data = req.query;
       res.ok();
     }
   },
   edit: function edit(req, res) {
-    var we = req.getWe();
-    var record = res.locals.data;
-    if (!record) return res.notFound();
+    if (!res.locals.data) return res.notFound();
 
-    res.locals.data = record;
+    var we = req.we;
 
     if (req.method == 'POST' || req.method == 'PUT') {
+      // dont change eventId in edit
+      delete req.body.eventId;
 
-      req.body.eventId = req.params.eventId;
-
-      record.updateAttributes(req.body)
-      .then(function() {
-        if (res.locals.responseType == 'html') {
+      res.locals.data.updateAttributes(req.body)
+      .then(function afterUpdate() {
+        if (req.accepts('html')) {
           // push id to paramsArray for use in urlTo
-          req.paramsArray.push(record.id);
+          req.paramsArray.push(res.locals.data.id);
           // redirect to content after create
-          return res.redirect(we.router.urlTo(res.locals.model + '.findOne', req.paramsArray));
+          return res.goTo(we.router.urlTo('cfnews.findOne', req.paramsArray));
         }
-        res.ok();
+        res.updated();
       }).catch(res.queryError);
     } else {
       res.ok();
     }
   },
-  managePage: function managePage(req, res) {
-    if (!res.locals.event) return res.notFound();
-
-    res.locals.query.where.eventId = res.locals.event.id;
-
-    return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function (record) {
-      if (!record) return res.notFound();
-
-      res.locals.metadata.count = record.count;
-      res.locals.data = record.rows;
-
-      return res.ok();
-    });
+  managePage: function managePage(req, res, next) {
+    // send to find action, this allows to set custom permissions and template for this action but with find logic
+    req.we.controllers.cfnews.find(req, res, next);
   }
-
 };
