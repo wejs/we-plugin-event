@@ -1,20 +1,13 @@
 var assert = require('assert');
 var helpers = require('we-test-tools').helpers;
-var stubs = require('we-test-tools').stubs;
-var sinon = require('sinon');
-var controller, we, salvedConference;
+var controller, we;
 
 describe('controller_cflink', function () {
   before(function (done) {
     controller = require('../../server/controllers/cflink.js');
     we = helpers.getWe();
 
-    var cf = stubs.eventStub();
-    we.db.models.event.create(cf)
-    .then(function (scf) {
-      salvedConference = scf;
-      done();
-    }).catch(done);
+    done();
   });
 
   describe('create', function() {
@@ -443,6 +436,8 @@ describe('controller_cflink', function () {
         send: function(data) {
           assert(data.cfmenu);
           assert.equal(data.cfmenu.links[0].id, 1);
+
+          we.db.models.cfmenu.findOne = findOne;
 
           done();
         }
