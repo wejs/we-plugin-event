@@ -4,7 +4,7 @@
 > We.js powered!
 
 [![Dependency Status](https://david-dm.org/wejs/we-plugin-event.png)](https://david-dm.org/wejs/we-plugin-event)
-[![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=0.3.x)](https://travis-ci.org/wejs/we-plugin-event)
+[![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=master)](https://travis-ci.org/wejs/we-plugin-event)
 [![Coverage Status](https://coveralls.io/repos/github/wejs/we-plugin-event/badge.svg?branch=master)](https://coveralls.io/github/wejs/we-plugin-event?branch=master)
 
 ## Requirements in your project
