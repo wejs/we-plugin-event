@@ -4,6 +4,8 @@ module.exports = {
 
     if (!res.locals.data) res.locals.data = {};
 
+    var we = req.we;
+
     if (req.method === 'POST') {
       req.we.antiSpam.recaptcha.verify(req, res, function afterCheckSpam(err, isSpam) {
         if (err) return done(err);
@@ -28,11 +30,10 @@ module.exports = {
         req.we.utils._.merge(res.locals.record, req.body);
 
         return res.locals.Model.create(req.body)
-        .then(function (record) {
+        .then(function afterCreate(record) {
           res.locals.data = record;
           res.locals.messageSend = true;
 
-          var we = req.getWe();
           var templateVariables = {
             cfcontact: record,
             event: res.locals.event,
@@ -61,18 +62,15 @@ module.exports = {
             }
           });
 
-          req.flash('messages',[{
-            status: 'success',
-            type: 'updated',
-            message: req.__('cfcontact.email.success')
-          }]);
+          res.addMessage('success', {
+            text: 'cfcontact.email.success'
+          });
 
-          res.redirect('/');
-
+          res.goTo('/');
         }).catch(res.queryError);
       });
     } else {
-      res.locals.data = req.query;
+      res.locals.data = {};
 
       if (req.isAuthenticated()) {
         res.locals.data.name = req.user.displayName;
@@ -83,5 +81,4 @@ module.exports = {
       res.ok();
     }
   }
-
 };
