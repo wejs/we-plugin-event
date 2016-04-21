@@ -19,6 +19,19 @@ before(function(callback) {
       i18n: {
         directory: path.resolve(__dirname, '../config', 'locales'),
         updateFiles: true
+      },
+      event: {
+        themes: ['we-theme-event'],
+        defaultTheme: 'we-theme-event'
+      },
+      themes: {
+        enabled: [
+          'we-theme-event',
+          'we-theme-pratt',
+          'we-theme-admin-default',
+        ],
+        app: 'we-theme-pratt',
+        admin: 'we-theme-admin-default'
       }
     } , function(err, we) {
       if (err) throw err;

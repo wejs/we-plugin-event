@@ -13,20 +13,21 @@
   },
   "devDependencies": {
     "express-mysql-session": "^1.0.0-rc.0",
-    "mysql": "^2.10.2",
-    "istanbul": "^0.4.3",
     "fs-extra": "^0.28.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
+    "mysql": "^2.10.2",
     "rimraf": "^2.5.2",
     "sinon": "^1.17.3",
     "supertest": "^1.2.0",
     "we-core": "^1.2.5",
     "we-plugin-file": "^1.0.6",
     "we-plugin-form": "^0.3.33",
-    "we-plugin-menu": "^1.1.0",
+    "we-plugin-menu": "^1.1.1",
     "we-test-tools": "^0.3.14",
     "we-theme-admin-default": "^1.0.1",
-    "we-theme-site-wejs": "^0.3.31"
+    "we-theme-event": "^0.3.10",
+    "we-theme-pratt": "^1.0.3"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

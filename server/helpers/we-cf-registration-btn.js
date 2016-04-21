@@ -29,7 +29,7 @@ module.exports = function(we) {
       ( options.hash.userCfregistration.status == 'registered' )
     ) {
       // user is registered in this event
-      ctx.btnClass += (options.hash.classOpen || 'btn-default');
+      ctx.btnClass += (options.hash.classOpen || 'btn-default cf-btn-registered');
       ctx.disabled = '';
       ctx.href = '/event/'+id+'/register';
       ctx.text = options.hash.locals.__('event.btn.registered');
@@ -37,21 +37,21 @@ module.exports = function(we) {
       // user not is registered then check btn registration status
       switch(options.hash.event.registrationStatus) {
         case 'closed_after':
-          ctx.btnClass += (options.hash.classClosedAfter || 'btn-danger');
+          ctx.btnClass += (options.hash.classClosedAfter || 'btn-danger cf-btn-closed_after');
           break;
         case 'closed_no_vacancies':
-          ctx.btnClass += (options.hash.classClosedNoVacancies || 'btn-danger');
+          ctx.btnClass += (options.hash.classClosedNoVacancies || 'btn-danger cf-btn-closed_no_vacancies');
           break;
         case 'open':
-          ctx.btnClass += (options.hash.classOpen || 'btn-default');
+          ctx.btnClass += (options.hash.classOpen || 'btn-default cf-btn-open');
           ctx.disabled = '';
           ctx.href = '/event/'+id+'/register';
           break;
         case 'closed_before':
-          ctx.btnClass += (options.hash.classClosedBefore || 'btn-danger');
+          ctx.btnClass += (options.hash.classClosedBefore || 'btn-danger cf-btn-closed_before');
           break;
         default:
-          ctx.btnClass += (options.hash.classClosed || 'btn-danger');
+          ctx.btnClass += (options.hash.classClosed || 'btn-danger cf-btn-closed');
       }
     }
 

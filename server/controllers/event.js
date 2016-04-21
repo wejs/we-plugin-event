@@ -1,5 +1,8 @@
 module.exports = {
-  location: function(req, res, next) {
+  /**
+   * Event location page, by default will show one map with event location to user
+   */
+  location: function location(req, res, next) {
     if (!res.locals.event) return res.notFound();
 
     res.locals.data = res.locals.event;
@@ -23,7 +26,7 @@ module.exports = {
     }
 
     return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function (record) {
+    .then(function afterLoad(record) {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;

@@ -1,7 +1,5 @@
 /**
- * We.js event menu helper
- *
- * render one event menu
+ * We.js event menu render helper
  *
  * usage:  {{we-cf-menu cfmenu}}
  */
