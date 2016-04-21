@@ -3,7 +3,7 @@
  *
  * render one event menu
  *
- * usage:  {{we-cf-menu 'menu}}
+ * usage:  {{we-cf-menu cfmenu}}
  */
 module.exports = function(we) {
   function renderLinks(links) {
@@ -15,7 +15,7 @@ module.exports = function(we) {
       html += renderLink(links[i]);
 
       if (links[i].links) {
-       html += renderLinks(links);
+       html += renderLinks(links[i].links);
       }
     }
     return html;
@@ -29,7 +29,6 @@ module.exports = function(we) {
     if (!menu) return '';
 
     var links =  menu.links;
-
 
     var html = '<ul class="'+(menu.class || '')+'">';
 
