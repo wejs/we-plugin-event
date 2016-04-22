@@ -1,6 +1,6 @@
 # We.js full-featured events/conference portal plugin
 
-> Install this plugin in your porject to add a full-featured events/conference portal 
+> Install this plugin in your project to add a full-featured events/conference portal 
 > We.js powered!
 
 [![Dependency Status](https://david-dm.org/wejs/we-plugin-event.png)](https://david-dm.org/wejs/we-plugin-event)
