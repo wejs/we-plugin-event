@@ -560,5 +560,7 @@
 
   "cflink.advanced-fields.text": "Advanced attributes",
 
-  "cflink.create.success": "Event link created with success"
+  "cflink.create.success": "Event link created with success",
+  "cfregistration.create.user.registered": "User already registered in this event",
+  "cfregistration.create.succes": "User registered with success"
 }

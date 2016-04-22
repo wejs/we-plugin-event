@@ -634,5 +634,7 @@
   "cfcertification.generation.count": "Certificados gerados",
   "cflink.advanced-fields.text": "Atributos avançados",
 
-   "cflink.create.success": "O link foi criado com sucesso"
+  "cflink.create.success": "O link foi criado com sucesso",
+  "cfregistration.create.user.registered": "Esse usuário já está registrado nesse evento",
+  "cfregistration.create.succes": "Usuário registrado com sucesso"
 }

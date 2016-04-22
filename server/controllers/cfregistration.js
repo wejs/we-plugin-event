@@ -18,7 +18,7 @@ module.exports = {
 
     req.we.db.models.cfregistrationtype.findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function (cfrts) {
+    }).then(function afterLoadRegistrationTypes(cfrts) {
       res.locals.cfregistrationtypes = cfrts;
 
       if (req.method === 'POST') {
@@ -27,33 +27,44 @@ module.exports = {
             userId: req.body.userId,
             eventId: res.locals.event.id
           }
-        }).then(function (r) {
+        }).then(function afterCheckIfAreRegistered(r) {
           // this user is already registered in any registration type
-          if (r) return res.ok();
+          if (r) {
+            res.addMessage('warn', {
+              text: 'cfregistration.create.user.registered'
+            });
+            return res.ok();
+          }
 
           req.body.eventId = res.locals.event.id;
 
           return res.locals.Model.create(req.body)
-          .then(function (record) {
+          .then(function afterCreate(record) {
             res.locals.data = record;
+
+            res.addMessage('success', {
+              text: 'cfregistration.create.success',
+              vars: { record: record }
+            });
+
             res.created();
           }).catch(res.queryError);
 
         }).catch(req.queryError);
       } else {
-        res.locals.data = req.query;
         res.ok();
       }
     }).catch(req.queryError);
   },
-  register: function register(req, res) {
-    var we = req.getWe();
+
+  register: function register(req, res, next) {
+    var we = req.we;
 
     if (!res.locals.data) res.locals.data = {};
 
     we.db.models.cfregistrationtype.findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function (r) {
+    }).then(function afterLoadCRT(r) {
       res.locals.cfregistrationtypes = r;
 
       if (!r || !r.length) {
@@ -71,43 +82,9 @@ module.exports = {
         }
       }
 
-      // return my registration page
+      // show my registration page is are registered
       if (req.isAuthenticated() && res.locals.userCfregistration) {
-        res.locals.title = req.__('event.registered');
-
-        res.locals.template =
-          'cfregistration/' + res.locals.userCfregistration.status;
-        // get sessions to user subscribe
-        return we.db.models.cfsession.findAll({
-          where: {
-            eventId: res.locals.event.id,
-            requireRegistration: 1
-          },
-          include: [
-            { model: we.db.models.cftopic, as: 'topic' },
-            { model: we.db.models.cfroom, as: 'room' },
-            { model: we.db.models.cfregistration, as: 'subscribers' }
-          ]
-        }).then(function (cfsessions) {
-          res.locals.userCfregistration.getSessions().then(function(s){
-            res.locals.sessionsToRegister = cfsessions.filter(function (r){
-              r.conflict = r.haveTimeConflict(s);
-
-              if (!s) return true;
-
-              // check if is registered
-              for (var i = 0; i < s.length; i++) {
-                if (s[i].id == r.id) {
-                  return false;
-                }
-              }
-              return true;
-            });
-
-            res.locals.userCfregistration.sessions = s;
-            return res.ok();
-          });
-        }).catch(res.queryError);
+        return we.controllers.cfregistration.myRegistrationPage(req, res, next);
       }
 
       // return to event and show error message if event not is open
@@ -140,10 +117,9 @@ module.exports = {
       }
     }).catch(res.queryError);
   },
-
   unRegister: function unRegister(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
-    var we = req.getWe();
+    var we = req.we;
 
     res.locals.deleteMsg = req.__('cfregistration.unRegister.confirm.msg');
 
@@ -151,15 +127,15 @@ module.exports = {
       'event.findOne', [res.locals.event.id], we
     );
 
-    if (req.method === 'POST') {
+    if (req.method === 'POST' || req.method === 'DELETE') {
       if (res.locals.userCfregistration) {
         res.locals.userCfregistration.destroy().then(function(){
-          res.redirect(we.router.urlTo(
+          res.goTo(we.router.urlTo(
             'event.findOne', [res.locals.event.id], we
           ));
         }).catch(res.queryError);
       } else {
-        res.redirect(we.router.urlTo(
+        res.goTo(we.router.urlTo(
           'event.findOne', [res.locals.event.id], we
         ));
       }
@@ -167,18 +143,55 @@ module.exports = {
       res.ok();
     }
   },
+  /**
+   * My registration page, Part of registration action
+   */
+  myRegistrationPage: function myRegistrationPage(req, res) {
+    var we = req.we;
 
-  adminRegisterUser: function adminRegisterUser(req, res) {
-    console.log('TODO')
-    res.ok();
+    res.locals.title = req.__('event.registered');
+
+    res.locals.template =
+      'cfregistration/' + res.locals.userCfregistration.status;
+    // get sessions to user subscribe
+    return we.db.models.cfsession.findAll({
+      where: {
+        eventId: res.locals.event.id,
+        requireRegistration: 1
+      },
+      include: [
+        { model: we.db.models.cftopic, as: 'topic' },
+        { model: we.db.models.cfroom, as: 'room' },
+        { model: we.db.models.cfregistration, as: 'subscribers' }
+      ]
+    }).then(function afterLoadSessions(cfsessions) {
+      res.locals.userCfregistration.getSessions().then(function(s){
+        res.locals.sessionsToRegister = cfsessions.filter(function (r){
+          r.conflict = r.haveTimeConflict(s);
+
+          if (!s) return true;
+
+          // check if is registered
+          for (var i = 0; i < s.length; i++) {
+            if (s[i].id == r.id) {
+              return false;
+            }
+          }
+          return true;
+        });
+
+        res.locals.userCfregistration.sessions = s;
+        return res.ok();
+      });
+    }).catch(res.queryError);
   },
   edit: function editPage(req, res) {
     if (!res.locals.data) return res.notFound();
-    var we = req.getWe();
+    var we = req.we;
 
     we.db.models.cfregistrationtype.findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function (r) {
+    }).then(function afterLoadCFRT(r) {
       res.locals.cfregistrationtypes = r;
 
       for (var i = 0; i < r.length; i++) {
@@ -188,12 +201,12 @@ module.exports = {
         }
       }
 
-      if (req.method === 'POST') {
+      if (req.method === 'POST' || req.method === 'PUT') {
         // dont change event id for registration type
-        req.body.eventId = res.locals.event.id;
+        delete req.body.eventId;
 
         res.locals.data.updateAttributes(req.body)
-        .then(function() {
+        .then(function afterUpdate() {
           res.updated();
         }).catch(res.queryError);
 
@@ -208,13 +221,15 @@ module.exports = {
         id: req.params.cfregistrationId,
         eventId: res.locals.event.id
       }
-    }).then(function (record) {
+    }).then(function afterFind(record) {
       if (!record) return res.notFound();
+      res.locals.data = record;
 
       record.status = 'registered';
-      record.save().then(function(){
-        res.locals.record = record;
-        console.log('send confirmation email', record.status);
+      record.save().then(function afterSave(){
+
+        // TODO send confirmation email to user
+
         res.ok();
       }).catch(res.queryError);
     }).catch(res.queryError);
@@ -257,8 +272,8 @@ module.exports = {
     order;
 
     we.db.defaultConnection.query(sql
-      , { type: we.db.defaultConnection.QueryTypes.SELECT}
-    ).then(function afterGetCFRegistrations (results){
+      , { type: we.db.defaultConnection.QueryTypes.SELECT }
+    ).then(function afterGetCFRegistrations(results) {
 
       res.locals.csvResponseColumns = {
         registrationId: 'registrationId',
@@ -275,9 +290,8 @@ module.exports = {
       res.ok();
     }).catch(res.queryError);
   },
-
   exportRegistrationUserTags: function exportRegistrationUserTags(req, res){
-    var we = req.getWe();
+    var we = req.we;
 
     var order = ' order by fullName ASC ';
     // valid and parse orderby
@@ -308,7 +322,7 @@ module.exports = {
 
     we.db.defaultConnection.query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT}
-    ).then(function (results) {
+    ).then(function afterLoadCRFs(results) {
 
       var doc = new PDFDocument();
 
@@ -417,7 +431,7 @@ function saveUserRegistration(req, res) {
   }
 
   return we.db.models.cfregistration.create(req.body)
-  .then(function (record) {
+  .then(function afterCreate(record) {
     var user = req.user.toJSON();
 
     var templateVariables = {
