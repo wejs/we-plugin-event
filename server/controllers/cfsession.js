@@ -1,6 +1,6 @@
 module.exports = {
-  find: function findAll(req, res, next) {
-    var we = req.getWe();
+  find: function findAll(req, res) {
+    var we = req.we;
 
     if (res.locals.query.order == 'createdAt DESC') {
       res.locals.query.order = [ ['startDate', 'ASC'], ['createdAt', 'ASC'] ];
@@ -16,52 +16,56 @@ module.exports = {
     if (req.params.userId)
       res.locals.query.where.userId = req.params.userId;
 
-    return res.locals.Model.findAndCountAll(res.locals.query).then(function (record) {
-      if (!record) return next();
+    res.locals.Model.findAll(res.locals.query)
+    .then(function afterFind(record) {
+      res.locals.data = record;
 
-      var activeSet = false;
+      res.locals.Model.count(res.locals.query)
+      .then(function afterCount(count) {
+        res.locals.metadata.count = count;
 
-      res.locals.metadata.count = record.count;
-      res.locals.data = record.rows;
+        var activeSet = false;
 
-      res.locals.days = {};
-      var nodayString = req.__('cfsession.no.date');
+        res.locals.days = {};
+        var nodayString = req.__('cfsession.no.date');
 
-      res.locals.data.forEach(function (r) {
-        if (!r.startDate) return;
-        var sdate = we.utils.moment(r.startDate)
-        var day;
+        res.locals.data.forEach(function (r) {
+          if (!r.startDate) return;
+          var sdate = we.utils.moment(r.startDate)
+          var day;
 
-        if (we.utils.moment(r.startDate).isValid()) {
-          day = sdate.locale(we.config.i18n.defaultLocale).format('L');
-        } else {
-          day = nodayString
-        }
-
-        if (!res.locals.days[day]) {
-          res.locals.days[day] = {
-            text: day,
-            cfsession: []
-          };
-
-          if (!activeSet && day != nodayString) {
-            res.locals.days[day].active = true;
-            activeSet = true;
+          if (we.utils.moment(r.startDate).isValid()) {
+            day = sdate.locale(we.config.i18n.defaultLocale).format('L');
+          } else {
+            day = nodayString
           }
+
+          if (!res.locals.days[day]) {
+            res.locals.days[day] = {
+              text: day,
+              cfsession: []
+            };
+
+            if (!activeSet && day != nodayString) {
+              res.locals.days[day].active = true;
+              activeSet = true;
+            }
+          }
+
+          res.locals.days[day].cfsession.push(r);
+        });
+
+        // reorder nodaystring
+        if (res.locals.days[nodayString]) {
+          var reord = res.locals.days[nodayString];
+          delete res.locals.days[nodayString];
+          res.locals.days[nodayString] = reord;
         }
 
-        res.locals.days[day].cfsession.push(r);
-      });
+        res.ok();
 
-      // reorder nodaystring
-      if (res.locals.days[nodayString]) {
-        var reord = res.locals.days[nodayString];
-        delete res.locals.days[nodayString];
-        res.locals.days[nodayString] = reord;
-      }
-
-      return res.ok();
-    });
+      }).catch(req.queryError);
+    }).catch(req.queryError);
   },
 
   create: function create(req, res) {
@@ -69,22 +73,17 @@ module.exports = {
 
     if (!res.locals.data) res.locals.data = {};
 
-    req.we.utils._.merge(res.locals.data, req.query);
-
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.userId = req.user.id;
-
       // set temp record for use in validation errors
-      res.locals.data = req.query;
       req.we.utils._.merge(res.locals.data, req.body);
 
-      return res.locals.Model.create(req.body)
-      .then(function (record) {
+      res.locals.Model.create(req.body)
+      .then(function afterCreate(record) {
         res.locals.data = record;
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.data = req.query;
       res.ok();
     }
   },
