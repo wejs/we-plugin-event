@@ -321,7 +321,7 @@ module.exports = {
     order;
 
     we.db.defaultConnection.query(sql
-      , { type: we.db.defaultConnection.QueryTypes.SELECT}
+      , { type: we.db.defaultConnection.QueryTypes.SELECT }
     ).then(function afterLoadCRFs(results) {
 
       var doc = new PDFDocument();
@@ -394,7 +394,7 @@ module.exports = {
         }
 
         next();
-      }, function(err){
+      }, function afterCreateThePDF(err) {
         if (err) return res.serverError(err);
         // finalize the PDF and end the stream
         doc.end();

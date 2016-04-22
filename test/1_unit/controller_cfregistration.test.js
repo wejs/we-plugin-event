@@ -675,6 +675,42 @@ describe('controller_cfregistration', function () {
   });
 
   describe('exportRegistrationUserTags', function() {
-    it('cfregistration.exportRegistrationUserTags should loadData, generate pdf and pipe to res');
+    it('cfregistration.exportRegistrationUserTags should loadData, generate pdf and pipe to res', function(done) {
+
+      var query = we.db.defaultConnection.query;
+      we.db.defaultConnection.query = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve([{
+            id: 1,
+            fullName: 'Alberto Souza',
+            displayName: 'Alberto'
+          },{
+            id: 2,
+            displayName: 'Alberto'
+          }]);
+        });
+      }
+
+      var req = {
+        query: {
+          order: 'registrationDate DESC'
+        },
+        we: we
+      };
+
+      var stream = require('stream');
+      var res = new stream.PassThrough();
+
+      res.locals = {
+        event: { id: 12 }
+      };
+
+      res.on('finish', function() {
+        we.db.defaultConnection.query = query;
+        done();
+      });
+
+      controller.exportRegistrationUserTags(req, res);
+    });
   });
 });
