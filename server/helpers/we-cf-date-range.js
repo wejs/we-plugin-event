@@ -17,11 +17,11 @@ module.exports = function(we) {
     var __ = ( options.hash.__ || we.i18n.__ );
 
     // dd/mm a dd/mm de aaaa
-    return __('event.date.range', {
+    return new we.hbs.SafeString(__('event.date.range', {
       start: start.format('DD/MM'),
       end: end.format('DD/MM'),
       yearStart: start.format('YYYY'),
       yearEnd: end.format('YYYY')
-    });
+    }));
   }
 };
