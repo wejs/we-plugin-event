@@ -94,12 +94,11 @@ module.exports = {
   addRegistration: function addRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!req.body.cfsessionId) {
-      req.flash('messages',[{
-        status: 'warning',
-        message: req.__('cfsession.registration.cfsessionIsRequired')
-      }]);
+      // cfsessionId is required
+      res.addMessage('warning', 'cfsession.registration.cfsessionIsRequired');
       return res.goTo((res.locals.redirectTo || '/'));
     }
+
     // user not is registered in current event
     if (
       !res.locals.userCfregistration ||
@@ -109,7 +108,7 @@ module.exports = {
       return res.goTo((res.locals.redirectTo || '/'));
     }
 
-    var we = req.getWe();
+    var we = req.we;
 
     // register in one session
     we.db.models.cfsession.findOne({
@@ -118,7 +117,7 @@ module.exports = {
         { model: we.db.models.cfroom, as: 'room' },
         { model: we.db.models.cfregistration, as: 'subscribers' }
       ]
-    }).then(function (session) {
+    }).then(function afterFindSession(session) {
       if (!session) return res.notFound();
 
       if (!session.haveVacancy) {
@@ -127,7 +126,7 @@ module.exports = {
       }
       // add the subscriber
       session.addSubscribers(res.locals.userCfregistration)
-      .then(function() {
+      .then(function afterAddSubscribers() {
         var user = req.user.toJSON();
 
         var templateVariables = {
@@ -140,11 +139,12 @@ module.exports = {
           }
         };
         // Node.js is do queries in async then to other check if have vacancy
-        session.getSubscriberCount().then(function (count) {
+        session.getSubscriberCount()
+        .then(function afterGetSubscriberCount(count) {
           // if have more subscribers than vacancy, rollback
           if (count > session.vacancy) {
             return session.removeSubscribers(res.locals.userCfregistration)
-            .then(function(){
+            .then(function afterRollback() {
               res.addMessage('warning', 'cfsession.not.haveVacancy');
               return res.goTo((res.locals.redirectTo || '/'));
             }).catch(res.queryError);
@@ -155,62 +155,42 @@ module.exports = {
             email: req.user.email,
             subject: req.__('cfsession.addRegistration.success.email') + ' - ' + res.locals.event.abbreviation,
             replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
-          }, templateVariables, function(err , emailResp){
+          }, templateVariables, function(err , emailResp) {
             if (err) {
               we.log.error('Error on send email CFSessionRegisterSuccesss', err, emailResp);
             }
           });
 
-          req.flash('messages',[{
-            status: 'success',
-            type: 'updated',
-            message: req.__('cfsession.addRegistration.success')
-          }]);
-          res.goTo((res.locals.redirectTo || '/'));
-        }).catch(req.queryError);
+          res.addMessage('success', 'cfsession.addRegistration.success');
+          res.goTo(res.locals.redirectTo || '/');
 
+        }).catch(req.queryError);
       }).catch(req.queryError);
     }).catch(req.queryError);
   },
 
   removeRegistration: function removeRegistration(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
-    if (!req.body.cfsessionId) {
-      req.flash('messages',[{
-        status: 'warning',
-        message: req.__('cfsession.registration.cfsessionIsRequired')
-      }]);
-      return res.goTo((res.locals.redirectTo || '/'));
-    }
 
-    var we = req.getWe();
+    var we = req.we;
 
     if (req.body.cfsessionId) {
       // un register from one
-      we.db.models.cfsession.findById(req.body.cfsessionId).then(function (session){
+      we.db.models.cfsession.findById(req.body.cfsessionId)
+      .then(function afterFind(session) {
         if (!session) return res.notFound();
           session.removeSubscribers(res.locals.userCfregistration)
-          .then(function() {
-
-            req.flash('messages',[{
-              status: 'success',
-              type: 'updated',
-              message: req.__('cfsession.removeRegistration.success')
-            }]);
-
+          .then(function afterUnsubscribe() {
+            res.addMessage('success', 'cfsession.removeRegistration.success');
             res.goTo((res.locals.redirectTo || '/'));
         }).catch(req.queryError);
       }).catch(req.queryError);
     } else {
       // unregister from all
-      res.locals.userCfregistration.setSessions([]).then(function() {
-        req.flash('messages',[{
-          status: 'success',
-          type: 'updated',
-          message: req.__('cfsession.removeRegistration.success')
-        }]);
+      res.locals.userCfregistration.setSessions([])
+      .then(function afterUnsubscribe() {
+        res.addMessage('success', 'cfsession.removeRegistration.success');
         res.goTo((res.locals.redirectTo || '/'));
-
       }).catch(req.queryError);
     }
   },
@@ -218,7 +198,7 @@ module.exports = {
   subscribers: function subscribers(req, res) {
     res.locals.Model.findOne({
       where: { id: req.params.cfsessionId }
-    }).then(function (r) {
+    }).then(function afterFindOne(r) {
       if (!r) return res.notFound();
 
       res.locals.title = r.title;
@@ -228,7 +208,7 @@ module.exports = {
         include: [
           { model: req.we.db.models.user, as: 'user'}
         ]
-      }).then(function (s) {
+      }).then(function afterLoadSubscribers(s) {
         res.locals.data.subscribers = s;
         res.ok();
       }).catch(res.queryError);
@@ -244,7 +224,7 @@ module.exports = {
 
     res.locals.Model.findOne({
       where: { id: req.params.cfsessionId }
-    }).then(function (r) {
+    }).then(function afterFindSession(r) {
       if (!r) return res.notFound();
       // add user association
       res.locals.query.include = [ { model: req.we.db.models.user, as: 'user'} ];
@@ -259,7 +239,8 @@ module.exports = {
       delete res.locals.query.limit;
 
       res.locals.data = r;
-      r.getSubscribers(res.locals.query).then(function (s) {
+      r.getSubscribers(res.locals.query)
+      .then(function afterLoadSubscribers(s) {
         res.locals.data.subscribers = s;
 
         var subscriptions = s.map(function (i) {

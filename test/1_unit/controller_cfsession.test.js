@@ -124,6 +124,498 @@ describe('controller_cfsession', function () {
     });
   });
 
+  describe('addRegistration', function() {
+    it('cfsession.addRegistration should run res.forbidden if user not is isAuthenticated', function (done) {
+
+      var req = {
+        isAuthenticated: function() {
+          return false;
+        }
+      };
+      var res = {
+        forbidden: function() {
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should set message and run res.gotTo if not have cfsessionId in body', function (done) {
+      var req = {
+        body: {},
+        params: {},
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: { redirectTo: '/somepath' },
+        addMessage: function(status, text) {
+          assert.equal(status, 'warning');
+          assert.equal(text, 'cfsession.registration.cfsessionIsRequired');
+        },
+        goTo: function(path) {
+          assert.equal(path, res.locals.redirectTo);
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should set message and run res.gotTo if user not is in event', function (done) {
+      var req = {
+        body: {
+          cfsessionId: 10
+        },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: { userCfregistration: {}, redirectTo: '/somepath' },
+        addMessage: function(status, text) {
+          assert.equal(status, 'error');
+          assert.equal(text, 'cfsession.addRegistration.user.not.in.event');
+        },
+        goTo: function(path) {
+          assert.equal(path, res.locals.redirectTo);
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should run res.notFound if not find the session', function (done) {
+
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve();
+        });
+      }
+
+      var req = {
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        notFound: function() {
+          we.db.models.cfsession.findOne = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should run res.goTo if find the session but dont have vacancy', function (done) {
+
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve({
+            id: 30, haveVacancy: false
+          });
+        });
+      }
+
+      var req = {
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        addMessage: function(status, text) {
+          assert.equal(status, 'warning');
+          assert.equal(text, 'cfsession.not.haveVacancy');
+        },
+
+        goTo: function(path) {
+          assert.equal(path, '/');
+          we.db.models.cfsession.findOne = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should run res.goTo if already did the subscribe but dont have vacancy',
+      function (done) {
+
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve({
+            id: 30,
+            haveVacancy: true,
+            vacancy: 10,
+            addSubscribers: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({});
+              });
+            },
+            getSubscriberCount: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve(12);
+              });
+            },
+            removeSubscribers: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve();
+              });
+            }
+          });
+        });
+      }
+
+      var req = {
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        },
+        user: {
+          id: 1,
+          toJSON: function() {
+            return this;
+          }
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        addMessage: function(status, text) {
+          assert.equal(status, 'warning');
+          assert.equal(text, 'cfsession.not.haveVacancy');
+        },
+
+        goTo: function(path) {
+          assert.equal(path, '/');
+          we.db.models.cfsession.findOne = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+
+    it('cfsession.addRegistration should run res.goTo and send email', function (done) {
+      var sendEmail = we.email.sendEmail;
+      we.email.sendEmail = function(name, opts, tpsv, cb) {
+        assert.equal(name, 'CFSessionRegisterSuccess');
+        cb('err');
+      }
+
+      var error = we.log.error;
+      we.log.error = function() {};
+
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve({
+            id: 30,
+            haveVacancy: true,
+            vacancy: 10,
+            addSubscribers: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({});
+              });
+            },
+            getSubscriberCount: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve(10);
+              });
+            }
+          });
+        });
+      }
+
+      var req = {
+        __: we.i18n.__,
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        },
+        user: {
+          id: 1,
+          toJSON: function() {
+            return this;
+          }
+        }
+      };
+
+      var res = {
+        locals: {
+          event: { id: 12, abbreviation: 'test1' },
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        addMessage: function(status, text) {
+          assert.equal(status, 'success');
+          assert.equal(text, 'cfsession.addRegistration.success');
+        },
+
+        goTo: function(path) {
+          assert.equal(path, '/');
+          we.email.sendEmail = sendEmail;
+          we.log.error = error;
+          we.db.models.cfsession.findOne = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.addRegistration(req, res);
+    });
+  });
+
+  describe('removeRegistration', function() {
+    it('cfsession.removeRegistration should run res.forbidden if user not is isAuthenticated', function (done) {
+
+      var req = {
+        isAuthenticated: function() {
+          return false;
+        }
+      };
+      var res = {
+        forbidden: function() {
+          done();
+        }
+      };
+
+      controller.removeRegistration(req, res);
+    });
+
+    it('cfsession.removeRegistration should run res.notFound if not find the session', function (done) {
+
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve();
+        });
+      }
+
+      var req = {
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        notFound: function() {
+          we.db.models.cfsession.findOne = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.removeRegistration(req, res);
+    });
+
+    it('cfsession.removeRegistration should run res.goTo after remove the cfsession', function (done) {
+
+      var cfsFindOne = we.db.models.cfsession.findById;
+      we.db.models.cfsession.findById = function() {
+        return new we.db.Sequelize.Promise(function (resolve) {
+          resolve({
+            id: 10,
+            removeSubscribers: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve()
+              });
+            }
+          });
+        });
+      }
+
+      var req = {
+        we: we,
+        body: { cfsessionId: 10 },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered'
+          }
+        },
+        addMessage: function(status, text) {
+          assert.equal(status, 'success');
+          assert.equal(text, 'cfsession.removeRegistration.success');
+        },
+        goTo: function() {
+          we.db.models.cfsession.findById = cfsFindOne;
+          done();
+        }
+      };
+
+      controller.removeRegistration(req, res);
+    });
+
+    it('cfsession.removeRegistration should run res.goTo after remove all cfsessions', function (done) {
+      var req = {
+        we: we,
+        body: {},
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      var res = {
+        locals: {
+          userCfregistration: {
+            id: 20,
+            status: 'registered',
+            setSessions: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({
+                });
+              });
+            }
+          }
+        },
+        addMessage: function(status, text) {
+          assert.equal(status, 'success');
+          assert.equal(text, 'cfsession.removeRegistration.success');
+        },
+        goTo: function() {
+          done();
+        }
+      };
+
+      controller.removeRegistration(req, res);
+    });
+  });
+
+  describe('subscribers', function() {
+    it('cfsession.subscribers should run res.notFound if not find the cfsession', function (done) {
+
+      var req = {
+        we: we,
+        params: { cfsessionId: 11 }
+      };
+
+      var res = {
+        locals: {
+          Model: {
+            findOne: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve(null);
+              });
+            }
+          }
+        },
+        notFound: function() {
+          done();
+        }
+      };
+
+      controller.subscribers(req, res);
+    });
+
+    it('cfsession.subscribers should run res.ok after load all cfsession subscribers', function (done) {
+
+      var req = {
+        we: we,
+        params: { cfsessionId: 11 }
+      };
+
+      var res = {
+        locals: {
+          Model: {
+            findOne: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve({
+                  id: 11,
+                  getSubscribers: function() {
+                    return new we.db.Sequelize.Promise(function (resolve) {
+                      resolve([]);
+                    });
+                  }
+                });
+              });
+            }
+          }
+        },
+        ok: function() {
+          done();
+        }
+      };
+
+      controller.subscribers(req, res);
+    });
+  });
+
+  describe('exportSubscribers', function() {
+    it('cfsession.exportSubscribers should run res.notFound if not find the cfsession', function (done) {
+
+      var req = {
+        we: we,
+        params: { cfsessionId: 11 }
+      };
+
+      var res = {
+        locals: {
+          Model: {
+            findOne: function() {
+              return new we.db.Sequelize.Promise(function (resolve) {
+                resolve(null);
+              });
+            }
+          }
+        },
+        notFound: function() {
+          done();
+        }
+      };
+
+      controller.exportSubscribers(req, res);
+    });
+  });
+
   describe('markAllAsPresent', function() {
     it('cfsession.markAllAsPresent should run update and goTo with redirectTo', function (done) {
 
