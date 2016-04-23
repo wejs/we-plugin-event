@@ -1,42 +1,113 @@
-<div class="actions">
+<div class="actions events-actions">
   {{we-action-create-btn 'event' req}}
-
   {{#if req.user.id}}
     <a href="?my={{req.user.id}}" class="btn btn-default btn-sm">
       <i class="glyphicon glyphicon-cog"></i> {{t 'event.find.my'}}
     </a>
   {{/if}}
 </div>
+{{!--
+<div class="events-menu">
+  <ul class="nav nav-tabs nav-justified">
+    <li role="presentation" class="active">
+      <a href="/event">{{t 'event.find'}}</a>
+    </li>
+  </ul>
+</div>
+ --}}
+<div class="tab-content">
+  <div class="events-search">
+    <form class="form-inline" method="get">
+      <label for="events-search">{{t 'event.search.title'}}</label>
+      <div class="form-group">
+        <input name="title" type="text" class="form-control" id="events-search" value="{{req.query.title}}">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i> <span class="sr-only">{{t 'Search'}}</span></button>
+      </div>
+      <input name="my" type="hidden" value="{{req.query.my}}">
+    </form>
+  </div>
 
-{{#each data}}
-  <div class="event-teaser cf-{{registrationStatus}}">
-    <h3>
-    {{#link-to 'event.findOne' id}}{{title}}{{/link-to}}
-    </h3>
+  {{#each data}}
+    <div class="event-teaser cf-{{registrationStatus}}">
+      <h3>
+        {{#link-to 'event.findOne' id}}{{title}}{{/link-to}}
+      </h3>
 
-    <div class="row">
-      <div class="col-md-3">
-        {{#link-to 'event.findOne' id}}
-          {{#each logo}}
-            <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
-          {{/each}}
-        {{/link-to}}
-        <div>
-          {{#if callForPapersStartDate}}
-            <strong>{{t 'event.callForPapersDates'}}:</strong> {{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}
-            <br>
+      <div class="row">
+        <div class="col-md-3">
+          {{#link-to 'event.findOne' id}}
+            {{#each logo}}
+              <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
+            {{/each}}
+          {{/link-to}}
+
+          <div class="event-status text-center">
+            {{#we-contains 'open' registrationStatus}}
+              <span class="label label-success">
+                {{t 'event.label.open'}}
+              </span>
+            {{/we-contains}}
+            {{#we-contains 'closed_before' registrationStatus}}
+              <span class="label label-warning">
+                {{t 'event.label.closed_before'}}
+              </span>
+            {{/we-contains}}
+            {{#we-contains 'closed_no_vacancies' registrationStatus}}
+              <span class="label label-warning">
+                {{t 'event.label.closed_no_vacancies'}}
+              </span>
+            {{/we-contains}}
+            {{#we-contains 'closed' registrationStatus}}
+              <span class="label label-default">
+                {{t 'event.label.closed'}}
+              <span>
+            {{/we-contains}}
+            {{#we-contains 'closed_after' registrationStatus}}
+              <span class="label label-default">
+                {{t 'event.label.closed_after'}}
+              </span>
+            {{/we-contains}}
+          </div>
+          {{#if tags}}
+            <div class="event-tags-area">
+              <h4>{{t 'form-event-about-tags'}}</h4>
+              <ul class="event-tags">
+                {{#each tags}}
+                  <li><a href="?tag={{this}}" class="event-tag">{{this}}</a></li>
+                {{/each}}
+              </ul>
+            </div>
           {{/if}}
-          <strong>{{t 'event.registrationDates'}}:</strong>  {{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}
-          <br>
-          <strong>{{t 'event.dates'}}:</strong> {{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}
+        </div>
+        <div class="col-md-9">
+          <div class="event-about">{{{about}}}</div>
+          <div class="event-dates">
+            <table class="table-full-width">
+              {{#if callForPapersEndDate}}
+                <tr>
+                  <th class='text-right'>{{t 'event.callForPapersDates'}}:</td>
+                  <td class='text-left'>{{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}</td>
+                </tr>
+              {{/if}}
+              {{#if registrationEndDate}}
+                <tr>
+                  <th class='text-right'>{{t 'event.registrationDates'}}:</th>
+                  <td class='text-left'>{{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}</td>
+                </tr>
+              {{/if}}
+              {{#if eventEndDate}}
+                <tr>
+                  <th class='text-right'>{{t 'event.dates'}}:</th>
+                  <td class='text-left'>{{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}</td>
+                </tr>
+              {{/if}}
+            </table>
+          </div>
         </div>
       </div>
-      <div class="col-md-9">
-        <p>{{{about}}}</p>
-        <div></div>
-      </div>
     </div>
-  </div>
-{{else}}
-
-{{/each}}
+  {{else}}
+  {{/each}}
+</div>

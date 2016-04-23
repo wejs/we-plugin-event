@@ -86,7 +86,7 @@ module.exports = function Model(we) {
         get: function() {
           var ms = this.getDataValue('managers');
           if (!ms) return [];
-          return ms.map(function(m) {
+          return ms.map(function (m) {
             if (typeof m == 'object') {
               return m.id;
             }  else {
@@ -155,7 +155,7 @@ module.exports = function Model(we) {
 
           if ( (s <= now) && (now<=e) ) {
             return 'open';
-          } else if (s > now){
+          } else if (s > now) {
             return 'before';
           } else {
             return 'after';
@@ -188,6 +188,16 @@ module.exports = function Model(we) {
       topics: {
         type: 'hasMany',
         model: 'cftopic'
+      },
+      tagsRecords: {
+        type: 'hasMany',
+        model: 'modelsterms',
+        inverse: 'modelId',
+        constraints: false,
+        foreignKey: 'modelId',
+        scope: {
+          modelName: 'event'
+        }
       }
     },
     options: {

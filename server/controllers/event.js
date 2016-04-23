@@ -9,7 +9,7 @@ module.exports = {
     req.we.controllers.event.findOne(req, res, next);
   },
 
-  find: function findAll(req, res, next) {
+  find: function findAll(req, res) {
     if (req.query.my) {
       if (!req.isAuthenticated()) return res.forbidden();
       res.locals.query.include.push({
@@ -24,30 +24,46 @@ module.exports = {
     } else {
       res.locals.query.where.published = true;
     }
-
-    return res.locals.Model.findAndCountAll(res.locals.query)
-    .then(function afterLoad(record) {
-      if (!record) return next();
-
-      res.locals.metadata.count = record.count;
-      res.locals.data = record.rows;
-
-      if (!req.isAuthenticated()) return res.ok();
-      // if user is authenticated load its registration status
-      req.we.utils.async.each(res.locals.data, function (r, next) {
-        // load current user registration register
-        req.we.db.models.cfregistration.findOne({
-          where: { eventId: r.id, userId: req.user.id }
-        }).then(function (cfr) {
-          if (!cfr) return next();
-          r.userCfregistration = cfr;
-          next();
-        }).catch(next);
-      }, function (err){
-        if (err) return res.serverError();
-        return res.ok();
+    // filter by tag
+    if (req.query.tag) {
+      res.locals.query.include.push({
+        model: req.we.db.models.modelsterms, as: 'tagsRecords',
+        required: true,
+        include: [{
+          model: req.we.db.models.term, as: 'term',
+          required: true,
+          where: { text: req.query.tag }
+        }]
       });
-    });
+    }
+
+    res.locals.Model.findAll(res.locals.query)
+    .then(function afterLoad(record) {
+
+      res.locals.data = record;
+
+      res.locals.Model.count(res.locals.query)
+      .then(function afterCount(count) {
+
+        res.locals.metadata.count = count;
+
+        if (!req.isAuthenticated()) return res.ok();
+        // if user is authenticated load its registration status
+        req.we.utils.async.eachSeries(res.locals.data, function (r, next) {
+          // load current user registration register
+          req.we.db.models.cfregistration.findOne({
+            where: { eventId: r.id, userId: req.user.id }
+          }).then(function afterFindRegistration(cfr) {
+            if (!cfr) return next();
+            r.userCfregistration = cfr;
+            next();
+          }).catch(next);
+        }, function (err){
+          if (err) return res.serverError();
+          return res.ok();
+        });
+      }).catch(res.queryError);
+    }).catch(res.queryError);
   },
 
   create: function create(req, res) {

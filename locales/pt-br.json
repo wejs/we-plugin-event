@@ -92,6 +92,12 @@
 	"event.btn.registered": "Minha inscrição",
 	"event.btn.registration": "Inscrição",
 	"event.btn.requested": "Aguardando resposta",
+
+  "event.label.closed_before": "Fechado",
+  "event.label.open": "Aberto",
+  "event.label.closed_no_vacancies": "Sem vagas",
+  "event.label.closed_after": "Registros finalizados",
+
 	"event.cfpartner": "Apoio",
 	"event.cfpartner.empty": "Sem apoios registrados",
 	"event.cfregistration.already.registered": "Já está inscrito nesse evento",
@@ -636,5 +642,6 @@
 
   "cflink.create.success": "O link foi criado com sucesso",
   "cfregistration.create.user.registered": "Esse usuário já está registrado nesse evento",
-  "cfregistration.create.succes": "Usuário registrado com sucesso"
+  "cfregistration.create.succes": "Usuário registrado com sucesso",
+  "event.search.title": "Buscar"
 }

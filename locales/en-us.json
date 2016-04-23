@@ -27,6 +27,12 @@
 	"event.btn.open": "Register",
 	"event.btn.closed_no_vacancies": "No vacancy",
 	"event.btn.closed_after": "Registration end",
+
+  "event.label.closed_before": "Closed",
+  "event.label.open": "Open",
+  "event.label.closed_no_vacancies": "No vacancy",
+  "event.label.closed_after": "Registration end",
+
 	"event.menu.admin": "Administration menu",
 	"event.menu.content": "Content menu",
 	"cfnews.find": "News",
@@ -562,5 +568,6 @@
 
   "cflink.create.success": "Event link created with success",
   "cfregistration.create.user.registered": "User already registered in this event",
-  "cfregistration.create.succes": "User registered with success"
+  "cfregistration.create.succes": "User registered with success",
+  "event.search.title": "Search"
 }
