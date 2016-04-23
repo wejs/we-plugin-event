@@ -13,6 +13,7 @@
 - we-plugin-menu
 - we-plugin-form
 - we-plugin-file
+- we-plugin-vocabulary
 
 ## Installation:
 

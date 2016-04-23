@@ -24,6 +24,7 @@
     "we-plugin-file": "^1.0.6",
     "we-plugin-form": "^0.3.33",
     "we-plugin-menu": "^1.1.1",
+    "we-plugin-vocabulary": "^0.3.23",
     "we-test-tools": "^0.3.14",
     "we-theme-admin-default": "^1.0.1",
     "we-theme-event": "^0.3.10",
