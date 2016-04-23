@@ -7,7 +7,7 @@ module.exports = {
 
       res.locals.data = record;
 
-      res.locals.Model.findAll(res.locals.query)
+      res.locals.Model.count(res.locals.query)
       .then(function afterCount(count) {
         res.locals.metadata.count = count;
         return res.ok();
