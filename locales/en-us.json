@@ -569,5 +569,8 @@
   "cflink.create.success": "Event link created with success",
   "cfregistration.create.user.registered": "User already registered in this event",
   "cfregistration.create.succes": "User registered with success",
-  "event.search.title": "Search"
+  "event.search.title": "Search",
+  "event.search.title.placeholder": "Write the event title here...",
+  "widget.filter.tags.title": "Topics",
+  "event.find.empty": "No events found"
 }

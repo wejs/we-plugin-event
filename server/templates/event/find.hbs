@@ -1,11 +1,3 @@
-<div class="actions events-actions">
-  {{we-action-create-btn 'event' req}}
-  {{#if req.user.id}}
-    <a href="?my={{req.user.id}}" class="btn btn-default btn-sm">
-      <i class="glyphicon glyphicon-cog"></i> {{t 'event.find.my'}}
-    </a>
-  {{/if}}
-</div>
 {{!--
 <div class="events-menu">
   <ul class="nav nav-tabs nav-justified">
@@ -15,20 +7,7 @@
   </ul>
 </div>
  --}}
-<div class="tab-content">
-  <div class="events-search">
-    <form class="form-inline" method="get">
-      <label for="events-search">{{t 'event.search.title'}}</label>
-      <div class="form-group">
-        <input name="title" type="text" class="form-control" id="events-search" value="{{req.query.title}}">
-      </div>
-      <div class="form-group">
-        <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i> <span class="sr-only">{{t 'Search'}}</span></button>
-      </div>
-      <input name="my" type="hidden" value="{{req.query.my}}">
-    </form>
-  </div>
-
+<div class="events-area-search">
   {{#each data}}
     <div class="event-teaser cf-{{registrationStatus}}">
       <h3>
@@ -39,7 +18,7 @@
         <div class="col-md-3">
           {{#link-to 'event.findOne' id}}
             {{#each logo}}
-              <img class="img-responsive" src="{{urls.medium}}" alt="{{../title}} logo">
+              <img class="img-thumbnail" src="{{urls.medium}}" alt="{{../title}} logo">
             {{/each}}
           {{/link-to}}
 
@@ -109,5 +88,6 @@
       </div>
     </div>
   {{else}}
+    {{t 'event.find.empty'}}
   {{/each}}
 </div>

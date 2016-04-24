@@ -1,5 +1,5 @@
 .event-teaser {
-  margin: 5px 0px 15px 0px;
+  margin: 0px 0px 15px 0px;
   background-color: #fff;
   padding: 10px;
   /*border: 1px solid #ccc;*/
@@ -25,9 +25,45 @@
 .event-dates {
   margin-top: 15px;
 }
-.events-search {
-  padding: 3px;
+.events-area-search {
+  border: 1px solid #ddd;
+  padding: 5px;
+  background-color: #fff;
 }
+
+body.event.event-.find h2.page-header{
+  display: none;
+}
+.widget.widget-we-cf-search-form.widget {
+  border: 0px;
+  padding: 0px;
+  margin: 0px 0px 10px 0px;
+  background: inherit;
+}
+
+.event-terms-menu {
+  padding: 0px;
+  margin: 0px;
+  display: block;
+  list-style: none;
+}
+
+.event-terms-menu a {
+  text-transform: capitalize;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+  margin-bottom: 3px;
+  background-color: #f7f7f7;
+}
+.event-terms-menu a.active,
+.event-terms-menu a:hover {
+  color: #fff;
+  background-color: #34495E;
+  text-decoration: none;
+}
+
+
 
 /* Event tags */
 .event-tags {

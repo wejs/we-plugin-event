@@ -643,5 +643,8 @@
   "cflink.create.success": "O link foi criado com sucesso",
   "cfregistration.create.user.registered": "Esse usuário já está registrado nesse evento",
   "cfregistration.create.succes": "Usuário registrado com sucesso",
-  "event.search.title": "Buscar"
+  "event.search.title": "Buscar",
+  "event.search.title.placeholder": "Digite o título do evento aqui...",
+  "widget.filter.tags.title": "Assuntos",
+  "event.find.empty": "Nenhum evento encontrado"
 }
