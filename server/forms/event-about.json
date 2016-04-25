@@ -18,10 +18,16 @@
       "allowNull": false
     },
     "about": {
-      "type": "html",
+      "type": "textarea",
       "defaultValue": "",
-      "formFieldHeight": 300,
+      "formFieldAttributes": {
+        "rows": 13
+      },
       "allowNull": false
+    },
+    "isOnline": {
+      "type": "boolean",
+      "defaultValue": false
     },
     "location": {
       "type": "text",

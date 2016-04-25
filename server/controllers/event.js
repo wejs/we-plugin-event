@@ -21,6 +21,10 @@ module.exports = {
         model: req.we.db.models.user, as: 'managers',
         where: { id: req.query.manager }
       });
+    } else if (req.query.closed) {
+      res.locals.query.where.eventEndDate = {
+        gte: new Date()
+      };
     } else {
       res.locals.query.where.published = true;
     }

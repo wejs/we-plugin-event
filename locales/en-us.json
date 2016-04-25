@@ -574,7 +574,7 @@
   "widget.filter.tags.title": "Topics",
   "event.find.empty": "No events found",
   "widget.event.navigation.menu": "Menu",
-  "event.find.near": "Upcoming events",
+  "event.find.next": "Upcoming events",
 
-  "form-event-about-isOnline": "Is online?"
+  "form-event-about-isOnline": "Is only online?"
 }

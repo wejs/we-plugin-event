@@ -40,6 +40,32 @@ module.exports = function (projectPath, Widget) {
    * @param  {Function} next   callback
    */
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
+
+    widget.navigationMenu = new req.we.class.Menu({
+      id: 'events-menu-navigation',
+      name: 'events-menu-navigation',
+      class: 'flat-menu',
+      links: [{
+        id: 'events-menu-navigation-next',
+        text: '<span class="fa fa-calendar" aria-hidden="true"></span> '+req.__('event.find.next'),
+        href: '/event',
+        class: null,
+        weight: 1,
+        name: 'menu.events.next'
+      }]
+    });
+
+    if (req.isAuthenticated()) {
+      widget.navigationMenu.addLink({
+        id: 'events-menu-navigation-my',
+        text: '<i class="fa fa-list" aria-hidden="true"></i> '+req.__('event.find.my'),
+        href: '/event?my=1',
+        class: null,
+        weight: 5,
+        name: 'menu.events.my'
+      });
+    }
+
     var sql = 'SELECT DISTINCT text FROM terms '+
       'LEFT JOIN modelsterms AS mt ON mt.modelName="event" '+
         'AND mt.vocabularyName="Tags" '+

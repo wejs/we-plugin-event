@@ -1,15 +1,18 @@
 {{#if locals.req.user.id}}
   <div class="actions events-actions">
     {{we-action-create-btn 'event' locals.req}}
-    <a href="?my={{locals.req.user.id}}" class="btn btn-default btn-sm">
-      <i class="glyphicon glyphicon-cog"></i> {{t 'event.find.my'}}
-    </a>
   </div>
 {{/if}}
 
+<div class="events-navigation-menu-area">
+  <h3 class="events-navigation-menu sr-only">{{t 'widget.event.navigation.menu'}}</h3>
+  {{we-menu widget.navigationMenu}}
+</div>
+
 {{#if widget.terms}}
-  <h3 class="events.terms.menu">{{t 'widget.filter.tags.title'}}</h3>
-  <ul class="event-terms-menu">
+<div class="events-terms-menu-area">
+  <h3 class="events-terms-menu-title">{{t 'widget.filter.tags.title'}}</h3>
+  <ul class="flat-menu event-terms-menu">
     {{#each widget.terms}}
       {{#ifCond this ../locals.req.query.tag}}
         <li>
@@ -28,4 +31,5 @@
       {{/ifCond}}
     {{/each}}
   </ul>
+</div>
 {{/if}}

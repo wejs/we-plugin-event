@@ -6,7 +6,28 @@ module.exports = {
    * @param  {Function} done  callback
    */
   install: function install(we, done) {
-    done();
+    we.utils.async.series([
+      function createEventsListWidgets(done) {
+        we.db.models.widget.bulkCreate([
+          {
+            title: null,
+            type: 'we-cf-search-form',
+            path: '/event',
+            layout: 'default',
+            regionName: 'highlighted'
+          },
+          {
+            title: null,
+            type: 'we-cf-events-menu',
+            path: '/event',
+            layout: 'default',
+            regionName: 'sidebar'
+          }
+        ]).spread(function afterCreateEventWidgets() {
+          done();
+        }).catch(done);
+      }
+    ], done);
   },
   /**
    * Return a list of updates
@@ -135,6 +156,26 @@ module.exports = {
                 }
                 done();
               });
+            },
+            function (done) {
+              we.db.models.widget.bulkCreate([
+                {
+                  title: null,
+                  type: 'we-cf-search-form',
+                  path: '/event',
+                  layout: 'default',
+                  regionName: 'highlighted'
+                },
+                {
+                  title: null,
+                  type: 'we-cf-events-menu',
+                  path: '/event',
+                  layout: 'default',
+                  regionName: 'sidebar'
+                }
+              ]).spread(function afterCreateEventWidgets() {
+                done();
+              }).catch(done);
             }
           ], done);
         }

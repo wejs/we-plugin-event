@@ -1,0 +1,93 @@
+{{#with record}}
+<div class="event-teaser cf-{{registrationStatus}}">
+  <h3>
+    {{#link-to 'event.findOne' id}}{{title}}{{/link-to}}
+  </h3>
+
+  <div class="row">
+    <div class="col-md-3">
+      {{#link-to 'event.findOne' id}}
+        {{#each logo}}
+          <img class="img-thumbnail" src="{{urls.medium}}" alt="{{../title}} logo">
+        {{else}}
+          <img class="img-thumbnail" src="/public/plugin/we-plugin-event/files/images/calendar_256x256.png" alt="{{../title}} logo">
+        {{/each}}
+      {{/link-to}}
+
+      <div class="event-status text-center">
+        {{#we-contains 'open' registrationStatus}}
+          <span class="label label-success">
+            {{t 'event.label.open'}}
+          </span>
+        {{/we-contains}}
+        {{#we-contains 'closed_before' registrationStatus}}
+          <span class="label label-warning">
+            {{t 'event.label.closed_before'}}
+          </span>
+        {{/we-contains}}
+        {{#we-contains 'closed_no_vacancies' registrationStatus}}
+          <span class="label label-warning">
+            {{t 'event.label.closed_no_vacancies'}}
+          </span>
+        {{/we-contains}}
+        {{#we-contains 'closed' registrationStatus}}
+          <span class="label label-default">
+            {{t 'event.label.closed'}}
+          <span>
+        {{/we-contains}}
+        {{#we-contains 'closed_after' registrationStatus}}
+          <span class="label label-default">
+            {{t 'event.label.closed_after'}}
+          </span>
+        {{/we-contains}}
+      </div>
+      {{#if tags}}
+        <div class="event-tags-area">
+          <h4>{{t 'form-event-about-tags'}}</h4>
+          <ul class="event-tags">
+            {{#each tags}}
+              <li><a href="?tag={{this}}" class="event-tag">{{this}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+    </div>
+    <div class="col-md-9">
+      <p class="event-about">{{about}}</p>
+      {{#if isOnline}}
+        <p class="event-location event-offline"><span class="fa fa-map-marker" aria-hidden="true"></span> <strong>
+            {{location}}
+        </strong></p>
+      {{else}}
+        <p class="event-location event-online"><span class="fa fa-map-marker" aria-hidden="true"></span> <strong>
+          <a href="https://maps.google.com?q={{location}}" target="_blank">
+            {{location}}
+          </a>
+        </strong></p>
+      {{/if}}
+      <div class="event-dates">
+        <table class="table-full-width">
+          {{#if callForPapersEndDate}}
+            <tr>
+              <th class='text-right'>{{t 'event.callForPapersDates'}}:</td>
+              <td class='text-left'>{{we-cf-date-range start=callForPapersStartDate end=callForPapersEndDate __=../__}}</td>
+            </tr>
+          {{/if}}
+          {{#if registrationEndDate}}
+            <tr>
+              <th class='text-right'>{{t 'event.registrationDates'}}:</th>
+              <td class='text-left'>{{we-cf-date-range start=registrationStartDate end=registrationEndDate __=../__}}</td>
+            </tr>
+          {{/if}}
+          {{#if eventEndDate}}
+            <tr>
+              <th class='text-right'>{{t 'event.dates'}}:</th>
+              <td class='text-left'>{{we-cf-date-range start=eventStartDate end=eventEndDate __=../__}}</td>
+            </tr>
+          {{/if}}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{{/with}}
