@@ -116,6 +116,28 @@ module.exports = {
             }
           ], done);
         }
+      },
+      {
+        version: '0.3.64',
+        /**
+         * Add isOnline column
+         */
+        update: function (we, done) {
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `events` ADD COLUMN `isOnline`'+
+                ' TINYINT(1) NOT NULL DEFAULT 0';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                if (err) {
+                  we.log.error(err);
+                }
+                done();
+              });
+            }
+          ], done);
+        }
       }
     ];
   }

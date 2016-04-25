@@ -646,5 +646,8 @@
   "event.search.title": "Buscar",
   "event.search.title.placeholder": "Digite o título do evento aqui...",
   "widget.filter.tags.title": "Assuntos",
-  "event.find.empty": "Nenhum evento encontrado"
+  "event.find.empty": "Nenhum evento encontrado",
+  "widget.event.navigation.menu": "Menu",
+  "event.find.next": "Próximos eventos",
+  "form-event-about-isOnline": "Evento online?"
 }

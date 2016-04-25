@@ -59,6 +59,11 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.INTEGER,
         formFieldType: 'number'
       },
+      isOnline: {
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false,
+        formFieldType: 'boolean'
+      },
       location: { type: we.db.Sequelize.TEXT },
       published: {
         type: we.db.Sequelize.BOOLEAN,

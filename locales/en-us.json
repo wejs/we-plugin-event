@@ -572,5 +572,9 @@
   "event.search.title": "Search",
   "event.search.title.placeholder": "Write the event title here...",
   "widget.filter.tags.title": "Topics",
-  "event.find.empty": "No events found"
+  "event.find.empty": "No events found",
+  "widget.event.navigation.menu": "Menu",
+  "event.find.near": "Upcoming events",
+
+  "form-event-about-isOnline": "Is online?"
 }
