@@ -1,0 +1,27 @@
+<div class="event-status text-center">
+  {{#we-contains 'open' registrationStatus}}
+    <span class="label label-success">
+      {{t 'event.label.open'}}
+    </span>
+  {{/we-contains}}
+  {{#we-contains 'closed_before' registrationStatus}}
+    <span class="label label-warning">
+      {{t 'event.label.closed_before'}}
+    </span>
+  {{/we-contains}}
+  {{#we-contains 'closed_no_vacancies' registrationStatus}}
+    <span class="label label-warning">
+      {{t 'event.label.closed_no_vacancies'}}
+    </span>
+  {{/we-contains}}
+  {{#we-contains 'closed' registrationStatus}}
+    <span class="label label-default">
+      {{t 'event.label.closed'}}
+    <span>
+  {{/we-contains}}
+  {{#we-contains 'closed_after' registrationStatus}}
+    <span class="label label-default">
+      {{t 'event.label.closed_after'}}
+    </span>
+  {{/we-contains}}
+</div>
