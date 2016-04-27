@@ -32,7 +32,7 @@ describe('helper_we-cf-menu', function () {
       hash: {}
     });
 
-    assert.equal(result.string, '<ul class=""></ul>');
+    assert.equal(result.string, '<ul></ul>');
 
     done();
   });
@@ -71,10 +71,12 @@ describe('helper_we-cf-menu', function () {
       links: links,
       class: 'test-menu'
     }, {
-      hash: {}
+      hash: {
+        class: 'ttt1'
+      }
     });
 
-    assert.equal(result.string, '<ul class="test-menu"><li><a class="link-contact" '+
+    assert.equal(result.string, '<ul class="ttt1 test-menu" ><li><a class="link-contact" '+
       'href="/event/1/contact">cfcontact.link</a></li><li><a class="link-google" '+
       'href="http://google.com">google</a></li><li><a class="link-cfnews" '+
       'href="/event/1/cfnews">cfnews.link</a></li></ul>');

@@ -23,12 +23,18 @@ module.exports = function(we) {
   }
 
   return function renderWidget(menu) {
+    var options = arguments[arguments.length-1];
 
     if (!menu) return '';
 
     var links =  menu.links;
 
-    var html = '<ul class="'+(menu.class || '')+'">';
+    var classes = options.hash.class || '';
+    if (menu.class && !options.hash.skipMenuClass) classes += ' ' + menu.class;
+
+    var html = '<ul';
+      if (classes) html += ' class="'+classes+'" ';
+    html += '>'
 
     html += renderLinks(links);
 
