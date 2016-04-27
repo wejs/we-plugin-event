@@ -1,20 +1,4 @@
 module.exports = {
-  find: function find(req, res) {
-    res.locals.query.where.eventId = res.locals.event.id;
-
-    return res.locals.Model.findAll(res.locals.query)
-    .then(function afterFind(record) {
-      res.locals.data = record;
-
-      res.locals.Model.count(res.locals.query)
-      .then(function afterCount(count) {
-
-        res.locals.metadata.count = count;
-
-        return res.ok();
-      }).catch(res.queryError);
-    }).catch(res.queryError);
-  },
   create: function create(req, res) {
     var we = req.we;
 
@@ -28,7 +12,7 @@ module.exports = {
       we.utils._.merge(res.locals.data, req.body);
 
       return res.locals.Model.create(req.body)
-      .then(function (record) {
+      .then(function afterCreate(record) {
         res.locals.data = record;
 
         if (req.accepts('html')) {

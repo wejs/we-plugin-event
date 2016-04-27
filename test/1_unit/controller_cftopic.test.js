@@ -2,16 +2,16 @@ var assert = require('assert');
 var helpers = require('we-test-tools').helpers;
 var controller, we;
 
-describe('controller_cfnews', function () {
+describe('controller_cftopic', function () {
   before(function (done) {
-    controller = require('../../server/controllers/cfnews.js');
+    controller = require('../../server/controllers/cftopic.js');
     we = helpers.getWe();
 
     done();
   });
 
   describe('create', function() {
-    it('cfnews.create should run res.ok if not in POST request', function (done) {
+    it('cftopic.create should run res.ok if not in POST request', function (done) {
 
       var req = {
         query: {},
@@ -29,7 +29,7 @@ describe('controller_cfnews', function () {
       controller.create(req, res);
     });
 
-    it('cfnews.create should run res.goTo in html response after create the record', function (done) {
+    it('cftopic.create should run res.goTo in html response after create the record', function (done) {
 
       var req = {
         method: 'POST', we: we,
@@ -52,7 +52,7 @@ describe('controller_cfnews', function () {
       var res = {
         addMessage: function(status, opts) {
           assert.equal(status, 'success');
-          assert.equal(opts.text, 'cfnews.create.success');
+          assert.equal(opts.text, 'cftopic.create.success');
           assert(opts.vars.record);
         },
         locals: {
@@ -69,7 +69,7 @@ describe('controller_cfnews', function () {
           }
         },
         goTo: function(path) {
-          assert.equal(path, '/event/1/cfnews/'+res.locals.data.id);
+          assert.equal(path, '/event/1/admin/topic');
           done();
         }
       };
@@ -77,7 +77,7 @@ describe('controller_cfnews', function () {
       controller.create(req, res, function(){});
     });
 
-    it('cfnews.create should run res.created in json response after create the record', function (done) {
+    it('cftopic.create should run res.created in json response after create the record', function (done) {
 
       var req = {
         method: 'POST', we: we,
@@ -99,7 +99,7 @@ describe('controller_cfnews', function () {
       var res = {
         addMessage: function(status, opts) {
           assert.equal(status, 'success');
-          assert.equal(opts.text, 'cfnews.create.success');
+          assert.equal(opts.text, 'cftopic.create.success');
           assert(opts.vars.record);
         },
         locals: {
@@ -127,7 +127,7 @@ describe('controller_cfnews', function () {
 
   describe('edit', function() {
 
-    it('cfnews.edit should run res.notFound without reloaded record', function (done) {
+    it('cftopic.edit should run res.notFound without reloaded record', function (done) {
 
       var req = {};
       var res = {
@@ -138,7 +138,7 @@ describe('controller_cfnews', function () {
       controller.edit(req, res);
     });
 
-    it('cfnews.edit should run res.ok for GET requests', function (done) {
+    it('cftopic.edit should run res.ok for GET requests', function (done) {
       var req = { method: 'GET', we: we };
       var res = {
         locals: {
@@ -152,7 +152,7 @@ describe('controller_cfnews', function () {
       controller.edit(req, res);
     });
 
-    it('cfnews.edit should run res.goTo in html response after update', function (done) {
+    it('cftopic.edit should run res.goTo in html response after update', function (done) {
 
       var req = {
         method: 'POST', we: we,
@@ -171,7 +171,7 @@ describe('controller_cfnews', function () {
       var res = {
         addMessage: function(status, opts) {
           assert.equal(status, 'success');
-          assert.equal(opts.text, 'cfnews.updated.success');
+          assert.equal(opts.text, 'cftopic.updated.success');
           assert(opts.vars.record);
         },
         locals: {
@@ -192,7 +192,7 @@ describe('controller_cfnews', function () {
           }
         },
         goTo: function(path) {
-          assert.equal(path, '/event/1/cfnews/'+res.locals.data.id);
+          assert.equal(path, '/event/1/admin/topic');
           done();
         }
       };
@@ -200,7 +200,7 @@ describe('controller_cfnews', function () {
       controller.edit(req, res);
     });
 
-    it('cfnews.edit should run res.updated in json response after update', function (done) {
+    it('cftopic.edit should run res.updated in json response after update', function (done) {
 
       var req = {
         method: 'POST', we: we,
@@ -219,7 +219,7 @@ describe('controller_cfnews', function () {
       var res = {
         addMessage: function(status, opts) {
           assert.equal(status, 'success');
-          assert.equal(opts.text, 'cfnews.updated.success');
+          assert.equal(opts.text, 'cftopic.updated.success');
           assert(opts.vars.record);
         },
         locals: {
@@ -246,4 +246,20 @@ describe('controller_cfnews', function () {
       controller.edit(req, res);
     });
   });
+
+  describe('managePage', function() {
+    it('cftopic.managePage should run find controller', function (done) {
+      var find = we.controllers.cftopic.find;
+      we.controllers.cftopic.find = function () {
+        we.controllers.cftopic.find = find;
+        done();
+      }
+
+      var req = { we: we };
+      var res = {};
+
+      controller.managePage(req, res);
+    });
+  });
+
 });
