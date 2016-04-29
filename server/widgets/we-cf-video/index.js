@@ -22,8 +22,8 @@ module.exports = function cfVideoWidget(projectPath, Widget) {
 
     req.we.db.models.cfvideo.findOne({
       where: where
-    }).then(function (r) {
-      if (!r || !r.length) {
+    }).then(function afterFind(r) {
+      if (!r) {
         widget.hide = true;
         return next();
       }
@@ -32,10 +32,8 @@ module.exports = function cfVideoWidget(projectPath, Widget) {
     }).catch(next);
   }
 
-  widget.afterSave = function widgetAfterSave(req, res, next) {
-    if (!req.body.configuration) {
-      req.body.configuration = {};
-    }
+  widget.beforeSave = function beforeSave(req, res, next) {
+    if (!req.body.configuration) req.body.configuration = {};
     req.body.configuration.vid = req.body.vid;
     return next();
   };
