@@ -10,7 +10,7 @@ module.exports = function(projectPath, Widget) {
   widget.renderVisibilityField = widgetUtils.renderVisibilityField;
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
-    var we = req.getWe();
+    var we = req.we;
 
     var eventId = eventModule.getEventIdFromWidget(widget, res);
     if (!eventId) {
@@ -24,7 +24,7 @@ module.exports = function(projectPath, Widget) {
     }).then(function afterLoadCfSession (result){
       var activeSet = false;
 
-      if (!result || !result.length) widget.hide = true;
+      if (!result.rows || !result.rows.length) widget.hide = true;
 
       widget.count = result.count;
       widget.record = result.rows;
