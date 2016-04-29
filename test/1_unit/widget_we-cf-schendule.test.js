@@ -1,5 +1,4 @@
 var assert = require('assert');
-var sinon = require('sinon');
 var helpers = require('we-test-tools').helpers;
 var we, Widget;
 

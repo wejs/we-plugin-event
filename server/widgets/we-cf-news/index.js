@@ -32,7 +32,7 @@ module.exports = function(projectPath, Widget) {
     }).catch(next);
   }
 
-  widget.afterSave = function widgetAfterSave (req, res, next){
+  widget.beforeSave = function beforeSave (req, res, next){
     req.body.configuration = {
       nid: req.body.nid
     };
