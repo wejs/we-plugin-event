@@ -377,15 +377,13 @@ module.exports = function Model(we) {
                 type: 'we-cf-menu-admin',
                 layout: 'eventAdmin',
                 regionName: 'sidebar',
-                context: 'event-' + self.id,
-                theme: we.config.event.defaultTheme
+                context: 'event-' + self.id
               },{
                 title: we.i18n.__('event.menu.content'),
                 type: 'we-cf-menu-content',
                 layout: 'eventAdmin',
                 regionName: 'sidebar',
-                context: 'event-' + self.id,
-                theme: we.config.event.defaultTheme
+                context: 'event-' + self.id
               },
               {
                 title: we.i18n.__('cfnews.find'),
