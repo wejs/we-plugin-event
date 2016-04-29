@@ -1,3 +1,4 @@
+var eventModule = require('../../../lib');
 var widgetUtils = require('../../../lib/widgetUtils');
 
 module.exports = function(projectPath, Widget) {
@@ -9,24 +10,18 @@ module.exports = function(projectPath, Widget) {
   widget.renderVisibilityField = widgetUtils.renderVisibilityField;
 
   widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
-    var we = req.getWe();
-    var cfId;
-    if (res.locals.event) {
-      cfId = res.locals.event.id;
-    } else {
-      var ctx = widget.dataValues.context.split('-');
-      if ( (ctx[0] == 'event') && ctx[1] && Number(ctx[1]) )
-        cfId = ctx[1];
-    }
-    if (!cfId) {
+    var we = req.we;
+
+    var eventId = eventModule.getEventIdFromWidget(widget, res);
+    if (!eventId) {
       widget.hide = true;
       return next();
     }
 
     we.db.models.cfspeaker.findAll({
-      where: { eventId: cfId },
+      where: { eventId: eventId },
       order: [ ['weight','ASC'], ['createdAt','ASC'] ]
-    }).then(function afterLoadCfSpeaker (cfspeakers){
+    }).then(function afterLoadCfSpeaker (cfspeakers) {
       if (!cfspeakers || !cfspeakers.length) {
         widget.hide = true;
       }

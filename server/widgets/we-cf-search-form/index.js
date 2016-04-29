@@ -8,11 +8,12 @@ module.exports = function (projectPath, Widget) {
   var widget = new Widget('we-cf-search-form', __dirname);
 
   widget.checkIfIsValidContext = function checkIfIsValidContext(context) {
-    if (context) { return false; }
+    if (context) return false;
+    return true;
   };
   widget.isAvaibleForSelection = function isAvaibleForSelection(req) {
     if (req.res.locals.eventSearch) return true;
-    if (req.res.locals.widgetContext) { return false; }
+    return false;
   };
   // widget.beforeSave = widgetUtils.beforeSave;
   widget.renderVisibilityField = function renderVisibilityField(widget, context, req, res) {
