@@ -12,6 +12,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // set plugin configs
   plugin.setConfigs({
     event: {
+      // add main menu create btn
+      mainMenuCreateBTN: true,
       // add a event id for load in all event portal as a single event portal
       singleConferenceId: false,
       // a list of theme names avaible to events
@@ -142,6 +144,24 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         ),
         parent: 'user',
         class: null,
+        weight: 5
+      });
+    }
+
+    if (we.config.event.mainMenuCreateBTN && data.req.isAuthenticated()) {
+      data.res.locals.userMenu.addLink({
+        id: 'create_event',
+        text: data.req.__('event.create'),
+        href: we.router.urlTo( 'event.create', [], we ),
+        class: 'btn btn-primary btn-main-menu-create-event',
+        weight: 5
+      });
+    } else {
+      data.res.locals.userMenu.addLink({
+        id: 'create_event',
+        text: data.req.__('event.create'),
+        href: '/login?redirectTo=/event/create',
+        class: 'btn btn-primary btn-main-menu-create-event',
         weight: 5
       });
     }
