@@ -148,22 +148,25 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       });
     }
 
-    if (we.config.event.mainMenuCreateBTN && data.req.isAuthenticated()) {
-      data.res.locals.userMenu.addLink({
-        id: 'create_event',
-        text: data.req.__('event.create'),
-        href: we.router.urlTo( 'event.create', [], we ),
-        class: 'btn btn-primary btn-main-menu-create-event',
-        weight: 5
-      });
-    } else {
-      data.res.locals.userMenu.addLink({
-        id: 'create_event',
-        text: data.req.__('event.create'),
-        href: '/login?redirectTo=/event/create',
-        class: 'btn btn-primary btn-main-menu-create-event',
-        weight: 5
-      });
+    // only show create event btn if are outside one event
+    if (!data.res.locals.event) {
+      if (we.config.event.mainMenuCreateBTN && data.req.isAuthenticated()) {
+        data.res.locals.userMenu.addLink({
+          id: 'create_event',
+          text: data.req.__('event.create'),
+          href: we.router.urlTo( 'event.create', [], we ),
+          class: 'btn btn-primary btn-main-menu-create-event',
+          weight: 5
+        });
+      } else {
+        data.res.locals.userMenu.addLink({
+          id: 'create_event',
+          text: data.req.__('event.create'),
+          href: '/login?redirectTo=/event/create',
+          class: 'btn btn-primary btn-main-menu-create-event',
+          weight: 5
+        });
+      }
     }
 
     done();
