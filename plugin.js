@@ -147,9 +147,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         weight: 5
       });
     }
-
     // only show create event btn if are outside one event
-    if (!data.res.locals.event) {
+    if (!data.res.locals.event && !data.res.locals.isAdmin) {
       if (we.config.event.mainMenuCreateBTN && data.req.isAuthenticated()) {
         data.res.locals.userMenu.addLink({
           id: 'create_event',
