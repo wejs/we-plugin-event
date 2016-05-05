@@ -25,7 +25,7 @@ module.exports = function Model(we) {
       },
 
       startDate: { type: we.db.Sequelize.DATE },
-      endDate: { type: we.db.Sequelize.DATE },
+      endDate: { type: we.db.Sequelize.DATE }
     },
     associations: {
       event: {

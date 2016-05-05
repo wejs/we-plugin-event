@@ -3,28 +3,6 @@
   "method": "post",
 
   "fields": {
-    "callForPapersStartDate": {
-      "type": "date",
-      "allowNull": true
-    },
-    "callForPapersEndDate": {
-      "type": "date",
-      "allowNull": true
-    },
-    "registrationSeparator": {
-      "type": "break"
-    },
-    "registrationStartDate": {
-      "type": "date",
-      "allowNull": true
-    },
-    "registrationEndDate": {
-      "type": "date",
-      "allowNull": true
-    },
-    "eventSeparator": {
-      "type": "break"
-    },
     "eventStartDate": {
       "type": "date",
       "allowNull": true

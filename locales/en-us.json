@@ -581,5 +581,6 @@
   "widget.event.navigation.menu": "Menu",
   "event.find.next": "Upcoming events",
 
-  "form-event-about-isOnline": "Is only online?"
+  "form-event-about-isOnline": "Is only online?",
+  "form-cfregistrationtype-period": "Period"
 }

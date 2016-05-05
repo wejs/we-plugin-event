@@ -655,5 +655,6 @@
   "event.find.empty": "Nenhum evento encontrado",
   "widget.event.navigation.menu": "Menu",
   "event.find.next": "Próximos eventos",
-  "form-event-about-isOnline": "Evento é apenas online?"
+  "form-event-about-isOnline": "Evento é apenas online?",
+  "form-cfregistrationtype-period": "Período"
 }

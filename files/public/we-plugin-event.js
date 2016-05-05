@@ -148,7 +148,6 @@ window.addEventListener('WebComponentsReady', function() {
       ev.preventDefault();
 
       console.log(ev.target);
-      alert('oi');
 
       return false;
     }, false);
@@ -190,6 +189,7 @@ window.addEventListener('WebComponentsReady', function() {
       '<thead><tr>'+
         '<th>'+this.dataset.labelName+'</th>'+
         '<th>'+this.dataset.labelPrice+'</th>'+
+        '<th>'+this.dataset.labelPeriod+'</th>'+
         '<th>'+this.dataset.labelDescription+'</th>'+
         '<th>'+this.dataset.labelActions+'</th>'+
       '</tr></thead>'+
@@ -218,11 +218,24 @@ window.addEventListener('WebComponentsReady', function() {
       lineClass += ' salved';
     }
 
+    var d;
+    if (data.startDate) {
+      d = new Date(data.startDate);
+      data.startDate = window.moment(d.toISOString()).format(this.dataset.dateformat);
+    }
+
+    if (data.endDate) {
+      d = new Date(data.endDate);
+      data.endDate = window.moment(d.toISOString()).format(this.dataset.dateformat);
+    }
+
     return '<tr is="we-event-rts-item" class="'+lineClass+'" '+
       ' data-id="'+ ( data.id || '' ) +'"'+
       ' data-name="'+we.utils.sanitize(data.name || '')+'"'+
       ' data-price="'+we.utils.sanitize( Number(data.price).toFixed(2) || 0 )+'"'+
       ' data-description="'+we.utils.sanitize( data.description || '' )+'"'+
+      ' data-start-date="'+ (data.startDate || '') +'"'+
+      ' data-end-date="'+ (data.endDate || '') +'"'+
       ' data-event-id="'+ this.dataset.eventId +'"'+
       '"'+
     '></tr>';
@@ -253,6 +266,18 @@ window.addEventListener('WebComponentsReady', function() {
     '<td><input is="we-event-price-field" name="price" value="'+
       we.utils.sanitize( Number(data.price).toFixed(2) || 0 ) +
     '" size="5" required></td>'+
+    '<td>'+
+      '<we-datetime-picker data-viewformat="'+this.CRFTSelector.dataset.dateformat+'" data-max-date="'+
+          this.CRFTSelector.dataset.maxDate
+        +'">'+
+        '<input name="startDate" value="'+(data.startDate || '')+'" >'+
+      '</we-datetime-picker>'+
+      '<we-datetime-picker data-viewformat="'+this.CRFTSelector.dataset.dateformat+'" data-max-date="'+
+          this.CRFTSelector.dataset.maxDate
+        +'">'+
+        '<input name="endDate" value="'+(data.endDate || '')+'" >'+
+      '</we-datetime-picker>'+
+    '</td>'+
     '<td><textarea name="description">'+
       we.utils.sanitize( data.description || '' )+
     '</textarea></td>'+
@@ -280,6 +305,8 @@ window.addEventListener('WebComponentsReady', function() {
     if (!name) return; // name is required;
     var price = this.querySelector('input[name=price]').value;
     var description = this.querySelector('textarea').value;
+    var startDate = this.querySelector('input[name=startDate]').value;
+    var endDate = this.querySelector('input[name=endDate]').value;
 
     var url;
 
@@ -291,15 +318,20 @@ window.addEventListener('WebComponentsReady', function() {
 
     self.startLoading();
 
+    var data = {
+      name: name,
+      price: price,
+      description: description
+    };
+
+    if (startDate) data.startDate = startDate;
+    if (endDate) data.endDate = endDate;
+
     $.ajax({
       url: url,
       method: 'POST',
       headers: { Accept: 'application/json' },
-      data: {
-        name: name,
-        price: price,
-        description: description
-      }
+      data: data
     }).then(function afterSave(r) {
       var evName = (id)? 'cfregistrationtype:'+id+':updated': 'cfregistrationtype:created';
 
@@ -336,6 +368,8 @@ window.addEventListener('WebComponentsReady', function() {
     this.querySelector('input[name=name]').value = '';
     this.querySelector('input[name=price]').value = 0;
     this.querySelector('textarea').value = '';
+    this.querySelector('input[name=startDate]').value = '';
+    this.querySelector('input[name=endDate]').value = '';
   }
 
   WeEventRegistrationTypeProt.removeCFRT = function removeCFRT(event) {
@@ -353,9 +387,7 @@ window.addEventListener('WebComponentsReady', function() {
     }).then(function () {
       self.parentNode.removeChild(self);
     }).fail(function(err) {
-
       console.error(err);
-
     });
   }
   document.registerElement('we-event-rts-item', {
