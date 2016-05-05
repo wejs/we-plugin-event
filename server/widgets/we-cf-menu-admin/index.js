@@ -40,18 +40,18 @@ module.exports = function weCfMenuAdminWidget(projectPath, Widget) {
         name: 'event_admin_edit'
       },
       {
+        id: 'cfregistrationtype.find',
+        text: '<span class="fa fa-ticket"></span> '+req.__('event.edit.step.registrationTypes'),
+        href: '/event/'+widget.eventId+'/edit?step=4',
+        weight: 5,
+        name: 'cfregistrationtype.find'
+      },
+      {
         id: 'event_admin_registration',
         text: '<span class="fa fa-user-plus"></span> '+req.__('event_admin_registration'),
         href: '/event/'+widget.eventId+'/admin/cfregistration',
-        weight: 5,
-        name: 'event_admin_registration'
-      },
-      {
-        id: 'cfregistrationtype.find',
-        text: '<span class="fa fa-user-plus"></span> '+req.__('cfregistrationtype.find'),
-        href: '/event/'+widget.eventId+'/admin/cfregistrationtype',
         weight: 7,
-        name: 'cfregistrationtype.find'
+        name: 'event_admin_registration'
       },
       {
         id: 'event_admin_menu',

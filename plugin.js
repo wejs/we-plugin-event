@@ -83,7 +83,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'event-theme': __dirname + '/server/forms/event-theme.json',
       'event-messages': __dirname + '/server/forms/event-messages.json',
       'event-managers-add': __dirname + '/server/forms/event-managers-add.json',
-      'cfcontact': __dirname + '/server/forms/cfcontact.json'
+      'cfcontact': __dirname + '/server/forms/cfcontact.json',
+      'event-registrationTypes': __dirname + '/server/forms/event-registrationTypes.json'
     }
   });
 

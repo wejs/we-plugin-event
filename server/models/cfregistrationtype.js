@@ -13,15 +13,16 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.STRING,
         allowNull: false
       },
+      price: {
+        type: we.db.Sequelize.DECIMAL(10, 2),
+        formFieldType: 'event-price',
+        defaultValue: 0
+      },
+
       description: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 300
-      },
-      requireValidation: {
-        type: we.db.Sequelize.BOOLEAN,
-        formFieldType: 'boolean',
-        defaultValue: false
       }
     },
     associations: {

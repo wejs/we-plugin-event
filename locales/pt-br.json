@@ -213,6 +213,11 @@
 	"form-cfregistration-userId": "ID do usuário",
 	"form-cfregistrationtype-description": "Descrição",
 	"form-cfregistrationtype-name": "Nome",
+
+  "form-cfregistrationtype-price": "Preço",
+  "form-placeholder-cfregistrationtype-price": " ",
+  "form-helper-cfregistrationtype-price": " ",
+
 	"form-cfregistrationtype-requireValidation": "Requer validação de inscrição de usuário?",
 	"form-cfroom-about": "Sobre",
 	"form-cfroom-categories": "Categorias",
@@ -571,6 +576,7 @@
 	"event.edit.unpublish": "Despublicar",
 	"event.edit.step.about": "Sobre",
 	"event.edit.step.dates": "Datas",
+	"event.edit.step.registrationTypes": "Tickets",
 	"event.edit.step.visual": "Visual",
 	"event.edit.step.publish": "Publicar",
 	"event.managers": "Gerentes do evento",

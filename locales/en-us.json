@@ -41,6 +41,7 @@
 	"Next": "Next",
 	"event.date.range": "{{start}} to {{end}} of {{yearEnd}}",
 	"event.edit.step.messages": "Messages",
+  "event.edit.step.registrationTypes": "Tickets",
   "form-event-messages-registeredText": "Information text to show in my registration page for registered users",
   "form-helper-event-messages-registeredText": " ",
   "form-placeholder-event-messages-registeredText": " ",
@@ -390,6 +391,10 @@
   "form-cfregistrationtype-name": "Name",
   "form-placeholder-cfregistrationtype-name": " ",
   "form-helper-cfregistrationtype-name": " ",
+
+  "form-cfregistrationtype-price": "Price",
+  "form-placeholder-cfregistrationtype-price": " ",
+  "form-helper-cfregistrationtype-price": " ",
 
   "form-cfregistrationtype-description": "Description",
   "form-placeholder-cfregistrationtype-description": " ",
