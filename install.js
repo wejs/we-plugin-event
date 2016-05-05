@@ -179,6 +179,37 @@ module.exports = {
             }
           ], done);
         }
+      },
+      {
+        version: '1.0.0',
+        update: function (we, done) {
+          we.utils.async.series([
+            function (done) {
+              var sql = 'ALTER TABLE `cfregistrationtypes` ADD COLUMN `startDate`'+
+                ' DATETIME ';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                if (err) {
+                  we.log.error(err);
+                }
+                done();
+              });
+            },
+            function (done) {
+              var sql = 'ALTER TABLE `cfregistrationtypes` ADD COLUMN `endDate`'+
+                ' DATETIME ';
+              we.db.defaultConnection.query(sql).then(function(){
+                done();
+              }).catch(function (err){
+                if (err) {
+                  we.log.error(err);
+                }
+                done();
+              });
+            }
+          ], done);
+        }
       }
     ];
   }
