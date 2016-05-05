@@ -18,12 +18,14 @@ module.exports = function Model(we) {
         formFieldType: 'event-price',
         defaultValue: 0
       },
-
       description: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 300
-      }
+      },
+
+      startDate: { type: we.db.Sequelize.DATE },
+      endDate: { type: we.db.Sequelize.DATE },
     },
     associations: {
       event: {

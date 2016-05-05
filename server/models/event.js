@@ -34,10 +34,6 @@ module.exports = function Model(we) {
         validate: { isEmail: true }
       },
       // event dates
-      callForPapersStartDate: { type: we.db.Sequelize.DATE },
-      callForPapersEndDate: { type: we.db.Sequelize.DATE },
-      registrationStartDate: { type: we.db.Sequelize.DATE },
-      registrationEndDate: { type: we.db.Sequelize.DATE },
       eventStartDate: { type: we.db.Sequelize.DATE },
       eventEndDate: { type: we.db.Sequelize.DATE },
 
