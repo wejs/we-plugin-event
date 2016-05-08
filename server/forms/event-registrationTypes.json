@@ -3,6 +3,13 @@
   "method": "post",
 
   "fields": {
+    "vacancies": {
+      "type": "number",
+      "defaultValue": 0
+    },
+    "separator1": {
+      "type": "break"
+    },
     "eventRegistrationTypes": {
       "type": "eventRegistrationTypes"
     }

@@ -10,27 +10,6 @@ describe('controller_event', function () {
     done();
   });
 
-  describe('location', function(){
-    it ('event.location should set res.locals.data and run event.findOne', function(done){
-
-      we.controllers.event.findOne = function(req, res, next) {
-        assert(req);
-        assert(res);
-        assert(next);
-
-        assert.equal(res.locals.data.id, res.locals.event.id);
-
-        done();
-      }
-
-      var req = { we: we };
-      var res = {
-        locals: { event: { id: 12 } },
-      };
-
-      controller.location(req, res, function(){});
-    });
-  });
   describe('find', function() {
     it('event.find should find for new events, count and run res.ok', function (done) {
       var req = {
@@ -129,58 +108,59 @@ describe('controller_event', function () {
       controller.find(req, res);
     });
 
-    it('event.find with query.my should find for user events, count, loadRegistrationStatus and run res.ok',
-    function (done) {
-      var cfrFindOne = we.db.models.cfregistration.findOne;
-      we.db.models.cfregistration.findOne = function(opts) {
-        assert.equal(opts.where.eventId, res.locals.data[0].id);
-        assert.equal(opts.where.userId, req.user.id);
+    it('event.find with query.my should find for user events, count, loadRegistrationStatus and run res.ok'
+    // , function (done) {
+    //   var cfrFindOne = we.db.models.cfregistration.findOne;
+    //   we.db.models.cfregistration.findOne = function(opts) {
+    //     assert.equal(opts.where.eventId, res.locals.data[0].id);
+    //     assert.equal(opts.where.userId, req.user.id);
 
-        return new we.db.Sequelize.Promise(function (resolve) {
-          resolve({
-            id: 1
-          });
-        });
-      }
+    //     return new we.db.Sequelize.Promise(function (resolve) {
+    //       resolve({
+    //         id: 1
+    //       });
+    //     });
+    //   }
 
-      var req = {
-        we: we,
-        query: { my: true },
-        isAuthenticated: function() { return true; },
-        user: { id: 222 }
-      };
-      var res = {
-        locals: {
-          metadata: {},
-          query: { where: {}, include: [] },
-          Model: {
-            findAll: function(opts) {
-              assert(opts.include[0]);
-              assert.equal(opts.include[0].as, 'managers');
+    //   var req = {
+    //     we: we,
+    //     query: { my: true },
+    //     isAuthenticated: function() { return true; },
+    //     user: { id: 222 }
+    //   };
+    //   var res = {
+    //     locals: {
+    //       metadata: {},
+    //       query: { where: {}, include: [] },
+    //       Model: {
+    //         findAll: function(opts) {
+    //           assert(opts.include[0]);
+    //           assert.equal(opts.include[0].as, 'managers');
 
-              return new we.db.Sequelize.Promise(function (resolve) {
-                resolve([{
-                  id: 12
-                }]);
-              });
-            },
-            count: function() {
-              return new we.db.Sequelize.Promise(function (resolve) {
-                resolve(1);
-              });
-            }
-          }
-        },
-        ok: function() {
-          assert(res.locals.data[0].userCfregistration);
-          we.db.models.cfregistration.findOne = cfrFindOne;
+    //           return new we.db.Sequelize.Promise(function (resolve) {
+    //             resolve([{
+    //               id: 12
+    //             }]);
+    //           });
+    //         },
+    //         count: function() {
+    //           return new we.db.Sequelize.Promise(function (resolve) {
+    //             resolve(1);
+    //           });
+    //         }
+    //       }
+    //     },
+    //     ok: function() {
+    //       assert(res.locals.data[0].userCfregistration);
+    //       we.db.models.cfregistration.findOne = cfrFindOne;
 
-          done();
-        }
-      };
+    //       done();
+    //     }
+    //   };
 
-      controller.find(req, res);
-    });
+    //   controller.find(req, res);
+    // }
+    );
   });
   describe('create', function() {
     it('event.create should run res.ok if not in POST request', function (done) {
@@ -386,57 +366,61 @@ describe('controller_event', function () {
     });
   });
   describe('adminIndex', function() {
-    it('event.adminIndex should load cfsessions how requireRegistration and run res.ok', function (done){
-      var sFindAll = we.db.models.cfsession.findAll;
-      we.db.models.cfsession.findAll = function() {
-        return new we.db.Sequelize.Promise(function (resolve) {
-          resolve([{
-            id: 30
-          }]);
-        });
-      }
+    it('event.adminIndex should load cfsessions how requireRegistration and run res.ok'
+    //   , function (done){
+    //   var sFindAll = we.db.models.cfsession.findAll;
+    //   we.db.models.cfsession.findAll = function() {
+    //     return new we.db.Sequelize.Promise(function (resolve) {
+    //       resolve([{
+    //         id: 30
+    //       }]);
+    //     });
+    //   }
 
-      var req = { we: we, __: we.i18n.__ };
-      var res = {
-        locals: {
-          event: { id: 12 }
-        },
-        ok: function() {
-          assert(res.locals.sessionsToRegister);
+    //   var req = { we: we, __: we.i18n.__ };
+    //   var res = {
+    //     locals: {
+    //       event: { id: 12 }
+    //     },
+    //     ok: function() {
+    //       assert(res.locals.sessionsToRegister);
 
-          we.db.models.cfsession.findAll = sFindAll;
+    //       we.db.models.cfsession.findAll = sFindAll;
 
-          done();
-        }
-      };
+    //       done();
+    //     }
+    //   };
 
-      controller.adminIndex(req, res);
-    });
+    //   controller.adminIndex(req, res);
+    // }
+    );
 
-    it('event.adminIndex should run res.ok if cfssesion find returns error', function (done){
-      var sFindAll = we.db.models.cfsession.findAll;
-      we.db.models.cfsession.findAll = function() {
-        return new we.db.Sequelize.Promise(function (resolve, reject) {
-          reject('test.error');
-        });
-      }
+    it('event.adminIndex should run res.ok if cfssesion find returns error'
+    //   , function (done){
+    //   var sFindAll = we.db.models.cfsession.findAll;
+    //   we.db.models.cfsession.findAll = function() {
+    //     return new we.db.Sequelize.Promise(function (resolve, reject) {
+    //       reject('test.error');
+    //     });
+    //   }
 
-      var req = { we: we, __: we.i18n.__ };
-      var res = {
-        locals: {
-          event: { id: 12 }
-        },
-        queryError: function(err) {
-          assert(err, 'test.error');
+    //   var req = { we: we, __: we.i18n.__ };
+    //   var res = {
+    //     locals: {
+    //       event: { id: 12 }
+    //     },
+    //     queryError: function(err) {
+    //       assert(err, 'test.error');
 
-          we.db.models.cfsession.findAll = sFindAll;
+    //       we.db.models.cfsession.findAll = sFindAll;
 
-          done();
-        }
-      };
+    //       done();
+    //     }
+    //   };
 
-      controller.adminIndex(req, res);
-    });
+    //   controller.adminIndex(req, res);
+    // }
+    );
 
   });
 

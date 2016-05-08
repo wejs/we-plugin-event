@@ -22,21 +22,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       defaultTheme: null,
       models: [
         'event',
-        'cfcertification',
-        'cfnews',
-        'cfregistrationtype',
-        'cfspeaker',
-        'cfcontact',
-        'cfpage',
-        'cfroom',
-        'cftopic',
         'cflink',
-        'cfpartner',
-        'cfsession',
-        'cfvideo',
-        'cfmenu',
-        'cfregistration',
-        'cfsessionSubscriber'
+        'cfmenu'
       ]
     },
     permissions: {
@@ -75,16 +62,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       }
     },
     forms: {
-      'user-cfsession': __dirname + '/server/forms/user-cfsession.json',
       'event-about': __dirname + '/server/forms/event-about.json',
       'event-dates': __dirname + '/server/forms/event-dates.json',
       'event-emails': __dirname + '/server/forms/event-emails.json',
       'event-publish': __dirname + '/server/forms/event-publish.json',
       'event-theme': __dirname + '/server/forms/event-theme.json',
       'event-messages': __dirname + '/server/forms/event-messages.json',
-      'event-managers-add': __dirname + '/server/forms/event-managers-add.json',
-      'cfcontact': __dirname + '/server/forms/cfcontact.json',
-      'event-registrationTypes': __dirname + '/server/forms/event-registrationTypes.json'
+      'event-managers-add': __dirname + '/server/forms/event-managers-add.json'
     }
   });
 
@@ -198,8 +182,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
       // chage html to event html
       res.locals.htmlTemplate = 'event/html';
-      // set registration count metadata
-      res.locals.metadata.cfRegistrationCount = cf.registrationCount;
 
       we.utils.async.parallel([
         function loadMainMenu(cb){
@@ -235,22 +217,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             cb();
           }).catch(cb);
         },
-        function loadTopicImages(cb) {
-          if (!cf.topics) return cb();
-          we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
-        },
-        function isRegistered(cb) {
-          if (!req.isAuthenticated()) return cb();
-          // load current user registration register
-          we.db.models.cfregistration.findOne({
-            where: { eventId: id, userId: req.user.id }
-          }).then(function (r) {
-            if (!r) return cb();
-            res.locals.userCfregistration = r;
-            req.userRoleNames.push('registeredInConference');
-            cb();
-          }).catch(cb);
-        },
         function isManager(cb) {
           if (!req.isAuthenticated()) return cb();
           cf.isManager(req.user.id, function(err, isMNG){
@@ -262,16 +228,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             }
             cb();
           });
-        },
-        function cfcontactCount(cb) {
-          we.db.models.cfcontact.count({
-            where: {
-              eventId: id,
-              status: { $or: ['opened', null] } }
-          }).then(function (count) {
-            res.locals.metadata.cfcontactCount = count;
-            cb();
-          }).catch(cb);
         }
       ], next);
     });

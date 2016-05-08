@@ -5,13 +5,7 @@
  * @description :: System event model
  *
  */
-var assocModelsToDelete = [
-  'cfcontact', 'cflink', 'cfmenu',
-  'cfnews', 'cfpage', 'cfpartner',
-  'cfregistration', 'cfregistrationtype', 'cfroom',
-  'cfsession', 'cfspeaker', 'cftopic',
-  'cfvideo'
-];
+var assocModelsToDelete = [ 'cflink', 'cfmenu' ];
 
 module.exports = function Model(we) {
   var model = {
@@ -134,35 +128,6 @@ module.exports = function Model(we) {
           return 'closed';
         }
       },
-      /**
-       * Resolve and return sendWorkStatus based in
-       *
-       * disabled || after || before || open
-       * @type {Object}
-       */
-      sendWorkStatus: {
-        type: we.db.Sequelize.VIRTUAL,
-        formFieldType: null,
-        get: function() {
-          var s = this.getDataValue('callForPapersStartDate');
-          var e = this.getDataValue('callForPapersEndDate');
-
-          if (s) s = we.utils.moment(s).unix();
-          if (e) e = we.utils.moment(e).unix();
-
-          if (!s||!e) return 'disabled';
-
-          var now = we.utils.moment().unix();
-
-          if ( (s <= now) && (now<=e) ) {
-            return 'open';
-          } else if (s > now) {
-            return 'before';
-          } else {
-            return 'after';
-          }
-        }
-      },
       theme: {
         type: we.db.Sequelize.STRING,
         formFieldType: 'cf-theme-selector'
@@ -185,10 +150,6 @@ module.exports = function Model(we) {
       socialMenu: {
         type: 'belongsTo',
         model: 'cfmenu'
-      },
-      topics: {
-        type: 'hasMany',
-        model: 'cftopic'
       },
       tagsRecords: {
         type: 'hasMany',
@@ -440,30 +401,30 @@ module.exports = function Model(we) {
         afterFind: function(record, options, cb) {
           // load registration count for every event
           var finds = [];
-          if (we.utils._.isArray(record) ) {
-            record.forEach(function (r){
-              finds.push(function (cb) {
-                we.db.models.cfregistration.count({
-                  where: {  eventId: r.id }
-                }).then(function (count){
-                  r.registrationCount = count;
-                  return cb();
-                }).catch(cb);
-              });
-            });
-          } else {
-            // 0 itens found
-            if (!record) return cb();
-            // load cfregistration count for find one record
-            finds.push(function (cb) {
-              we.db.models.cfregistration.count({
-                where: {  eventId: record.id }
-              }).then(function (count){
-                record.registrationCount = count;
-                return cb();
-              }).catch(cb);
-            });
-          }
+          // if (we.utils._.isArray(record) ) {
+          //   record.forEach(function (r){
+          //     finds.push(function (cb) {
+          //       we.db.models.cfregistration.count({
+          //         where: {  eventId: r.id }
+          //       }).then(function (count){
+          //         r.registrationCount = count;
+          //         return cb();
+          //       }).catch(cb);
+          //     });
+          //   });
+          // } else {
+          //   // 0 itens found
+          //   if (!record) return cb();
+          //   // load cfregistration count for find one record
+          //   finds.push(function (cb) {
+          //     we.db.models.cfregistration.count({
+          //       where: {  eventId: record.id }
+          //     }).then(function (count){
+          //       record.registrationCount = count;
+          //       return cb();
+          //     }).catch(cb);
+          //   });
+          // }
           we.utils.async.series(finds, cb);
         },
         afterCreate: function afterCreate (record, options, cb) {
@@ -475,15 +436,15 @@ module.exports = function Model(we) {
               }).catch(done);
             },
             record.generateDefaultMenus.bind(record),
-            record.generateDefaultWidgets.bind(record),
-            function createDefaultRegistrationType (done){
-              return we.db.models.cfregistrationtype.create({
-                name: we.i18n.__('event.cfregistrationtype.name.default'),
-                eventId: record.id
-              }).then(function afterCreateOneRegistrationType (){
-                done();
-              }).catch(done);
-            }
+            // record.generateDefaultWidgets.bind(record),
+            // function createDefaultRegistrationType (done){
+            //   return we.db.models.cfregistrationtype.create({
+            //     name: we.i18n.__('event.cfregistrationtype.name.default'),
+            //     eventId: record.id
+            //   }).then(function afterCreateOneRegistrationType (){
+            //     done();
+            //   }).catch(done);
+            // }
           ], function (err) {
             cb(err, record);
           });

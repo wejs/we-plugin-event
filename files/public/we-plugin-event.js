@@ -118,7 +118,6 @@ window.addEventListener('WebComponentsReady', function() {
 
   /**
    * Event registration types selector
-   * @type {[type]}
    */
   var WeEventRegistrationTypesProt = Object.create(HTMLElement.prototype);
   WeEventRegistrationTypesProt.createdCallback = function createdCallback() {
@@ -143,26 +142,25 @@ window.addEventListener('WebComponentsReady', function() {
       ev.preventDefault();
     }, false);
 
-    document.getElementById(this.dataset.formId)
-    .addEventListener('submit', function(ev) {
-      ev.preventDefault();
-
-      console.log(ev.target);
-
-      return false;
-    }, false);
-
     this.showLoading();
 
     this.getTypesData(function (data){
       self.typesData = data.cfregistrationtype;
-
       self.renderTable();
-
       self.hideLoading();
     });
 
+    this.addEventListener('we:modal:form:submit:success', this.onCreateNewItem);
   }
+  WeEventRegistrationTypesProt.onCreateNewItem = function (ev){
+    if (ev.defaultPrevented) return;
+    ev.preventDefault();
+
+    this.querySelector('tbody').innerHTML +=  this.renderLine(ev.detail.cfregistrationtype);
+
+    return false;
+  }
+
   WeEventRegistrationTypesProt.showLoading = function() {
 
   }
@@ -201,14 +199,15 @@ window.addEventListener('WebComponentsReady', function() {
           }
         }
 
-    html += '</tbody><tfoot>'+
-      // create form
-      this.renderLine()+
-    '</tfoot></table>';
+    html += '</tbody><tfoot><tr><td colspan="5">'+
+      '<we-overlay-form-btn class="btn btn-default" data-url="/event/'+this.dataset.eventId+
+          '/admin/cfregistrationtype/create?contentOnly=true">'+
+          this.dataset.labelCreate+
+      '</we-overlay-form-btn>'+
+    '</tr></td></tfoot></table>';
 
     this.innerHTML = html;
   }
-
   WeEventRegistrationTypesProt.renderLine = function renderLine(data) {
     var lineClass = '';
     if (!data) {
@@ -250,104 +249,68 @@ window.addEventListener('WebComponentsReady', function() {
   var WeEventRegistrationTypeProt = Object.create(HTMLTableRowElement.prototype);
 
   WeEventRegistrationTypeProt.createdCallback = function createdCallback() {
+    this.renderContent();
+
+    this.addEventListener('click', this.removeCFRT, false);
+    this.addEventListener('we:modal:form:submit:success', this.onUpdate);
+  }
+
+  WeEventRegistrationTypeProt.onUpdate = function onUpdate(ev) {
+    if (ev.defaultPrevented) return;
+    ev.preventDefault();
+
+    var data = ev.detail.cfregistrationtype;
+    var d;
+    if (data.startDate) {
+      d = new Date(data.startDate);
+      data.startDate = window.moment(d.toISOString()).format(this.CRFTSelector.dataset.dateformat);
+    }
+
+    if (data.endDate) {
+      d = new Date(data.endDate);
+      data.endDate = window.moment(d.toISOString()).format(this.CRFTSelector.dataset.dateformat);
+    }
+
+    this.dataset.name = data.name;
+    this.dataset.price = data.price;
+    this.dataset.description = (data.description || '');
+    this.dataset.startDate = (data.startDate || '');
+    this.dataset.endDate = (data.endDate || '');
+
+    this.renderContent();
+
+    return false;
+  }
+
+  WeEventRegistrationTypeProt.renderContent = function renderContent() {
     var data = this.dataset;
 
     if (!data.price) data.price = 0;
 
     this.CRFTSelector = this.parentElement.parentElement.parentElement;
 
+    var eventId = this.CRFTSelector.dataset.eventId;
+
     var labelRemove = this.CRFTSelector.dataset.labelRemove;
-    var labelBtn = ((data.id) ? this.CRFTSelector.dataset.labelSave: this.CRFTSelector.dataset.labelCreate );
+    var labelBtn = ((data.id) ? this.CRFTSelector.dataset.labelEdit: this.CRFTSelector.dataset.labelCreate );
 
     this.innerHTML =
-    '<td><input name="name" value="'+
-      we.utils.sanitize(data.name || '')
-    +'" required></td>'+
-    '<td><input is="we-event-price-field" name="price" value="'+
-      we.utils.sanitize( Number(data.price).toFixed(2) || 0 ) +
-    '" size="5" required></td>'+
+    '<td>'+we.utils.sanitize(data.name || '')+'</td>'+
+    '<td>'+we.utils.sanitize( Number(data.price).toFixed(2) || 0 ) +'</td>'+
     '<td>'+
-      '<we-datetime-picker data-viewformat="'+this.CRFTSelector.dataset.dateformat+'" data-max-date="'+
-          this.CRFTSelector.dataset.maxDate
-        +'">'+
-        '<input name="startDate" value="'+(data.startDate || '')+'" >'+
-      '</we-datetime-picker>'+
-      '<we-datetime-picker data-viewformat="'+this.CRFTSelector.dataset.dateformat+'" data-max-date="'+
-          this.CRFTSelector.dataset.maxDate
-        +'">'+
-        '<input name="endDate" value="'+(data.endDate || '')+'" >'+
-      '</we-datetime-picker>'+
+      '<div>'+(data.startDate || '')+'</div>'+
+      '<div>'+(data.endDate || '')+'</div>'+
     '</td>'+
-    '<td><textarea name="description">'+
-      we.utils.sanitize( data.description || '' )+
-    '</textarea></td>'+
-    '<td>'+
-      ((data.id) ? '<input name="id" type="hidden" value="'+data.id+'">': '' )+
-      '<button name="save" type="button" class="btn-cfrt-save">'+
+    '<td class="cfrt-f-description">'+we.utils.sanitize( data.description || '' )+'</td>'+
+    '<td class="cfrt-f-actions">'+
+      '<we-overlay-form-btn class="btn btn-default" data-url="/event/'+eventId+
+          '/admin/cfregistrationtype/'+data.id+
+          '/edit?contentOnly=true">'+
         labelBtn+
-      '</button>'+
-      ((data.id) ? '<button name="remove" type="button" class="btn-cfrt-remove">'+labelRemove+
+      '</we-overlay-form-btn>'+
+      ((data.id) ? '<button class="btn btn-default" name="remove" type="button" class="btn-cfrt-remove">'+labelRemove+
       '</button>': '' ) +
     '</td>';
-
-    this.addEventListener('click', this.saveCFRT, false);
-    this.addEventListener('click', this.removeCFRT, false);
-  }
-
-  WeEventRegistrationTypeProt.saveCFRT = function saveCFRT(event) {
-    if (event.target.name != 'save') return;
-    event.preventDefault();
-
-    var self = this;
-
-    var id = this.dataset.id;
-    var name = this.querySelector('input[name=name]').value;
-    if (!name) return; // name is required;
-    var price = this.querySelector('input[name=price]').value;
-    var description = this.querySelector('textarea').value;
-    var startDate = this.querySelector('input[name=startDate]').value;
-    var endDate = this.querySelector('input[name=endDate]').value;
-
-    var url;
-
-    if (id) {
-      url = '/event/'+this.dataset.eventId+'/admin/cfregistrationtype/'+id+'/edit';
-    } else {
-      url = '/event/'+this.dataset.eventId+'/admin/cfregistrationtype/create';
-    }
-
-    self.startLoading();
-
-    var data = {
-      name: name,
-      price: price,
-      description: description
-    };
-
-    if (startDate) data.startDate = startDate;
-    if (endDate) data.endDate = endDate;
-
-    $.ajax({
-      url: url,
-      method: 'POST',
-      headers: { Accept: 'application/json' },
-      data: data
-    }).then(function afterSave(r) {
-      var evName = (id)? 'cfregistrationtype:'+id+':updated': 'cfregistrationtype:created';
-
-      if (!id) self.resetForm();
-
-      self.dispatchEvent(new CustomEvent(evName, {
-        detail: r,
-        bubbles: true,
-        cancelable: true
-      }));
-
-    }).fail(function onFail(err){
-      console.error(err);
-    }).always(function always(){
-      self.endLoading();
-    });
   }
 
   WeEventRegistrationTypeProt.startLoading = function startLoading() {

@@ -1,12 +1,4 @@
 module.exports = {
-  /**
-   * Event location page, by default will show one map with event location to user
-   */
-  location: function location(req, res, next) {
-    res.locals.data = res.locals.event;
-    req.we.controllers.event.findOne(req, res, next);
-  },
-
   find: function findAll(req, res) {
     if (req.query.my) {
       if (!req.isAuthenticated()) return res.forbidden();
@@ -43,21 +35,7 @@ module.exports = {
 
         res.locals.metadata.count = count;
 
-        if (!req.isAuthenticated()) return res.ok();
-
-        // if user is authenticated load its registration status
-        req.we.utils.async.eachSeries(res.locals.data, function (r, next) {
-          // load current user registration register
-          req.we.db.models.cfregistration.findOne({
-            where: { eventId: r.id, userId: req.user.id }
-          }).then(function afterFindRegistration(cfr) {
-            r.userCfregistration = cfr;
-            next();
-          }).catch(next);
-        }, function afterEach(err){
-          if (err) return res.serverError();
-          return res.ok();
-        });
+        res.ok();
       }).catch(res.queryError);
     }).catch(res.queryError);
   },
@@ -118,24 +96,7 @@ module.exports = {
   },
 
   adminIndex: function adminIndex(req, res) {
-    req.we.utils.async.parallel([
-      function loadCfSessions(done) {
-        return req.we.db.models.cfsession.findAll({
-          where: {
-            eventId: res.locals.event.id,
-            requireRegistration: 1
-          },
-          include: [
-            { model: req.we.db.models.cfroom, as: 'room' },
-            { model: req.we.db.models.cfregistration, as: 'subscribers' }
-          ]
-        }).then(function afterLoadCfsessions(cfsessions) {
-          res.locals.sessionsToRegister = cfsessions;
-
-          done();
-        }).catch(done)
-      }
-    ], function afterLoadAllData(err) {
+    req.we.utils.async.parallel([], function afterLoadAllData(err) {
       if (err) return res.queryError(err);
 
       res.ok();

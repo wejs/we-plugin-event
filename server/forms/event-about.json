@@ -33,10 +33,6 @@
       "type": "text",
       "allowNull": false
     },
-    "vacancies": {
-      "type": "number",
-      "defaultValue": 0
-    },
     "tags": {
       "type": "vocabulary/tag",
       "vocabularyName": "Tags",

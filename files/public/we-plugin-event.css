@@ -1,0 +1,11 @@
+.cfrt-f-description {
+  max-width: 200px;
+  overflow-y: auto;
+  max-height: 200px;
+  white-space: pre-line;
+  font-size: 11px;
+}
+
+.overlay form[name=cfregistrationtype] a.btn.btn-danger {
+  display: none;
+}
