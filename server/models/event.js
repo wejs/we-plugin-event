@@ -54,7 +54,15 @@ module.exports = function Model(we) {
         defaultValue: false,
         formFieldType: 'boolean'
       },
+
       location: { type: we.db.Sequelize.TEXT },
+      latitude: {
+        type: we.db.Sequelize.DECIMAL(18,15)
+      },
+      longitude: {
+        type: we.db.Sequelize.DECIMAL(18,15)
+      },
+
       published: {
         type: we.db.Sequelize.BOOLEAN,
         defaultValue: false,
