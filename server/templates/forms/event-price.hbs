@@ -1,8 +1,0 @@
-<div class="event-price-field form-group {{#if error}}has-error has-feedback{{/if}}">
-  <label for="{{fieldId}}">{{t fieldName}} {{#ifCond field.allowNull false}}*{{/ifCond}}</label>
-  {{{field-help-error error}}}
-  <storng>{{locals.req.we.config.payment.moneyPrefix}}</storng>
-  <input is="we-event-price-field" id="{{fieldId}}" value="{{money-number value}}" type="text" name="{{name}}" size="7" placeholder="0">
-  <p class="help-block">{{t help}}</p>
-  {{{field-help-error error}}}
-</div>
