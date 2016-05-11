@@ -34,11 +34,22 @@ npm install --save we-plugin-event we-plugin-menu we-plugin-form we-plugin-file
 
 ```js
 plugin.hooks.on('we-plugin-event:before:send:event', function(data, next) {
-    // data ==  {req: res, res: res, next: next}
+    // data ==  {req: res, res: res}
 
     next();
 });
 ```
+
+### Before send admin index page:
+
+```js
+plugin.hooks.on('we-plugin-event:before:send:admin:index', function(data, next) {
+    // data ==  {req: res, res: res}
+
+    next();
+});
+```
+
 
 ### How to test
 
@@ -57,7 +68,7 @@ npm run coverage
 ##### For run only 'cfnewsFeature' test use:
 
 ```sh
-we test -g 'cfnewsFeature'
+we test -g 'event'
 ```
 
 #### NPM Info:

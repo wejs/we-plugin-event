@@ -241,6 +241,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           });
         },
         function loadAdminMenu(cb) {
+          if (!req.eventAdmin) return cb();
+
           res.locals.eventAdminMenu = new req.we.class.Menu({
             class: 'nav nav-pills nav-stacked',
             links: [
@@ -259,16 +261,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
                 name: 'event_admin_edit'
               },
               {
-                id: 'event_admin_registration',
-                text: '<span class="fa fa-user-plus"></span> '+req.__('event_admin_registration'),
-                href: '/event/'+cf.id+'/admin/cfregistration',
-                weight: 7,
-                name: 'event_admin_registration'
-              },
-              {
                 id: 'event.managers',
                 text: '<span class="fa fa-user-md"></span> '+req.__('event.managers'),
                 href: '/event/'+cf.id+'/admin/managers',
+                weight: 13,
+                name: 'event.managers'
+              },
+              {
+                id: 'cfmenu.find',
+                text: '<span class="fa fa-bars"></span> '+req.__('cfmenu.find'),
+                href: '/event/'+cf.id+'/admin/cfmenu',
                 weight: 13,
                 name: 'event.managers'
               }

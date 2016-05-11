@@ -108,8 +108,10 @@ module.exports = {
   },
 
   adminIndex: function adminIndex(req, res) {
-    req.we.utils.async.parallel([], function afterLoadAllData(err) {
-      if (err) return res.queryError(err);
+    req.we.hooks.trigger('we-plugin-event:before:send:admin:index', {
+      req: req, res: res
+    }, function afterLoadAllDataInAdminIndex(err) {
+      if (err) return res.serverError(err);
 
       res.ok();
     });
