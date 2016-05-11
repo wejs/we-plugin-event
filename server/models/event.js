@@ -83,6 +83,12 @@ module.exports = function Model(we) {
         formFieldType: 'html',
         formFieldHeight: 300
       },
+      // in conference mode, this event only allows single user registrations
+      conferenceMode: {
+        type: we.db.Sequelize.BOOLEAN,
+        defaultValue: false,
+        formFieldType: 'boolean'
+      },
       managerIds: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
