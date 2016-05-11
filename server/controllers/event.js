@@ -1,5 +1,17 @@
 module.exports = {
-  find: function findAll(req, res) {
+  findOne: function findOne(req, res, next) {
+    if (!res.locals.data) return res.notFound();
+
+    req.we.hooks.trigger('we-plugin-event:before:send:event', {
+      req: res, res: res, next: next
+    }, function afterRunHook(err) {
+      if (err) return res.serverError(err);
+
+      res.ok();
+    });
+  },
+
+  find: function find(req, res) {
     if (req.query.my) {
       if (!req.isAuthenticated()) return res.forbidden();
       res.locals.query.include.push({

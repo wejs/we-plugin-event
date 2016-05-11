@@ -28,6 +28,18 @@ npm install --save we-plugin-event we-plugin-menu we-plugin-form we-plugin-file
  - Add a event portal system in your we.js project
  - For see all features access http://events.wejs.org
 
+## Hooks and events:
+
+### Before send one event:
+
+```js
+plugin.hooks.on('we-plugin-event:before:send:event', function(data, next) {
+    // data ==  {req: res, res: res, next: next}
+
+    next();
+});
+```
+
 ### How to test
 
 after clone and install npm packages:
