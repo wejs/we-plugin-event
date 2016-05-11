@@ -17,6 +17,14 @@
       "type": "email",
       "allowNull": false
     },
+    "eventStartDate": {
+      "type": "date",
+      "allowNull": true
+    },
+    "eventEndDate": {
+      "type": "date",
+      "allowNull": true
+    },
     "about": {
       "type": "textarea",
       "defaultValue": "",
@@ -25,13 +33,19 @@
       },
       "allowNull": false
     },
+    "tsl-1": {
+      "type": "break"
+    },
     "isOnline": {
       "type": "boolean",
       "defaultValue": false
     },
     "location": {
-      "type": "text",
+      "type": "google-maps-coords-picker",
       "allowNull": false
+    },
+    "tsl-2": {
+      "type": "break"
     },
     "tags": {
       "type": "vocabulary/tag",
@@ -59,7 +73,29 @@
     },
     "registeredTextSeparator": {
       "type": "break"
-    }
+    },
+    "registeredText": {
+      "type": "html",
+      "formFieldHeight": 200
+    },
+    "tms-1": { "type": "break" },
+    "theme": {
+      "type": "cf-theme-selector"
+    },
+
+    "logo": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    },
+    "banner": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    },
+    "favicon": {
+      "type": "file/image",
+      "formFieldMultiple": false
+    },
+    "tms-2": { "type": "break" }
   },
   "actions": {
     "submit": {

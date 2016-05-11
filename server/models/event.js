@@ -56,13 +56,24 @@ module.exports = function Model(we) {
       },
 
       location: { type: we.db.Sequelize.TEXT },
+      country: {
+        type: we.db.Sequelize.STRING,
+        formFieldType: null
+      },
+      state: {
+        type: we.db.Sequelize.STRING,
+        formFieldType: null
+      },
+      city: {
+        type: we.db.Sequelize.STRING,
+        formFieldType: null
+      },
       latitude: {
         type: we.db.Sequelize.DECIMAL(18,15)
       },
       longitude: {
         type: we.db.Sequelize.DECIMAL(18,15)
       },
-
       published: {
         type: we.db.Sequelize.BOOLEAN,
         defaultValue: false,
@@ -264,28 +275,30 @@ module.exports = function Model(we) {
                 class: 'nav navbar-nav navbar-right'
               }).then(function afterCreateCFMenus(m) {
                 self.setMainMenu(m);
-                we.db.models.cflink.bulkCreate([{
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: we.i18n.__('cfnews.find'),
-                  title: we.i18n.__('cfnews.find'),
-                  href: '/event/'+self.id+'/cfnews',
-                  depth: 1
-                },{
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: we.i18n.__('cfvideo.find'),
-                  title: we.i18n.__('cfvideo.find'),
-                  href: '/event/'+self.id+'/cfvideo',
-                  depth: 3
-                },{
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: we.i18n.__('cfcontact.link'),
-                  title: we.i18n.__('cfcontact.link'),
-                  href: '/event/'+self.id+'/contact',
-                  depth: 5
-                }]).spread(function afterAddLinksToMainMenu() {
+                we.db.models.cflink.bulkCreate([
+                // {
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: we.i18n.__('cfnews.find'),
+                //   title: we.i18n.__('cfnews.find'),
+                //   href: '/event/'+self.id+'/cfnews',
+                //   depth: 1
+                // },{
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: we.i18n.__('cfvideo.find'),
+                //   title: we.i18n.__('cfvideo.find'),
+                //   href: '/event/'+self.id+'/cfvideo',
+                //   depth: 3
+                // },{
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: we.i18n.__('cfcontact.link'),
+                //   title: we.i18n.__('cfcontact.link'),
+                //   href: '/event/'+self.id+'/contact',
+                //   depth: 5
+                // }
+                ]).spread(function afterAddLinksToMainMenu() {
                   done();
                 }).catch(done)
               }).catch(done);
@@ -308,30 +321,32 @@ module.exports = function Model(we) {
               }).then(function afterCreateSocialMenu(m) {
                 self.setSocialMenu(m);
 
-                we.db.models.cflink.bulkCreate([{
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: '<i class="fa fa-youtube-play"></i> ',
-                  href: '#',
-                  class: 'btn btn-empty-inverse btn-lg',
-                  depth: 1
-                },
-                {
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: '<i class="fa fa-facebook"></i> ',
-                  href: '#',
-                  class: 'btn btn-empty-inverse btn-lg',
-                  depth: 1
-                },
-                {
-                  eventId: self.id,
-                  cfmenuId: m.id,
-                  text: '<i class="fa fa-twitter"></i> ',
-                  href: '#',
-                  class: 'btn btn-empty-inverse btn-lg',
-                  depth: 1
-                }]).then(function afterAddLinksToSocialMenu() {
+                we.db.models.cflink.bulkCreate([
+                // {
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: '<i class="fa fa-youtube-play"></i> ',
+                //   href: '#',
+                //   class: 'btn btn-empty-inverse btn-lg',
+                //   depth: 1
+                // },
+                // {
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: '<i class="fa fa-facebook"></i> ',
+                //   href: '#',
+                //   class: 'btn btn-empty-inverse btn-lg',
+                //   depth: 1
+                // },
+                // {
+                //   eventId: self.id,
+                //   cfmenuId: m.id,
+                //   text: '<i class="fa fa-twitter"></i> ',
+                //   href: '#',
+                //   class: 'btn btn-empty-inverse btn-lg',
+                //   depth: 1
+                // }
+                ]).then(function afterAddLinksToSocialMenu() {
                   done();
                 }).catch(done)
               }).catch(done)
