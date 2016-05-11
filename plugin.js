@@ -77,6 +77,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   // set routes and resources
   plugin.setRoutesAndResources(plugin);
 
+  plugin.eventAdminFlagMD = function eventAdminFlagMD(req, res, next) {
+    req.eventAdmin = true;
+    next();
+  }
+
   // use we:after:load:plugins for set default event theme
   plugin.events.on('we:after:load:plugins', function (we) {
     if (
@@ -87,17 +92,22 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
+  // set admin flag req.eventAdmin
+  plugin.events.on('we:after:load:express', function setAdminFlag(we) {
+    we.express.use('/event/:eventId([0-9]+)/admin', plugin.eventAdminFlagMD);
+  });
+
+
   plugin.hooks.on('we:router:request:before:load:context', function (data, done) {
     var we = data.req.we;
     // set event id in all requests if singleConferenceId is set
     if (we.config.event.singleConferenceId)
-      data.req.params.eventId =  we.config.event.singleConferenceId;
+      data.req.params.eventId = we.config.event.singleConferenceId;
     // skip if not are inside one event
     if (!data.req.params.eventId) return done();
     // load event context
     loadConferenceAndConferenceContext(data.req, data.res, done, data.req.params.eventId);
   });
-
 
   plugin.hooks.on('we:router:request:after:load:context', function (data, done) {
     if(!data.res.locals.event) return done();
@@ -158,14 +168,15 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   // event loader
   function loadConferenceAndConferenceContext(req, res, next, id) {
-    // skip in admin pages
+    // skip in global admin pages
     if (res.locals.isAdmin) return next();
 
     var we = req.we;
     we.db.models.event.findOne({
       where: { id: id }, include: { all: true }
-    }).then(function (cf) {
+    }).then(function afterFindContextEvent(cf) {
       if (!cf) return res.notFound();
+
       res.locals.title = cf.title;
       res.locals.event = cf;
       res.locals.widgetContext = 'event-' + res.locals.event.id;
@@ -183,7 +194,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       // chage html to event html
       res.locals.htmlTemplate = 'event/html';
 
-      we.utils.async.parallel([
+      we.utils.async.series([
         function loadMainMenu(cb){
           if (!cf.mainMenu) return cb();
           cf.mainMenu.getLinks({
@@ -228,6 +239,43 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             }
             cb();
           });
+        },
+        function loadAdminMenu(cb) {
+          res.locals.eventAdminMenu = new req.we.class.Menu({
+            class: 'nav nav-pills nav-stacked',
+            links: [
+              {
+                id: 'event_admin',
+                text: '<span class="fa fa-tachometer"></span> '+req.__('event_admin'),
+                href: '/event/'+cf.id+'/admin',
+                weight: 1,
+                name: 'event_admin'
+              },
+              {
+                id: 'event_admin_edit',
+                text: '<span class="fa fa-pencil-square-o"></span> '+req.__('event_admin_edit'),
+                href: '/event/'+cf.id+'/admin/edit',
+                weight: 3,
+                name: 'event_admin_edit'
+              },
+              {
+                id: 'event_admin_registration',
+                text: '<span class="fa fa-user-plus"></span> '+req.__('event_admin_registration'),
+                href: '/event/'+cf.id+'/admin/cfregistration',
+                weight: 7,
+                name: 'event_admin_registration'
+              },
+              {
+                id: 'event.managers',
+                text: '<span class="fa fa-user-md"></span> '+req.__('event.managers'),
+                href: '/event/'+cf.id+'/admin/managers',
+                weight: 13,
+                name: 'event.managers'
+              }
+            ]
+          });
+
+          cb();
         }
       ], next);
     });
