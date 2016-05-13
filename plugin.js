@@ -264,7 +264,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
                 id: 'event.managers',
                 text: '<span class="fa fa-user-md"></span> '+req.__('event.managers'),
                 href: '/event/'+cf.id+'/admin/managers',
-                weight: 13,
+                weight: 11,
                 name: 'event.managers'
               },
               {
@@ -277,7 +277,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             ]
           });
 
-          cb();
+          plugin.hooks.trigger('we-plugin-event:extend:event:admin:menu', {
+            req: req, res: res
+          }, cb);
         }
       ], next);
     });
