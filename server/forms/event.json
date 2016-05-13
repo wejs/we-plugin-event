@@ -71,13 +71,6 @@
       "type": "email",
       "allowNull": false
     },
-    "registeredTextSeparator": {
-      "type": "break"
-    },
-    "registeredText": {
-      "type": "html",
-      "formFieldHeight": 200
-    },
     "tms-1": { "type": "break" },
     "theme": {
       "type": "cf-theme-selector"
