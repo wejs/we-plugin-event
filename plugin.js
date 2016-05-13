@@ -135,7 +135,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         text: '<i class="glyphicon glyphicon-cog"></i> '+
           data.req.__('event.menu.admin'),
         href: we.router.urlTo(
-          'event_admin', [data.res.locals.event.id], we
+          'event.admin', [data.res.locals.event.id], we
         ),
         parent: 'user',
         class: null,
@@ -248,7 +248,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             links: [
               {
                 id: 'event_admin',
-                text: '<span class="fa fa-tachometer"></span> '+req.__('event_admin'),
+                text: '<span class="fa fa-tachometer"></span> '+req.__('event.admin'),
                 href: '/event/'+cf.id+'/admin',
                 weight: 1,
                 name: 'event_admin'
