@@ -195,39 +195,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       res.locals.htmlTemplate = 'event/html';
 
       we.utils.async.series([
-        function loadMainMenu(cb){
-          if (!cf.mainMenu) return cb();
-          cf.mainMenu.getLinks({
-            order: [
-              ['weight','ASC'], ['createdAt','ASC']
-            ]
-          }).then(function (links){
-            cf.mainMenu.links = links;
-            cb();
-          }).catch(cb);
-        },
-        function loadSecondaryMenu(cb) {
-          if (!cf.secondaryMenu) return cb();
-          cf.secondaryMenu.getLinks({
-            order: [
-              ['weight','ASC'], ['createdAt','ASC']
-            ]
-          }).then(function (links){
-            cf.secondaryMenu.links = links;
-            cb();
-          }).catch(cb);
-        },
-        function loadSocialMenu(cb) {
-          if (!cf.socialMenu) return cb();
-          cf.socialMenu.getLinks({
-            order: [
-              ['weight','ASC'], ['createdAt','ASC']
-            ]
-          }).then(function (links) {
-            cf.socialMenu.links = links;
-            cb();
-          }).catch(cb);
-        },
         function isManager(cb) {
           if (!req.isAuthenticated()) return cb();
           cf.isManager(req.user.id, function(err, isMNG){
@@ -239,6 +206,15 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             }
             cb();
           });
+        },
+        function loadMainMenu(cb) {
+          res.locals.eventMainMenu = new req.we.class.Menu({
+            class: 'event-main-menu'
+          });
+
+          plugin.hooks.trigger('we-plugin-event:extend:event:main:menu', {
+            req: req, res: res
+          }, cb);
         },
         function loadAdminMenu(cb) {
           if (!req.eventAdmin) return cb();

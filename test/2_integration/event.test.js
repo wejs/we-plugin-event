@@ -78,13 +78,7 @@ describe('eventFeature', function() {
         assert(res.body.event.id);
         assert.equal(res.body.event.title, cf.title);
 
-        we.db.models.cfmenu.findAll({
-          where: { eventId: res.body.event.id }
-        }).then(function (m) {
-          // should create more than one menu
-          assert(m.length > 0);
-          done();
-        });
+        done();
       });
     });
     it ('get /event/:id should get one event', function (done) {

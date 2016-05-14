@@ -1,9 +1,9 @@
 module.exports = {
-  findOne: function findOne(req, res, next) {
+  findOne: function findOne(req, res) {
     if (!res.locals.data) return res.notFound();
 
     req.we.hooks.trigger('we-plugin-event:before:send:event', {
-      req: res, res: res, next: next
+      req: req, res: res
     }, function afterRunHook(err) {
       if (err) return res.serverError(err);
 
@@ -12,6 +12,8 @@ module.exports = {
   },
 
   find: function find(req, res) {
+    if (!res.locals.query.include) res.locals.query.include = [];
+
     if (req.query.my) {
       if (!req.isAuthenticated()) return res.forbidden();
       res.locals.query.include.push({

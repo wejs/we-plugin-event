@@ -30,7 +30,7 @@ npm install --save we-plugin-event we-plugin-menu we-plugin-form we-plugin-file
 
 ## Hooks and events:
 
-### Before send one event:
+### Before send one event in findOne:
 
 ```js
 plugin.hooks.on('we-plugin-event:before:send:event', function(data, next) {
