@@ -208,6 +208,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           });
         },
         function loadMainMenu(cb) {
+          if (!we.plugins['we-plugin-menu']) return cb();
+
           res.locals.eventMainMenu = new req.we.class.Menu({
             class: 'event-main-menu'
           });
@@ -217,7 +219,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           }, cb);
         },
         function loadAdminMenu(cb) {
-          if (!req.eventAdmin) return cb();
+          if (!req.eventAdmin || !we.plugins['we-plugin-menu']) {
+            return cb();
+          }
 
           res.locals.eventAdminMenu = new req.we.class.Menu({
             class: 'nav nav-pills nav-stacked',
