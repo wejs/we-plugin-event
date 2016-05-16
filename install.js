@@ -8,6 +8,8 @@ module.exports = {
   install: function install(we, done) {
     we.utils.async.series([
       function createEventsListWidgets(done) {
+        if (!we.plugins['we-plugin-widget']) return done();
+
         we.db.models.widget.bulkCreate([
           {
             title: null,
