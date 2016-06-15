@@ -87,10 +87,15 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  // set breadcrumb middlewares after routes
-  plugin.setBreadcrumbs(plugin);
-  // set routes and resources
-  plugin.setRoutesAndResources(plugin);
+  plugin.hooks.on('we:before:load:plugin:features', function (we, done) {
+    // set breadcrumb middlewares after routes
+    plugin.setBreadcrumbs(plugin);
+    // set routes and resources
+    plugin.setRoutesAndResources(plugin);
+
+    done()
+  });
+
 
   // use we:after:load:plugins for set default event theme
   plugin.events.on('we:after:load:plugins', function (we) {
