@@ -124,7 +124,7 @@ module.exports = function Model(we) {
       registrationStatus: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
+        get: function get () {
           var startDate = this.getDataValue('registrationStartDate');
           var endDate = this.getDataValue('registrationEndDate');
 

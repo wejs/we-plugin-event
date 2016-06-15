@@ -72,10 +72,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  // set breadcrumb middlewares after routes
-  plugin.setBreadcrumbs(plugin);
-  // set routes and resources
-  plugin.setRoutesAndResources(plugin);
+
+  plugin.hooks.on('we:before:load:plugin:features', function (we, done) {
+    // set breadcrumb middlewares after routes
+    plugin.setBreadcrumbs(plugin);
+    // set routes and resources
+    plugin.setRoutesAndResources(plugin);
+
+    done();
+  });
+
 
   plugin.eventAdminFlagMD = function eventAdminFlagMD(req, res, next) {
     req.eventAdmin = true;
