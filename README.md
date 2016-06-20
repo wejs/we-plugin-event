@@ -7,20 +7,12 @@
 [![Build Status](https://travis-ci.org/wejs/we-plugin-event.svg?branch=master)](https://travis-ci.org/wejs/we-plugin-event)
 [![Coverage Status](https://coveralls.io/repos/github/wejs/we-plugin-event/badge.svg?branch=master)](https://coveralls.io/github/wejs/we-plugin-event?branch=master)
 
-## Requirements in your project
-
-- we-core
-- we-plugin-menu
-- we-plugin-form
-- we-plugin-file
-- we-plugin-vocabulary
-
 ## Installation:
 
 In We.js project run:
 
 ```sh
-npm install --save we-plugin-event we-plugin-menu we-plugin-form we-plugin-file
+we i we-plugin-event
 ```
 
 ## Have suport to:
