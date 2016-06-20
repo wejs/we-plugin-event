@@ -1,8 +1,8 @@
 {
   "name": "we-plugin-event",
   "description": "We.js plugin with event features",
-  "version": "0.3.66",
-  "main": "lib/index.js",
+  "version": "1.0.0",
+  "main": "plugin.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js -b",
     "coverage": "NODE_ENV=test LOG_LV=info node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/bootstrap.js test/**/*.test.js"
@@ -22,7 +22,6 @@
     "supertest": "^1.2.0",
     "we-core": "^1.2.5",
     "we-plugin-file": "^1.0.6",
-    "we-plugin-form": "^0.3.33",
     "we-plugin-menu": "^1.1.1",
     "we-plugin-vocabulary": "^0.3.23",
     "we-test-tools": "^0.3.14",
@@ -30,13 +29,23 @@
     "we-theme-event": "^0.3.10",
     "we-theme-pratt": "^1.0.3"
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "author": "Alberto Souza <contato@albertosouza.net>",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:wejs/we-plugin-event"
+  "repository": "wejs/we-plugin-event",
+  "keywords": [
+    "conference",
+    "wejs-plugin"
+  ],
+  "wejs": {
+    "dependencies": {
+      "we-plugin-file": true,
+      "we-plugin-menu": true,
+      "we-plugin-vocabulary": true
+    },
+    "plugins": {
+      "we-plugin-file": true,
+      "we-plugin-menu": true,
+      "we-plugin-vocabulary": true
+    }
   }
 }
