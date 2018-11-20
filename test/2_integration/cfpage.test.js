@@ -68,11 +68,12 @@ describe('cfpageFeature', function() {
       we.db.models.cfpage.create({
         title: 'One page',
         eventId: cf.id
-      }).then(function(cfp){
+      })
+      .then(function(cfp) {
         cfp.title = 'changed title';
         // then edit
         authenticatedRequest.post('/event/'+cf.id+'/cfpage/'+cfp.id+'/edit?redirectTo=/redirecttome')
-        .send(cfp)
+        .send(cfp.get())
         .expect(302)
         .end(function (err, res) {
           if (err) throw err;

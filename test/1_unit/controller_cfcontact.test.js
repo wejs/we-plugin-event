@@ -120,7 +120,7 @@ describe('controller_cfcontact', function () {
           throw err;
         },
         goTo: function (path) {
-          assert.equal(path, '/');
+          assert.equal(path, '/event/'+salvedConference.id);
 
           we.antiSpam.recaptcha.verify = RCVerify;
           we.log.warn = warn;

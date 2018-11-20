@@ -1,0 +1,46 @@
+const projectPath = process.cwd(),
+  path = require('path');
+
+let configs;
+
+try {
+
+
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+
+configs = {
+  port: 9800,
+  hostname: 'http://localhost:9800',
+  appName: 'We test',
+  passport: {
+    accessTokenTime: 300000000,
+    cookieDomain: null,
+    cookieName: 'weoauth',
+    cookieSecure: false
+  },
+
+  database: {
+    test: {
+      host: 'localhost',
+      dialect: 'sqlite',
+      storage: path.join(projectPath, 'db_test.sqlite')
+    }
+  }
+}
+
+configs.session = {
+  store: new SQLiteStore({
+    table: 'db_test_session',
+    db: 'db_test_session.sqlite',
+    dir: projectPath
+  }),
+  secret: '123333333',
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
+};
+
+} catch(e) {
+  throw new Error(e);
+}
+
+module.exports = configs;

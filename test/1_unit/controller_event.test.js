@@ -34,6 +34,7 @@ describe('controller_event', function () {
   describe('find', function() {
     it('event.find should find for new events, count and run res.ok', function (done) {
       var req = {
+        we: we,
         query: {},
         isAuthenticated: function() { return false; }
       };
@@ -44,7 +45,7 @@ describe('controller_event', function () {
           Model: {
             findAll: function(opts) {
               assert.equal(opts.where.published, true);
-              assert(opts.where.eventEndDate.gte);
+              assert(opts.where.eventEndDate[we.Op.gte]);
 
               return new we.db.Sequelize.Promise(function (resolve) {
                 resolve([]);
@@ -52,7 +53,7 @@ describe('controller_event', function () {
             },
             count: function(opts) {
               assert.equal(opts.where.published, true);
-              assert(opts.where.eventEndDate.gte);
+              assert(opts.where.eventEndDate[we.Op.gte]);
 
               return new we.db.Sequelize.Promise(function (resolve) {
                 resolve(0);
@@ -84,7 +85,7 @@ describe('controller_event', function () {
           Model: {
             findAll: function(opts) {
               assert.equal(opts.where.published, true);
-              assert(opts.where.eventEndDate.gte);
+              assert(opts.where.eventEndDate[we.Op.gte]);
               assert(opts.include[0].model);
               assert.equal(opts.include[0].as, 'tagsRecords');
               assert(opts.include[0].required);
@@ -95,7 +96,7 @@ describe('controller_event', function () {
             },
             count: function(opts) {
               assert.equal(opts.where.published, true);
-              assert(opts.where.eventEndDate.gte);
+              assert(opts.where.eventEndDate[we.Op.gte]);
 
               return new we.db.Sequelize.Promise(function (resolve) {
                 resolve(0);
@@ -113,6 +114,7 @@ describe('controller_event', function () {
 
     it('event.find should run forbidden if query.my is set but user is unAuthenticated', function (done) {
       var req = {
+        we: we,
         query: { my: true },
         isAuthenticated: function() { return false; }
       };
@@ -123,7 +125,8 @@ describe('controller_event', function () {
         },
         forbidden: function() {
           done();
-        }
+        },
+        queryError: function(){}
       };
 
       controller.find(req, res);

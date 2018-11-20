@@ -6,7 +6,8 @@ describe('widget_we-cf-events-menu', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-events-menu'];
+
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-events-menu'];
     // dont show erros with wrong date formats
     we.utils.moment.suppressDeprecationWarnings = true;
 
@@ -14,6 +15,7 @@ describe('widget_we-cf-events-menu', function () {
   });
 
   it('checkIfIsValidContext should return false if have context and true if dont', function (done) {
+    console.log('>>', Widget);
     assert.equal(Widget.checkIfIsValidContext('event-1'), false);
     assert.equal(Widget.checkIfIsValidContext(), true);
     done();

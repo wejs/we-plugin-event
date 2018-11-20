@@ -1,54 +1,65 @@
-var projectPath = process.cwd();
-var deleteDir = require('rimraf');
-var testTools = require('we-test-tools');
-var path = require('path');
-var we;
+const projectPath = process.cwd(),
+  deleteDir = require('rimraf'),
+  testTools = require('we-test-tools'),
+  path = require('path'),
+  fs = require('fs-extra');
+
+
+let we;
+
+before(function(callback) {
+  // copy test.js settings file:
+  fs.copySync(
+    path.resolve(process.cwd(), 'test', 'test.js.example'),
+    path.resolve(process.cwd(), 'config', 'local.js')
+  );
+
+  callback();
+});
 
 before(function(callback) {
   this.slow(100);
   this.timeout(30000);
 
-  testTools.copyLocalConfigIfNotExitst(projectPath, function() {
-    var We = require('we-core');
-    we = new We();
+  const We = require('we-core');
+  we = new We();
 
-    testTools.init({}, we);
+  testTools.init({}, we);
 
-    we.bootstrap({
-      port: 9800,
-      i18n: {
-        directory: path.resolve(__dirname, '../config', 'locales'),
-        updateFiles: true
-      },
-      event: {
-        themes: ['we-theme-event'],
-        defaultTheme: 'we-theme-event'
-      },
-      themes: {
-        enabled: [
-          'we-theme-event',
-          'we-theme-pratt',
-          'we-theme-admin-default',
-        ],
-        app: 'we-theme-pratt',
-        admin: 'we-theme-admin-default'
-      }
-    } , function(err, we) {
+  we.bootstrap({
+    port: 9800,
+    i18n: {
+      directory: path.resolve(__dirname, '../config', 'locales'),
+      updateFiles: true
+    },
+    event: {
+      themes: ['we-theme-event'],
+      defaultTheme: 'we-theme-event'
+    },
+    themes: {
+      enabled: [
+        'we-theme-event',
+        'we-theme-pratt',
+        'we-theme-admin-default',
+      ],
+      app: 'we-theme-pratt',
+      admin: 'we-theme-admin-default'
+    }
+  } , function(err, we) {
+    if (err) throw err;
+
+    we.startServer(function(err) {
       if (err) throw err;
-
-      we.startServer(function(err) {
-        if (err) throw err;
-        callback();
-      })
+      callback();
     })
-  })
-})
+  });
+});
 
 //after all tests
 after(function (callback) {
   we.db.defaultConnection.close();
 
-  var tempFolders = [
+  const tempFolders = [
     projectPath + '/files/tmp',
     projectPath + '/files/config',
     projectPath + '/files/sqlite',
@@ -57,7 +68,10 @@ after(function (callback) {
     projectPath + '/files/public/admin.tpls.hbs.js',
     projectPath + '/files/public/project.css',
     projectPath + '/files/public/project.js',
-    projectPath + '/config/local.js'
+    projectPath + '/config/local.js',
+    projectPath + '/db_test.sqlite',
+    projectPath + '/sessions',
+    projectPath + '/db_test_session.sqlite'
   ];
 
   we.utils.async.each(tempFolders, function(folder, next){
@@ -66,4 +80,8 @@ after(function (callback) {
     if (err) throw new Error(err);
     callback();
   });
+});
+
+after(function () {
+  process.exit();
 });

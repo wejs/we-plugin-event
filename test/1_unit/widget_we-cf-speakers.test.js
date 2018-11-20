@@ -6,7 +6,7 @@ describe('widget_we-cf-speakers', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-speakers'];
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-speakers'];
     done();
   });
 

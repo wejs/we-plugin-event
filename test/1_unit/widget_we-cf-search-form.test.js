@@ -6,7 +6,7 @@ describe('widget_we-cf-search-form', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-search-form'];
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-search-form'];
     done();
   });
 

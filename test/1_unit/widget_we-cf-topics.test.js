@@ -6,7 +6,7 @@ describe('widget_we-cf-topics', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-topics'];
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-topics'];
 
     done();
   });

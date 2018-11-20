@@ -6,7 +6,7 @@ describe('widget_we-cf-news', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-news'];
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-news'];
     // dont show erros with wrong date formats
     we.utils.moment.suppressDeprecationWarnings = true;
 

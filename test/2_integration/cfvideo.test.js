@@ -62,11 +62,12 @@ describe('cfvideoFeature', function() {
         title: 'One video',
         url: 'https://www.youtube.com/watch?v=escUU8iBPpo',
         eventId: cf.id
-      }).then(function(cfv){
+      })
+      .then(function(cfv){
         cfv.title = 'changed title';
         // then edit
         authenticatedRequest.post('/event/'+cf.id+'/cfvideo/'+cfv.id+'/edit?redirectTo=/redirecttome')
-        .send(cfv)
+        .send(cfv.get())
         .expect(302)
         .end(function (err, res) {
           if (err) throw err;

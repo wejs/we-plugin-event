@@ -312,7 +312,8 @@ describe('controller_cfsession', function () {
           userCfregistration: {
             id: 20,
             status: 'registered'
-          }
+          },
+          event: { id: 1 }
         },
         addMessage: function(status, text) {
           assert.equal(status, 'warning');
@@ -389,7 +390,7 @@ describe('controller_cfsession', function () {
         },
 
         goTo: function(path) {
-          assert.equal(path, '/');
+          assert.equal(path, '/event/12/register');
           we.email.sendEmail = sendEmail;
           we.log.error = error;
           we.db.models.cfsession.findOne = cfsFindOne;
@@ -453,8 +454,8 @@ describe('controller_cfsession', function () {
 
     it('cfsession.removeRegistration should run res.goTo after remove the cfsession', function (done) {
 
-      var cfsFindOne = we.db.models.cfsession.findById;
-      we.db.models.cfsession.findById = function() {
+      var cfsFindOne = we.db.models.cfsession.findOne;
+      we.db.models.cfsession.findOne = function() {
         return new we.db.Sequelize.Promise(function (resolve) {
           resolve({
             id: 10,
@@ -487,7 +488,7 @@ describe('controller_cfsession', function () {
           assert.equal(text, 'cfsession.removeRegistration.success');
         },
         goTo: function() {
-          we.db.models.cfsession.findById = cfsFindOne;
+          we.db.models.cfsession.findOne = cfsFindOne;
           done();
         }
       };

@@ -6,7 +6,7 @@ describe('widget_we-cf-video', function () {
 
   before(function (done) {
     we = helpers.getWe();
-    Widget = we.view.widgets['we-cf-video'];
+    Widget = we.plugins['we-plugin-widget'].widgetTypes['we-cf-video'];
     done();
   });
 
