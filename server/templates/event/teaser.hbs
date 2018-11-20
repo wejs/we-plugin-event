@@ -1,7 +1,7 @@
 {{#with record}}
 <div class="event-teaser cf-{{registrationStatus}}">
   <h3>
-    {{#link-to 'event.findOne' id}}{{title}}{{/link-to}}
+    {{#link-to 'event.findOne' id}}{{{title}}}{{/link-to}}
   </h3>
 
   <div class="row">
@@ -18,7 +18,6 @@
 
       {{#if tags}}
         <div class="event-tags-area">
-          <h4>{{t 'form-event-about-tags'}}</h4>
           <ul class="event-tags">
             {{#each tags}}
               <li><a href="?tag={{this}}" class="event-tag">{{this}}</a></li>
@@ -28,7 +27,7 @@
       {{/if}}
     </div>
     <div class="col-md-9">
-      <p class="event-about">{{about}}</p>
+      <p class="event-about">{{{about}}}</p>
       {{#if isOnline}}
         <p class="event-location event-offline"><span class="fa fa-map-marker" aria-hidden="true"></span> <strong>
             {{location}}

@@ -1,21 +1,23 @@
 module.exports = {
-  find: function find(req, res) {
+  find(req, res) {
     res.locals.query.where.eventId = res.locals.event.id;
 
-    res.locals.Model.findAll(res.locals.query)
+    res.locals.Model
+    .findAll(res.locals.query)
     .then(function afterFind(record) {
       res.locals.data = record;
 
-      res.locals.Model.count(res.locals.query)
+      return res.locals.Model
+      .count(res.locals.query)
       .then(function afterCount(count) {
 
         res.locals.metadata.count = count;
-        return res.ok();
-
-      }).catch(res.queryError);
-    }).catch(res.queryError);
+        res.ok();
+      });
+    })
+    .catch(res.queryError);
   },
-  managePage: function managePage(req, res, next) {
+  managePage(req, res, next) {
     // send to find action, this allows to set custom permissions and template for this action but with find logic
     req.we.controllers.cfpage.find(req, res, next);
   }

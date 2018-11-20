@@ -1,5 +1,5 @@
 module.exports = {
-  delete: function deletePage(req, res) {
+  delete(req, res) {
     if (!res.locals.template)
       res.locals.template = res.locals.model + '/' + 'delete';
 
@@ -8,33 +8,39 @@ module.exports = {
     res.locals.deleteMsg = 'cfregistrationtype.delete.confirm.msg';
 
     if (req.method === 'POST' || req.method === 'DELETE') {
-      req.we.db.models.cfregistration.count({
+      req.we.db.models.cfregistration
+      .count({
         where: { cfregistrationtypeId: res.locals.data.id }
-      }).then(function afterLoadCFRcount(count) {
+      })
+      .then(function afterLoadCFRcount(count) {
         if (count > 0) {
           return res.badRequest('cfregistrationtype.delete.have.registrations');
         }
 
-        res.locals.data.destroy().then(function afterDelete() {
+        return res.locals.data
+        .destroy()
+        .then(function afterDelete() {
           res.locals.deleted = true;
           return res.deleted();
-        }).catch(res.queryError);
-
-      }).catch(res.queryError);
+        });
+      })
+      .catch(res.queryError);
     } else {
       return res.ok();
     }
   },
 
-  markAllAsPresent: function markAllAsPresent(req, res) {
-    req.we.db.models.cfregistration.update({
+  markAllAsPresent(req, res) {
+    req.we.db.models.cfregistration
+    .update({
       present: true
     }, {
       where: {
         eventId: res.locals.event.id,
         present: false
       }
-    }).then(function afterLoadCFR(r) {
+    })
+    .then(function afterLoadCFR(r) {
       res.locals.metadata = r[0];
 
       if (req.body.redirectTo) {
@@ -43,6 +49,7 @@ module.exports = {
       } else {
         return res.send(res.locals.metadata);
       }
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   }
 }

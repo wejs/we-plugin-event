@@ -14,15 +14,15 @@
  */
 module.exports = function(we) {
   return function renderRegistrationBTN() {
-    var options = arguments[arguments.length-1];
-    var ctx = {
+    const options = arguments[arguments.length-1];
+    let ctx = {
       disabled: ' disabled="disabled" ',
       btnClass: (options.hash.class || 'btn') + ' ',
       href: '#',
       text: options.hash.locals.__('event.btn.'+options.hash.event.registrationStatus)
     };
 
-    var id = options.hash.event.id;
+    let id = options.hash.event.id;
 
     if (
       options.hash.userCfregistration &&
@@ -55,7 +55,7 @@ module.exports = function(we) {
       }
     }
 
-    var theme = options.hash.locals.theme;
+    let theme = options.hash.locals.theme;
     // if not find the theme name get default themes
     if (!theme) theme = we.view.themes[we.view.appTheme];
     // render the template

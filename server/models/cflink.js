@@ -5,8 +5,8 @@
  * @description :: Store event menu link config
  */
 
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfLinkModel(we) {
+  const model = {
     definition: {
       /**
        * event Id
@@ -46,7 +46,7 @@ module.exports = function Model(we) {
       titleField: 'text',
 
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cflink.findOne', [this.eventId, this.cfmenuId, this.id]
           );

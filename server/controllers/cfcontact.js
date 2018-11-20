@@ -1,10 +1,10 @@
 module.exports = {
-  create: function create(req, res, done) {
+  create(req, res, done) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
     if (!res.locals.data) res.locals.data = {};
 
-    var we = req.we;
+    const we = req.we;
 
     if (req.method === 'POST') {
       req.we.antiSpam.recaptcha.verify(req, res, function afterCheckSpam(err, isSpam) {
@@ -34,27 +34,36 @@ module.exports = {
           res.locals.data = record;
           res.locals.messageSend = true;
 
-          var templateVariables = {
-            cfcontact: record,
-            event: res.locals.event,
-            site: {
-              name: we.config.appName,
-              url: we.config.hostname
-            }
+          let appName = we.config.appName;
+
+          if (we.systemSettings && we.systemSettings.siteName) {
+            appName = we.systemSettings.siteName;
+          }
+
+          let templateVariables = {
+            email: record.email,
+            name: record.name,
+            message: record.message,
+            eventId: res.locals.event.id,
+            eventTitle: res.locals.event.title,
+            siteName: appName,
+            siteUrl: we.config.hostname,
+
+            cf: res.locals.event,
+            cfcontact: record
           };
 
           we.email.sendEmail('CFContactSuccess', {
             email: record.email,
-            subject: req.__('cfcontact.email.subject', templateVariables),
             replyTo: res.locals.event.title + ' <' + res.locals.event.email  + '>'
           }, templateVariables, function (err) {
             if (err) {
               we.log.error('Action:CFContactSuccess sendEmail:', err);
             }
           });
+
           we.email.sendEmail('CFContactNewMessage', {
             email: res.locals.event.email,
-            subject: req.__('cfcontact.new.email.subject', templateVariables),
             replyTo: record.name + ' <' + record.email  + '>'
           }, templateVariables, function (err) {
             if (err) {
@@ -66,8 +75,13 @@ module.exports = {
             text: 'cfcontact.email.success'
           });
 
-          res.goTo('/');
-        }).catch(res.queryError);
+          if (res.locals.event) {
+            res.goTo('/event/'+res.locals.event.id);
+          } else {
+            res.goTo('/');
+          }
+        })
+        .catch(res.queryError);
       });
     } else {
       res.locals.data = {};

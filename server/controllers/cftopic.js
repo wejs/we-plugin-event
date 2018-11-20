@@ -1,6 +1,6 @@
 module.exports = {
-  create: function create(req, res) {
-    var we = req.we;
+  create(req, res) {
+    const we = req.we;
 
     if (!res.locals.data) res.locals.data = {};
 
@@ -22,13 +22,14 @@ module.exports = {
         }
 
         res.created();
-      }).catch(res.queryError);
+      })
+      .catch(res.queryError);
     } else {
       res.ok();
     }
   },
-  edit: function edit(req, res) {
-    var we = req.we;
+  edit(req, res) {
+    const we = req.we;
 
     if (!res.locals.data) return res.notFound();
 
@@ -44,12 +45,13 @@ module.exports = {
           ));
         }
         res.updated();
-      }).catch(res.queryError);
+      })
+      .catch(res.queryError);
     } else {
       res.ok();
     }
   },
-  managePage: function managePage(req, res, next) {
+  managePage(req, res, next) {
     req.we.controllers.cftopic.find(req, res, next);
   }
 };

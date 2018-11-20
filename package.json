@@ -8,26 +8,26 @@
     "coverage": "NODE_ENV=test LOG_LV=info node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/bootstrap.js test/**/*.test.js"
   },
   "dependencies": {
-    "pdfkit": "^0.7.2",
-    "video-url-inspector": "^1.0.2"
+    "pdfkit": "^0.8.3",
+    "video-url-inspector": "^1.1.0"
   },
   "devDependencies": {
-    "express-mysql-session": "^1.0.0-rc.0",
-    "fs-extra": "^0.28.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "mysql": "^2.10.2",
-    "rimraf": "^2.5.2",
-    "sinon": "^1.17.3",
-    "supertest": "^1.2.0",
-    "we-core": "^1.2.5",
-    "we-plugin-file": "^1.0.6",
-    "we-plugin-menu": "^1.1.1",
-    "we-plugin-vocabulary": "^0.3.23",
-    "we-test-tools": "^0.3.14",
+    "express-mysql-session": "^2.0.1",
+    "fs-extra": "^7.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "mysql": "^2.16.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^7.1.1",
+    "supertest": "^3.3.0",
+    "we-core": "^2.0.7",
+    "we-plugin-file": "^2.0.4",
+    "we-plugin-menu": "^2.0.2",
+    "we-plugin-vocabulary": "^2.0.4",
+    "we-test-tools": "^0.3.19",
     "we-theme-admin-default": "^1.0.1",
-    "we-theme-event": "^0.3.10",
-    "we-theme-pratt": "^1.0.3"
+    "we-theme-event": "^0.3.12",
+    "we-theme-pratt": "^1.0.6"
   },
   "author": "Alberto Souza <contato@albertosouza.net>",
   "license": "MIT",

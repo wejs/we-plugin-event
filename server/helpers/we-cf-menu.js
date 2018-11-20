@@ -5,11 +5,11 @@
  */
 module.exports = function(we) {
   function renderLinks(links) {
-    var html = '';
+    let html = '';
 
     if (!links) return html;
 
-    for (var i = 0; i < links.length; i++) {
+    for (let i = 0; i < links.length; i++) {
       html += renderLink(links[i]);
 
       if (links[i].links) {
@@ -23,16 +23,16 @@ module.exports = function(we) {
   }
 
   return function renderWidget(menu) {
-    var options = arguments[arguments.length-1];
+    const options = arguments[arguments.length-1];
 
     if (!menu) return '';
 
-    var links =  menu.links;
+    let links =  menu.links;
 
-    var classes = options.hash.class || '';
+    let classes = options.hash.class || '';
     if (menu.class && !options.hash.skipMenuClass) classes += ' ' + menu.class;
 
-    var html = '<ul';
+    let html = '<ul';
       if (classes) html += ' class="'+classes+'" ';
     html += '>'
 

@@ -4,8 +4,8 @@
  * @module      :: Model
  * @description :: System event registration model
  */
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfRegistrationModel(we) {
+  const model = {
     definition: {
       eventId: {
         type: we.db.Sequelize.BIGINT,
@@ -17,23 +17,26 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.INTEGER,
         formFieldType: null,
         validate: {
-          isRegistered: function(uid, done) {
-            var eventId = this.getDataValue('eventId');
+          isRegistered(uid, done) {
+            let eventId = this.getDataValue('eventId');
             if (!eventId) return done();
             if (!uid || !Number(uid) ) return done('user.not-found');
 
-            we.db.models.cfregistration.findOne({
+            we.db.models.cfregistration
+            .findOne({
               where: {
                 eventId: eventId,
                 userId: uid
               },
               attributes: ['id']
-            }).then(function (count) {
+            })
+            .then(function (count) {
               if (count) {
                 return done('event.cfregistration.already.registered');
               }
               done();
-            }).catch(done);
+            })
+            .catch(done);
           }
         }
       },
@@ -79,13 +82,14 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -102,17 +106,18 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
-          });
+            done();
+          })
+          .catch(done);
         }
       },
       instanceMethods: {
-        toJSON: function toJSON() {
-          var obj = this.get();
+        toJSON() {
+          const obj = this.get();
           delete obj.deletedAt;
           return obj;
         },
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfregistration.findOne', [this.eventId, this.id]
           );

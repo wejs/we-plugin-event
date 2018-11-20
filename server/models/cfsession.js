@@ -5,8 +5,8 @@
  * @description :: System event session model
  *
  */
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfSessionModel(we) {
+  const model = {
     definition: {
       eventId: {
         type: we.db.Sequelize.BIGINT, allowNull: false, formFieldType: null
@@ -43,8 +43,8 @@ module.exports = function Model(we) {
       vacancy: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
-          var room = this.getDataValue('room');
+        get() {
+          let room = this.getDataValue('room');
           if (this.getDataValue('requireRegistration') && room) {
             return room.vacancy;
           }
@@ -61,12 +61,12 @@ module.exports = function Model(we) {
       haveVacancy: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
+        get() {
           if (!this.getDataValue('requireRegistration')) return true;
 
-          var room = this.getDataValue('room');
+          let room = this.getDataValue('room');
           if (room) {
-            var subscribers = this.getDataValue('subscribers');
+            let subscribers = this.getDataValue('subscribers');
             if (subscribers.length < room.vacancy) return true;
           }
           return false;
@@ -93,13 +93,18 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
+          if (res.locals.action == 'find') {
+            return this.contextLoaderFindAll(req, res, done);
+          }
+
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -116,17 +121,26 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
+            done();
+            return null;
           });
+        },
+
+        contextLoaderFindAll(req, res, done) {
+          if (res.locals.event) {
+            req.query.eventId = res.locals.event;
+          }
+
+          return done();
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfsession.findOne', [this.eventId, this.id]
           );
         },
-        getSubscriberCount: function getSubscriberCount() {
+        getSubscriberCount() {
           return we.db.models.cfsessionSubscriber.count({
             where: { cfsessionId: this.id }
           });
@@ -137,10 +151,10 @@ module.exports = function Model(we) {
          * @param  {Object} sessions
          * @return {Boolean}
          */
-        haveTimeConflict: function haveTimeConflict(sessions) {
+        haveTimeConflict(sessions) {
           if (!sessions) return false;
 
-          for (var i = 0; i < sessions.length; i++) {
+          for (let i = 0; i < sessions.length; i++) {
             if (
               (this.startDate <= sessions[i].endDate)  &&
               (this.endDate >= sessions[i].startDate)
@@ -151,9 +165,8 @@ module.exports = function Model(we) {
         }
       },
       hooks: {
-        beforeCreate: function beforeCreate(record, options, next) {
+        beforeCreate(record) {
           record.status = 'send';
-          next();
         }
       },
       imageFields: {

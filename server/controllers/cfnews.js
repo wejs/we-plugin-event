@@ -1,6 +1,6 @@
 module.exports = {
-  create: function create(req, res) {
-    var we = req.we;
+  create(req, res) {
+    const we = req.we;
 
     if (!res.locals.data) res.locals.data = {};
 
@@ -11,7 +11,8 @@ module.exports = {
 
       we.utils._.merge(res.locals.data, req.body);
 
-      return res.locals.Model.create(req.body)
+      return res.locals.Model
+      .create(req.body)
       .then(function afterCreate(record) {
         res.locals.data = record;
 
@@ -23,21 +24,23 @@ module.exports = {
         }
 
         res.created();
-      }).catch(res.queryError);
+      })
+      .catch(res.queryError);
     } else {
       res.ok();
     }
   },
-  edit: function edit(req, res) {
+  edit(req, res) {
     if (!res.locals.data) return res.notFound();
 
-    var we = req.we;
+    const we = req.we;
 
     if (req.method == 'POST' || req.method == 'PUT') {
       // dont change eventId in edit
       delete req.body.eventId;
 
-      res.locals.data.updateAttributes(req.body)
+      res.locals.data
+      .updateAttributes(req.body)
       .then(function afterUpdate() {
         if (req.accepts('html')) {
           // push id to paramsArray for use in urlTo
@@ -46,12 +49,12 @@ module.exports = {
           return res.goTo(we.router.urlTo('cfnews.findOne', req.paramsArray));
         }
         res.updated();
-      }).catch(res.queryError);
+      });
     } else {
       res.ok();
     }
   },
-  managePage: function managePage(req, res, next) {
+  managePage(req, res, next) {
     // send to find action, this allows to set custom permissions and template for this action but with find logic
     req.we.controllers.cfnews.find(req, res, next);
   }

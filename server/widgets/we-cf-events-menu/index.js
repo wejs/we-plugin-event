@@ -4,19 +4,19 @@
 // var eventModule = require('../../../lib');
 
 module.exports = function (projectPath, Widget) {
-  var widget = new Widget('we-cf-events-menu', __dirname);
+  const widget = new Widget('we-cf-events-menu', __dirname);
 
-  widget.checkIfIsValidContext = function checkIfIsValidContext(context) {
+  widget.checkIfIsValidContext = function (context) {
     if (context) return false;
     return true;
   };
-  widget.isAvaibleForSelection = function isAvaibleForSelection(req) {
+  widget.isAvaibleForSelection = function (req) {
     if (req.res.locals.eventSearch) return true;
     return false;
   };
 
-  widget.renderVisibilityField = function renderVisibilityField(widget, context, req, res) {
-    var field = '';
+  widget.renderVisibilityField = function (w, context, req, res) {
+    let field = '';
 
     // visibility field
     field += '<div class="form-group"><div class="row">' +
@@ -40,9 +40,9 @@ module.exports = function (projectPath, Widget) {
    * @param  {Object}   res    express.js response
    * @param  {Function} next   callback
    */
-  widget.viewMiddleware = function viewMiddleware(widget, req, res, next) {
+  widget.viewMiddleware = function (w, req, res, next) {
 
-    widget.navigationMenu = new req.we.class.Menu({
+    w.navigationMenu = new req.we.class.Menu({
       id: 'events-menu-navigation',
       name: 'events-menu-navigation',
       class: 'flat-menu',
@@ -57,7 +57,7 @@ module.exports = function (projectPath, Widget) {
     });
 
     if (req.isAuthenticated()) {
-      widget.navigationMenu.addLink({
+      w.navigationMenu.addLink({
         id: 'events-menu-navigation-my',
         text: '<i class="fa fa-list" aria-hidden="true"></i> '+req.__('event.find.my'),
         href: '/event?my=1',
@@ -67,18 +67,19 @@ module.exports = function (projectPath, Widget) {
       });
     }
 
-    var sql = 'SELECT DISTINCT text FROM terms '+
+    let sql = 'SELECT DISTINCT text FROM terms '+
       'LEFT JOIN modelsterms AS mt ON mt.modelName="event" '+
         'AND mt.vocabularyName="Tags" '+
         'AND mt.termId=terms.id';
+
     req.we.db.defaultConnection.query(sql)
-    .spread(function (terms) {
-      widget.terms = terms.map(function(m){
-        return m.text;
-      });
+    .spread( (terms)=> {
+      w.terms = terms.map( (m)=> m.text );
 
       next();
-    }).catch(next);
+      return null;
+    })
+    .catch(next);
   }
 
   return widget;

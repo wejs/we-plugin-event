@@ -18,7 +18,7 @@
       "allowNull": false
     },
     "about": {
-      "type": "textarea",
+      "type": "html",
       "defaultValue": "",
       "formFieldAttributes": {
         "rows": 13

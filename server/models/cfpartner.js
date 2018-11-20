@@ -4,8 +4,8 @@
  * @module      :: Model
  * @description :: Store event patner data
  */
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfPartnerModel(we) {
+  const model = {
     definition: {
       eventId: {
         type: we.db.Sequelize.BIGINT,
@@ -29,13 +29,14 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -52,12 +53,13 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
+            done();
+            return null;
           });
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfpartner.findOne', [this.eventId, this.id]
           );

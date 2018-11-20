@@ -1,7 +1,7 @@
 var helpers = require('../../lib/helpers');
 
 module.exports = {
-  findOne: function findOne(req, res, next) {
+  findOne(req, res, next) {
     if (!res.locals.data) return next();
 
     if (req.accepts('html')) {
@@ -11,7 +11,7 @@ module.exports = {
     }
     return res.ok();
   },
-  create: function create(req, res) {
+  create(req, res) {
     if (!res.locals.data) res.locals.data = {};
 
     if (req.method === 'POST') {
@@ -40,7 +40,8 @@ module.exports = {
         }
 
         res.created();
-      }).catch(res.queryError);
+      })
+      .catch(res.queryError);
     } else {
       // auto fill form data based in query params
       req.we.utils._.merge(res.locals.data, req.query);
@@ -48,7 +49,7 @@ module.exports = {
       res.ok();
     }
   },
-  edit: function edit(req, res) {
+  edit(req, res) {
     if (!res.locals.data) return res.notFound();
 
     if (req.method === 'POST') {
@@ -57,7 +58,8 @@ module.exports = {
       delete req.body.cfmenuId;
       delete req.body.creatorId;
 
-      res.locals.data.updateAttributes(req.body)
+      res.locals.data
+      .updateAttributes(req.body)
       .then(function afterUpdate() {
         // add message
         res.addMessage('success', {
@@ -72,13 +74,14 @@ module.exports = {
         }
 
         res.updated();
-      }).catch(res.queryError);
+      })
+      .catch(res.queryError);
     } else {
       res.ok();
     }
   },
-  sortLinks: function sortLinks(req, res) {
-    var redirectTo = req.we.utils.getRedirectUrl(req, res);
+  sortLinks(req, res) {
+    let redirectTo = req.we.utils.getRedirectUrl(req, res);
 
     if (!req.body) {
       // skip if dont are post request
@@ -86,25 +89,31 @@ module.exports = {
       return res.send();
     }
 
-    req.we.db.models.cfmenu.findOne({
-      where: { id: req.params.cfmenuId }, include: { all: true }
-    }).then(function afterFindCurrentMenu(cfmenu) {
+    req.we.db.models.cfmenu
+    .findOne({
+      where: { id: req.params.cfmenuId },
+      include: { all: true }
+    })
+    .then(function afterFindCurrentMenu(cfmenu) {
       if (!cfmenu) return res.notFound();
 
-      var itensToSave = helpers.parseLinksFromBody(req);
+      let itensToSave = helpers.parseLinksFromBody(req);
 
-      req.we.utils.async.eachSeries(cfmenu.links, function onEachLink(link, next) {
+      req.we.utils.async
+      .eachSeries(cfmenu.links, function onEachLink(link, next) {
         if (!itensToSave[link.id]) return next();
 
         link.updateAttributes(itensToSave[link.id])
         .then(function afterUpdateLink() {
           next();
-        }).catch(next);
+        })
+        .catch(next);
       }, function afterUpdateAll(err) {
         if (err) return res.serverError(err);
         if (redirectTo) return res.goTo(redirectTo);
         res.send({ cfmenu: cfmenu });
       });
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   }
 };

@@ -5,8 +5,8 @@
  * @description :: Store event menu config
  */
 
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfMenuModel(we) {
+  const model = {
     definition: {
       /**
        * event Id
@@ -30,12 +30,13 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
           return this.findOne({
             where: { id: res.locals.id }
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
             if (record) {
               // in other event
@@ -56,14 +57,19 @@ module.exports = function Model(we) {
                   ['weight','ASC'],
                   ['createdAt','ASC']
                 ]
-              }).then(function(links) {
+              })
+              .then(function(links) {
                 record.links = links ;
                 done();
-              }).catch(res.queryError);
+                return null;
+              })
+              .catch(res.queryError);
             } else {
-              return done();
+              done();
+              return null;
             }
-          }).catch(res.queryError);
+          })
+          .catch(res.queryError);
         },
         // disable urlAlias
         urlAlias: false
@@ -71,7 +77,7 @@ module.exports = function Model(we) {
       },
 
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfmenu.findOne', [this.eventId, this.id]
           );

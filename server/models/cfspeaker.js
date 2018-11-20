@@ -4,15 +4,14 @@
  * @module      :: Model
  * @description :: System event speakers model
  */
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfSpeakerModel(we) {
+  const model = {
     definition: {
       eventId: {
         type: we.db.Sequelize.BIGINT,
         allowNull: false,
         formFieldType: null
       },
-
       name: {
         type: we.db.Sequelize.STRING,
         allowNull: false
@@ -38,13 +37,18 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
-          if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
+        contextLoader(req, res, done) {
+          if (res.locals.action == 'find') {
+            return this.contextLoaderFindAll(req, res, done);
+          }
 
-          return this.find({
+          if (!res.locals.id || !res.locals.loadCurrentRecord)  return done();
+
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -61,12 +65,22 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
-          });
+            done();
+            return null;
+          })
+          .catch(done);
+        },
+
+        contextLoaderFindAll(req, res, done) {
+          if (res.locals.event) {
+            req.query.eventId = res.locals.event;
+          }
+
+          return done();
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfspeaker.findOne', [this.eventId, this.id]
           );

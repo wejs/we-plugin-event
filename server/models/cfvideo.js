@@ -5,11 +5,11 @@
  * @description :: cfvideo model
  *
  */
-var vui = require('video-url-inspector');
+const vui = require('video-url-inspector');
 
-module.exports = function Model(we) {
+module.exports = function CfVideoModel(we) {
   // set sequelize model define and options
-  var model = {
+  const model = {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
       eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
@@ -31,8 +31,8 @@ module.exports = function Model(we) {
       embedUrl: { type: we.db.Sequelize.STRING(1500), formFieldType: null },
       // video thumbnails
       thumbnails: { type: we.db.Sequelize.TEXT, formFieldType: null,
-       get: function()  {
-        var thumbs = this.getDataValue('thumbnails');
+       get()  {
+        let thumbs = this.getDataValue('thumbnails');
           if (thumbs && (typeof thumbs == 'string')){
             try {
               return JSON.parse( thumbs );
@@ -42,7 +42,7 @@ module.exports = function Model(we) {
           }
           return {};
         },
-        set: function(object) {
+        set(object) {
           if (typeof object == 'object') {
             this.setDataValue('thumbnails', JSON.stringify(object));
           } else {
@@ -73,13 +73,19 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
+          if (res.locals.action == 'find') {
+            return this.contextLoaderFindAll(req, res, done);
+          }
+
+
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
           return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -96,12 +102,22 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
-          });
+            done();
+            return null;
+          })
+          .catch(done);
+        },
+
+        contextLoaderFindAll(req, res, done) {
+          if (res.locals.event) {
+            req.query.eventId = res.locals.event;
+          }
+
+          return done();
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfvideo.findOne', [this.eventId, this.id]
           );
@@ -110,11 +126,11 @@ module.exports = function Model(we) {
       titleField: 'title',
       hooks: {
         // Lifecycle Callbacks
-        beforeCreate: function(record, options, next) {
-          parseVideoData(record, options, next);
+        beforeCreate(record, options) {
+          return parseVideoData(record, options);
         },
-        beforeUpdate: function(record, options, next) {
-          parseVideoData(record, options, next);
+        beforeUpdate: function(record, options) {
+          return parseVideoData(record, options);
         }
       }
     }
@@ -123,18 +139,20 @@ module.exports = function Model(we) {
   return model;
 }
 
-function parseVideoData(record, options, next) {
-  var videoData = vui(record.url);
+function parseVideoData(record) {
+  return new Promise((resolve)=> {
+    let videoData = vui(record.url);
 
-  if (videoData.embedUrl) {
-    record.embedUrl = videoData.embedUrl;
-  } else {
-    record.embedUrl = videoData.url;
-  }
+    if (videoData.embedUrl) {
+      record.embedUrl = videoData.embedUrl;
+    } else {
+      record.embedUrl = videoData.url;
+    }
 
-  record.provider = videoData.hoster;
-  record.idInProvider = videoData.remoteId;
-  record.thumbnails = videoData.thumbnails;
+    record.provider = videoData.hoster;
+    record.idInProvider = videoData.remoteId;
+    record.thumbnails = videoData.thumbnails;
 
-  next(null, record);
+    resolve(record);
+  });
 }

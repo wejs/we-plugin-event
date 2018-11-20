@@ -83,8 +83,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       'event-theme': __dirname + '/server/forms/event-theme.json',
       'event-messages': __dirname + '/server/forms/event-messages.json',
       'event-managers-add': __dirname + '/server/forms/event-managers-add.json',
-      'cfcontact': __dirname + '/server/forms/cfcontact.json'
-    }
+      'cfcontact': __dirname + '/server/forms/cfcontact.json',
+      'event-register': __dirname + '/server/forms/event-register.json'
+    },
+
+    emailTypes: require('./lib/getEmailTypes.js')(plugin)
   });
 
   plugin.hooks.on('we:before:load:plugin:features', function (we, done) {
@@ -133,7 +136,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
 
   plugin.hooks.on('we-plugin-menu:after:set:core:menus', function (data, done) {
-    var we = data.req.we;
+    const we = data.req.we;
     // set admin menu
     if (
       data.res.locals.event &&
@@ -179,10 +182,32 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     // skip in admin pages
     if (res.locals.isAdmin) return next();
 
-    var we = req.we;
-    we.db.models.event.findOne({
-      where: { id: id }, include: { all: true }
-    }).then(function (cf) {
+    const we = req.we,
+      models = we.db.models;
+
+    models.event
+    .findOne({
+      where: { id: id },
+      include: [{
+        as: 'managers', model: models.user,
+      }, {
+        as: 'mainMenu', model: models.cfmenu
+      }, {
+        as: 'secondaryMenu', model: models.cfmenu
+      }, {
+        as: 'socialMenu', model: models.cfmenu
+      }, {
+        as: 'tagsRecords', model: models.modelsterms
+      }]
+    })
+    .then( (cf)=> {
+      return cf.getTopics()
+      .then( (topics)=> {
+        cf.topics = topics;
+        return cf;
+      });
+    })
+    .then( (cf)=> {
       if (!cf) return res.notFound();
       res.locals.title = cf.title;
       res.locals.event = cf;
@@ -210,10 +235,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             order: [
               ['weight','ASC'], ['createdAt','ASC']
             ]
-          }).then(function (links){
+          })
+          .then(function (links) {
             cf.mainMenu.links = links;
             cb();
-          }).catch(cb);
+            return null;
+          })
+          .catch(cb);
         },
         function loadSecondaryMenu(cb) {
           if (!cf.secondaryMenu) return cb();
@@ -221,10 +249,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             order: [
               ['weight','ASC'], ['createdAt','ASC']
             ]
-          }).then(function (links){
+          })
+          .then(function (links) {
             cf.secondaryMenu.links = links;
             cb();
-          }).catch(cb);
+            return null;
+          })
+          .catch(cb);
         },
         function loadSocialMenu(cb) {
           if (!cf.socialMenu) return cb();
@@ -232,30 +263,47 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             order: [
               ['weight','ASC'], ['createdAt','ASC']
             ]
-          }).then(function (links) {
+          })
+          .then(function (links) {
             cf.socialMenu.links = links;
             cb();
-          }).catch(cb);
+            return null;
+          })
+          .catch(cb);
         },
         function loadTopicImages(cb) {
           if (!cf.topics) return cb();
-          we.file.image.afterFind.bind(we.db.models.cftopic)(cf.topics, null, cb)
+          let r = we.file.image.afterFind.bind(we.db.models.cftopic, {})(cf.topics, null);
+
+          r.then(()=> cb())
+          .catch(cb)
         },
         function isRegistered(cb) {
           if (!req.isAuthenticated()) return cb();
           // load current user registration register
-          we.db.models.cfregistration.findOne({
-            where: { eventId: id, userId: req.user.id }
-          }).then(function (r) {
-            if (!r) return cb();
+          models.cfregistration
+          .findOne({
+            where: {
+              eventId: id,
+              userId: req.user.id }
+          })
+          .then(function (r) {
+            if (!r) {
+              return cb();
+            }
+
             res.locals.userCfregistration = r;
             req.userRoleNames.push('registeredInConference');
             cb();
-          }).catch(cb);
+          })
+          .catch( (err)=> {
+            we.log.error(err);
+            cb(err);
+          });
         },
         function isManager(cb) {
           if (!req.isAuthenticated()) return cb();
-          cf.isManager(req.user.id, function(err, isMNG){
+          cf.isManager(req.user.id, function(err, isMNG) {
             if (err) return cb(err);
 
             if (isMNG) {
@@ -266,17 +314,24 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           });
         },
         function cfcontactCount(cb) {
-          we.db.models.cfcontact.count({
+          models.cfcontact.count({
             where: {
               eventId: id,
-              status: { $or: ['opened', null] } }
-          }).then(function (count) {
+              status: {
+                [we.Op.or]: ['opened', null]
+              }
+            }
+          })
+          .then(function (count) {
             res.locals.metadata.cfcontactCount = count;
             cb();
-          }).catch(cb);
+            return null;
+          })
+          .catch(cb);
         }
       ], next);
-    });
+    })
+    .catch(next);
   }
 
   plugin.addJs('we-plugin-event', {

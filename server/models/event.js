@@ -5,7 +5,7 @@
  * @description :: System event model
  *
  */
-var assocModelsToDelete = [
+const assocModelsToDelete = [
   'cfcontact', 'cflink', 'cfmenu',
   'cfnews', 'cfpage', 'cfpartner',
   'cfregistration', 'cfregistrationtype', 'cfroom',
@@ -14,7 +14,7 @@ var assocModelsToDelete = [
 ];
 
 module.exports = function Model(we) {
-  var model = {
+  const model = {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
       title: { type: we.db.Sequelize.STRING(1500), allowNull: false },
@@ -88,8 +88,8 @@ module.exports = function Model(we) {
       managerIds: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
-          var ms = this.getDataValue('managers');
+        get() {
+          let ms = this.getDataValue('managers');
           if (!ms) return [];
           return ms.map(function (m) {
             if (typeof m == 'object') {
@@ -110,13 +110,13 @@ module.exports = function Model(we) {
       registrationStatus: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
-          var startDate = this.getDataValue('registrationStartDate');
-          var endDate = this.getDataValue('registrationEndDate');
+        get() {
+          let startDate = this.getDataValue('registrationStartDate');
+          let endDate = this.getDataValue('registrationEndDate');
 
           if (startDate) startDate = we.utils.moment(startDate).unix();
           if (endDate) endDate = we.utils.moment(endDate).unix();
-          var now = we.utils.moment().unix();
+          let now = we.utils.moment().unix();
 
           // before registration
           if (startDate && (now < startDate) ) return 'closed_before';
@@ -126,7 +126,7 @@ module.exports = function Model(we) {
           if (startDate && endDate) {
             // is open if are between start and end date
             if ((now > startDate) && (now < endDate)) {
-              var vac = this.getDataValue('vacancies');
+              let vac = this.getDataValue('vacancies');
 
               if (vac && (vac <= this.getDataValue('registrationCount')) ) {
                 return 'closed_no_vacancies';
@@ -147,16 +147,16 @@ module.exports = function Model(we) {
       sendWorkStatus: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
-          var s = this.getDataValue('callForPapersStartDate');
-          var e = this.getDataValue('callForPapersEndDate');
+        get() {
+          let s = this.getDataValue('callForPapersStartDate');
+          let e = this.getDataValue('callForPapersEndDate');
 
           if (s) s = we.utils.moment(s).unix();
           if (e) e = we.utils.moment(e).unix();
 
           if (!s||!e) return 'disabled';
 
-          var now = we.utils.moment().unix();
+          let now = we.utils.moment().unix();
 
           if ( (s <= now) && (now<=e) ) {
             return 'open';
@@ -236,7 +236,7 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
           // if event is already loaded with req.params
           if (res.locals.event) {
@@ -251,10 +251,11 @@ module.exports = function Model(we) {
           }
 
           // else load the event
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id},
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
             if (record && record.dataValues.creatorId && req.isAuthenticated()) {
               // ser role owner
@@ -263,27 +264,32 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
+            done();
+            return null;
           })
         },
         // returns an url alias
-        urlAlias: function urlAlias(record) {
+        urlAlias(record) {
           if (!record.abbreviation) return null;
           return {
-            alias: '/e/'+we.utils.string( record.abbreviation ).slugify().s,
+            alias: '/e/'+we.utils
+              .string( record.abbreviation )
+              .truncate(40)
+              .slugify()
+              .s,
             target: '/event/' + record.id,
           }
         }
       },
       instanceMethods: {
-        isManager: function isManager(userId, cb) {
-          var ms = this.managerIds;
-          var isMNG = false;
+        isManager(userId, cb) {
+          let ms = this.managerIds;
+          let isMNG = false;
           if (ms.indexOf(userId) > -1) isMNG = true;
           cb(null, isMNG);
         },
-        generateDefaultMenus: function generateDefaultMenus(cb) {
-          var self = this;
+        generateDefaultMenus(cb) {
+          const self = this;
 
           we.utils.async.series([
             function createMainMenu (done){
@@ -291,9 +297,10 @@ module.exports = function Model(we) {
                 eventId: self.id,
                 name:  'main',
                 class: 'nav navbar-nav navbar-right'
-              }).then(function afterCreateCFMenus(m) {
+              })
+              .then(function afterCreateCFMenus(m) {
                 self.setMainMenu(m);
-                we.db.models.cflink.bulkCreate([{
+                return we.db.models.cflink.bulkCreate([{
                   eventId: self.id,
                   cfmenuId: m.id,
                   text: we.i18n.__('cfnews.find'),
@@ -314,30 +321,37 @@ module.exports = function Model(we) {
                   title: we.i18n.__('cfcontact.link'),
                   href: '/event/'+self.id+'/contact',
                   depth: 5
-                }]).spread(function afterAddLinksToMainMenu() {
+                }])
+                .spread(function afterAddLinksToMainMenu() {
                   done();
-                }).catch(done)
-              }).catch(done);
+                  return null;
+                });
+              })
+              .catch(done);
             },
             function createSecondaryMenu (done){
               we.db.models.cfmenu.create({
                 eventId: self.id,
                 name: 'secondary',
                 class: 'nav nav-pills sidebar-menu nav-stacked'
-              }).then(function afterCreateSecondaryMenu(m) {
+              })
+              .then(function afterCreateSecondaryMenu(m) {
                 self.setSecondaryMenu(m);
                 done();
-              }).catch(done)
+                return null;
+              })
+              .catch(done)
             },
             function createSocialMenu (done){
               we.db.models.cfmenu.create({
                 eventId: self.id,
                 name: 'social',
                 class: 'list-inline join-us'
-              }).then(function afterCreateSocialMenu(m) {
+              })
+              .then(function afterCreateSocialMenu(m) {
                 self.setSocialMenu(m);
 
-                we.db.models.cflink.bulkCreate([{
+                return we.db.models.cflink.bulkCreate([{
                   eventId: self.id,
                   cfmenuId: m.id,
                   text: '<i class="fa fa-youtube-play"></i> ',
@@ -360,15 +374,18 @@ module.exports = function Model(we) {
                   href: '#',
                   class: 'btn btn-empty-inverse btn-lg',
                   depth: 1
-                }]).then(function afterAddLinksToSocialMenu() {
+                }])
+                .then(function afterAddLinksToSocialMenu() {
                   done();
-                }).catch(done)
-              }).catch(done)
+                  return null;
+                });
+              })
+              .catch(done)
             }
           ], cb);
         },
-        generateDefaultWidgets: function generateDefaultWidgets(cb) {
-          var self = this;
+        generateDefaultWidgets(cb) {
+          const self = this;
 
           we.utils.async.series([
             function createEventWidgets(done) {
@@ -433,76 +450,112 @@ module.exports = function Model(we) {
                 regionName: 'afterContent',
                 context: 'event-' + self.id
               }
-              ]).spread(function afterCreateEventWidgets() {
+              ])
+              .spread(function afterCreateEventWidgets() {
                 done();
-              }).catch(done);
+                return null;
+              })
+              .catch(done);
             }
           ], cb);
         }
       },
       hooks: {
-        afterFind: function(record, options, cb) {
-          // load registration count for every event
-          var finds = [];
-          if (we.utils._.isArray(record) ) {
-            record.forEach(function (r){
+        afterFind(record) {
+          return new Promise( (resolve, reject)=> {
+
+            // load registration count for every event
+            let finds = [];
+            if (we.utils._.isArray(record) ) {
+              record.forEach(function (r){
+                finds.push(function (cb) {
+                  we.db.models.cfregistration.count({
+                    where: {  eventId: r.id }
+                  })
+                  .then(function (count){
+                    r.registrationCount = count;
+                    cb();
+                    return null;
+                  })
+                  .catch(cb);
+                });
+              });
+            } else {
+              // 0 itens found
+              if (!record) return resolve();
+              // load cfregistration count for find one record
               finds.push(function (cb) {
-                we.db.models.cfregistration.count({
-                  where: {  eventId: r.id }
-                }).then(function (count){
-                  r.registrationCount = count;
-                  return cb();
-                }).catch(cb);
+                we.db.models.cfregistration
+                .count({
+                  where: {  eventId: record.id }
+                })
+                .then(function (count){
+                  record.registrationCount = count;
+                  cb();
+                  return null;
+                })
+                .catch(cb);
+              });
+            }
+            we.utils.async.series(finds, (err)=> {
+              if (err) return reject(err);
+              resolve();
+            });
+          });
+        },
+        afterCreate(record) {
+          return new Promise((resolve, reject)=> {
+            we.utils.async.series([
+              function addCreatorAsManager (done){
+                record.addManager(record.creatorId)
+                .then(function afterAddCreatorAsManager (){
+                  done();
+                  return null;
+                })
+                .catch(done);
+              },
+              record.generateDefaultMenus.bind(record),
+              record.generateDefaultWidgets.bind(record),
+              function createDefaultRegistrationType (done){
+                return we.db.models.cfregistrationtype.create({
+                  name: we.i18n.__('event.cfregistrationtype.name.default'),
+                  eventId: record.id
+                })
+                .then(function afterCreateOneRegistrationType (){
+                  done();
+                  return null;
+                })
+                .catch(done);
+              }
+            ], function (err) {
+              if (err) return reject(err);
+              resolve(record);
+            });
+          });
+        },
+        afterDestroy(record) {
+          return new Promise( (resolve, reject)=> {
+            let fns = [];
+            assocModelsToDelete.forEach(function (m){
+              fns.push(function (done) {
+                we.db.models[m].destroy({
+                  where: {
+                    [we.Op.or]: [
+                      { eventId: record.id },
+                      { eventId: null }
+                    ]
+                  }
+                })
+                .then( ()=> done() )
+                .catch(done);
               });
             });
-          } else {
-            // 0 itens found
-            if (!record) return cb();
-            // load cfregistration count for find one record
-            finds.push(function (cb) {
-              we.db.models.cfregistration.count({
-                where: {  eventId: record.id }
-              }).then(function (count){
-                record.registrationCount = count;
-                return cb();
-              }).catch(cb);
-            });
-          }
-          we.utils.async.series(finds, cb);
-        },
-        afterCreate: function afterCreate (record, options, cb) {
-          we.utils.async.series([
-            function addCreatorAsManager (done){
-              record.addManager(record.creatorId)
-              .then(function afterAddCreatorAsManager (){
-                done();
-              }).catch(done);
-            },
-            record.generateDefaultMenus.bind(record),
-            record.generateDefaultWidgets.bind(record),
-            function createDefaultRegistrationType (done){
-              return we.db.models.cfregistrationtype.create({
-                name: we.i18n.__('event.cfregistrationtype.name.default'),
-                eventId: record.id
-              }).then(function afterCreateOneRegistrationType (){
-                done();
-              }).catch(done);
-            }
-          ], function (err) {
-            cb(err, record);
-          });
-        },
-        afterDestroy: function afterDestroy (record, options, cb){
-          var fns = [];
-          assocModelsToDelete.forEach(function (m){
-            fns.push(function (done) {
-              we.db.models[m].destroy({
-                where: { $or: [{ eventId: record.id }, { eventId: null }] }
-              }).then(function(){ done(); }).catch(done);
+            // after destroy delete all related content
+            we.utils.async.series(fns, function (err) {
+              if (err) return reject(err);
+              resolve(record);
             });
           });
-          // after destroy delete all related content
-          we.utils.async.series(fns, cb);
         }
       }
     }

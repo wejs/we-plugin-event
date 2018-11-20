@@ -1,13 +1,13 @@
 /**
- * CF Page Model
+ * CF News Model
  *
  * @module      :: Model
- * @description :: cfpage model
+ * @description :: cfnews model
  *
  */
 
-module.exports = function Model(we) {
-	var model = {
+module.exports = function CfNewsModel(we) {
+	const model = {
 		definition: {
 			creatorId: {
 				type: we.db.Sequelize.BIGINT, formFieldType: null
@@ -69,13 +69,14 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id},
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -92,12 +93,13 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
+            done();
+            return null;
           })
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfnews.findOne', [this.eventId, this.id]
           );

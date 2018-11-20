@@ -1,6 +1,6 @@
-var PDFDocument = require('pdfkit');
+const PDFDocument = require('pdfkit');
 
-var registrationFields  = [
+const registrationFields  = [
   'registrationId'+
   'userId'+
   'email'+
@@ -11,14 +11,16 @@ var registrationFields  = [
 ];
 
 module.exports = {
-  create: function create(req, res) {
+  create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
     if (!res.locals.data) res.locals.data = {};
 
-    req.we.db.models.cfregistrationtype.findAll({
+    req.we.db.models.cfregistrationtype
+    .findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function afterLoadRegistrationTypes(cfrts) {
+    })
+    .then(function afterLoadRegistrationTypes(cfrts) {
       res.locals.cfregistrationtypes = cfrts;
 
       if (req.method === 'POST') {
@@ -27,7 +29,8 @@ module.exports = {
             userId: req.body.userId,
             eventId: res.locals.event.id
           }
-        }).then(function afterCheckIfAreRegistered(r) {
+        })
+        .then(function afterCheckIfAreRegistered(r) {
           // this user is already registered in any registration type
           if (r) {
             res.addMessage('warn', {
@@ -38,7 +41,8 @@ module.exports = {
 
           req.body.eventId = res.locals.event.id;
 
-          return res.locals.Model.create(req.body)
+          return res.locals.Model
+          .create(req.body)
           .then(function afterCreate(record) {
             res.locals.data = record;
 
@@ -48,23 +52,25 @@ module.exports = {
             });
 
             res.created();
-          }).catch(res.queryError);
-
-        }).catch(req.queryError);
+          });
+        });
       } else {
         res.ok();
       }
-    }).catch(req.queryError);
+    })
+    .catch(req.queryError);
   },
 
-  register: function register(req, res, next) {
-    var we = req.we;
+  register(req, res, next) {
+    const we = req.we;
 
     if (!res.locals.data) res.locals.data = {};
 
-    we.db.models.cfregistrationtype.findAll({
+    we.db.models.cfregistrationtype
+    .findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function afterLoadCRT(r) {
+    })
+    .then(function afterLoadCRT(r) {
       res.locals.cfregistrationtypes = r;
 
       if (!r || !r.length) {
@@ -115,11 +121,12 @@ module.exports = {
 
         res.ok();
       }
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   },
-  unRegister: function unRegister(req, res) {
+  unRegister(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
-    var we = req.we;
+    const we = req.we;
 
     res.locals.deleteMsg = req.__('cfregistration.unRegister.confirm.msg');
 
@@ -129,11 +136,14 @@ module.exports = {
 
     if (req.method === 'POST' || req.method === 'DELETE') {
       if (res.locals.userCfregistration) {
-        res.locals.userCfregistration.destroy().then(function(){
+        res.locals.userCfregistration
+        .destroy()
+        .then(function afterDeleteUserCfRegistration() {
           res.goTo(we.router.urlTo(
             'event.findOne', [res.locals.event.id], we
           ));
-        }).catch(res.queryError);
+        })
+        .catch(res.queryError);
       } else {
         res.goTo(we.router.urlTo(
           'event.findOne', [res.locals.event.id], we
@@ -146,15 +156,16 @@ module.exports = {
   /**
    * My registration page, Part of registration action
    */
-  myRegistrationPage: function myRegistrationPage(req, res) {
-    var we = req.we;
+  myRegistrationPage(req, res) {
+    const we = req.we;
 
     res.locals.title = req.__('event.registered');
 
     res.locals.template =
       'cfregistration/' + res.locals.userCfregistration.status;
     // get sessions to user subscribe
-    return we.db.models.cfsession.findAll({
+    return we.db.models.cfsession
+    .findAll({
       where: {
         eventId: res.locals.event.id,
         requireRegistration: 1
@@ -164,8 +175,11 @@ module.exports = {
         { model: we.db.models.cfroom, as: 'room' },
         { model: we.db.models.cfregistration, as: 'subscribers' }
       ]
-    }).then(function afterLoadSessions(cfsessions) {
-      res.locals.userCfregistration.getSessions().then(function(s){
+    })
+    .then(function afterLoadSessions(cfsessions) {
+      res.locals.userCfregistration
+      .getSessions()
+      .then(function(s) {
         res.locals.sessionsToRegister = cfsessions.filter(function (r){
           r.conflict = r.haveTimeConflict(s);
 
@@ -183,18 +197,21 @@ module.exports = {
         res.locals.userCfregistration.sessions = s;
         return res.ok();
       });
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   },
-  edit: function editPage(req, res) {
+  edit(req, res) {
     if (!res.locals.data) return res.notFound();
-    var we = req.we;
+    const we = req.we;
 
-    we.db.models.cfregistrationtype.findAll({
+    we.db.models.cfregistrationtype
+    .findAll({
       where: { eventId: res.locals.event.id }
-    }).then(function afterLoadCFRT(r) {
+    })
+    .then(function afterLoadCFRT(r) {
       res.locals.cfregistrationtypes = r;
 
-      for (var i = 0; i < r.length; i++) {
+      for (let i = 0; i < r.length; i++) {
         if (r[i].id === res.locals.data.id) {
           r[i].checked = true;
           break;
@@ -205,49 +222,56 @@ module.exports = {
         // dont change event id for registration type
         delete req.body.eventId;
 
-        res.locals.data.updateAttributes(req.body)
+        res.locals.data
+        .updateAttributes(req.body)
         .then(function afterUpdate() {
           res.updated();
-        }).catch(res.queryError);
+        })
+        .catch(res.queryError);
 
       } else {
         res.ok();
       }
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   },
-  accept: function accept(req, res) {
-    res.locals.Model.findOne({
+  accept(req, res) {
+    res.locals.Model
+    .findOne({
       where: {
         id: req.params.cfregistrationId,
         eventId: res.locals.event.id
       }
-    }).then(function afterFind(record) {
+    })
+    .then(function afterFind(record) {
       if (!record) return res.notFound();
       res.locals.data = record;
 
       record.status = 'registered';
-      record.save().then(function afterSave(){
+      return record
+      .save()
+      .then(function afterSave() {
 
         // TODO send confirmation email to user
 
         res.ok();
-      }).catch(res.queryError);
+      });
     }).catch(res.queryError);
   },
   /**
    * Export event registration list
    */
-  exportRegistration: function exportRegistration (req, res){
-    var we = req.we;
+  exportRegistration (req, res){
+    const we = req.we;
 
     if (!we.plugins['we-plugin-csv']) {
       return res.serverError('we-plugin-event:we-plugin-csv plugin is required for export registrations');
     }
 
-    var order = ' order by fullName ASC ';
+    let order = ' order by fullName ASC ';
     // valid and parse orderby
     if (req.query.order) {
-      var orderParams = req.query.order.split(' ');
+      let orderParams = req.query.order.split(' ');
       if (orderParams.length == 2) {
         if ( (orderParams[1] =='ASC') || (orderParams[1] == 'DESC') ) {
           if (registrationFields.indexOf(orderParams[0])) {
@@ -257,7 +281,7 @@ module.exports = {
       }
     }
 
-    var sql = 'SELECT '+
+    let sql = 'SELECT '+
       'cfregistrations.id as registrationId, '+
       'cfregistrations.userId, '+
       'u.email, '+
@@ -271,9 +295,11 @@ module.exports = {
     '   AND cfregistrations.status="registered" '+
     order;
 
-    we.db.defaultConnection.query(sql
+    we.db.defaultConnection
+    .query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT }
-    ).then(function afterGetCFRegistrations(results) {
+    )
+    .then(function afterGetCFRegistrations(results) {
 
       res.locals.csvResponseColumns = {
         registrationId: 'registrationId',
@@ -288,15 +314,16 @@ module.exports = {
       res.locals.data = results;
 
       res.ok();
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   },
-  exportRegistrationUserTags: function exportRegistrationUserTags(req, res){
-    var we = req.we;
+  exportRegistrationUserTags(req, res){
+    const we = req.we;
 
-    var order = ' order by fullName ASC ';
+    let order = ' order by fullName ASC ';
     // valid and parse orderby
     if (req.query.order) {
-      var orderParams = req.query.order.split(' ');
+      let orderParams = req.query.order.split(' ');
       if (orderParams.length == 2) {
         if ( (orderParams[1] =='ASC') || (orderParams[1] == 'DESC') ) {
           if (registrationFields.indexOf(orderParams[0])) {
@@ -306,7 +333,7 @@ module.exports = {
       }
     }
 
-    var sql = 'SELECT '+
+    let sql = 'SELECT '+
       'cfregistrations.id as registrationId, '+
       'cfregistrations.userId, '+
       'u.email, '+
@@ -320,28 +347,30 @@ module.exports = {
     '   AND cfregistrations.status="registered" '+
     order;
 
-    we.db.defaultConnection.query(sql
+    we.db.defaultConnection
+    .query(sql
       , { type: we.db.defaultConnection.QueryTypes.SELECT }
-    ).then(function afterLoadCRFs(results) {
-
-      var doc = new PDFDocument();
+    )
+    .then(function afterLoadCRFs(results) {
+      const doc = new PDFDocument();
 
       doc.pipe(res);
 
-      var marginLeft = 3;
-      var marginTop = 20;
-      var col = 0;
-      var row = 0;
-      var perRow = 3;
-      var w = 200;
-      var h = 115;
-      var count = 1;
+      let marginLeft = 3;
+      let marginTop = 20;
+      let col = 0;
+      let row = 0;
+      let perRow = 3;
+      let w = 200;
+      let h = 115;
+      let count = 1;
 
-      req.we.utils.async.eachSeries(results, function (r, next){
-        var name;
+      req.we.utils.async
+      .eachSeries(results, function (r, next) {
+        let name;
 
         if (r.fullName) {
-          var fa = r.fullName.split(' ');
+          let fa = r.fullName.split(' ');
 
           name = fa[0];
           if (fa[1]) {
@@ -399,18 +428,19 @@ module.exports = {
         // finalize the PDF and end the stream
         doc.end();
       });
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   }
 }
 
 function saveUserRegistration(req, res) {
-  var we = req.we;
+  const we = req.we;
   req.body.userId = req.user.id;
   req.body.eventId = res.locals.event.id;
-  var r = res.locals.cfregistrationtypes;
+  let r = res.locals.cfregistrationtypes;
 
-  var choiseRegistrationType;
-  for (var j = 0; j < r.length; j++) {
+  let choiseRegistrationType;
+  for (let j = 0; j < r.length; j++) {
     if (r[j].id == req.body.cfregistrationtypeId) {
       choiseRegistrationType = r[j];
       break;
@@ -430,23 +460,33 @@ function saveUserRegistration(req, res) {
     req.body.status = 'registered';
   }
 
-  return we.db.models.cfregistration.create(req.body)
+  return we.db.models.cfregistration
+  .create(req.body)
   .then(function afterCreate(record) {
-    var user = req.user.toJSON();
+    let user = req.user.toJSON();
 
-    var templateVariables = {
-      user: user,
-      event: res.locals.event,
-      cfregistration: record,
-      site: {
-        name: we.config.appName,
-        url: we.config.hostname
-      }
+    let appName = we.config.appName;
+
+    if (we.systemSettings && we.systemSettings.siteName) {
+      appName = we.systemSettings.siteName;
+    }
+
+    let templateVariables = {
+      email: user.email,
+      name: user.name,
+      eventId: res.locals.event.id,
+      eventTitle: res.locals.event.title,
+      siteName: appName,
+      siteUrl: we.config.hostname,
+
+      cfregistrationId: record.id,
+
+      cf: res.locals.event,
+      cfregistration: record
     };
 
     we.email.sendEmail('CFRegistrationSuccess', {
       email: req.user.email,
-      subject: res.locals.__('event.registration.success.email') + ' - ' + res.locals.event.abbreviation,
       replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
     }, templateVariables, function (err , emailResp){
       if (err) {
@@ -463,5 +503,6 @@ function saveUserRegistration(req, res) {
 
 
     res.created();
-  }).catch(res.queryError);
+  })
+  .catch(res.queryError);
 }

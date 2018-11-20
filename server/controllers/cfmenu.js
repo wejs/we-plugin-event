@@ -1,5 +1,5 @@
 module.exports = {
-  findOne: function findOne(req, res, next) {
+  findOne(req, res, next) {
     if (!res.locals.data) return next();
 
     if (req.accepts('html')) {

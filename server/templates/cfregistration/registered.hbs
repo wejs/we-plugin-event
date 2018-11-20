@@ -75,7 +75,7 @@
               <form method="post" action="/event/{{eventId}}/subscribe-in-session">
                 <input type="hidden" name="cfsessionId" value="{{id}}" />
                 <input type="hidden" name="redirectTo" value="{{../../../req.url}}"/>
-                <button class="btn btn-default" onclick="return confirm('{{t 'cfsession.addRegistration.confirm'}}');">{{t 'Save'}}</button>
+                <button class="btn btn-default" onclick="return confirm('{{t 'cfsession.addRegistration.confirm'}}');">{{t 'cfsession.register'}}</button>
               </form>
             {{/if}}
           {{else}}

@@ -5,8 +5,8 @@
  * @description :: Store session subscribers associations
  */
 
-module.exports = function Model(we) {
-  var model = {
+module.exports = function CfSessionSubscriberModel(we) {
+  const model = {
     definition: {
       present: {
         type: we.db.Sequelize.BOOLEAN,
@@ -17,7 +17,7 @@ module.exports = function Model(we) {
     options: {
       paranoid: false ,
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return null;
         }
       }

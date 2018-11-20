@@ -5,7 +5,7 @@
  * @description :: Store event contact messages
  */
  module.exports = function Model(we) {
-  var model = {
+  const model = {
     definition: {
       eventId: {
         type: we.db.Sequelize.BIGINT,
@@ -42,7 +42,7 @@
       statusClass: {
         type: we.db.Sequelize.VIRTUAL,
         formFieldType: null,
-        get: function() {
+        get() {
           if (this.getDataValue('status') == 'opened') {
             return 'danger'
           } else if(this.getDataValue('status') == 'closed'){
@@ -62,13 +62,14 @@
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -85,12 +86,14 @@
               }
             }
 
-            return done();
-          });
+            done();
+            return null;
+          })
+          .catch(done);
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfcontact.findOne', [this.eventId, this.id]
           );

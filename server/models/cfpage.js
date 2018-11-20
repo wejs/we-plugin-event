@@ -6,9 +6,9 @@
  *
  */
 
-module.exports = function Model(we) {
+module.exports = function CfPageModel(we) {
   // set sequelize model define and options
-  var model = {
+  const model = {
     definition: {
       creatorId: { type: we.db.Sequelize.BIGINT, formFieldType: null },
 
@@ -54,13 +54,14 @@ module.exports = function Model(we) {
          * @param  {Object}   res  express.js response
          * @param  {Function} done callback
          */
-        contextLoader: function contextLoader(req, res, done) {
+        contextLoader(req, res, done) {
           if (!res.locals.id || !res.locals.loadCurrentRecord) return done();
 
-          return this.find({
+          return this.findOne({
             where: { id: res.locals.id },
             include: [{ all: true }]
-          }).then(function (record) {
+          })
+          .then(function (record) {
             res.locals.data = record;
 
             // in other event
@@ -77,31 +78,35 @@ module.exports = function Model(we) {
               }
             }
 
-            return done();
+            done();
+            return null;
           });
         }
       },
       instanceMethods: {
-        getUrlPath: function getUrlPath() {
+        getUrlPath() {
           return we.router.urlTo(
             'cfpage.findOne', [this.eventId, this.id]
           );
         }
       },
       hooks: {
-        afterDestroy: function afterDestroy(record, opts, done) {
+        afterDestroy(record) {
           // delete related cflinks
-          if (!record || !record.eventId || !record.id) return done();
-          we.db.models.cflink.destroy({
+          if (!record || !record.eventId || !record.id) {return record;
+          }
+
+          return we.db.models.cflink.destroy({
             where: {
               href: we.router.urlTo('cfpage.findOne', [record.eventId, record.id])
             }
-          }).then(function(){
-            done();
-          }).catch(function(err){
+          })
+          .then( function() {
+            return record;
+          })
+          .catch(function(err) {
             we.log.error('Error on destroy cfpage links:', err);
-
-            done();
+            return record;
           });
         }
       }

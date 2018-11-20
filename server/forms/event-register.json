@@ -1,0 +1,17 @@
+{
+  "title": "event-register",
+  "method": "post",
+
+  "fields": {
+    "cfregistrationtypeId": {
+      "type": "cf-type-selector",
+      "allowNull": false
+    }
+  },
+  "actions": {
+    "submit": {
+      "type": "submit",
+      "defaultValue": "save"
+    }
+  }
+}

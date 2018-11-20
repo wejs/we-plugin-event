@@ -2,43 +2,61 @@ module.exports = {
   /**
    * Event location page, by default will show one map with event location to user
    */
-  location: function location(req, res, next) {
+  location(req, res, next) {
     res.locals.data = res.locals.event;
     req.we.controllers.event.findOne(req, res, next);
   },
 
-  find: function findAll(req, res) {
+  find(req, res) {
+    const we = req.we,
+      models = we.db.models;
+
     if (req.query.my) {
       if (!req.isAuthenticated()) return res.forbidden();
       res.locals.query.include.push({
-        model: req.we.db.models.user, as: 'managers',
+        model: models.user, as: 'managers',
         where: { id: req.user.id }
       });
     } else {
       res.locals.query.where.published = true;
       res.locals.query.where.eventEndDate = {
-        gte: new Date()
+        [we.Op.gte]: new Date()
       };
+    }
+
+    if (req.query.q) {
+      res.locals.query.where[we.Op.or] = [{
+        title: { [we.Op.like]: '%'+req.query.q+'%' }
+      }, {
+        about: { [we.Op.like]: '%'+req.query.q+'%' }
+      }]
     }
 
     // filter by tag
     if (req.query.tag) {
       res.locals.query.include.push({
-        model: req.we.db.models.modelsterms, as: 'tagsRecords',
+        model: models.modelsterms, as: 'tagsRecords',
         required: true,
         include: [{
-          model: req.we.db.models.term, as: 'term',
+          model: models.term, as: 'term',
           required: true,
           where: { text: req.query.tag }
         }]
       });
     }
 
-    res.locals.Model.findAll(res.locals.query)
+    res.locals.query.order = [
+      ['registrationStartDate', 'DESC'],
+      ['eventStartDate', 'DESC']
+    ];
+
+    res.locals.Model
+    .findAll(res.locals.query)
     .then(function afterLoad(records) {
       res.locals.data = records;
 
-      res.locals.Model.count(res.locals.query)
+      return res.locals.Model
+      .count(res.locals.query)
       .then(function afterCount(count) {
 
         res.locals.metadata.count = count;
@@ -48,21 +66,25 @@ module.exports = {
         // if user is authenticated load its registration status
         req.we.utils.async.eachSeries(res.locals.data, function (r, next) {
           // load current user registration register
-          req.we.db.models.cfregistration.findOne({
+          models.cfregistration.findOne({
             where: { eventId: r.id, userId: req.user.id }
-          }).then(function afterFindRegistration(cfr) {
+          })
+          .then(function afterFindRegistration(cfr) {
             r.userCfregistration = cfr;
             next();
-          }).catch(next);
-        }, function afterEach(err){
-          if (err) return res.serverError();
+            return null;
+          })
+          .catch(next);
+        }, function afterEach(err) {
+          if (err) return res.queryError(err);
           return res.ok();
         });
-      }).catch(res.queryError);
-    }).catch(res.queryError);
+      });
+    })
+    .catch(res.queryError);
   },
 
-  create: function create(req, res) {
+  create(req, res) {
     if (!res.locals.template) res.locals.template = res.locals.model + '/' + 'create';
 
     if (!res.locals.data) res.locals.data = {};
@@ -90,12 +112,13 @@ module.exports = {
     }
   },
 
-  edit: function edit(req, res) {
+  edit(req, res) {
     if (!res.locals.data) return res.notFound();
 
     if (req.method === 'POST' || req.method === 'PUT') {
 
-      res.locals.data.updateAttributes(req.body)
+      res.locals.data
+      .updateAttributes(req.body)
       .then(function afterUpdate() {
 
         res.addMessage('success', {
@@ -110,14 +133,15 @@ module.exports = {
           res.locals.redirectTo = req.path + '?step='+ns;
         }
 
-        res.updated();
-      }).catch(res.queryError);
+        return res.updated();
+      })
+      .catch(res.queryError);
     } else {
       res.ok();
     }
   },
 
-  adminIndex: function adminIndex(req, res) {
+  adminIndex(req, res) {
     req.we.utils.async.parallel([
       function loadCfSessions(done) {
         return req.we.db.models.cfsession.findAll({
@@ -129,11 +153,14 @@ module.exports = {
             { model: req.we.db.models.cfroom, as: 'room' },
             { model: req.we.db.models.cfregistration, as: 'subscribers' }
           ]
-        }).then(function afterLoadCfsessions(cfsessions) {
+        })
+        .then(function afterLoadCfsessions(cfsessions) {
           res.locals.sessionsToRegister = cfsessions;
 
           done();
-        }).catch(done)
+          return null;
+        })
+        .catch(done);
       }
     ], function afterLoadAllData(err) {
       if (err) return res.queryError(err);
@@ -147,22 +174,25 @@ module.exports = {
     res.ok();
   },
 
-  resetConferenceMenu: function resetConferenceMenu(req, res) {
-    var we = req.we;
+  resetConferenceMenu(req, res) {
+    const we = req.we;
 
     we.db.models.cfmenu.destroy({
       where: { eventId: res.locals.event.id }
-    }).then(function (result) {
+    })
+    .then(function (result) {
       we.log.info('event resetConferenceMenu result: ', result);
       res.locals.event.generateDefaultMenus(function(err) {
         if (err) return res.serverError(err);
 
         res.redirect('/event/' + res.locals.event.id + '/admin/menu');
       });
-    }).catch(res.serverError);
+      return null;
+    })
+    .catch(res.queryError);
   },
 
-  setManagers: function setManagers(req, res, next) {
+  setManagers(req, res, next) {
     var we = req.we;
 
     if (req.method == 'POST') {
@@ -178,7 +208,7 @@ module.exports = {
     }
   },
 
-  addManager: function addManager(req, res) {
+  addManager(req, res) {
     var we = req.we;
 
     if (!Number(req.body.idToAdd)) return res.badRequest();
@@ -201,7 +231,7 @@ module.exports = {
     }).catch(res.queryError);
   },
 
-  removerManager: function removerManager(req, res) {
+  removerManager(req, res) {
    var we = req.we;
 
     if (!Number(req.body.idToRemove)) return res.badRequest();
@@ -213,17 +243,20 @@ module.exports = {
         return res.ok();
       }
 
-      var event = res.locals.event;
+      const event = res.locals.event;
 
-      event.removeManager(mu).then(function() {
+      return event.removeManager(mu)
+      .then(function() {
         // TODO removeManager dont are updating event.managers list then we need to get it
-        event.getManagers().then(function(managers) {
+        return event.getManagers()
+        .then(function(managers) {
           res.locals.event.managers = managers;
 
           res.addMessage('success', 'event.manager.remove.success');
-          res.ok();
-        }).catch(res.queryError);
-      }).catch(res.queryError);
-    }).catch(res.queryError);
+          return res.ok();
+        });
+      });
+    })
+    .catch(res.queryError);
   }
 };

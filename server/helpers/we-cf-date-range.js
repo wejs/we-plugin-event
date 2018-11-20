@@ -7,14 +7,14 @@
  */
 module.exports = function(we) {
   return function renderDateRange() {
-    var options = arguments[arguments.length-1];
+    const options = arguments[arguments.length-1];
 
-    var start = we.utils.moment(options.hash.start);
-    var end = we.utils.moment(options.hash.end);
+    let start = we.utils.moment(options.hash.start);
+    let end = we.utils.moment(options.hash.end);
 
     if (!start.isValid() || !end.isValid()) return '';
 
-    var __ = ( options.hash.__ || we.i18n.__ );
+    let __ = ( options.hash.__ || we.i18n.__ );
 
     // dd/mm a dd/mm de aaaa
     return new we.hbs.SafeString(__('event.date.range', {
