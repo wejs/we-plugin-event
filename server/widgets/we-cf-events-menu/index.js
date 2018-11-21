@@ -65,6 +65,15 @@ module.exports = function (projectPath, Widget) {
         weight: 5,
         name: 'menu.events.my'
       });
+
+      w.navigationMenu.addLink({
+        id: 'events-menu-certification-my',
+        text: '<i class="fa fa-certificate" aria-hidden="true"></i> '+req.__('certification.my'),
+        href: '/user/'+req.user.id+'/certification',
+        class: null,
+        weight: 5,
+        name: 'menu.certification.my'
+      });
     }
 
     let sql = 'SELECT DISTINCT text FROM terms '+
