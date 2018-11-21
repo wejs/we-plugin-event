@@ -3,7 +3,7 @@
  */
 
 module.exports = function loadPlugin(projectPath, Plugin) {
-  var plugin = new Plugin(__dirname);
+  const plugin = new Plugin(__dirname);
 
   // breadcrumb middlewares
   plugin.setBreadcrumbs = require('./lib/setBreadcrumbs.js');
@@ -70,6 +70,40 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           'create_event',
           'update_event',
           'delete_event',
+          'find_cfregistrationtype',
+          'update_cfregistrationtype',
+          'delete_cfregistrationtype',
+          'find_cfregistration',
+          'update_cfregistration',
+          'delete_cfregistration',
+          'update_cfcontact',
+          'delete_cfcontact',
+          'update_cflink',
+          'delete_cflink',
+          'update_cfmenu',
+          'delete_cfmenu',
+          'update_cfnews',
+          'delete_cfnews',
+          'update_cfpage',
+          'delete_cfpage',
+          'update_cfpartner',
+          'delete_cfpartner',
+          'update_cfregistration',
+          'delete_cfregistration',
+          'update_cfregistrationtype',
+          'delete_cfregistrationtype',
+          'update_cfroom',
+          'delete_cfroom',
+          'update_cfsession',
+          'delete_cfsession',
+          'update_cfsessionSubscriber',
+          'delete_cfsessionSubscriber',
+          'update_cfspeaker',
+          'delete_cfspeaker',
+          'update_cftopic',
+          'delete_cftopic',
+          'update_cfvideo',
+          'delete_cfvideo',
           'manage_event'
         ]
       }
@@ -111,7 +145,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   });
 
   plugin.hooks.on('we:router:request:before:load:context', function (data, done) {
-    var we = data.req.we;
+    const we = data.req.we;
     // set event id in all requests if singleConferenceId is set
     if (we.config.event.singleConferenceId)
       data.req.params.eventId =  we.config.event.singleConferenceId;
@@ -285,12 +319,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
           .findOne({
             where: {
               eventId: id,
-              userId: req.user.id }
+              userId: req.user.id
+            }
           })
           .then(function (r) {
-            if (!r) {
-              return cb();
-            }
+            if (!r) return cb();
 
             res.locals.userCfregistration = r;
             req.userRoleNames.push('registeredInConference');
@@ -303,7 +336,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         },
         function isManager(cb) {
           if (!req.isAuthenticated()) return cb();
-          cf.isManager(req.user.id, function(err, isMNG) {
+
+          cf.isManager(req.user.id, function (err, isMNG) {
             if (err) return cb(err);
 
             if (isMNG) {
