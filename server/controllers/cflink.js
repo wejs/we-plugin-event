@@ -50,9 +50,8 @@ module.exports = {
     }
   },
   edit(req, res) {
-
-    console.log('>>res.locals.data>>', res.locals.data);
-    console.log('>>req.params>>', req.params);
+    // console.log('>>res.locals.data>>', res.locals.data);
+    // console.log('>>req.params>>', req.params);
 
     if (!res.locals.data) return res.notFound();
 

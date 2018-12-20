@@ -160,7 +160,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     if(!data.res.locals.event) return done();
     // add event filter for events contents
     if (
-      data.res.locals.action == 'find' &&
+      (
+        data.res.locals.action == 'find' ||
+        data.res.locals.action == 'managePage'
+      ) &&
       data.req.we.config.event.models.indexOf(data.res.locals.model) > -1
     ) {
       data.res.locals.query.where.eventId =  data.res.locals.event.id;
