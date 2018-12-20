@@ -19,9 +19,6 @@ module.exports = {
       });
     } else {
       res.locals.query.where.published = true;
-      res.locals.query.where.eventEndDate = {
-        [we.Op.gte]: new Date()
-      };
     }
 
     if (req.query.q) {
