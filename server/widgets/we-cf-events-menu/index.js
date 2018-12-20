@@ -76,19 +76,21 @@ module.exports = function (projectPath, Widget) {
       });
     }
 
-    let sql = 'SELECT DISTINCT text FROM terms '+
-      'LEFT JOIN modelsterms AS mt ON mt.modelName="event" '+
-        'AND mt.vocabularyName="Tags" '+
-        'AND mt.termId=terms.id';
+    w.terms = null;
 
-    req.we.db.defaultConnection.query(sql)
-    .spread( (terms)=> {
-      w.terms = terms.map( (m)=> m.text );
+    // let sql = 'SELECT DISTINCT text FROM terms '+
+    //   'LEFT JOIN modelsterms AS mt ON mt.modelName="event" '+
+    //     'AND mt.vocabularyName="Tags" '+
+    //     'AND mt.termId=terms.id';
+
+    // req.we.db.defaultConnection.query(sql)
+    // .spread( (terms)=> {
+    //   w.terms = terms.map( (m)=> m.text );
 
       next();
-      return null;
-    })
-    .catch(next);
+    //   return null;
+    // })
+    // .catch(next);
   }
 
   return widget;
