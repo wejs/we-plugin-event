@@ -238,6 +238,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       }]
     })
     .then( (cf)=> {
+      if (!cf) return null;
+
       return cf.getTopics()
       .then( (topics)=> {
         cf.topics = topics;
