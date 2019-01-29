@@ -18,6 +18,15 @@
       <input type="hidden" name="redirectTo" value="{{req.url}}">
       <button class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-ok"></span> {{t 'cfcertificationtype.markAllAsPresent'}}</button>
     </form>
+
+    {{#link-to 'cfregistration.exportRegistrationUserTags' event.id class="btn btn-default"}}
+      <i class="glyphicon glyphicon-th"></i>
+      {{t 'event.userTags'}}
+    {{/link-to}}
+
+    <a href="/event/{{event.id}}/admin/certification/import-from-csv" class="btn btn-default">
+      Importar de .csv
+    </a>
   </div>
 
   <div class="col-lg-12">
